@@ -1,0 +1,331 @@
+   1              		.cpu cortex-m0
+   2              		.fpu softvfp
+   3              		.eabi_attribute 20, 1
+   4              		.eabi_attribute 21, 1
+   5              		.eabi_attribute 23, 3
+   6              		.eabi_attribute 24, 1
+   7              		.eabi_attribute 25, 1
+   8              		.eabi_attribute 26, 1
+   9              		.eabi_attribute 30, 6
+  10              		.eabi_attribute 34, 0
+  11              		.eabi_attribute 18, 4
+  12              		.code	16
+  13              		.file	"main.c"
+  14              		.text
+  15              	.Ltext0:
+  16              		.cfi_sections	.debug_frame
+  17              		.section	.text.delay,"ax",%progbits
+  18              		.align	2
+  19              		.global	delay
+  20              		.code	16
+  21              		.thumb_func
+  23              	delay:
+  24              	.LFB0:
+  25              		.file 1 "../Sources/main.c"
+   1:../Sources/main.c **** #include "derivative.h" /* include peripheral declarations */
+   2:../Sources/main.c **** #include "TFC\TFC.h"
+   3:../Sources/main.c **** 
+   4:../Sources/main.c **** #define DEL 50
+   5:../Sources/main.c **** 
+   6:../Sources/main.c **** void delay(int x){
+  26              		.loc 1 6 0
+  27              		.cfi_startproc
+  28 0000 80B5     		push	{r7, lr}
+  29              	.LCFI0:
+  30              		.cfi_def_cfa_offset 8
+  31              		.cfi_offset 7, -8
+  32              		.cfi_offset 14, -4
+  33 0002 84B0     		sub	sp, sp, #16
+  34              	.LCFI1:
+  35              		.cfi_def_cfa_offset 24
+  36 0004 00AF     		add	r7, sp, #0
+  37              	.LCFI2:
+  38              		.cfi_def_cfa_register 7
+  39 0006 7860     		str	r0, [r7, #4]
+   7:../Sources/main.c **** 	int i;
+   8:../Sources/main.c **** 	for(i = 0; i < 100000*x; i++);
+  40              		.loc 1 8 0
+  41 0008 0023     		mov	r3, #0
+  42 000a FB60     		str	r3, [r7, #12]
+  43 000c 02E0     		b	.L2
+  44              	.L3:
+  45              		.loc 1 8 0 is_stmt 0
+  46 000e FB68     		ldr	r3, [r7, #12]
+  47 0010 0133     		add	r3, r3, #1
+  48 0012 FB60     		str	r3, [r7, #12]
+  49              	.L2:
+  50              		.loc 1 8 0
+  51 0014 7B68     		ldr	r3, [r7, #4]
+  52 0016 044A     		ldr	r2, .L4
+  53 0018 5A43     		mul	r2, r3
+  54 001a FB68     		ldr	r3, [r7, #12]
+  55 001c 9A42     		cmp	r2, r3
+  56 001e F6DC     		bgt	.L3
+   9:../Sources/main.c **** }
+  57              		.loc 1 9 0 is_stmt 1
+  58 0020 BD46     		mov	sp, r7
+  59 0022 04B0     		add	sp, sp, #16
+  60              		@ sp needed for prologue
+  61 0024 80BD     		pop	{r7, pc}
+  62              	.L5:
+  63 0026 C046     		.align	2
+  64              	.L4:
+  65 0028 A0860100 		.word	100000
+  66              		.cfi_endproc
+  67              	.LFE0:
+  69              		.section	.text.forwardFull,"ax",%progbits
+  70              		.align	2
+  71              		.global	forwardFull
+  72              		.code	16
+  73              		.thumb_func
+  75              	forwardFull:
+  76              	.LFB1:
+  10:../Sources/main.c **** 
+  11:../Sources/main.c **** void forwardFull(){
+  77              		.loc 1 11 0
+  78              		.cfi_startproc
+  79 0000 80B5     		push	{r7, lr}
+  80              	.LCFI3:
+  81              		.cfi_def_cfa_offset 8
+  82              		.cfi_offset 7, -8
+  83              		.cfi_offset 14, -4
+  84 0002 00AF     		add	r7, sp, #0
+  85              	.LCFI4:
+  86              		.cfi_def_cfa_register 7
+  12:../Sources/main.c **** 	TFC_HBRIDGE_ENABLE;
+  87              		.loc 1 12 0
+  88 0004 0F4B     		ldr	r3, .L7
+  89 0006 8022     		mov	r2, #128
+  90 0008 9203     		lsl	r2, r2, #14
+  91 000a 5A60     		str	r2, [r3, #4]
+  13:../Sources/main.c **** 	TFC_SetServo(0,-.1);
+  92              		.loc 1 13 0
+  93 000c 0E4B     		ldr	r3, .L7+4
+  94 000e 0020     		mov	r0, #0
+  95 0010 191C     		add	r1, r3, #0
+  96 0012 FFF7FEFF 		bl	TFC_SetServo
+  14:../Sources/main.c **** 	TFC_SetMotorPWM(1,1);
+  97              		.loc 1 14 0
+  98 0016 FE22     		mov	r2, #254
+  99 0018 9205     		lsl	r2, r2, #22
+ 100 001a FE23     		mov	r3, #254
+ 101 001c 9B05     		lsl	r3, r3, #22
+ 102 001e 101C     		add	r0, r2, #0
+ 103 0020 191C     		add	r1, r3, #0
+ 104 0022 FFF7FEFF 		bl	TFC_SetMotorPWM
+  15:../Sources/main.c **** 	delay(30);
+ 105              		.loc 1 15 0
+ 106 0026 1E20     		mov	r0, #30
+ 107 0028 FFF7FEFF 		bl	delay
+  16:../Sources/main.c **** 	TFC_SetMotorPWM(0,0);
+ 108              		.loc 1 16 0
+ 109 002c 0022     		mov	r2, #0
+ 110 002e 0023     		mov	r3, #0
+ 111 0030 101C     		add	r0, r2, #0
+ 112 0032 191C     		add	r1, r3, #0
+ 113 0034 FFF7FEFF 		bl	TFC_SetMotorPWM
+  17:../Sources/main.c **** 	TFC_HBRIDGE_DISABLE;
+ 114              		.loc 1 17 0
+ 115 0038 024B     		ldr	r3, .L7
+ 116 003a 8022     		mov	r2, #128
+ 117 003c 9203     		lsl	r2, r2, #14
+ 118 003e 9A60     		str	r2, [r3, #8]
+  18:../Sources/main.c **** }
+ 119              		.loc 1 18 0
+ 120 0040 BD46     		mov	sp, r7
+ 121              		@ sp needed for prologue
+ 122 0042 80BD     		pop	{r7, pc}
+ 123              	.L8:
+ 124              		.align	2
+ 125              	.L7:
+ 126 0044 00F10F40 		.word	1074786560
+ 127 0048 CDCCCCBD 		.word	-1110651699
+ 128              		.cfi_endproc
+ 129              	.LFE1:
+ 131              		.section	.text.main,"ax",%progbits
+ 132              		.align	2
+ 133              		.global	main
+ 134              		.code	16
+ 135              		.thumb_func
+ 137              	main:
+ 138              	.LFB2:
+  19:../Sources/main.c **** 
+  20:../Sources/main.c **** int main(void){
+ 139              		.loc 1 20 0
+ 140              		.cfi_startproc
+ 141 0000 80B5     		push	{r7, lr}
+ 142              	.LCFI5:
+ 143              		.cfi_def_cfa_offset 8
+ 144              		.cfi_offset 7, -8
+ 145              		.cfi_offset 14, -4
+ 146 0002 82B0     		sub	sp, sp, #8
+ 147              	.LCFI6:
+ 148              		.cfi_def_cfa_offset 16
+ 149 0004 00AF     		add	r7, sp, #0
+ 150              	.LCFI7:
+ 151              		.cfi_def_cfa_register 7
+  21:../Sources/main.c **** 	
+  22:../Sources/main.c **** 	
+  23:../Sources/main.c **** 	
+  24:../Sources/main.c **** 	int x = 0;
+ 152              		.loc 1 24 0
+ 153 0006 0023     		mov	r3, #0
+ 154 0008 7B60     		str	r3, [r7, #4]
+  25:../Sources/main.c **** 	TFC_Init();
+ 155              		.loc 1 25 0
+ 156 000a FFF7FEFF 		bl	TFC_Init
+ 157 000e 00E0     		b	.L11
+ 158              	.L12:
+  26:../Sources/main.c **** 	
+  27:../Sources/main.c **** 	//TFC_SetMotorPWM(0,0);
+  28:../Sources/main.c **** 
+  29:../Sources/main.c **** 	
+  30:../Sources/main.c **** //	TFC_BAT_LED0_ON;
+  31:../Sources/main.c **** //	TFC_Task();
+  32:../Sources/main.c **** //	delay(DEL);
+  33:../Sources/main.c **** //	delay(DEL);
+  34:../Sources/main.c **** //	TFC_BAT_LED0_ON;
+  35:../Sources/main.c **** //	delay(DEL);
+  36:../Sources/main.c **** //	delay(DEL);
+  37:../Sources/main.c **** //	TFC_BAT_LED1_ON;
+  38:../Sources/main.c **** //	delay(DEL);
+  39:../Sources/main.c **** //	delay(DEL);
+  40:../Sources/main.c **** //	TFC_BAT_LED2_ON;
+  41:../Sources/main.c **** //	delay(DEL);
+  42:../Sources/main.c **** //	delay(DEL);
+  43:../Sources/main.c **** //	TFC_BAT_LED3_ON;
+  44:../Sources/main.c **** //	delay(DEL);
+  45:../Sources/main.c **** //	delay(DEL);
+  46:../Sources/main.c **** //	forwardFull();
+  47:../Sources/main.c **** 	for(;;){
+  48:../Sources/main.c **** 		TFC_Task();
+  49:../Sources/main.c **** 		if(LineScanImageReady==1){
+  50:../Sources/main.c **** 			
+  51:../Sources/main.c **** 		}
+  52:../Sources/main.c **** 		if((TFC_GetDIP_Switch()&0x01)&&x==0){
+  53:../Sources/main.c **** 			x = 1;
+  54:../Sources/main.c **** 			TFC_Task();
+  55:../Sources/main.c **** 			delay(DEL);
+  56:../Sources/main.c **** 			TFC_BAT_LED0_ON;
+  57:../Sources/main.c **** 			delay(DEL);
+  58:../Sources/main.c **** 			TFC_BAT_LED1_ON;
+  59:../Sources/main.c **** 			delay(DEL);
+  60:../Sources/main.c **** 			TFC_BAT_LED2_ON;
+  61:../Sources/main.c **** 			delay(DEL);
+  62:../Sources/main.c **** 			TFC_BAT_LED3_ON;
+  63:../Sources/main.c **** 			delay(DEL);
+  64:../Sources/main.c **** 			forwardFull();
+  65:../Sources/main.c **** 		}
+  66:../Sources/main.c **** 		
+  67:../Sources/main.c **** 	}
+ 159              		.loc 1 67 0
+ 160 0010 C046     		mov	r8, r8
+ 161              	.L11:
+  48:../Sources/main.c **** 		TFC_Task();
+ 162              		.loc 1 48 0
+ 163 0012 FFF7FEFF 		bl	TFC_Task
+  49:../Sources/main.c **** 		if(LineScanImageReady==1){
+ 164              		.loc 1 49 0
+ 165 0016 194B     		ldr	r3, .L13
+ 166 0018 1B78     		ldrb	r3, [r3]
+  52:../Sources/main.c **** 		if((TFC_GetDIP_Switch()&0x01)&&x==0){
+ 167              		.loc 1 52 0
+ 168 001a FFF7FEFF 		bl	TFC_GetDIP_Switch
+ 169 001e 031C     		mov	r3, r0
+ 170 0020 1A1C     		mov	r2, r3
+ 171 0022 0123     		mov	r3, #1
+ 172 0024 1340     		and	r3, r2
+ 173 0026 F3D0     		beq	.L12
+  52:../Sources/main.c **** 		if((TFC_GetDIP_Switch()&0x01)&&x==0){
+ 174              		.loc 1 52 0 is_stmt 0
+ 175 0028 7B68     		ldr	r3, [r7, #4]
+ 176 002a 002B     		cmp	r3, #0
+ 177 002c F0D1     		bne	.L12
+  53:../Sources/main.c **** 			x = 1;
+ 178              		.loc 1 53 0 is_stmt 1
+ 179 002e 0123     		mov	r3, #1
+ 180 0030 7B60     		str	r3, [r7, #4]
+  54:../Sources/main.c **** 			TFC_Task();
+ 181              		.loc 1 54 0
+ 182 0032 FFF7FEFF 		bl	TFC_Task
+  55:../Sources/main.c **** 			delay(DEL);
+ 183              		.loc 1 55 0
+ 184 0036 3220     		mov	r0, #50
+ 185 0038 FFF7FEFF 		bl	delay
+  56:../Sources/main.c **** 			TFC_BAT_LED0_ON;
+ 186              		.loc 1 56 0
+ 187 003c 104B     		ldr	r3, .L13+4
+ 188 003e 8022     		mov	r2, #128
+ 189 0040 5200     		lsl	r2, r2, #1
+ 190 0042 5A60     		str	r2, [r3, #4]
+  57:../Sources/main.c **** 			delay(DEL);
+ 191              		.loc 1 57 0
+ 192 0044 3220     		mov	r0, #50
+ 193 0046 FFF7FEFF 		bl	delay
+  58:../Sources/main.c **** 			TFC_BAT_LED1_ON;
+ 194              		.loc 1 58 0
+ 195 004a 0D4B     		ldr	r3, .L13+4
+ 196 004c 8022     		mov	r2, #128
+ 197 004e 9200     		lsl	r2, r2, #2
+ 198 0050 5A60     		str	r2, [r3, #4]
+  59:../Sources/main.c **** 			delay(DEL);
+ 199              		.loc 1 59 0
+ 200 0052 3220     		mov	r0, #50
+ 201 0054 FFF7FEFF 		bl	delay
+  60:../Sources/main.c **** 			TFC_BAT_LED2_ON;
+ 202              		.loc 1 60 0
+ 203 0058 094B     		ldr	r3, .L13+4
+ 204 005a 8022     		mov	r2, #128
+ 205 005c D200     		lsl	r2, r2, #3
+ 206 005e 5A60     		str	r2, [r3, #4]
+  61:../Sources/main.c **** 			delay(DEL);
+ 207              		.loc 1 61 0
+ 208 0060 3220     		mov	r0, #50
+ 209 0062 FFF7FEFF 		bl	delay
+  62:../Sources/main.c **** 			TFC_BAT_LED3_ON;
+ 210              		.loc 1 62 0
+ 211 0066 064B     		ldr	r3, .L13+4
+ 212 0068 8022     		mov	r2, #128
+ 213 006a 1201     		lsl	r2, r2, #4
+ 214 006c 5A60     		str	r2, [r3, #4]
+  63:../Sources/main.c **** 			delay(DEL);
+ 215              		.loc 1 63 0
+ 216 006e 3220     		mov	r0, #50
+ 217 0070 FFF7FEFF 		bl	delay
+  64:../Sources/main.c **** 			forwardFull();
+ 218              		.loc 1 64 0
+ 219 0074 FFF7FEFF 		bl	forwardFull
+ 220              		.loc 1 67 0
+ 221 0078 CAE7     		b	.L12
+ 222              	.L14:
+ 223 007a C046     		.align	2
+ 224              	.L13:
+ 225 007c 00000000 		.word	LineScanImageReady
+ 226 0080 40F00F40 		.word	1074786368
+ 227              		.cfi_endproc
+ 228              	.LFE2:
+ 230              		.text
+ 231              	.Letext0:
+ 232              		.file 2 "C:/Freescale/CW MCU v10.6/MCU/ARM_GCC_Support/ewl/EWL_C/include/cstdint"
+ 233              		.file 3 "C:/Users/Jared/Desktop/Freescale/source-archive/frdm-tfc/trunk/RELEASES/R1.0/FRDM-TFC/Pro
+ 234              		.file 4 "C:/Users/Jared/Desktop/Freescale/source-archive/frdm-tfc/trunk/RELEASES/R1.0/FRDM-TFC/Pro
+DEFINED SYMBOLS
+                            *ABS*:00000000 main.c
+C:\Users\Jared\AppData\Local\Temp\ccP9JQli.s:18     .text.delay:00000000 $t
+C:\Users\Jared\AppData\Local\Temp\ccP9JQli.s:23     .text.delay:00000000 delay
+C:\Users\Jared\AppData\Local\Temp\ccP9JQli.s:65     .text.delay:00000028 $d
+C:\Users\Jared\AppData\Local\Temp\ccP9JQli.s:70     .text.forwardFull:00000000 $t
+C:\Users\Jared\AppData\Local\Temp\ccP9JQli.s:75     .text.forwardFull:00000000 forwardFull
+C:\Users\Jared\AppData\Local\Temp\ccP9JQli.s:126    .text.forwardFull:00000044 $d
+C:\Users\Jared\AppData\Local\Temp\ccP9JQli.s:132    .text.main:00000000 $t
+C:\Users\Jared\AppData\Local\Temp\ccP9JQli.s:137    .text.main:00000000 main
+C:\Users\Jared\AppData\Local\Temp\ccP9JQli.s:225    .text.main:0000007c $d
+                     .debug_frame:00000010 $d
+
+UNDEFINED SYMBOLS
+TFC_SetServo
+TFC_SetMotorPWM
+TFC_Init
+TFC_Task
+TFC_GetDIP_Switch
+LineScanImageReady

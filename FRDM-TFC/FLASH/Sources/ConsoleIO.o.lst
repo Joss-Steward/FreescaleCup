@@ -1,0 +1,929 @@
+   1              		.cpu cortex-m0
+   2              		.fpu softvfp
+   3              		.eabi_attribute 20, 1
+   4              		.eabi_attribute 21, 1
+   5              		.eabi_attribute 23, 3
+   6              		.eabi_attribute 24, 1
+   7              		.eabi_attribute 25, 1
+   8              		.eabi_attribute 26, 1
+   9              		.eabi_attribute 30, 6
+  10              		.eabi_attribute 34, 0
+  11              		.eabi_attribute 18, 4
+  12              		.code	16
+  13              		.file	"ConsoleIO.c"
+  14              		.text
+  15              	.Ltext0:
+  16              		.cfi_sections	.debug_frame
+  17              		.section	.text.__read_console,"ax",%progbits
+  18              		.align	2
+  19              		.global	__read_console
+  20              		.code	16
+  21              		.thumb_func
+  23              	__read_console:
+  24              	.LFB0:
+  25              		.file 1 "../Sources/ConsoleIO.c"
+   1:../Sources/ConsoleIO.c **** /** ###################################################################
+   2:../Sources/ConsoleIO.c **** **     Filename    : CsIO1.c
+   3:../Sources/ConsoleIO.c **** **     Processor   : MKL25Z128VLK4
+   4:../Sources/ConsoleIO.c **** **     Component   : ConsoleIO
+   5:../Sources/ConsoleIO.c **** **     Version     : Component 01.001, Driver 01.00, CPU db: 3.00.000
+   6:../Sources/ConsoleIO.c **** **     Compiler    : GNU C Compiler
+   7:../Sources/ConsoleIO.c **** **     Abstract    :
+   8:../Sources/ConsoleIO.c **** **         This component generates low-level methods for redirecting console I/O to the selected U
+   9:../Sources/ConsoleIO.c **** **         These methods are typically used by printf()/scanf() methods.
+  10:../Sources/ConsoleIO.c **** **
+  11:../Sources/ConsoleIO.c **** **     Copyright : 1997 - 2012 Freescale Semiconductor, Inc. All Rights Reserved.
+  12:../Sources/ConsoleIO.c **** **
+  13:../Sources/ConsoleIO.c **** **     http      : www.freescale.com
+  14:../Sources/ConsoleIO.c **** **     mail      : support@freescale.com
+  15:../Sources/ConsoleIO.c **** ** ###################################################################*/
+  16:../Sources/ConsoleIO.c **** 
+  17:../Sources/ConsoleIO.c **** #include "derivative.h"
+  18:../Sources/ConsoleIO.c **** #include "stdio.h"
+  19:../Sources/ConsoleIO.c **** #include <stdarg.h>
+  20:../Sources/ConsoleIO.c **** #include "UART0_PDD.h"
+  21:../Sources/ConsoleIO.c **** /*
+  22:../Sources/ConsoleIO.c **** ** ===================================================================
+  23:../Sources/ConsoleIO.c **** **     Method      :  __read_console
+  24:../Sources/ConsoleIO.c **** **
+  25:../Sources/ConsoleIO.c **** ** ===================================================================
+  26:../Sources/ConsoleIO.c **** */
+  27:../Sources/ConsoleIO.c **** int __read_console(__file_handle handle, unsigned char* buffer, size_t * count)
+  28:../Sources/ConsoleIO.c **** {
+  26              		.loc 1 28 0
+  27              		.cfi_startproc
+  28 0000 80B5     		push	{r7, lr}
+  29              	.LCFI0:
+  30              		.cfi_def_cfa_offset 8
+  31              		.cfi_offset 7, -8
+  32              		.cfi_offset 14, -4
+  33 0002 86B0     		sub	sp, sp, #24
+  34              	.LCFI1:
+  35              		.cfi_def_cfa_offset 32
+  36 0004 00AF     		add	r7, sp, #0
+  37              	.LCFI2:
+  38              		.cfi_def_cfa_register 7
+  39 0006 F860     		str	r0, [r7, #12]
+  40 0008 B960     		str	r1, [r7, #8]
+  41 000a 7A60     		str	r2, [r7, #4]
+  29:../Sources/ConsoleIO.c ****   size_t CharCnt = 0x00;
+  42              		.loc 1 29 0
+  43 000c 0023     		mov	r3, #0
+  44 000e 7B61     		str	r3, [r7, #20]
+  30:../Sources/ConsoleIO.c **** 
+  31:../Sources/ConsoleIO.c ****   (void)handle;                        /* Parameter is not used, suppress unused argument warning *
+  32:../Sources/ConsoleIO.c ****   for (;*count > 0x00; --*count) {
+  45              		.loc 1 32 0
+  46 0010 2CE0     		b	.L2
+  47              	.L8:
+  33:../Sources/ConsoleIO.c ****     /* Clear error flags */
+  34:../Sources/ConsoleIO.c ****     UART0_PDD_ClearInterruptFlags(UART0_BASE_PTR,0x1FU);
+  48              		.loc 1 34 0
+  49 0012 1D4B     		ldr	r3, .L11
+  50 0014 1F22     		mov	r2, #31
+  51 0016 1A71     		strb	r2, [r3, #4]
+  35:../Sources/ConsoleIO.c ****     if ((UART0_PDD_ReadInterruptStatusReg(UART0_BASE_PTR) & UART0_S1_RDRF_MASK) == 0x00) { /* Any d
+  52              		.loc 1 35 0
+  53 0018 1B4B     		ldr	r3, .L11
+  54 001a 1B79     		ldrb	r3, [r3, #4]
+  55 001c DBB2     		uxtb	r3, r3
+  56 001e 1A1C     		mov	r2, r3
+  57 0020 2023     		mov	r3, #32
+  58 0022 1340     		and	r3, r2
+  59 0024 0AD1     		bne	.L3
+  36:../Sources/ConsoleIO.c ****       if (CharCnt != 0x00) {           /* No, at least one char received? */
+  60              		.loc 1 36 0
+  61 0026 7B69     		ldr	r3, [r7, #20]
+  62 0028 002B     		cmp	r3, #0
+  63 002a 24D1     		bne	.L10
+  37:../Sources/ConsoleIO.c ****         break;                         /* Yes, return received char(s) */
+  38:../Sources/ConsoleIO.c ****       } else {                         /* Wait until a char is received */
+  39:../Sources/ConsoleIO.c ****         while ((UART0_PDD_ReadInterruptStatusReg(UART0_BASE_PTR) & UART0_S1_RDRF_MASK) == 0x00) {};
+  64              		.loc 1 39 0
+  65 002c C046     		mov	r8, r8
+  66              	.L6:
+  67              		.loc 1 39 0 is_stmt 0
+  68 002e 164B     		ldr	r3, .L11
+  69 0030 1B79     		ldrb	r3, [r3, #4]
+  70 0032 DBB2     		uxtb	r3, r3
+  71 0034 1A1C     		mov	r2, r3
+  72 0036 2023     		mov	r3, #32
+  73 0038 1340     		and	r3, r2
+  74 003a F8D0     		beq	.L6
+  75              	.L3:
+  40:../Sources/ConsoleIO.c ****       }
+  41:../Sources/ConsoleIO.c ****     }
+  42:../Sources/ConsoleIO.c ****     CharCnt++;                         /* Increase char counter */
+  76              		.loc 1 42 0 is_stmt 1
+  77 003c 7B69     		ldr	r3, [r7, #20]
+  78 003e 0133     		add	r3, r3, #1
+  79 0040 7B61     		str	r3, [r7, #20]
+  43:../Sources/ConsoleIO.c ****     /* Save character received by UARTx device into the receive buffer */
+  44:../Sources/ConsoleIO.c ****     *buffer = (unsigned char)UART0_PDD_GetChar8(UART0_BASE_PTR);
+  80              		.loc 1 44 0
+  81 0042 114B     		ldr	r3, .L11
+  82 0044 DB79     		ldrb	r3, [r3, #7]
+  83 0046 DAB2     		uxtb	r2, r3
+  84 0048 BB68     		ldr	r3, [r7, #8]
+  85 004a 1A70     		strb	r2, [r3]
+  45:../Sources/ConsoleIO.c ****     /* Stop reading if CR (Ox0D) character is received */
+  46:../Sources/ConsoleIO.c ****     if (*buffer == 0x0DU) {            /* New line character (CR) received ? */
+  86              		.loc 1 46 0
+  87 004c BB68     		ldr	r3, [r7, #8]
+  88 004e 1B78     		ldrb	r3, [r3]
+  89 0050 0D2B     		cmp	r3, #13
+  90 0052 03D1     		bne	.L7
+  47:../Sources/ConsoleIO.c ****       *buffer = '\n';                  /* Yes, convert LF to '\n' char. */
+  91              		.loc 1 47 0
+  92 0054 BB68     		ldr	r3, [r7, #8]
+  93 0056 0A22     		mov	r2, #10
+  94 0058 1A70     		strb	r2, [r3]
+  48:../Sources/ConsoleIO.c ****       break;                           /* Stop loop and return received char(s) */
+  95              		.loc 1 48 0
+  96 005a 0DE0     		b	.L5
+  97              	.L7:
+  49:../Sources/ConsoleIO.c ****     }
+  50:../Sources/ConsoleIO.c ****     buffer++;                          /* Increase buffer pointer */
+  98              		.loc 1 50 0
+  99 005c BB68     		ldr	r3, [r7, #8]
+ 100 005e 0133     		add	r3, r3, #1
+ 101 0060 BB60     		str	r3, [r7, #8]
+  32:../Sources/ConsoleIO.c ****   for (;*count > 0x00; --*count) {
+ 102              		.loc 1 32 0
+ 103 0062 7B68     		ldr	r3, [r7, #4]
+ 104 0064 1B68     		ldr	r3, [r3]
+ 105 0066 5A1E     		sub	r2, r3, #1
+ 106 0068 7B68     		ldr	r3, [r7, #4]
+ 107 006a 1A60     		str	r2, [r3]
+ 108              	.L2:
+  32:../Sources/ConsoleIO.c ****   for (;*count > 0x00; --*count) {
+ 109              		.loc 1 32 0 is_stmt 0
+ 110 006c 7B68     		ldr	r3, [r7, #4]
+ 111 006e 1B68     		ldr	r3, [r3]
+ 112 0070 002B     		cmp	r3, #0
+ 113 0072 CED1     		bne	.L8
+ 114 0074 00E0     		b	.L5
+ 115              	.L10:
+  37:../Sources/ConsoleIO.c ****         break;                         /* Yes, return received char(s) */
+ 116              		.loc 1 37 0 is_stmt 1
+ 117 0076 C046     		mov	r8, r8
+ 118              	.L5:
+  51:../Sources/ConsoleIO.c ****   }
+  52:../Sources/ConsoleIO.c ****   *count = CharCnt;
+ 119              		.loc 1 52 0
+ 120 0078 7B68     		ldr	r3, [r7, #4]
+ 121 007a 7A69     		ldr	r2, [r7, #20]
+ 122 007c 1A60     		str	r2, [r3]
+  53:../Sources/ConsoleIO.c ****   return (__no_io_error);
+ 123              		.loc 1 53 0
+ 124 007e 0023     		mov	r3, #0
+  54:../Sources/ConsoleIO.c **** }
+ 125              		.loc 1 54 0
+ 126 0080 181C     		mov	r0, r3
+ 127 0082 BD46     		mov	sp, r7
+ 128 0084 06B0     		add	sp, sp, #24
+ 129              		@ sp needed for prologue
+ 130 0086 80BD     		pop	{r7, pc}
+ 131              	.L12:
+ 132              		.align	2
+ 133              	.L11:
+ 134 0088 00A00640 		.word	1074176000
+ 135              		.cfi_endproc
+ 136              	.LFE0:
+ 138              		.section	.text.__write_console,"ax",%progbits
+ 139              		.align	2
+ 140              		.global	__write_console
+ 141              		.code	16
+ 142              		.thumb_func
+ 144              	__write_console:
+ 145              	.LFB1:
+  55:../Sources/ConsoleIO.c **** 
+  56:../Sources/ConsoleIO.c **** /*
+  57:../Sources/ConsoleIO.c **** ** ===================================================================
+  58:../Sources/ConsoleIO.c **** **     Method      :  CsIO1___write_console (component ConsoleIO)
+  59:../Sources/ConsoleIO.c **** **
+  60:../Sources/ConsoleIO.c **** **     Description :
+  61:../Sources/ConsoleIO.c **** **         __write_console
+  62:../Sources/ConsoleIO.c **** **         This method is internal. It is used by Processor Expert only.
+  63:../Sources/ConsoleIO.c **** ** ===================================================================
+  64:../Sources/ConsoleIO.c **** */
+  65:../Sources/ConsoleIO.c **** int __write_console(__file_handle handle, unsigned char* buffer, size_t* count)
+  66:../Sources/ConsoleIO.c **** {
+ 146              		.loc 1 66 0
+ 147              		.cfi_startproc
+ 148 0000 80B5     		push	{r7, lr}
+ 149              	.LCFI3:
+ 150              		.cfi_def_cfa_offset 8
+ 151              		.cfi_offset 7, -8
+ 152              		.cfi_offset 14, -4
+ 153 0002 86B0     		sub	sp, sp, #24
+ 154              	.LCFI4:
+ 155              		.cfi_def_cfa_offset 32
+ 156 0004 00AF     		add	r7, sp, #0
+ 157              	.LCFI5:
+ 158              		.cfi_def_cfa_register 7
+ 159 0006 F860     		str	r0, [r7, #12]
+ 160 0008 B960     		str	r1, [r7, #8]
+ 161 000a 7A60     		str	r2, [r7, #4]
+  67:../Sources/ConsoleIO.c ****   size_t CharCnt = 0x00;
+ 162              		.loc 1 67 0
+ 163 000c 0023     		mov	r3, #0
+ 164 000e 7B61     		str	r3, [r7, #20]
+  68:../Sources/ConsoleIO.c **** 
+  69:../Sources/ConsoleIO.c ****   (void)handle;                        /* Parameter is not used, suppress unused argument warning *
+  70:../Sources/ConsoleIO.c ****   for (;*count > 0x00; --*count) {
+ 165              		.loc 1 70 0
+ 166 0010 25E0     		b	.L14
+ 167              	.L20:
+  71:../Sources/ConsoleIO.c ****     /* Wait until UART is ready for saving a next character into the transmit buffer */
+  72:../Sources/ConsoleIO.c ****     while ((UART0_PDD_ReadInterruptStatusReg(UART0_BASE_PTR) & UART0_S1_TDRE_MASK) == 0) {};
+ 168              		.loc 1 72 0
+ 169 0012 C046     		mov	r8, r8
+ 170              	.L15:
+ 171              		.loc 1 72 0 is_stmt 0
+ 172 0014 184B     		ldr	r3, .L21
+ 173 0016 1B79     		ldrb	r3, [r3, #4]
+ 174 0018 DBB2     		uxtb	r3, r3
+ 175 001a DBB2     		uxtb	r3, r3
+ 176 001c 5BB2     		sxtb	r3, r3
+ 177 001e 002B     		cmp	r3, #0
+ 178 0020 F8DA     		bge	.L15
+  73:../Sources/ConsoleIO.c ****     if (*buffer == '\n') {
+ 179              		.loc 1 73 0 is_stmt 1
+ 180 0022 BB68     		ldr	r3, [r7, #8]
+ 181 0024 1B78     		ldrb	r3, [r3]
+ 182 0026 0A2B     		cmp	r3, #10
+ 183 0028 0AD1     		bne	.L16
+  74:../Sources/ConsoleIO.c ****       /* Send '\r'(0x0D) before each '\n'(0x0A). */
+  75:../Sources/ConsoleIO.c ****       /* Save a character into the transmit buffer of the UART0 device */
+  76:../Sources/ConsoleIO.c ****       UART0_PDD_PutChar8(UART0_BASE_PTR, 0x0DU);
+ 184              		.loc 1 76 0
+ 185 002a 134B     		ldr	r3, .L21
+ 186 002c 0D22     		mov	r2, #13
+ 187 002e DA71     		strb	r2, [r3, #7]
+  77:../Sources/ConsoleIO.c ****       /* Wait until UART is ready for saving a next character into the transmit buffer */
+  78:../Sources/ConsoleIO.c ****       while ((UART0_PDD_ReadInterruptStatusReg(UART0_BASE_PTR) & UART0_S1_TDRE_MASK) == 0) {};
+ 188              		.loc 1 78 0
+ 189 0030 C046     		mov	r8, r8
+ 190              	.L17:
+ 191              		.loc 1 78 0 is_stmt 0
+ 192 0032 114B     		ldr	r3, .L21
+ 193 0034 1B79     		ldrb	r3, [r3, #4]
+ 194 0036 DBB2     		uxtb	r3, r3
+ 195 0038 DBB2     		uxtb	r3, r3
+ 196 003a 5BB2     		sxtb	r3, r3
+ 197 003c 002B     		cmp	r3, #0
+ 198 003e F8DA     		bge	.L17
+ 199              	.L16:
+  79:../Sources/ConsoleIO.c ****     }
+  80:../Sources/ConsoleIO.c ****     /* Save a character into the transmit buffer of the UART0 device */
+  81:../Sources/ConsoleIO.c ****     UART0_PDD_PutChar8(UART0_BASE_PTR, (unsigned char)*buffer);
+ 200              		.loc 1 81 0 is_stmt 1
+ 201 0040 0D4B     		ldr	r3, .L21
+ 202 0042 BA68     		ldr	r2, [r7, #8]
+ 203 0044 1278     		ldrb	r2, [r2]
+ 204 0046 DA71     		strb	r2, [r3, #7]
+  82:../Sources/ConsoleIO.c ****     buffer++;                          /* Increase buffer pointer */
+ 205              		.loc 1 82 0
+ 206 0048 BB68     		ldr	r3, [r7, #8]
+ 207 004a 0133     		add	r3, r3, #1
+ 208 004c BB60     		str	r3, [r7, #8]
+  83:../Sources/ConsoleIO.c ****     CharCnt++;                         /* Increase char counter */
+ 209              		.loc 1 83 0
+ 210 004e 7B69     		ldr	r3, [r7, #20]
+ 211 0050 0133     		add	r3, r3, #1
+ 212 0052 7B61     		str	r3, [r7, #20]
+  70:../Sources/ConsoleIO.c ****   for (;*count > 0x00; --*count) {
+ 213              		.loc 1 70 0
+ 214 0054 7B68     		ldr	r3, [r7, #4]
+ 215 0056 1B68     		ldr	r3, [r3]
+ 216 0058 5A1E     		sub	r2, r3, #1
+ 217 005a 7B68     		ldr	r3, [r7, #4]
+ 218 005c 1A60     		str	r2, [r3]
+ 219              	.L14:
+  70:../Sources/ConsoleIO.c ****   for (;*count > 0x00; --*count) {
+ 220              		.loc 1 70 0 is_stmt 0
+ 221 005e 7B68     		ldr	r3, [r7, #4]
+ 222 0060 1B68     		ldr	r3, [r3]
+ 223 0062 002B     		cmp	r3, #0
+ 224 0064 D5D1     		bne	.L20
+  84:../Sources/ConsoleIO.c ****   }
+  85:../Sources/ConsoleIO.c ****   *count = CharCnt;
+ 225              		.loc 1 85 0 is_stmt 1
+ 226 0066 7B68     		ldr	r3, [r7, #4]
+ 227 0068 7A69     		ldr	r2, [r7, #20]
+ 228 006a 1A60     		str	r2, [r3]
+  86:../Sources/ConsoleIO.c ****   return(__no_io_error);
+ 229              		.loc 1 86 0
+ 230 006c 0023     		mov	r3, #0
+  87:../Sources/ConsoleIO.c **** }
+ 231              		.loc 1 87 0
+ 232 006e 181C     		mov	r0, r3
+ 233 0070 BD46     		mov	sp, r7
+ 234 0072 06B0     		add	sp, sp, #24
+ 235              		@ sp needed for prologue
+ 236 0074 80BD     		pop	{r7, pc}
+ 237              	.L22:
+ 238 0076 C046     		.align	2
+ 239              	.L21:
+ 240 0078 00A00640 		.word	1074176000
+ 241              		.cfi_endproc
+ 242              	.LFE1:
+ 244              		.section	.text.__close_console,"ax",%progbits
+ 245              		.align	2
+ 246              		.global	__close_console
+ 247              		.code	16
+ 248              		.thumb_func
+ 250              	__close_console:
+ 251              	.LFB2:
+  88:../Sources/ConsoleIO.c **** 
+  89:../Sources/ConsoleIO.c **** /*
+  90:../Sources/ConsoleIO.c **** ** ===================================================================
+  91:../Sources/ConsoleIO.c **** **     Method      :  CsIO1___close_console (component ConsoleIO)
+  92:../Sources/ConsoleIO.c **** **
+  93:../Sources/ConsoleIO.c **** **     Description :
+  94:../Sources/ConsoleIO.c **** **         __close_console
+  95:../Sources/ConsoleIO.c **** **         This method is internal. It is used by Processor Expert only.
+  96:../Sources/ConsoleIO.c **** ** ===================================================================
+  97:../Sources/ConsoleIO.c **** */
+  98:../Sources/ConsoleIO.c **** int __close_console(__file_handle handle)
+  99:../Sources/ConsoleIO.c **** {
+ 252              		.loc 1 99 0
+ 253              		.cfi_startproc
+ 254 0000 80B5     		push	{r7, lr}
+ 255              	.LCFI6:
+ 256              		.cfi_def_cfa_offset 8
+ 257              		.cfi_offset 7, -8
+ 258              		.cfi_offset 14, -4
+ 259 0002 82B0     		sub	sp, sp, #8
+ 260              	.LCFI7:
+ 261              		.cfi_def_cfa_offset 16
+ 262 0004 00AF     		add	r7, sp, #0
+ 263              	.LCFI8:
+ 264              		.cfi_def_cfa_register 7
+ 265 0006 7860     		str	r0, [r7, #4]
+ 100:../Sources/ConsoleIO.c ****   (void)handle;                        /* Parameter is not used, suppress unused argument warning *
+ 101:../Sources/ConsoleIO.c ****   return(__no_io_error);
+ 266              		.loc 1 101 0
+ 267 0008 0023     		mov	r3, #0
+ 102:../Sources/ConsoleIO.c **** }
+ 268              		.loc 1 102 0
+ 269 000a 181C     		mov	r0, r3
+ 270 000c BD46     		mov	sp, r7
+ 271 000e 02B0     		add	sp, sp, #8
+ 272              		@ sp needed for prologue
+ 273 0010 80BD     		pop	{r7, pc}
+ 274              		.cfi_endproc
+ 275              	.LFE2:
+ 277 0012 C046     		.section	.text.InitClock,"ax",%progbits
+ 278              		.align	2
+ 279              		.code	16
+ 280              		.thumb_func
+ 282              	InitClock:
+ 283              	.LFB3:
+ 103:../Sources/ConsoleIO.c **** 
+ 104:../Sources/ConsoleIO.c **** /*
+ 105:../Sources/ConsoleIO.c **** ** ===================================================================
+ 106:../Sources/ConsoleIO.c **** **     Method      :  InitClock
+ 107:../Sources/ConsoleIO.c **** **
+ 108:../Sources/ConsoleIO.c **** ** ===================================================================
+ 109:../Sources/ConsoleIO.c **** */
+ 110:../Sources/ConsoleIO.c **** static void InitClock()
+ 111:../Sources/ConsoleIO.c **** {
+ 284              		.loc 1 111 0
+ 285              		.cfi_startproc
+ 286 0000 80B5     		push	{r7, lr}
+ 287              	.LCFI9:
+ 288              		.cfi_def_cfa_offset 8
+ 289              		.cfi_offset 7, -8
+ 290              		.cfi_offset 14, -4
+ 291 0002 00AF     		add	r7, sp, #0
+ 292              	.LCFI10:
+ 293              		.cfi_def_cfa_register 7
+ 112:../Sources/ConsoleIO.c **** 	/* System clock initialization */
+ 113:../Sources/ConsoleIO.c **** 	/* SIM_SCGC5: PORTC=1,PORTA=1 */
+ 114:../Sources/ConsoleIO.c **** 	SIM_SCGC5 |= (SIM_SCGC5_PORTC_MASK | SIM_SCGC5_PORTA_MASK); /* Enable clock gate for ports to enab
+ 294              		.loc 1 114 0
+ 295 0004 4E4A     		ldr	r2, .L31
+ 296 0006 4E49     		ldr	r1, .L31
+ 297 0008 4E4B     		ldr	r3, .L31+4
+ 298 000a CB58     		ldr	r3, [r1, r3]
+ 299 000c A021     		mov	r1, #160
+ 300 000e 0901     		lsl	r1, r1, #4
+ 301 0010 1943     		orr	r1, r3
+ 302 0012 4C4B     		ldr	r3, .L31+4
+ 303 0014 D150     		str	r1, [r2, r3]
+ 115:../Sources/ConsoleIO.c **** 	/* SIM_CLKDIV1: OUTDIV1=1,??=0,??=0,??=0,??=0,??=0,??=0,??=0,??=0,??=0,OUTDIV4=1,??=0,??=0,??=0,??
+ 116:../Sources/ConsoleIO.c **** 	SIM_CLKDIV1 = (SIM_CLKDIV1_OUTDIV1(0x01) | SIM_CLKDIV1_OUTDIV4(0x01)); /* Update system prescalers
+ 304              		.loc 1 116 0
+ 305 0016 4A4A     		ldr	r2, .L31
+ 306 0018 4B4B     		ldr	r3, .L31+8
+ 307 001a 4C49     		ldr	r1, .L31+12
+ 308 001c D150     		str	r1, [r2, r3]
+ 117:../Sources/ConsoleIO.c **** 	/* SIM_SOPT2: PLLFLLSEL=1 */
+ 118:../Sources/ConsoleIO.c **** 	SIM_SOPT2 |= SIM_SOPT2_PLLFLLSEL_MASK; /* Select PLL as a clock source for various peripherals */
+ 309              		.loc 1 118 0
+ 310 001e 484A     		ldr	r2, .L31
+ 311 0020 4749     		ldr	r1, .L31
+ 312 0022 4B4B     		ldr	r3, .L31+16
+ 313 0024 CB58     		ldr	r3, [r1, r3]
+ 314 0026 8021     		mov	r1, #128
+ 315 0028 4902     		lsl	r1, r1, #9
+ 316 002a 1943     		orr	r1, r3
+ 317 002c 484B     		ldr	r3, .L31+16
+ 318 002e D150     		str	r1, [r2, r3]
+ 119:../Sources/ConsoleIO.c **** 	/* SIM_SOPT1: OSC32KSEL=0 */
+ 120:../Sources/ConsoleIO.c **** 	SIM_SOPT1 &= (uint32_t)~(uint32_t)(SIM_SOPT1_OSC32KSEL(0x03)); /* System oscillator drives 32 kHz 
+ 319              		.loc 1 120 0
+ 320 0030 434B     		ldr	r3, .L31
+ 321 0032 434A     		ldr	r2, .L31
+ 322 0034 1168     		ldr	r1, [r2]
+ 323 0036 474A     		ldr	r2, .L31+20
+ 324 0038 0A40     		and	r2, r1
+ 325 003a 1A60     		str	r2, [r3]
+ 121:../Sources/ConsoleIO.c **** 	/* SIM_SOPT2: TPMSRC=1 */
+ 122:../Sources/ConsoleIO.c **** 	SIM_SOPT2 = (uint32_t)((SIM_SOPT2 & (uint32_t)~(uint32_t)(
+ 326              		.loc 1 122 0
+ 327 003c 404A     		ldr	r2, .L31
+ 328 003e 4049     		ldr	r1, .L31
+ 329 0040 434B     		ldr	r3, .L31+16
+ 330 0042 C958     		ldr	r1, [r1, r3]
+ 331 0044 444B     		ldr	r3, .L31+24
+ 332 0046 0B40     		and	r3, r1
+ 333 0048 8021     		mov	r1, #128
+ 334 004a 4904     		lsl	r1, r1, #17
+ 335 004c 1943     		orr	r1, r3
+ 336 004e 404B     		ldr	r3, .L31+16
+ 337 0050 D150     		str	r1, [r2, r3]
+ 123:../Sources/ConsoleIO.c **** 			   SIM_SOPT2_TPMSRC(0x02)
+ 124:../Sources/ConsoleIO.c **** 			  )) | (uint32_t)(
+ 125:../Sources/ConsoleIO.c **** 			   SIM_SOPT2_TPMSRC(0x01)
+ 126:../Sources/ConsoleIO.c **** 			  ));                      /* Set the TPM clock */
+ 127:../Sources/ConsoleIO.c **** 	/* PORTA_PCR18: ISF=0,MUX=0 */
+ 128:../Sources/ConsoleIO.c **** 	PORTA_PCR18 &= (uint32_t)~(uint32_t)((PORT_PCR_ISF_MASK | PORT_PCR_MUX(0x07)));                   
+ 338              		.loc 1 128 0
+ 339 0052 424B     		ldr	r3, .L31+28
+ 340 0054 414A     		ldr	r2, .L31+28
+ 341 0056 916C     		ldr	r1, [r2, #72]
+ 342 0058 414A     		ldr	r2, .L31+32
+ 343 005a 0A40     		and	r2, r1
+ 344 005c 9A64     		str	r2, [r3, #72]
+ 129:../Sources/ConsoleIO.c **** 	/* PORTA_PCR19: ISF=0,MUX=0 */
+ 130:../Sources/ConsoleIO.c **** 	PORTA_PCR19 &= (uint32_t)~(uint32_t)((PORT_PCR_ISF_MASK | PORT_PCR_MUX(0x07)));                   
+ 345              		.loc 1 130 0
+ 346 005e 3F4B     		ldr	r3, .L31+28
+ 347 0060 3E4A     		ldr	r2, .L31+28
+ 348 0062 D16C     		ldr	r1, [r2, #76]
+ 349 0064 3E4A     		ldr	r2, .L31+32
+ 350 0066 0A40     		and	r2, r1
+ 351 0068 DA64     		str	r2, [r3, #76]
+ 131:../Sources/ConsoleIO.c **** 	/* Switch to FBE Mode */
+ 132:../Sources/ConsoleIO.c **** 	/* OSC0_CR: ERCLKEN=1,??=0,EREFSTEN=0,??=0,SC2P=0,SC4P=0,SC8P=0,SC16P=0 */
+ 133:../Sources/ConsoleIO.c **** 	OSC0_CR = OSC_CR_ERCLKEN_MASK;                                                   
+ 352              		.loc 1 133 0
+ 353 006a 3E4B     		ldr	r3, .L31+36
+ 354 006c 8022     		mov	r2, #128
+ 355 006e 1A70     		strb	r2, [r3]
+ 134:../Sources/ConsoleIO.c **** 	/* MCG_C2: LOCRE0=0,??=0,RANGE0=2,HGO0=0,EREFS0=1,LP=0,IRCS=0 */
+ 135:../Sources/ConsoleIO.c **** 	MCG_C2 = (MCG_C2_RANGE0(0x02) | MCG_C2_EREFS0_MASK);                                              
+ 356              		.loc 1 135 0
+ 357 0070 3D4B     		ldr	r3, .L31+40
+ 358 0072 2422     		mov	r2, #36
+ 359 0074 5A70     		strb	r2, [r3, #1]
+ 136:../Sources/ConsoleIO.c **** 	/* MCG_C1: CLKS=2,FRDIV=3,IREFS=0,IRCLKEN=1,IREFSTEN=0 */
+ 137:../Sources/ConsoleIO.c **** 	MCG_C1 = (MCG_C1_CLKS(0x02) | MCG_C1_FRDIV(0x03) | MCG_C1_IRCLKEN_MASK);                          
+ 360              		.loc 1 137 0
+ 361 0076 3C4B     		ldr	r3, .L31+40
+ 362 0078 9A22     		mov	r2, #154
+ 363 007a 1A70     		strb	r2, [r3]
+ 138:../Sources/ConsoleIO.c **** 	/* MCG_C4: DMX32=0,DRST_DRS=0 */
+ 139:../Sources/ConsoleIO.c **** 	MCG_C4 &= (uint8_t)~(uint8_t)((MCG_C4_DMX32_MASK | MCG_C4_DRST_DRS(0x03)));                       
+ 364              		.loc 1 139 0
+ 365 007c 3A4B     		ldr	r3, .L31+40
+ 366 007e 3A4A     		ldr	r2, .L31+40
+ 367 0080 D278     		ldrb	r2, [r2, #3]
+ 368 0082 D1B2     		uxtb	r1, r2
+ 369 0084 1F22     		mov	r2, #31
+ 370 0086 0A40     		and	r2, r1
+ 371 0088 D2B2     		uxtb	r2, r2
+ 372 008a DA70     		strb	r2, [r3, #3]
+ 140:../Sources/ConsoleIO.c **** 	/* MCG_C5: ??=0,PLLCLKEN0=0,PLLSTEN0=0,PRDIV0=1 */
+ 141:../Sources/ConsoleIO.c **** 	MCG_C5 = MCG_C5_PRDIV0(0x01);                                                   
+ 373              		.loc 1 141 0
+ 374 008c 364B     		ldr	r3, .L31+40
+ 375 008e 0122     		mov	r2, #1
+ 376 0090 1A71     		strb	r2, [r3, #4]
+ 142:../Sources/ConsoleIO.c **** 	/* MCG_C6: LOLIE0=0,PLLS=0,CME0=0,VDIV0=0 */
+ 143:../Sources/ConsoleIO.c **** 	MCG_C6 = 0x00U;                                                   
+ 377              		.loc 1 143 0
+ 378 0092 354B     		ldr	r3, .L31+40
+ 379 0094 0022     		mov	r2, #0
+ 380 0096 5A71     		strb	r2, [r3, #5]
+ 144:../Sources/ConsoleIO.c **** 	while((MCG_S & MCG_S_IREFST_MASK) != 0x00U) { /* Check that the source of the FLL reference clock 
+ 381              		.loc 1 144 0
+ 382 0098 C046     		mov	r8, r8
+ 383              	.L26:
+ 384              		.loc 1 144 0 is_stmt 0
+ 385 009a 334B     		ldr	r3, .L31+40
+ 386 009c 9B79     		ldrb	r3, [r3, #6]
+ 387 009e DBB2     		uxtb	r3, r3
+ 388 00a0 1A1C     		mov	r2, r3
+ 389 00a2 1023     		mov	r3, #16
+ 390 00a4 1340     		and	r3, r2
+ 391 00a6 F8D1     		bne	.L26
+ 145:../Sources/ConsoleIO.c **** 	}
+ 146:../Sources/ConsoleIO.c **** 	while((MCG_S & 0x0CU) != 0x08U) {    /* Wait until external reference clock is selected as MCG out
+ 392              		.loc 1 146 0 is_stmt 1
+ 393 00a8 C046     		mov	r8, r8
+ 394              	.L27:
+ 395              		.loc 1 146 0 is_stmt 0
+ 396 00aa 2F4B     		ldr	r3, .L31+40
+ 397 00ac 9B79     		ldrb	r3, [r3, #6]
+ 398 00ae DBB2     		uxtb	r3, r3
+ 399 00b0 1A1C     		mov	r2, r3
+ 400 00b2 0C23     		mov	r3, #12
+ 401 00b4 1340     		and	r3, r2
+ 402 00b6 082B     		cmp	r3, #8
+ 403 00b8 F7D1     		bne	.L27
+ 147:../Sources/ConsoleIO.c **** 	}
+ 148:../Sources/ConsoleIO.c **** 	/* Switch to PBE Mode */
+ 149:../Sources/ConsoleIO.c **** 	/* OSC0_CR: ERCLKEN=1,??=0,EREFSTEN=0,??=0,SC2P=0,SC4P=0,SC8P=0,SC16P=0 */
+ 150:../Sources/ConsoleIO.c **** 	OSC0_CR = OSC_CR_ERCLKEN_MASK;                                                   
+ 404              		.loc 1 150 0 is_stmt 1
+ 405 00ba 2A4B     		ldr	r3, .L31+36
+ 406 00bc 8022     		mov	r2, #128
+ 407 00be 1A70     		strb	r2, [r3]
+ 151:../Sources/ConsoleIO.c **** 	/* MCG_C1: CLKS=2,FRDIV=3,IREFS=0,IRCLKEN=1,IREFSTEN=0 */
+ 152:../Sources/ConsoleIO.c **** 	MCG_C1 = (MCG_C1_CLKS(0x02) | MCG_C1_FRDIV(0x03) | MCG_C1_IRCLKEN_MASK);                          
+ 408              		.loc 1 152 0
+ 409 00c0 294B     		ldr	r3, .L31+40
+ 410 00c2 9A22     		mov	r2, #154
+ 411 00c4 1A70     		strb	r2, [r3]
+ 153:../Sources/ConsoleIO.c **** 	/* MCG_C2: LOCRE0=0,??=0,RANGE0=2,HGO0=0,EREFS0=1,LP=0,IRCS=0 */
+ 154:../Sources/ConsoleIO.c **** 	MCG_C2 = (MCG_C2_RANGE0(0x02) | MCG_C2_EREFS0_MASK);                                              
+ 412              		.loc 1 154 0
+ 413 00c6 284B     		ldr	r3, .L31+40
+ 414 00c8 2422     		mov	r2, #36
+ 415 00ca 5A70     		strb	r2, [r3, #1]
+ 155:../Sources/ConsoleIO.c **** 	/* MCG_C5: ??=0,PLLCLKEN0=0,PLLSTEN0=0,PRDIV0=1 */
+ 156:../Sources/ConsoleIO.c **** 	MCG_C5 = MCG_C5_PRDIV0(0x01);                                                   
+ 416              		.loc 1 156 0
+ 417 00cc 264B     		ldr	r3, .L31+40
+ 418 00ce 0122     		mov	r2, #1
+ 419 00d0 1A71     		strb	r2, [r3, #4]
+ 157:../Sources/ConsoleIO.c **** 	/* MCG_C6: LOLIE0=0,PLLS=1,CME0=0,VDIV0=0 */
+ 158:../Sources/ConsoleIO.c **** 	MCG_C6 = MCG_C6_PLLS_MASK;                                                   
+ 420              		.loc 1 158 0
+ 421 00d2 254B     		ldr	r3, .L31+40
+ 422 00d4 4022     		mov	r2, #64
+ 423 00d6 5A71     		strb	r2, [r3, #5]
+ 159:../Sources/ConsoleIO.c **** 	while((MCG_S & 0x0CU) != 0x08U) {    /* Wait until external reference clock is selected as MCG out
+ 424              		.loc 1 159 0
+ 425 00d8 C046     		mov	r8, r8
+ 426              	.L28:
+ 427              		.loc 1 159 0 is_stmt 0
+ 428 00da 234B     		ldr	r3, .L31+40
+ 429 00dc 9B79     		ldrb	r3, [r3, #6]
+ 430 00de DBB2     		uxtb	r3, r3
+ 431 00e0 1A1C     		mov	r2, r3
+ 432 00e2 0C23     		mov	r3, #12
+ 433 00e4 1340     		and	r3, r2
+ 434 00e6 082B     		cmp	r3, #8
+ 435 00e8 F7D1     		bne	.L28
+ 160:../Sources/ConsoleIO.c **** 	}
+ 161:../Sources/ConsoleIO.c **** 	while((MCG_S & MCG_S_LOCK0_MASK) == 0x00U) { /* Wait until locked */
+ 436              		.loc 1 161 0 is_stmt 1
+ 437 00ea C046     		mov	r8, r8
+ 438              	.L29:
+ 439              		.loc 1 161 0 is_stmt 0
+ 440 00ec 1E4B     		ldr	r3, .L31+40
+ 441 00ee 9B79     		ldrb	r3, [r3, #6]
+ 442 00f0 DBB2     		uxtb	r3, r3
+ 443 00f2 1A1C     		mov	r2, r3
+ 444 00f4 4023     		mov	r3, #64
+ 445 00f6 1340     		and	r3, r2
+ 446 00f8 F8D0     		beq	.L29
+ 162:../Sources/ConsoleIO.c **** 	}
+ 163:../Sources/ConsoleIO.c **** 	/* Switch to PEE Mode */
+ 164:../Sources/ConsoleIO.c **** 	/* OSC0_CR: ERCLKEN=1,??=0,EREFSTEN=0,??=0,SC2P=0,SC4P=0,SC8P=0,SC16P=0 */
+ 165:../Sources/ConsoleIO.c **** 	OSC0_CR = OSC_CR_ERCLKEN_MASK;                                                   
+ 447              		.loc 1 165 0 is_stmt 1
+ 448 00fa 1A4B     		ldr	r3, .L31+36
+ 449 00fc 8022     		mov	r2, #128
+ 450 00fe 1A70     		strb	r2, [r3]
+ 166:../Sources/ConsoleIO.c **** 	/* MCG_C1: CLKS=0,FRDIV=3,IREFS=0,IRCLKEN=1,IREFSTEN=0 */
+ 167:../Sources/ConsoleIO.c **** 	MCG_C1 = (MCG_C1_FRDIV(0x03) | MCG_C1_IRCLKEN_MASK);                                              
+ 451              		.loc 1 167 0
+ 452 0100 194B     		ldr	r3, .L31+40
+ 453 0102 1A22     		mov	r2, #26
+ 454 0104 1A70     		strb	r2, [r3]
+ 168:../Sources/ConsoleIO.c **** 	/* MCG_C2: LOCRE0=0,??=0,RANGE0=2,HGO0=0,EREFS0=1,LP=0,IRCS=0 */
+ 169:../Sources/ConsoleIO.c **** 	MCG_C2 = (MCG_C2_RANGE0(0x02) | MCG_C2_EREFS0_MASK);                                              
+ 455              		.loc 1 169 0
+ 456 0106 184B     		ldr	r3, .L31+40
+ 457 0108 2422     		mov	r2, #36
+ 458 010a 5A70     		strb	r2, [r3, #1]
+ 170:../Sources/ConsoleIO.c **** 	/* MCG_C5: ??=0,PLLCLKEN0=0,PLLSTEN0=0,PRDIV0=1 */
+ 171:../Sources/ConsoleIO.c **** 	MCG_C5 = MCG_C5_PRDIV0(0x01);                                                   
+ 459              		.loc 1 171 0
+ 460 010c 164B     		ldr	r3, .L31+40
+ 461 010e 0122     		mov	r2, #1
+ 462 0110 1A71     		strb	r2, [r3, #4]
+ 172:../Sources/ConsoleIO.c **** 	/* MCG_C6: LOLIE0=0,PLLS=1,CME0=0,VDIV0=0 */
+ 173:../Sources/ConsoleIO.c **** 	MCG_C6 = MCG_C6_PLLS_MASK;                                                   
+ 463              		.loc 1 173 0
+ 464 0112 154B     		ldr	r3, .L31+40
+ 465 0114 4022     		mov	r2, #64
+ 466 0116 5A71     		strb	r2, [r3, #5]
+ 174:../Sources/ConsoleIO.c **** 	while((MCG_S & 0x0CU) != 0x0CU) {    /* Wait until output of the PLL is selected */
+ 467              		.loc 1 174 0
+ 468 0118 C046     		mov	r8, r8
+ 469              	.L30:
+ 470              		.loc 1 174 0 is_stmt 0
+ 471 011a 134B     		ldr	r3, .L31+40
+ 472 011c 9B79     		ldrb	r3, [r3, #6]
+ 473 011e DBB2     		uxtb	r3, r3
+ 474 0120 1A1C     		mov	r2, r3
+ 475 0122 0C23     		mov	r3, #12
+ 476 0124 1340     		and	r3, r2
+ 477 0126 0C2B     		cmp	r3, #12
+ 478 0128 F7D1     		bne	.L30
+ 175:../Sources/ConsoleIO.c **** 	}
+ 176:../Sources/ConsoleIO.c **** 	/* Initialization of the RTC_CLKIN pin */
+ 177:../Sources/ConsoleIO.c **** 	/* PORTC_PCR1: ISF=0,MUX=1 */
+ 178:../Sources/ConsoleIO.c **** 	PORTC_PCR1 = (uint32_t)((PORTC_PCR1 & (uint32_t)~(uint32_t)(
+ 479              		.loc 1 178 0 is_stmt 1
+ 480 012a 104B     		ldr	r3, .L31+44
+ 481 012c 0F4A     		ldr	r2, .L31+44
+ 482 012e 5168     		ldr	r1, [r2, #4]
+ 483 0130 0B4A     		ldr	r2, .L31+32
+ 484 0132 0A40     		and	r2, r1
+ 485 0134 8021     		mov	r1, #128
+ 486 0136 4900     		lsl	r1, r1, #1
+ 487 0138 0A43     		orr	r2, r1
+ 488 013a 5A60     		str	r2, [r3, #4]
+ 179:../Sources/ConsoleIO.c **** 				PORT_PCR_ISF_MASK |
+ 180:../Sources/ConsoleIO.c **** 				PORT_PCR_MUX(0x06)
+ 181:../Sources/ConsoleIO.c **** 			   )) | (uint32_t)(
+ 182:../Sources/ConsoleIO.c **** 				PORT_PCR_MUX(0x01)
+ 183:../Sources/ConsoleIO.c **** 			   )); 
+ 184:../Sources/ConsoleIO.c **** }
+ 489              		.loc 1 184 0
+ 490 013c BD46     		mov	sp, r7
+ 491              		@ sp needed for prologue
+ 492 013e 80BD     		pop	{r7, pc}
+ 493              	.L32:
+ 494              		.align	2
+ 495              	.L31:
+ 496 0140 00700440 		.word	1074032640
+ 497 0144 38100000 		.word	4152
+ 498 0148 44100000 		.word	4164
+ 499 014c 00000110 		.word	268500992
+ 500 0150 04100000 		.word	4100
+ 501 0154 FFFFF3FF 		.word	-786433
+ 502 0158 FFFFFFFC 		.word	-50331649
+ 503 015c 00900440 		.word	1074040832
+ 504 0160 FFF8FFFE 		.word	-16779009
+ 505 0164 00500640 		.word	1074155520
+ 506 0168 00400640 		.word	1074151424
+ 507 016c 00B00440 		.word	1074049024
+ 508              		.cfi_endproc
+ 509              	.LFE3:
+ 511              		.section	.text.ConsoleIO_Init,"ax",%progbits
+ 512              		.align	2
+ 513              		.global	ConsoleIO_Init
+ 514              		.code	16
+ 515              		.thumb_func
+ 517              	ConsoleIO_Init:
+ 518              	.LFB4:
+ 185:../Sources/ConsoleIO.c **** 
+ 186:../Sources/ConsoleIO.c **** /*
+ 187:../Sources/ConsoleIO.c **** ** ===================================================================
+ 188:../Sources/ConsoleIO.c **** **     Method      :  ConsoleIO_Init
+ 189:../Sources/ConsoleIO.c **** **
+ 190:../Sources/ConsoleIO.c **** ** ===================================================================
+ 191:../Sources/ConsoleIO.c **** */
+ 192:../Sources/ConsoleIO.c **** void ConsoleIO_Init()
+ 193:../Sources/ConsoleIO.c **** {
+ 519              		.loc 1 193 0
+ 520              		.cfi_startproc
+ 521 0000 80B5     		push	{r7, lr}
+ 522              	.LCFI11:
+ 523              		.cfi_def_cfa_offset 8
+ 524              		.cfi_offset 7, -8
+ 525              		.cfi_offset 14, -4
+ 526 0002 00AF     		add	r7, sp, #0
+ 527              	.LCFI12:
+ 528              		.cfi_def_cfa_register 7
+ 194:../Sources/ConsoleIO.c **** 	InitClock();
+ 529              		.loc 1 194 0
+ 530 0004 FFF7FEFF 		bl	InitClock
+ 195:../Sources/ConsoleIO.c **** 
+ 196:../Sources/ConsoleIO.c **** 	/* SIM_SCGC4: UART0=1 */
+ 197:../Sources/ConsoleIO.c **** 	SIM_SCGC4 |= SIM_SCGC4_UART0_MASK;                                                   
+ 531              		.loc 1 197 0
+ 532 0008 3D4A     		ldr	r2, .L34
+ 533 000a 3D49     		ldr	r1, .L34
+ 534 000c 3D4B     		ldr	r3, .L34+4
+ 535 000e CB58     		ldr	r3, [r1, r3]
+ 536 0010 8021     		mov	r1, #128
+ 537 0012 C900     		lsl	r1, r1, #3
+ 538 0014 1943     		orr	r1, r3
+ 539 0016 3B4B     		ldr	r3, .L34+4
+ 540 0018 D150     		str	r1, [r2, r3]
+ 198:../Sources/ConsoleIO.c **** 	/* PORTA_PCR15: ISF=0,MUX=3 */
+ 199:../Sources/ConsoleIO.c **** 	PORTA_PCR15 = (uint32_t)((PORTA_PCR15 & (uint32_t)~(uint32_t)(
+ 541              		.loc 1 199 0
+ 542 001a 3B4B     		ldr	r3, .L34+8
+ 543 001c 3A4A     		ldr	r2, .L34+8
+ 544 001e D16B     		ldr	r1, [r2, #60]
+ 545 0020 3A4A     		ldr	r2, .L34+12
+ 546 0022 0A40     		and	r2, r1
+ 547 0024 C021     		mov	r1, #192
+ 548 0026 8900     		lsl	r1, r1, #2
+ 549 0028 0A43     		orr	r2, r1
+ 550 002a DA63     		str	r2, [r3, #60]
+ 200:../Sources/ConsoleIO.c **** 				 PORT_PCR_ISF_MASK |
+ 201:../Sources/ConsoleIO.c **** 				 PORT_PCR_MUX(0x04)
+ 202:../Sources/ConsoleIO.c **** 				)) | (uint32_t)(
+ 203:../Sources/ConsoleIO.c **** 				 PORT_PCR_MUX(0x03)
+ 204:../Sources/ConsoleIO.c **** 				));                                                  
+ 205:../Sources/ConsoleIO.c **** 	/* PORTA_PCR14: ISF=0,MUX=3 */
+ 206:../Sources/ConsoleIO.c **** 	PORTA_PCR14 = (uint32_t)((PORTA_PCR14 & (uint32_t)~(uint32_t)(
+ 551              		.loc 1 206 0
+ 552 002c 364B     		ldr	r3, .L34+8
+ 553 002e 364A     		ldr	r2, .L34+8
+ 554 0030 916B     		ldr	r1, [r2, #56]
+ 555 0032 364A     		ldr	r2, .L34+12
+ 556 0034 0A40     		and	r2, r1
+ 557 0036 C021     		mov	r1, #192
+ 558 0038 8900     		lsl	r1, r1, #2
+ 559 003a 0A43     		orr	r2, r1
+ 560 003c 9A63     		str	r2, [r3, #56]
+ 207:../Sources/ConsoleIO.c **** 				 PORT_PCR_ISF_MASK |
+ 208:../Sources/ConsoleIO.c **** 				 PORT_PCR_MUX(0x04)
+ 209:../Sources/ConsoleIO.c **** 				)) | (uint32_t)(
+ 210:../Sources/ConsoleIO.c **** 				 PORT_PCR_MUX(0x03)
+ 211:../Sources/ConsoleIO.c **** 				));                                                  
+ 212:../Sources/ConsoleIO.c **** 	UART0_PDD_EnableTransmitter(UART0_BASE_PTR, PDD_DISABLE); /* Disable transmitter. */
+ 561              		.loc 1 212 0
+ 562 003e 344B     		ldr	r3, .L34+16
+ 563 0040 334A     		ldr	r2, .L34+16
+ 564 0042 D278     		ldrb	r2, [r2, #3]
+ 565 0044 D2B2     		uxtb	r2, r2
+ 566 0046 0821     		mov	r1, #8
+ 567 0048 8A43     		bic	r2, r1
+ 568 004a D2B2     		uxtb	r2, r2
+ 569 004c DA70     		strb	r2, [r3, #3]
+ 213:../Sources/ConsoleIO.c **** 	UART0_PDD_EnableReceiver(UART0_BASE_PTR, PDD_DISABLE); /* Disable receiver. */
+ 570              		.loc 1 213 0
+ 571 004e 304B     		ldr	r3, .L34+16
+ 572 0050 2F4A     		ldr	r2, .L34+16
+ 573 0052 D278     		ldrb	r2, [r2, #3]
+ 574 0054 D2B2     		uxtb	r2, r2
+ 575 0056 0421     		mov	r1, #4
+ 576 0058 8A43     		bic	r2, r1
+ 577 005a D2B2     		uxtb	r2, r2
+ 578 005c DA70     		strb	r2, [r3, #3]
+ 214:../Sources/ConsoleIO.c **** 	/* UART0_C1: LOOPS=0,DOZEEN=0,RSRC=0,M=0,WAKE=0,ILT=0,PE=0,PT=0 */
+ 215:../Sources/ConsoleIO.c **** 	UART0_C1 = 0x00U;                    /*  Set the C1 register */
+ 579              		.loc 1 215 0
+ 580 005e 2C4B     		ldr	r3, .L34+16
+ 581 0060 0022     		mov	r2, #0
+ 582 0062 9A70     		strb	r2, [r3, #2]
+ 216:../Sources/ConsoleIO.c **** 	/* UART0_C3: R8T9=0,R9T8=0,TXDIR=0,TXINV=0,ORIE=0,NEIE=0,FEIE=0,PEIE=0 */
+ 217:../Sources/ConsoleIO.c **** 	UART0_C3 = 0x00U;                    /*  Set the C3 register */
+ 583              		.loc 1 217 0
+ 584 0064 2A4B     		ldr	r3, .L34+16
+ 585 0066 0022     		mov	r2, #0
+ 586 0068 9A71     		strb	r2, [r3, #6]
+ 218:../Sources/ConsoleIO.c **** 	/* UART0_S2: LBKDIF=0,RXEDGIF=0,MSBF=0,RXINV=0,RWUID=0,BRK13=0,LBKDE=0,RAF=0 */
+ 219:../Sources/ConsoleIO.c **** 	UART0_S2 = 0x00U;                    /*  Set the S2 register */
+ 587              		.loc 1 219 0
+ 588 006a 294B     		ldr	r3, .L34+16
+ 589 006c 0022     		mov	r2, #0
+ 590 006e 5A71     		strb	r2, [r3, #5]
+ 220:../Sources/ConsoleIO.c **** 	UART0_PDD_SetClockSource(UART0_BASE_PTR, UART0_PDD_PLL_FLL_CLOCK);
+ 591              		.loc 1 220 0
+ 592 0070 234A     		ldr	r2, .L34
+ 593 0072 2349     		ldr	r1, .L34
+ 594 0074 274B     		ldr	r3, .L34+20
+ 595 0076 C958     		ldr	r1, [r1, r3]
+ 596 0078 274B     		ldr	r3, .L34+24
+ 597 007a 0B40     		and	r3, r1
+ 598 007c 8021     		mov	r1, #128
+ 599 007e C904     		lsl	r1, r1, #19
+ 600 0080 1943     		orr	r1, r3
+ 601 0082 244B     		ldr	r3, .L34+20
+ 602 0084 D150     		str	r1, [r2, r3]
+ 221:../Sources/ConsoleIO.c **** 	UART0_PDD_SetBaudRate(UART0_BASE_PTR, 313U); /* Set the baud rate register. */
+ 603              		.loc 1 221 0
+ 604 0086 224B     		ldr	r3, .L34+16
+ 605 0088 214A     		ldr	r2, .L34+16
+ 606 008a 1278     		ldrb	r2, [r2]
+ 607 008c D2B2     		uxtb	r2, r2
+ 608 008e D2B2     		uxtb	r2, r2
+ 609 0090 1F21     		mov	r1, #31
+ 610 0092 8A43     		bic	r2, r1
+ 611 0094 D2B2     		uxtb	r2, r2
+ 612 0096 0121     		mov	r1, #1
+ 613 0098 0A43     		orr	r2, r1
+ 614 009a D2B2     		uxtb	r2, r2
+ 615 009c D2B2     		uxtb	r2, r2
+ 616 009e 1A70     		strb	r2, [r3]
+ 617 00a0 1B4B     		ldr	r3, .L34+16
+ 618 00a2 3922     		mov	r2, #57
+ 619 00a4 5A70     		strb	r2, [r3, #1]
+ 222:../Sources/ConsoleIO.c **** 	UART0_PDD_SetOversamplingRatio(UART0_BASE_PTR, 3U);
+ 620              		.loc 1 222 0
+ 621 00a6 1A4B     		ldr	r3, .L34+16
+ 622 00a8 194A     		ldr	r2, .L34+16
+ 623 00aa 927A     		ldrb	r2, [r2, #10]
+ 624 00ac D2B2     		uxtb	r2, r2
+ 625 00ae D2B2     		uxtb	r2, r2
+ 626 00b0 1F21     		mov	r1, #31
+ 627 00b2 8A43     		bic	r2, r1
+ 628 00b4 D2B2     		uxtb	r2, r2
+ 629 00b6 0321     		mov	r1, #3
+ 630 00b8 0A43     		orr	r2, r1
+ 631 00ba D2B2     		uxtb	r2, r2
+ 632 00bc D2B2     		uxtb	r2, r2
+ 633 00be 9A72     		strb	r2, [r3, #10]
+ 223:../Sources/ConsoleIO.c **** 	UART0_PDD_EnableSamplingOnBothEdges(UART0_BASE_PTR, PDD_ENABLE);
+ 634              		.loc 1 223 0
+ 635 00c0 134B     		ldr	r3, .L34+16
+ 636 00c2 134A     		ldr	r2, .L34+16
+ 637 00c4 D27A     		ldrb	r2, [r2, #11]
+ 638 00c6 D2B2     		uxtb	r2, r2
+ 639 00c8 D2B2     		uxtb	r2, r2
+ 640 00ca 0221     		mov	r1, #2
+ 641 00cc 0A43     		orr	r2, r1
+ 642 00ce D2B2     		uxtb	r2, r2
+ 643 00d0 D2B2     		uxtb	r2, r2
+ 644 00d2 DA72     		strb	r2, [r3, #11]
+ 224:../Sources/ConsoleIO.c **** 	UART0_PDD_EnableTransmitter(UART0_BASE_PTR, PDD_ENABLE); /* Enable transmitter */
+ 645              		.loc 1 224 0
+ 646 00d4 0E4B     		ldr	r3, .L34+16
+ 647 00d6 0E4A     		ldr	r2, .L34+16
+ 648 00d8 D278     		ldrb	r2, [r2, #3]
+ 649 00da D2B2     		uxtb	r2, r2
+ 650 00dc D2B2     		uxtb	r2, r2
+ 651 00de 0821     		mov	r1, #8
+ 652 00e0 0A43     		orr	r2, r1
+ 653 00e2 D2B2     		uxtb	r2, r2
+ 654 00e4 D2B2     		uxtb	r2, r2
+ 655 00e6 DA70     		strb	r2, [r3, #3]
+ 225:../Sources/ConsoleIO.c **** 	UART0_PDD_EnableReceiver(UART0_BASE_PTR, PDD_ENABLE); /* Enable receiver */
+ 656              		.loc 1 225 0
+ 657 00e8 094B     		ldr	r3, .L34+16
+ 658 00ea 094A     		ldr	r2, .L34+16
+ 659 00ec D278     		ldrb	r2, [r2, #3]
+ 660 00ee D2B2     		uxtb	r2, r2
+ 661 00f0 D2B2     		uxtb	r2, r2
+ 662 00f2 0421     		mov	r1, #4
+ 663 00f4 0A43     		orr	r2, r1
+ 664 00f6 D2B2     		uxtb	r2, r2
+ 665 00f8 D2B2     		uxtb	r2, r2
+ 666 00fa DA70     		strb	r2, [r3, #3]
+ 226:../Sources/ConsoleIO.c **** }
+ 667              		.loc 1 226 0
+ 668 00fc BD46     		mov	sp, r7
+ 669              		@ sp needed for prologue
+ 670 00fe 80BD     		pop	{r7, pc}
+ 671              	.L35:
+ 672              		.align	2
+ 673              	.L34:
+ 674 0100 00700440 		.word	1074032640
+ 675 0104 34100000 		.word	4148
+ 676 0108 00900440 		.word	1074040832
+ 677 010c FFF8FFFE 		.word	-16779009
+ 678 0110 00A00640 		.word	1074176000
+ 679 0114 04100000 		.word	4100
+ 680 0118 FFFFFFF3 		.word	-201326593
+ 681              		.cfi_endproc
+ 682              	.LFE4:
+ 684              		.text
+ 685              	.Letext0:
+ 686              		.file 2 "C:/Freescale/CW MCU v10.6/MCU/ARM_GCC_Support/ewl/EWL_C/include/cstdint"
+ 687              		.file 3 "C:/Users/Jared/Desktop/Freescale/source-archive/frdm-tfc/trunk/RELEASES/R1.0/FRDM-TFC/Pro
+ 688              		.file 4 "C:/Freescale/CW MCU v10.6/MCU/ARM_GCC_Support/ewl/EWL_C/include/size_t.h"
+ 689              		.file 5 "C:/Freescale/CW MCU v10.6/MCU/ARM_GCC_Support/ewl/EWL_C/include/file_struc.h"
+DEFINED SYMBOLS
+                            *ABS*:00000000 ConsoleIO.c
+C:\Users\Jared\AppData\Local\Temp\ccUcmbh2.s:18     .text.__read_console:00000000 $t
+C:\Users\Jared\AppData\Local\Temp\ccUcmbh2.s:23     .text.__read_console:00000000 __read_console
+C:\Users\Jared\AppData\Local\Temp\ccUcmbh2.s:134    .text.__read_console:00000088 $d
+C:\Users\Jared\AppData\Local\Temp\ccUcmbh2.s:139    .text.__write_console:00000000 $t
+C:\Users\Jared\AppData\Local\Temp\ccUcmbh2.s:144    .text.__write_console:00000000 __write_console
+C:\Users\Jared\AppData\Local\Temp\ccUcmbh2.s:240    .text.__write_console:00000078 $d
+C:\Users\Jared\AppData\Local\Temp\ccUcmbh2.s:245    .text.__close_console:00000000 $t
+C:\Users\Jared\AppData\Local\Temp\ccUcmbh2.s:250    .text.__close_console:00000000 __close_console
+C:\Users\Jared\AppData\Local\Temp\ccUcmbh2.s:278    .text.InitClock:00000000 $t
+C:\Users\Jared\AppData\Local\Temp\ccUcmbh2.s:282    .text.InitClock:00000000 InitClock
+C:\Users\Jared\AppData\Local\Temp\ccUcmbh2.s:496    .text.InitClock:00000140 $d
+C:\Users\Jared\AppData\Local\Temp\ccUcmbh2.s:512    .text.ConsoleIO_Init:00000000 $t
+C:\Users\Jared\AppData\Local\Temp\ccUcmbh2.s:517    .text.ConsoleIO_Init:00000000 ConsoleIO_Init
+C:\Users\Jared\AppData\Local\Temp\ccUcmbh2.s:674    .text.ConsoleIO_Init:00000100 $d
+                     .debug_frame:00000010 $d
+
+NO UNDEFINED SYMBOLS
