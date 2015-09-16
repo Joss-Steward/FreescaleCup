@@ -21,7 +21,7 @@ int main(void){
 	
 	
 	
-	int x = 1;
+	int x = 0;
 	TFC_Init();
 	
 	//TFC_SetMotorPWM(0,0);
@@ -47,7 +47,18 @@ int main(void){
 	for(;;){
 		TFC_Task();
 		if(LineScanImageReady==1){
-			
+			LineScanImageReady=0;
+			printf("\r\n");
+			printf("L:");
+			int i;
+			for(i=0;i<128;i++){
+				 printf("%X,",LineScanImage0[i]);
+			}					
+			for(i=0;i<128;i++){
+				printf("%X",LineScanImage1[i]);
+				if(i==127)printf("\r\n");//,LineScanImage1[i]);
+				else printf(",");//,LineScanImage1[i]);
+			}																	
 		}
 		if((TFC_GetDIP_Switch()&0x01)&&x==0){
 			x = 1;
