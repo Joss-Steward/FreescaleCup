@@ -21,7 +21,7 @@ int main(void){
 	
 	
 	
-	int x = 0;
+	int x = 1;
 	TFC_Init();
 	
 	//TFC_SetMotorPWM(0,0);

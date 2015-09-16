@@ -4,8 +4,8 @@ Project_Settings/Startup_Code/kinetis_sysinit.o: \
  C:/Freescale/CW\ MCU\ v10.6/MCU/ARM_GCC_Support/ewl/EWL_C/include/common.prefix \
  C:/Freescale/CW\ MCU\ v10.6/MCU/ARM_GCC_Support/ewl/EWL_C/include/ewl_c_version.h \
  ../Project_Settings/Startup_Code/kinetis_sysinit.h \
- C:/Users/Jared/Desktop/Freescale/source-archive/frdm-tfc/trunk/RELEASES/R1.0/FRDM-TFC/Project_Headers/derivative.h \
- C:/Users/Jared/Desktop/Freescale/source-archive/frdm-tfc/trunk/RELEASES/R1.0/FRDM-TFC/Project_Headers/MKL25Z4.h \
+ C:/Users/Jared/Desktop/freescalecup/FRDM-TFC/Project_Headers/derivative.h \
+ C:/Users/Jared/Desktop/freescalecup/FRDM-TFC/Project_Headers/MKL25Z4.h \
  C:/Freescale/CW\ MCU\ v10.6/MCU/ARM_GCC_Support/ewl/EWL_C/include/stdint.h \
  C:/Freescale/CW\ MCU\ v10.6/MCU/ARM_GCC_Support/ewl/EWL_C/include/ansi_parms.h \
  C:/Freescale/CW\ MCU\ v10.6/MCU/ARM_GCC_Support/ewl/EWL_C/include/ewlGlobals.h \
@@ -23,9 +23,9 @@ C:/Freescale/CW\ MCU\ v10.6/MCU/ARM_GCC_Support/ewl/EWL_C/include/ewl_c_version.
 
 ../Project_Settings/Startup_Code/kinetis_sysinit.h:
 
-C:/Users/Jared/Desktop/Freescale/source-archive/frdm-tfc/trunk/RELEASES/R1.0/FRDM-TFC/Project_Headers/derivative.h:
+C:/Users/Jared/Desktop/freescalecup/FRDM-TFC/Project_Headers/derivative.h:
 
-C:/Users/Jared/Desktop/Freescale/source-archive/frdm-tfc/trunk/RELEASES/R1.0/FRDM-TFC/Project_Headers/MKL25Z4.h:
+C:/Users/Jared/Desktop/freescalecup/FRDM-TFC/Project_Headers/MKL25Z4.h:
 
 C:/Freescale/CW\ MCU\ v10.6/MCU/ARM_GCC_Support/ewl/EWL_C/include/stdint.h:
 
