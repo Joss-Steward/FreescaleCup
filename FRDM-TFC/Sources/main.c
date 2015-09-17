@@ -1,12 +1,10 @@
 #include "derivative.h" /* include peripheral declarations */
 #include "TFC\TFC.h"
+#include "AlgoOne.h"
 
 #define DEL 50
 
-void delay(int x){
-	int i;
-	for(i = 0; i < 100000*x; i++);
-}
+
 
 void forwardFull(){
 	TFC_HBRIDGE_ENABLE;
@@ -21,9 +19,13 @@ int main(void){
 	
 	
 	
-	int x = 0;
+	//int x = 0;
 	TFC_Init();
-	
+	TFC_Task();
+	delay(5);
+	//TFC_BAT_LED0_ON;
+	for(;;)
+	run();
 	//TFC_SetMotorPWM(0,0);
 
 	
@@ -44,38 +46,38 @@ int main(void){
 //	delay(DEL);
 //	delay(DEL);
 //	forwardFull();
-	for(;;){
-		TFC_Task();
-		if(LineScanImageReady==1){
-			LineScanImageReady=0;
-			printf("\r\n");
-			printf("L:");
-			int i;
-			for(i=0;i<128;i++){
-				 printf("%X,",LineScanImage0[i]);
-			}					
-			for(i=0;i<128;i++){
-				printf("%X",LineScanImage1[i]);
-				if(i==127)printf("\r\n");//,LineScanImage1[i]);
-				else printf(",");//,LineScanImage1[i]);
-			}																	
-		}
-		if((TFC_GetDIP_Switch()&0x01)&&x==0){
-			x = 1;
-			TFC_Task();
-			delay(DEL);
-			TFC_BAT_LED0_ON;
-			delay(DEL);
-			TFC_BAT_LED1_ON;
-			delay(DEL);
-			TFC_BAT_LED2_ON;
-			delay(DEL);
-			TFC_BAT_LED3_ON;
-			delay(DEL);
-			forwardFull();
-		}
-		
-	}
+//	for(;;){
+//		TFC_Task();
+//		if(LineScanImageReady==1){
+//			LineScanImageReady=0;
+//			printf("\r\n");
+//			printf("L:");
+//			int i;
+//			for(i=0;i<128;i++){
+//				 printf("%X,",LineScanImage0[i]);
+//				 if(i%16==0&&i>0){
+//					 printf("\r\n");
+//				 }
+//			}			
+//			printf("\r\n");
+//																
+//		}
+//		if((TFC_GetDIP_Switch()&0x01)&&x==0){
+//			x = 1;
+//			TFC_Task();
+//			delay(DEL);
+//			TFC_BAT_LED0_ON;
+//			delay(DEL);
+//			TFC_BAT_LED1_ON;
+//			delay(DEL);
+//			TFC_BAT_LED2_ON;
+//			delay(DEL);
+//			TFC_BAT_LED3_ON;
+//			delay(DEL);
+//			forwardFull();
+//		}
+//		
+//	}
 	
 //	TFC_SetServo(0,-.5);
 	

@@ -2,7 +2,7 @@
 # Automatically-generated file. Do not edit!
 ################################################################################
 
-#Progress monitor hint: 18
+#Progress monitor hint: 19
 first : all
 -include ../makefile.init
 
@@ -59,7 +59,7 @@ all: warning-messages explicit-dependencies FRDM-TRC.elf secondary-outputs
 # Tool invocations
 FRDM-TRC.elf: $(OBJS) $(USER_OBJS) ../Project_Settings/Linker_Files/MKL25Z128_flash.ld
 	@echo 'Building target: $@'
-	@echo 'Executing target #19 $@'
+	@echo 'Executing target #20 $@'
 	@echo 'Invoking: ARM Ltd Windows GCC C Linker'
 	"$(ARMSourceryDirEnv)/arm-none-eabi-gcc"  $(USER_OBJS_QUOTED) $(LIBS_QUOTED) @"FRDM-TRC.args" -o"FRDM-TRC.elf"
 	@echo 'Finished building target: $@'
