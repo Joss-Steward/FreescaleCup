@@ -53,15 +53,15 @@ int main(void){
    while(!TFC_PUSH_BUTTON_0_PRESSED);
 
    /* Then set the operating mode based on the DIP switch */
-   switch(TFC_GetDIP_Switch()&0x01) {
+   switch(TFC_GetDIP_Switch()&0x03) {
       default:
       case 0:
-   	 TFC_BAT_LED1_ON;
+    	 TFC_BAT_LED1_ON;
          // In the default mode, simply read out the camera forever
          printCamera();
          break;
       case 1:
-   	 TFC_BAT_LED2_ON;
+    	 TFC_BAT_LED2_ON;
          TFC_HBRIDGE_ENABLE;
          // In this mode, we will actually run the analysis and drive.
          while(1) {
@@ -69,6 +69,12 @@ int main(void){
             run();
          }
          break;
+      case 2:
+    	 // In this mode, we drive forward a little bit.
+    	 TFC_BAT_LED3_ON;	
+    	 delay(300);
+    	 forwardFull();
+    	 break;
    }
 
    TFC_SetMotorPWM(0, 0);
