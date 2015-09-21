@@ -53,7 +53,7 @@ int main(void){
    while(!TFC_PUSH_BUTTON_0_PRESSED);
 
    /* Then set the operating mode based on the DIP switch */
-   switch((TFC_GetDIP_Switch()>>1)&0x03) {
+   switch(TFC_GetDIP_Switch()&0x01) {
       default:
       case 0:
    	 TFC_BAT_LED1_ON;
