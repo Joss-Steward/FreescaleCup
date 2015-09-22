@@ -1,0 +1,587 @@
+   1              		.cpu cortex-m0
+   2              		.fpu softvfp
+   3              		.eabi_attribute 20, 1
+   4              		.eabi_attribute 21, 1
+   5              		.eabi_attribute 23, 3
+   6              		.eabi_attribute 24, 1
+   7              		.eabi_attribute 25, 1
+   8              		.eabi_attribute 26, 1
+   9              		.eabi_attribute 30, 6
+  10              		.eabi_attribute 34, 0
+  11              		.eabi_attribute 18, 4
+  12              		.code	16
+  13              		.file	"AlgoOne.c"
+  14              		.text
+  15              	.Ltext0:
+  16              		.cfi_sections	.debug_frame
+  17              		.section	.text.delay,"ax",%progbits
+  18              		.align	2
+  19              		.global	delay
+  20              		.code	16
+  21              		.thumb_func
+  23              	delay:
+  24              	.LFB0:
+  25              		.file 1 "../Sources/AlgoOne.c"
+   1:../Sources/AlgoOne.c **** /*
+   2:../Sources/AlgoOne.c ****  * AlgoOne.c
+   3:../Sources/AlgoOne.c ****  *
+   4:../Sources/AlgoOne.c ****  *  Created on: Sep 17, 2015
+   5:../Sources/AlgoOne.c ****  *      Author: Jared
+   6:../Sources/AlgoOne.c ****  */
+   7:../Sources/AlgoOne.c **** 
+   8:../Sources/AlgoOne.c **** #include "derivative.h" /* include peripheral declarations */
+   9:../Sources/AlgoOne.c **** #include "TFC\TFC.h"
+  10:../Sources/AlgoOne.c **** 
+  11:../Sources/AlgoOne.c **** #define START_PIXEL 10
+  12:../Sources/AlgoOne.c **** #define STOP_PIXEL 118
+  13:../Sources/AlgoOne.c **** 
+  14:../Sources/AlgoOne.c **** void delay(int x){
+  26              		.loc 1 14 0
+  27              		.cfi_startproc
+  28 0000 80B5     		push	{r7, lr}
+  29              	.LCFI0:
+  30              		.cfi_def_cfa_offset 8
+  31              		.cfi_offset 7, -8
+  32              		.cfi_offset 14, -4
+  33 0002 84B0     		sub	sp, sp, #16
+  34              	.LCFI1:
+  35              		.cfi_def_cfa_offset 24
+  36 0004 00AF     		add	r7, sp, #0
+  37              	.LCFI2:
+  38              		.cfi_def_cfa_register 7
+  39 0006 7860     		str	r0, [r7, #4]
+  15:../Sources/AlgoOne.c ****    int i;
+  16:../Sources/AlgoOne.c ****    for(i = 0; i < 100000*x; i++);
+  40              		.loc 1 16 0
+  41 0008 0023     		mov	r3, #0
+  42 000a FB60     		str	r3, [r7, #12]
+  43 000c 02E0     		b	.L2
+  44              	.L3:
+  45              		.loc 1 16 0 is_stmt 0
+  46 000e FB68     		ldr	r3, [r7, #12]
+  47 0010 0133     		add	r3, r3, #1
+  48 0012 FB60     		str	r3, [r7, #12]
+  49              	.L2:
+  50              		.loc 1 16 0
+  51 0014 7B68     		ldr	r3, [r7, #4]
+  52 0016 044A     		ldr	r2, .L4
+  53 0018 5A43     		mul	r2, r3
+  54 001a FB68     		ldr	r3, [r7, #12]
+  55 001c 9A42     		cmp	r2, r3
+  56 001e F6DC     		bgt	.L3
+  17:../Sources/AlgoOne.c **** }
+  57              		.loc 1 17 0 is_stmt 1
+  58 0020 BD46     		mov	sp, r7
+  59 0022 04B0     		add	sp, sp, #16
+  60              		@ sp needed for prologue
+  61 0024 80BD     		pop	{r7, pc}
+  62              	.L5:
+  63 0026 C046     		.align	2
+  64              	.L4:
+  65 0028 A0860100 		.word	100000
+  66              		.cfi_endproc
+  67              	.LFE0:
+  69              		.global	__aeabi_idiv
+  70              		.section	.rodata
+  71              		.align	2
+  72              	.LC2:
+  73 0000 256400   		.ascii	"%d\000"
+  74 0003 00       		.align	2
+  75              	.LC4:
+  76 0004 0D00     		.ascii	"\015\000"
+  77              		.global	__aeabi_i2f
+  78              		.global	__aeabi_fdiv
+  79              		.global	__aeabi_fsub
+  80 0006 0000     		.section	.text.run,"ax",%progbits
+  81              		.align	2
+  82              		.global	run
+  83              		.code	16
+  84              		.thumb_func
+  86              	run:
+  87              	.LFB1:
+  18:../Sources/AlgoOne.c **** 
+  19:../Sources/AlgoOne.c **** void run(){
+  88              		.loc 1 19 0
+  89              		.cfi_startproc
+  90 0000 90B5     		push	{r4, r7, lr}
+  91              	.LCFI3:
+  92              		.cfi_def_cfa_offset 12
+  93              		.cfi_offset 4, -12
+  94              		.cfi_offset 7, -8
+  95              		.cfi_offset 14, -4
+  96 0002 F7B0     		sub	sp, sp, #476
+  97              	.LCFI4:
+  98              		.cfi_def_cfa_offset 488
+  99 0004 00AF     		add	r7, sp, #0
+ 100              	.LCFI5:
+ 101              		.cfi_def_cfa_register 7
+  20:../Sources/AlgoOne.c **** 
+  21:../Sources/AlgoOne.c ****    int i;
+  22:../Sources/AlgoOne.c **** 
+  23:../Sources/AlgoOne.c ****    //Variables for calculating average light levels
+  24:../Sources/AlgoOne.c ****    long int sum = 0;
+ 102              		.loc 1 24 0
+ 103 0006 0023     		mov	r3, #0
+ 104 0008 E821     		mov	r1, #232
+ 105 000a 4900     		lsl	r1, r1, #1
+ 106 000c C919     		add	r1, r1, r7
+ 107 000e 0B60     		str	r3, [r1]
+  25:../Sources/AlgoOne.c ****    int avg;
+  26:../Sources/AlgoOne.c **** 
+  27:../Sources/AlgoOne.c ****    //Array recording if pixel light level is below average
+  28:../Sources/AlgoOne.c ****    int belowAvg[ STOP_PIXEL - START_PIXEL + 1 ];
+  29:../Sources/AlgoOne.c **** 
+  30:../Sources/AlgoOne.c ****    //Variables for calculating center of the pixels below average and difference from center of all
+  31:../Sources/AlgoOne.c ****    int sumBelowAvg = 0;
+ 108              		.loc 1 31 0
+ 109 0010 0023     		mov	r3, #0
+ 110 0012 E622     		mov	r2, #230
+ 111 0014 5200     		lsl	r2, r2, #1
+ 112 0016 D219     		add	r2, r2, r7
+ 113 0018 1360     		str	r3, [r2]
+  32:../Sources/AlgoOne.c ****    int totBelowAvg = 0;
+ 114              		.loc 1 32 0
+ 115 001a 0023     		mov	r3, #0
+ 116 001c E421     		mov	r1, #228
+ 117 001e 4900     		lsl	r1, r1, #1
+ 118 0020 C919     		add	r1, r1, r7
+ 119 0022 0B60     		str	r3, [r1]
+  33:../Sources/AlgoOne.c ****    int centerBelowAvg;
+  34:../Sources/AlgoOne.c ****    int center = ( STOP_PIXEL - START_PIXEL + 1) / 2;
+ 120              		.loc 1 34 0
+ 121 0024 3623     		mov	r3, #54
+ 122 0026 E222     		mov	r2, #226
+ 123 0028 5200     		lsl	r2, r2, #1
+ 124 002a D219     		add	r2, r2, r7
+ 125 002c 1360     		str	r3, [r2]
+  35:../Sources/AlgoOne.c ****    int diffCenter;
+  36:../Sources/AlgoOne.c ****    float diff;
+  37:../Sources/AlgoOne.c **** 
+  38:../Sources/AlgoOne.c **** 
+  39:../Sources/AlgoOne.c ****    if( LineScanImageReady == 1 ){
+ 126              		.loc 1 39 0
+ 127 002e 984B     		ldr	r3, .L19
+ 128 0030 1B78     		ldrb	r3, [r3]
+ 129 0032 DBB2     		uxtb	r3, r3
+ 130 0034 012B     		cmp	r3, #1
+ 131 0036 00D0     		beq	.LCB89
+ 132 0038 A5E0     		b	.L7	@long jump
+ 133              	.LCB89:
+  40:../Sources/AlgoOne.c ****       LineScanImageReady = 0;
+ 134              		.loc 1 40 0
+ 135 003a 954B     		ldr	r3, .L19
+ 136 003c 0022     		mov	r2, #0
+ 137 003e 1A70     		strb	r2, [r3]
+  41:../Sources/AlgoOne.c **** 
+  42:../Sources/AlgoOne.c ****       //Adds each pixels light value to the total
+  43:../Sources/AlgoOne.c ****       for( i = START_PIXEL; i < STOP_PIXEL; i++ ){
+ 138              		.loc 1 43 0
+ 139 0040 0A23     		mov	r3, #10
+ 140 0042 EA21     		mov	r1, #234
+ 141 0044 4900     		lsl	r1, r1, #1
+ 142 0046 C919     		add	r1, r1, r7
+ 143 0048 0B60     		str	r3, [r1]
+ 144 004a 1BE0     		b	.L8
+ 145              	.L9:
+  44:../Sources/AlgoOne.c ****          sum += LineScanImage0[i];
+ 146              		.loc 1 44 0
+ 147 004c 914B     		ldr	r3, .L19+4
+ 148 004e 1A68     		ldr	r2, [r3]
+ 149 0050 EA21     		mov	r1, #234
+ 150 0052 4900     		lsl	r1, r1, #1
+ 151 0054 C919     		add	r1, r1, r7
+ 152 0056 0B68     		ldr	r3, [r1]
+ 153 0058 5B00     		lsl	r3, r3, #1
+ 154 005a D318     		add	r3, r2, r3
+ 155 005c 1B88     		ldrh	r3, [r3]
+ 156 005e 9BB2     		uxth	r3, r3
+ 157 0060 E821     		mov	r1, #232
+ 158 0062 4900     		lsl	r1, r1, #1
+ 159 0064 C919     		add	r1, r1, r7
+ 160 0066 0A68     		ldr	r2, [r1]
+ 161 0068 D318     		add	r3, r2, r3
+ 162 006a E822     		mov	r2, #232
+ 163 006c 5200     		lsl	r2, r2, #1
+ 164 006e D219     		add	r2, r2, r7
+ 165 0070 1360     		str	r3, [r2]
+  43:../Sources/AlgoOne.c ****       for( i = START_PIXEL; i < STOP_PIXEL; i++ ){
+ 166              		.loc 1 43 0
+ 167 0072 EA21     		mov	r1, #234
+ 168 0074 4900     		lsl	r1, r1, #1
+ 169 0076 C919     		add	r1, r1, r7
+ 170 0078 0B68     		ldr	r3, [r1]
+ 171 007a 0133     		add	r3, r3, #1
+ 172 007c EA22     		mov	r2, #234
+ 173 007e 5200     		lsl	r2, r2, #1
+ 174 0080 D219     		add	r2, r2, r7
+ 175 0082 1360     		str	r3, [r2]
+ 176              	.L8:
+  43:../Sources/AlgoOne.c ****       for( i = START_PIXEL; i < STOP_PIXEL; i++ ){
+ 177              		.loc 1 43 0 is_stmt 0
+ 178 0084 EA21     		mov	r1, #234
+ 179 0086 4900     		lsl	r1, r1, #1
+ 180 0088 C919     		add	r1, r1, r7
+ 181 008a 0B68     		ldr	r3, [r1]
+ 182 008c 752B     		cmp	r3, #117
+ 183 008e DDDD     		ble	.L9
+  45:../Sources/AlgoOne.c ****       }
+  46:../Sources/AlgoOne.c **** 
+  47:../Sources/AlgoOne.c ****       //Calculates average light value
+  48:../Sources/AlgoOne.c ****       avg = sum / ( STOP_PIXEL - START_PIXEL );
+ 184              		.loc 1 48 0 is_stmt 1
+ 185 0090 E822     		mov	r2, #232
+ 186 0092 5200     		lsl	r2, r2, #1
+ 187 0094 D219     		add	r2, r2, r7
+ 188 0096 1368     		ldr	r3, [r2]
+ 189 0098 181C     		mov	r0, r3
+ 190 009a 6C21     		mov	r1, #108
+ 191 009c FFF7FEFF 		bl	__aeabi_idiv
+ 192 00a0 031C     		mov	r3, r0
+ 193 00a2 E021     		mov	r1, #224
+ 194 00a4 4900     		lsl	r1, r1, #1
+ 195 00a6 C919     		add	r1, r1, r7
+ 196 00a8 0B60     		str	r3, [r1]
+  49:../Sources/AlgoOne.c **** 
+  50:../Sources/AlgoOne.c ****       //Calculates which pixels are below average and fills the array accordingly
+  51:../Sources/AlgoOne.c ****       for( i = START_PIXEL; i < STOP_PIXEL; i++ ){
+ 197              		.loc 1 51 0
+ 198 00aa 0A23     		mov	r3, #10
+ 199 00ac EA22     		mov	r2, #234
+ 200 00ae 5200     		lsl	r2, r2, #1
+ 201 00b0 D219     		add	r2, r2, r7
+ 202 00b2 1360     		str	r3, [r2]
+ 203 00b4 36E0     		b	.L10
+ 204              	.L13:
+  52:../Sources/AlgoOne.c **** 
+  53:../Sources/AlgoOne.c ****          //If pixel is below average sets corresponding array element to 1
+  54:../Sources/AlgoOne.c ****          if( LineScanImage0[i] < avg ){
+ 205              		.loc 1 54 0
+ 206 00b6 774B     		ldr	r3, .L19+4
+ 207 00b8 1A68     		ldr	r2, [r3]
+ 208 00ba EA21     		mov	r1, #234
+ 209 00bc 4900     		lsl	r1, r1, #1
+ 210 00be C919     		add	r1, r1, r7
+ 211 00c0 0B68     		ldr	r3, [r1]
+ 212 00c2 5B00     		lsl	r3, r3, #1
+ 213 00c4 D318     		add	r3, r2, r3
+ 214 00c6 1B88     		ldrh	r3, [r3]
+ 215 00c8 9BB2     		uxth	r3, r3
+ 216 00ca 1A1C     		mov	r2, r3
+ 217 00cc E021     		mov	r1, #224
+ 218 00ce 4900     		lsl	r1, r1, #1
+ 219 00d0 C919     		add	r1, r1, r7
+ 220 00d2 0B68     		ldr	r3, [r1]
+ 221 00d4 9A42     		cmp	r2, r3
+ 222 00d6 0EDA     		bge	.L11
+  55:../Sources/AlgoOne.c ****             belowAvg[ i - START_PIXEL ] = 1;
+ 223              		.loc 1 55 0
+ 224 00d8 EA22     		mov	r2, #234
+ 225 00da 5200     		lsl	r2, r2, #1
+ 226 00dc D219     		add	r2, r2, r7
+ 227 00de 1368     		ldr	r3, [r2]
+ 228 00e0 1A1C     		mov	r2, r3
+ 229 00e2 0A3A     		sub	r2, r2, #10
+ 230 00e4 6C4B     		ldr	r3, .L19+8
+ 231 00e6 EC21     		mov	r1, #236
+ 232 00e8 4900     		lsl	r1, r1, #1
+ 233 00ea C919     		add	r1, r1, r7
+ 234 00ec CB18     		add	r3, r1, r3
+ 235 00ee 9200     		lsl	r2, r2, #2
+ 236 00f0 0121     		mov	r1, #1
+ 237 00f2 D150     		str	r1, [r2, r3]
+ 238 00f4 0DE0     		b	.L12
+ 239              	.L11:
+  56:../Sources/AlgoOne.c ****          }
+  57:../Sources/AlgoOne.c **** 
+  58:../Sources/AlgoOne.c ****          //If pixel is above average sets corresponding array element to 0
+  59:../Sources/AlgoOne.c ****          else {
+  60:../Sources/AlgoOne.c ****             belowAvg[ i - START_PIXEL ] = 0;
+ 240              		.loc 1 60 0
+ 241 00f6 EA22     		mov	r2, #234
+ 242 00f8 5200     		lsl	r2, r2, #1
+ 243 00fa D219     		add	r2, r2, r7
+ 244 00fc 1368     		ldr	r3, [r2]
+ 245 00fe 1A1C     		mov	r2, r3
+ 246 0100 0A3A     		sub	r2, r2, #10
+ 247 0102 654B     		ldr	r3, .L19+8
+ 248 0104 EC21     		mov	r1, #236
+ 249 0106 4900     		lsl	r1, r1, #1
+ 250 0108 C919     		add	r1, r1, r7
+ 251 010a CB18     		add	r3, r1, r3
+ 252 010c 9200     		lsl	r2, r2, #2
+ 253 010e 0021     		mov	r1, #0
+ 254 0110 D150     		str	r1, [r2, r3]
+ 255              	.L12:
+  51:../Sources/AlgoOne.c ****       for( i = START_PIXEL; i < STOP_PIXEL; i++ ){
+ 256              		.loc 1 51 0
+ 257 0112 EA22     		mov	r2, #234
+ 258 0114 5200     		lsl	r2, r2, #1
+ 259 0116 D219     		add	r2, r2, r7
+ 260 0118 1368     		ldr	r3, [r2]
+ 261 011a 0133     		add	r3, r3, #1
+ 262 011c EA21     		mov	r1, #234
+ 263 011e 4900     		lsl	r1, r1, #1
+ 264 0120 C919     		add	r1, r1, r7
+ 265 0122 0B60     		str	r3, [r1]
+ 266              	.L10:
+  51:../Sources/AlgoOne.c ****       for( i = START_PIXEL; i < STOP_PIXEL; i++ ){
+ 267              		.loc 1 51 0 is_stmt 0
+ 268 0124 EA22     		mov	r2, #234
+ 269 0126 5200     		lsl	r2, r2, #1
+ 270 0128 D219     		add	r2, r2, r7
+ 271 012a 1368     		ldr	r3, [r2]
+ 272 012c 752B     		cmp	r3, #117
+ 273 012e C2DD     		ble	.L13
+  61:../Sources/AlgoOne.c ****          }
+  62:../Sources/AlgoOne.c ****       }
+  63:../Sources/AlgoOne.c **** 
+  64:../Sources/AlgoOne.c ****       //Outputs the array over serial
+  65:../Sources/AlgoOne.c ****       for( i = START_PIXEL; i < STOP_PIXEL; i++ ){
+ 274              		.loc 1 65 0 is_stmt 1
+ 275 0130 0A23     		mov	r3, #10
+ 276 0132 EA21     		mov	r1, #234
+ 277 0134 4900     		lsl	r1, r1, #1
+ 278 0136 C919     		add	r1, r1, r7
+ 279 0138 0B60     		str	r3, [r1]
+ 280 013a 1AE0     		b	.L14
+ 281              	.L15:
+  66:../Sources/AlgoOne.c ****          printf( "%d", belowAvg[ i - START_PIXEL ] );
+ 282              		.loc 1 66 0
+ 283 013c EA22     		mov	r2, #234
+ 284 013e 5200     		lsl	r2, r2, #1
+ 285 0140 D219     		add	r2, r2, r7
+ 286 0142 1368     		ldr	r3, [r2]
+ 287 0144 1A1C     		mov	r2, r3
+ 288 0146 0A3A     		sub	r2, r2, #10
+ 289 0148 534B     		ldr	r3, .L19+8
+ 290 014a EC21     		mov	r1, #236
+ 291 014c 4900     		lsl	r1, r1, #1
+ 292 014e C919     		add	r1, r1, r7
+ 293 0150 CB18     		add	r3, r1, r3
+ 294 0152 9200     		lsl	r2, r2, #2
+ 295 0154 D358     		ldr	r3, [r2, r3]
+ 296 0156 514A     		ldr	r2, .L19+12
+ 297 0158 101C     		mov	r0, r2
+ 298 015a 191C     		mov	r1, r3
+ 299 015c FFF7FEFF 		bl	printf
+  65:../Sources/AlgoOne.c ****       for( i = START_PIXEL; i < STOP_PIXEL; i++ ){
+ 300              		.loc 1 65 0
+ 301 0160 EA22     		mov	r2, #234
+ 302 0162 5200     		lsl	r2, r2, #1
+ 303 0164 D219     		add	r2, r2, r7
+ 304 0166 1368     		ldr	r3, [r2]
+ 305 0168 0133     		add	r3, r3, #1
+ 306 016a EA21     		mov	r1, #234
+ 307 016c 4900     		lsl	r1, r1, #1
+ 308 016e C919     		add	r1, r1, r7
+ 309 0170 0B60     		str	r3, [r1]
+ 310              	.L14:
+  65:../Sources/AlgoOne.c ****       for( i = START_PIXEL; i < STOP_PIXEL; i++ ){
+ 311              		.loc 1 65 0 is_stmt 0
+ 312 0172 EA22     		mov	r2, #234
+ 313 0174 5200     		lsl	r2, r2, #1
+ 314 0176 D219     		add	r2, r2, r7
+ 315 0178 1368     		ldr	r3, [r2]
+ 316 017a 752B     		cmp	r3, #117
+ 317 017c DEDD     		ble	.L15
+  67:../Sources/AlgoOne.c ****       }
+  68:../Sources/AlgoOne.c ****       printf( "\r\n" );
+ 318              		.loc 1 68 0 is_stmt 1
+ 319 017e 484B     		ldr	r3, .L19+16
+ 320 0180 181C     		mov	r0, r3
+ 321 0182 FFF7FEFF 		bl	puts
+ 322              	.L7:
+  69:../Sources/AlgoOne.c ****    }
+  70:../Sources/AlgoOne.c **** 
+  71:../Sources/AlgoOne.c ****    //Adds all the pixels below average
+  72:../Sources/AlgoOne.c ****    for( i = 0; i < STOP_PIXEL - START_PIXEL + 1; i++){
+ 323              		.loc 1 72 0
+ 324 0186 0023     		mov	r3, #0
+ 325 0188 EA21     		mov	r1, #234
+ 326 018a 4900     		lsl	r1, r1, #1
+ 327 018c C919     		add	r1, r1, r7
+ 328 018e 0B60     		str	r3, [r1]
+ 329 0190 2BE0     		b	.L16
+ 330              	.L18:
+  73:../Sources/AlgoOne.c ****       if( belowAvg[i] ){
+ 331              		.loc 1 73 0
+ 332 0192 414B     		ldr	r3, .L19+8
+ 333 0194 EC22     		mov	r2, #236
+ 334 0196 5200     		lsl	r2, r2, #1
+ 335 0198 D219     		add	r2, r2, r7
+ 336 019a D318     		add	r3, r2, r3
+ 337 019c EA21     		mov	r1, #234
+ 338 019e 4900     		lsl	r1, r1, #1
+ 339 01a0 C919     		add	r1, r1, r7
+ 340 01a2 0A68     		ldr	r2, [r1]
+ 341 01a4 9200     		lsl	r2, r2, #2
+ 342 01a6 D358     		ldr	r3, [r2, r3]
+ 343 01a8 002B     		cmp	r3, #0
+ 344 01aa 15D0     		beq	.L17
+  74:../Sources/AlgoOne.c ****          totBelowAvg++;
+ 345              		.loc 1 74 0
+ 346 01ac E422     		mov	r2, #228
+ 347 01ae 5200     		lsl	r2, r2, #1
+ 348 01b0 D219     		add	r2, r2, r7
+ 349 01b2 1368     		ldr	r3, [r2]
+ 350 01b4 0133     		add	r3, r3, #1
+ 351 01b6 E421     		mov	r1, #228
+ 352 01b8 4900     		lsl	r1, r1, #1
+ 353 01ba C919     		add	r1, r1, r7
+ 354 01bc 0B60     		str	r3, [r1]
+  75:../Sources/AlgoOne.c ****          sumBelowAvg += i;
+ 355              		.loc 1 75 0
+ 356 01be E623     		mov	r3, #230
+ 357 01c0 5B00     		lsl	r3, r3, #1
+ 358 01c2 DB19     		add	r3, r3, r7
+ 359 01c4 1A68     		ldr	r2, [r3]
+ 360 01c6 EA21     		mov	r1, #234
+ 361 01c8 4900     		lsl	r1, r1, #1
+ 362 01ca C919     		add	r1, r1, r7
+ 363 01cc 0B68     		ldr	r3, [r1]
+ 364 01ce D318     		add	r3, r2, r3
+ 365 01d0 E622     		mov	r2, #230
+ 366 01d2 5200     		lsl	r2, r2, #1
+ 367 01d4 D219     		add	r2, r2, r7
+ 368 01d6 1360     		str	r3, [r2]
+ 369              	.L17:
+  72:../Sources/AlgoOne.c ****    for( i = 0; i < STOP_PIXEL - START_PIXEL + 1; i++){
+ 370              		.loc 1 72 0
+ 371 01d8 EA21     		mov	r1, #234
+ 372 01da 4900     		lsl	r1, r1, #1
+ 373 01dc C919     		add	r1, r1, r7
+ 374 01de 0B68     		ldr	r3, [r1]
+ 375 01e0 0133     		add	r3, r3, #1
+ 376 01e2 EA22     		mov	r2, #234
+ 377 01e4 5200     		lsl	r2, r2, #1
+ 378 01e6 D219     		add	r2, r2, r7
+ 379 01e8 1360     		str	r3, [r2]
+ 380              	.L16:
+  72:../Sources/AlgoOne.c ****    for( i = 0; i < STOP_PIXEL - START_PIXEL + 1; i++){
+ 381              		.loc 1 72 0 is_stmt 0
+ 382 01ea EA21     		mov	r1, #234
+ 383 01ec 4900     		lsl	r1, r1, #1
+ 384 01ee C919     		add	r1, r1, r7
+ 385 01f0 0B68     		ldr	r3, [r1]
+ 386 01f2 6C2B     		cmp	r3, #108
+ 387 01f4 CDDD     		ble	.L18
+  76:../Sources/AlgoOne.c ****       }
+  77:../Sources/AlgoOne.c ****    }
+  78:../Sources/AlgoOne.c **** 
+  79:../Sources/AlgoOne.c ****    centerBelowAvg = sumBelowAvg / totBelowAvg; //calculates the center of the below average pixels
+ 388              		.loc 1 79 0 is_stmt 1
+ 389 01f6 E622     		mov	r2, #230
+ 390 01f8 5200     		lsl	r2, r2, #1
+ 391 01fa D219     		add	r2, r2, r7
+ 392 01fc 1068     		ldr	r0, [r2]
+ 393 01fe E423     		mov	r3, #228
+ 394 0200 5B00     		lsl	r3, r3, #1
+ 395 0202 DB19     		add	r3, r3, r7
+ 396 0204 1968     		ldr	r1, [r3]
+ 397 0206 FFF7FEFF 		bl	__aeabi_idiv
+ 398 020a 031C     		mov	r3, r0
+ 399 020c DE21     		mov	r1, #222
+ 400 020e 4900     		lsl	r1, r1, #1
+ 401 0210 C919     		add	r1, r1, r7
+ 402 0212 0B60     		str	r3, [r1]
+  80:../Sources/AlgoOne.c ****    diffCenter = center - centerBelowAvg;  //Clalculates the difference of the center of the below a
+ 403              		.loc 1 80 0
+ 404 0214 E223     		mov	r3, #226
+ 405 0216 5B00     		lsl	r3, r3, #1
+ 406 0218 DB19     		add	r3, r3, r7
+ 407 021a 1A68     		ldr	r2, [r3]
+ 408 021c DE21     		mov	r1, #222
+ 409 021e 4900     		lsl	r1, r1, #1
+ 410 0220 C919     		add	r1, r1, r7
+ 411 0222 0B68     		ldr	r3, [r1]
+ 412 0224 D31A     		sub	r3, r2, r3
+ 413 0226 DC22     		mov	r2, #220
+ 414 0228 5200     		lsl	r2, r2, #1
+ 415 022a D219     		add	r2, r2, r7
+ 416 022c 1360     		str	r3, [r2]
+  81:../Sources/AlgoOne.c ****    diff = (float)( center - diffCenter ) / (float)center; //Calculates "percent" difference. Ranges
+ 417              		.loc 1 81 0
+ 418 022e E223     		mov	r3, #226
+ 419 0230 5B00     		lsl	r3, r3, #1
+ 420 0232 DB19     		add	r3, r3, r7
+ 421 0234 1A68     		ldr	r2, [r3]
+ 422 0236 DC21     		mov	r1, #220
+ 423 0238 4900     		lsl	r1, r1, #1
+ 424 023a C919     		add	r1, r1, r7
+ 425 023c 0B68     		ldr	r3, [r1]
+ 426 023e D31A     		sub	r3, r2, r3
+ 427 0240 181C     		mov	r0, r3
+ 428 0242 FFF7FEFF 		bl	__aeabi_i2f
+ 429 0246 041C     		add	r4, r0, #0
+ 430 0248 E222     		mov	r2, #226
+ 431 024a 5200     		lsl	r2, r2, #1
+ 432 024c D219     		add	r2, r2, r7
+ 433 024e 1068     		ldr	r0, [r2]
+ 434 0250 FFF7FEFF 		bl	__aeabi_i2f
+ 435 0254 031C     		add	r3, r0, #0
+ 436 0256 201C     		add	r0, r4, #0
+ 437 0258 191C     		add	r1, r3, #0
+ 438 025a FFF7FEFF 		bl	__aeabi_fdiv
+ 439 025e 031C     		add	r3, r0, #0
+ 440 0260 DA21     		mov	r1, #218
+ 441 0262 4900     		lsl	r1, r1, #1
+ 442 0264 C919     		add	r1, r1, r7
+ 443 0266 0B60     		str	r3, [r1]
+  82:../Sources/AlgoOne.c ****    TFC_SetServo(0,diff - 1); //Adjusts servo accordingly
+ 444              		.loc 1 82 0
+ 445 0268 DA22     		mov	r2, #218
+ 446 026a 5200     		lsl	r2, r2, #1
+ 447 026c D219     		add	r2, r2, r7
+ 448 026e 1068     		ldr	r0, [r2]
+ 449 0270 FE21     		mov	r1, #254
+ 450 0272 8905     		lsl	r1, r1, #22
+ 451 0274 FFF7FEFF 		bl	__aeabi_fsub
+ 452 0278 031C     		add	r3, r0, #0
+ 453 027a 0020     		mov	r0, #0
+ 454 027c 191C     		add	r1, r3, #0
+ 455 027e FFF7FEFF 		bl	TFC_SetServo
+  83:../Sources/AlgoOne.c ****    delay(2); //Allows servo time to move
+ 456              		.loc 1 83 0
+ 457 0282 0220     		mov	r0, #2
+ 458 0284 FFF7FEFF 		bl	delay
+  84:../Sources/AlgoOne.c **** }
+ 459              		.loc 1 84 0
+ 460 0288 BD46     		mov	sp, r7
+ 461 028a 77B0     		add	sp, sp, #476
+ 462              		@ sp needed for prologue
+ 463 028c 90BD     		pop	{r4, r7, pc}
+ 464              	.L20:
+ 465 028e C046     		.align	2
+ 466              	.L19:
+ 467 0290 00000000 		.word	LineScanImageReady
+ 468 0294 00000000 		.word	LineScanImage0
+ 469 0298 28FEFFFF 		.word	-472
+ 470 029c 00000000 		.word	.LC2
+ 471 02a0 04000000 		.word	.LC4
+ 472              		.cfi_endproc
+ 473              	.LFE1:
+ 475              		.text
+ 476              	.Letext0:
+ 477              		.file 2 "C:/Freescale/CW MCU v10.6/MCU/ARM_GCC_Support/ewl/EWL_C/include/cstdint"
+ 478              		.file 3 "C:/Users/Jared/Desktop/freescalecup/FRDM-TFC/Project_Headers/TFC\\TFC_LineScanCamera.h"
+DEFINED SYMBOLS
+                            *ABS*:00000000 AlgoOne.c
+C:\Users\Jared\AppData\Local\Temp\cclDkDER.s:18     .text.delay:00000000 $t
+C:\Users\Jared\AppData\Local\Temp\cclDkDER.s:23     .text.delay:00000000 delay
+C:\Users\Jared\AppData\Local\Temp\cclDkDER.s:65     .text.delay:00000028 $d
+C:\Users\Jared\AppData\Local\Temp\cclDkDER.s:71     .rodata:00000000 $d
+C:\Users\Jared\AppData\Local\Temp\cclDkDER.s:81     .text.run:00000000 $t
+C:\Users\Jared\AppData\Local\Temp\cclDkDER.s:86     .text.run:00000000 run
+C:\Users\Jared\AppData\Local\Temp\cclDkDER.s:467    .text.run:00000290 $d
+                     .debug_frame:00000010 $d
+
+UNDEFINED SYMBOLS
+__aeabi_idiv
+__aeabi_i2f
+__aeabi_fdiv
+__aeabi_fsub
+printf
+puts
+TFC_SetServo
+LineScanImageReady
+LineScanImage0
