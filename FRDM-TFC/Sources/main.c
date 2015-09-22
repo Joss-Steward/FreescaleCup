@@ -3,6 +3,9 @@
 #include "AlgoOne.h"
 
 #define DEL 50
+#define START_PIXEL 10
+#define STOP_PIXEL 118
+
 
 void forwardFull(){
    TFC_HBRIDGE_ENABLE;
@@ -42,9 +45,45 @@ void printCamera() {
    }
 }
 
+
+void runToLine(){
+	
+	long int sum;
+	int avg = 0;
+	int i;
+	
+	
+	
+	while(1){
+		TFC_Task();
+		sum = 0;
+		TFC_SetServo(0,-.15);
+		if( LineScanImageReady == 1 ){
+			  LineScanImageReady = 0;
+			  
+			  //Adds each pixels light value to the total
+			  for( i = START_PIXEL; i < STOP_PIXEL; i++ ){
+				  sum += LineScanImage0[i];
+			  }
+	
+			  //Calculates average light value
+			  avg = sum / ( STOP_PIXEL - START_PIXEL );
+		}
+		printf("\n%X", avg);
+		if(avg>>11&&0x01){
+			TFC_SetMotorPWM(.3, .3);
+		}
+		else{
+			TFC_SetMotorPWM(0, 0);
+			TFC_HBRIDGE_DISABLE;
+			while(1);
+		}
+	}
+}
+
 int main(void){
    TFC_Init();
-   TFC_SetMotorPWN(0, 0);
+   TFC_SetMotorPWM(0, 0);
    TFC_HBRIDGE_DISABLE;
 
    /* After power on, Wait for a button press before doing anything.
@@ -74,6 +113,13 @@ int main(void){
     	 TFC_BAT_LED3_ON;	
     	 delay(300);
     	 forwardFull();
+    	 break;
+      case 3:
+    	 // In this mode, we drive forward until the input is below a threshold
+    	 TFC_BAT_LED3_ON;
+    	 TFC_BAT_LED2_ON;
+         TFC_HBRIDGE_ENABLE;
+    	 runToLine();
     	 break;
    }
 
