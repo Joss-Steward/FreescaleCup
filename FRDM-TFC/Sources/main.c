@@ -1,6 +1,6 @@
 #include "derivative.h" /* include peripheral declarations */
 #include "TFC\TFC.h"
-#include "AlgoOne.h"
+#include "Algorithms.h"
 #include "Common.h"
 
 #define DEL 50
@@ -122,6 +122,18 @@ int main(void){
          TFC_HBRIDGE_ENABLE;
     	 runToLine();
     	 break;
+      case 4:
+    	  TFC_BAT_LED0_ON;
+    	  TFC_HBRIDGE_ENABLE;
+    	  while(1) {
+    		  TFC_Task();
+    	      algo_two();
+    	      TFC_SetMotorPWM(.3, .3);
+    	      if(TFC_PUSH_BUTTON_0_PRESSED)break;
+    	  }
+    	  
+    	  break;
+    	  
    }
 
    TFC_SetMotorPWM(0, 0);

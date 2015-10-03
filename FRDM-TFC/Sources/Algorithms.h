@@ -9,5 +9,6 @@
 #define ALGOONE_H_
 
 void algo_one();
+void algo_two();
 
 #endif /* ALGOONE_H_ */

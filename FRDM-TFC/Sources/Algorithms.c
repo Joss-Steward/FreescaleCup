@@ -80,3 +80,20 @@ void algo_one(){
    TFC_SetServo(0,diff - 1); //Adjusts servo accordingly
    delay(2); //Allows servo time to move
 }
+
+void algo_two(){
+	int i;
+	
+	double sum;
+	float mid_point = ( STOP_PIXEL - START_PIXEL ) / 2 + START_PIXEL;
+	
+	 if( LineScanImageReady == 1 ){
+	    LineScanImageReady = 0;
+		for( i = START_PIXEL; i < STOP_PIXEL; i++ ){
+			sum += (float)LineScanImage0[i] * ( (float)i - mid_point );
+		}
+	 }
+	 
+	 TFC_SetServo( 0, sum / 5000000 );
+	 
+}
