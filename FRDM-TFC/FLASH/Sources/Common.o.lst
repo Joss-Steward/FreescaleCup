@@ -1,0 +1,87 @@
+   1              		.cpu cortex-m0
+   2              		.fpu softvfp
+   3              		.eabi_attribute 20, 1
+   4              		.eabi_attribute 21, 1
+   5              		.eabi_attribute 23, 3
+   6              		.eabi_attribute 24, 1
+   7              		.eabi_attribute 25, 1
+   8              		.eabi_attribute 26, 1
+   9              		.eabi_attribute 30, 6
+  10              		.eabi_attribute 34, 0
+  11              		.eabi_attribute 18, 4
+  12              		.code	16
+  13              		.file	"Common.c"
+  14              		.text
+  15              	.Ltext0:
+  16              		.cfi_sections	.debug_frame
+  17              		.section	.text.delay,"ax",%progbits
+  18              		.align	2
+  19              		.global	delay
+  20              		.code	16
+  21              		.thumb_func
+  23              	delay:
+  24              	.LFB0:
+  25              		.file 1 "../Sources/Common.c"
+   1:../Sources/Common.c **** /*
+   2:../Sources/Common.c ****  * Common.c
+   3:../Sources/Common.c ****  *
+   4:../Sources/Common.c ****  *  Created on: Oct 3, 2015
+   5:../Sources/Common.c ****  *      Author: Jared
+   6:../Sources/Common.c ****  */
+   7:../Sources/Common.c **** 
+   8:../Sources/Common.c **** void delay(int x){
+  26              		.loc 1 8 0
+  27              		.cfi_startproc
+  28 0000 80B5     		push	{r7, lr}
+  29              	.LCFI0:
+  30              		.cfi_def_cfa_offset 8
+  31              		.cfi_offset 7, -8
+  32              		.cfi_offset 14, -4
+  33 0002 84B0     		sub	sp, sp, #16
+  34              	.LCFI1:
+  35              		.cfi_def_cfa_offset 24
+  36 0004 00AF     		add	r7, sp, #0
+  37              	.LCFI2:
+  38              		.cfi_def_cfa_register 7
+  39 0006 7860     		str	r0, [r7, #4]
+   9:../Sources/Common.c ****    int i;
+  10:../Sources/Common.c ****    for(i = 0; i < 100000*x; i++);
+  40              		.loc 1 10 0
+  41 0008 0023     		mov	r3, #0
+  42 000a FB60     		str	r3, [r7, #12]
+  43 000c 02E0     		b	.L2
+  44              	.L3:
+  45              		.loc 1 10 0 is_stmt 0
+  46 000e FB68     		ldr	r3, [r7, #12]
+  47 0010 0133     		add	r3, r3, #1
+  48 0012 FB60     		str	r3, [r7, #12]
+  49              	.L2:
+  50              		.loc 1 10 0
+  51 0014 7B68     		ldr	r3, [r7, #4]
+  52 0016 044A     		ldr	r2, .L4
+  53 0018 5A43     		mul	r2, r3
+  54 001a FB68     		ldr	r3, [r7, #12]
+  55 001c 9A42     		cmp	r2, r3
+  56 001e F6DC     		bgt	.L3
+  11:../Sources/Common.c **** }
+  57              		.loc 1 11 0 is_stmt 1
+  58 0020 BD46     		mov	sp, r7
+  59 0022 04B0     		add	sp, sp, #16
+  60              		@ sp needed for prologue
+  61 0024 80BD     		pop	{r7, pc}
+  62              	.L5:
+  63 0026 C046     		.align	2
+  64              	.L4:
+  65 0028 A0860100 		.word	100000
+  66              		.cfi_endproc
+  67              	.LFE0:
+  69              		.text
+  70              	.Letext0:
+DEFINED SYMBOLS
+                            *ABS*:00000000 Common.c
+C:\Users\Jared\AppData\Local\Temp\ccvjlk4e.s:18     .text.delay:00000000 $t
+C:\Users\Jared\AppData\Local\Temp\ccvjlk4e.s:23     .text.delay:00000000 delay
+C:\Users\Jared\AppData\Local\Temp\ccvjlk4e.s:65     .text.delay:00000028 $d
+                     .debug_frame:00000010 $d
+
+NO UNDEFINED SYMBOLS

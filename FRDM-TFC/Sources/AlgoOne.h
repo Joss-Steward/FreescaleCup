@@ -8,7 +8,6 @@
 #ifndef ALGOONE_H_
 #define ALGOONE_H_
 
-void run();
-void delay(int);
+void algo_one();
 
 #endif /* ALGOONE_H_ */

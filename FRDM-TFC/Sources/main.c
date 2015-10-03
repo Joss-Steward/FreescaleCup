@@ -1,6 +1,7 @@
 #include "derivative.h" /* include peripheral declarations */
 #include "TFC\TFC.h"
 #include "AlgoOne.h"
+#include "Common.h"
 
 #define DEL 50
 #define START_PIXEL 10
@@ -9,7 +10,7 @@
 
 void forwardFull(){
    TFC_HBRIDGE_ENABLE;
-   TFC_SetServo(0,-.1);
+   TFC_SetServo(0,-.15);
    TFC_SetMotorPWM(1,1);
    delay(30);
    TFC_SetMotorPWM(0,0);
@@ -19,7 +20,7 @@ void forwardFull(){
 void printCamera() {
    int t = 0;
 
-   while(1) {
+   while(1){
       TFC_Task();
       if(LineScanImageReady == 1) {
          LineScanImageReady = 0;
@@ -92,7 +93,7 @@ int main(void){
    while(!TFC_PUSH_BUTTON_0_PRESSED);
 
    /* Then set the operating mode based on the DIP switch */
-   switch(TFC_GetDIP_Switch()&0x03) {
+   switch(TFC_GetDIP_Switch()&0x07) {
       default:
       case 0:
     	 TFC_BAT_LED1_ON;
@@ -105,7 +106,7 @@ int main(void){
          // In this mode, we will actually run the analysis and drive.
          while(1) {
             TFC_Task();
-            run();
+            algo_one();
          }
          break;
       case 2:

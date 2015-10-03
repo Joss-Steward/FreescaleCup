@@ -7,16 +7,14 @@
 
 #include "derivative.h" /* include peripheral declarations */
 #include "TFC\TFC.h"
+#include "Common.h"
 
 #define START_PIXEL 10
 #define STOP_PIXEL 118
 
-void delay(int x){
-   int i;
-   for(i = 0; i < 100000*x; i++);
-}
 
-void run(){
+
+void algo_one(){
 
    int i;
 

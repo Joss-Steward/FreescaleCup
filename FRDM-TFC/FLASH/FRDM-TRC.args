@@ -16,6 +16,7 @@
 "./Sources/sa_mtb.o"
 "./Sources/main.o"
 "./Sources/ConsoleIO.o"
+"./Sources/Common.o"
 "./Sources/AlgoOne.o"
 -mcpu=cortex-m0
 -mthumb
