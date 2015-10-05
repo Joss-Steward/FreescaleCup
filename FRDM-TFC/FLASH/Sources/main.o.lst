@@ -467,7 +467,7 @@
  366 0010 FFF7FEFF 		bl	TFC_SetMotorPWM
   88:../Sources/main.c ****    TFC_HBRIDGE_DISABLE;
  367              		.loc 1 88 0
- 368 0014 414B     		ldr	r3, .L40
+ 368 0014 444B     		ldr	r3, .L40
  369 0016 8022     		mov	r2, #128
  370 0018 9203     		lsl	r2, r2, #14
  371 001a 9A60     		str	r2, [r3, #8]
@@ -476,7 +476,7 @@
   91:../Sources/main.c ****     * This gives us time to set the DIP switches and etc */
   92:../Sources/main.c ****    TFC_BAT_LED0_ON; // This light will indicate that we're waiting
  372              		.loc 1 92 0
- 373 001c 404B     		ldr	r3, .L40+4
+ 373 001c 434B     		ldr	r3, .L40+4
  374 001e 8022     		mov	r2, #128
  375 0020 5200     		lsl	r2, r2, #1
  376 0022 5A60     		str	r2, [r3, #4]
@@ -485,7 +485,7 @@
  378 0024 C046     		mov	r8, r8
  379              	.L26:
  380              		.loc 1 93 0 is_stmt 0
- 381 0026 3F4B     		ldr	r3, .L40+8
+ 381 0026 424B     		ldr	r3, .L40+8
  382 0028 1A69     		ldr	r2, [r3, #16]
  383 002a 8023     		mov	r3, #128
  384 002c 9B01     		lsl	r3, r3, #6
@@ -516,7 +516,7 @@
   98:../Sources/main.c ****       case 0:
   99:../Sources/main.c ****     	 TFC_BAT_LED1_ON;
  405              		.loc 1 99 0
- 406 0052 334B     		ldr	r3, .L40+4
+ 406 0052 364B     		ldr	r3, .L40+4
  407 0054 8022     		mov	r2, #128
  408 0056 9200     		lsl	r2, r2, #2
  409 0058 5A60     		str	r2, [r3, #4]
@@ -531,13 +531,13 @@
  103:../Sources/main.c ****       case 1:
  104:../Sources/main.c ****     	 TFC_BAT_LED2_ON;
  415              		.loc 1 104 0
- 416 0060 2F4B     		ldr	r3, .L40+4
+ 416 0060 324B     		ldr	r3, .L40+4
  417 0062 8022     		mov	r2, #128
  418 0064 D200     		lsl	r2, r2, #3
  419 0066 5A60     		str	r2, [r3, #4]
  105:../Sources/main.c ****          TFC_HBRIDGE_ENABLE;
  420              		.loc 1 105 0
- 421 0068 2C4B     		ldr	r3, .L40
+ 421 0068 2F4B     		ldr	r3, .L40
  422 006a 8022     		mov	r2, #128
  423 006c 9203     		lsl	r2, r2, #14
  424 006e 5A60     		str	r2, [r3, #4]
@@ -559,7 +559,7 @@
  113:../Sources/main.c ****     	 // In this mode, we drive forward a little bit.
  114:../Sources/main.c ****     	 TFC_BAT_LED3_ON;	
  433              		.loc 1 114 0
- 434 007a 294B     		ldr	r3, .L40+4
+ 434 007a 2C4B     		ldr	r3, .L40+4
  435 007c 8022     		mov	r2, #128
  436 007e 1201     		lsl	r2, r2, #4
  437 0080 5A60     		str	r2, [r3, #4]
@@ -580,19 +580,19 @@
  119:../Sources/main.c ****     	 // In this mode, we drive forward until the input is below a threshold
  120:../Sources/main.c ****     	 TFC_BAT_LED3_ON;
  448              		.loc 1 120 0
- 449 0092 234B     		ldr	r3, .L40+4
+ 449 0092 264B     		ldr	r3, .L40+4
  450 0094 8022     		mov	r2, #128
  451 0096 1201     		lsl	r2, r2, #4
  452 0098 5A60     		str	r2, [r3, #4]
  121:../Sources/main.c ****     	 TFC_BAT_LED2_ON;
  453              		.loc 1 121 0
- 454 009a 214B     		ldr	r3, .L40+4
+ 454 009a 244B     		ldr	r3, .L40+4
  455 009c 8022     		mov	r2, #128
  456 009e D200     		lsl	r2, r2, #3
  457 00a0 5A60     		str	r2, [r3, #4]
  122:../Sources/main.c ****          TFC_HBRIDGE_ENABLE;
  458              		.loc 1 122 0
- 459 00a2 1E4B     		ldr	r3, .L40
+ 459 00a2 214B     		ldr	r3, .L40
  460 00a4 8022     		mov	r2, #128
  461 00a6 9203     		lsl	r2, r2, #14
  462 00a8 5A60     		str	r2, [r3, #4]
@@ -606,31 +606,31 @@
  125:../Sources/main.c ****       case 4:
  126:../Sources/main.c ****     	  TFC_BAT_LED0_ON;
  468              		.loc 1 126 0
- 469 00b0 1B4B     		ldr	r3, .L40+4
+ 469 00b0 1E4B     		ldr	r3, .L40+4
  470 00b2 8022     		mov	r2, #128
  471 00b4 5200     		lsl	r2, r2, #1
  472 00b6 5A60     		str	r2, [r3, #4]
  127:../Sources/main.c ****     	  TFC_BAT_LED1_ON;
  473              		.loc 1 127 0
- 474 00b8 194B     		ldr	r3, .L40+4
+ 474 00b8 1C4B     		ldr	r3, .L40+4
  475 00ba 8022     		mov	r2, #128
  476 00bc 9200     		lsl	r2, r2, #2
  477 00be 5A60     		str	r2, [r3, #4]
  128:../Sources/main.c ****     	  TFC_BAT_LED2_ON;
  478              		.loc 1 128 0
- 479 00c0 174B     		ldr	r3, .L40+4
+ 479 00c0 1A4B     		ldr	r3, .L40+4
  480 00c2 8022     		mov	r2, #128
  481 00c4 D200     		lsl	r2, r2, #3
  482 00c6 5A60     		str	r2, [r3, #4]
  129:../Sources/main.c ****     	  TFC_BAT_LED3_ON;
  483              		.loc 1 129 0
- 484 00c8 154B     		ldr	r3, .L40+4
+ 484 00c8 184B     		ldr	r3, .L40+4
  485 00ca 8022     		mov	r2, #128
  486 00cc 1201     		lsl	r2, r2, #4
  487 00ce 5A60     		str	r2, [r3, #4]
  130:../Sources/main.c ****     	  TFC_HBRIDGE_ENABLE;
  488              		.loc 1 130 0
- 489 00d0 124B     		ldr	r3, .L40
+ 489 00d0 154B     		ldr	r3, .L40
  490 00d2 8022     		mov	r2, #128
  491 00d4 9203     		lsl	r2, r2, #14
  492 00d6 5A60     		str	r2, [r3, #4]
@@ -654,14 +654,14 @@
  501 00e0 FFF7FEFF 		bl	algo_two
  135:../Sources/main.c ****     	      TFC_SetMotorPWM(.3, .3);
  502              		.loc 1 135 0
- 503 00e4 104A     		ldr	r2, .L40+12
- 504 00e6 104B     		ldr	r3, .L40+12
+ 503 00e4 134A     		ldr	r2, .L40+12
+ 504 00e6 134B     		ldr	r3, .L40+12
  505 00e8 101C     		add	r0, r2, #0
  506 00ea 191C     		add	r1, r3, #0
  507 00ec FFF7FEFF 		bl	TFC_SetMotorPWM
  136:../Sources/main.c ****     	      if(TFC_PUSH_BUTTON_1_PRESSED)break;
  508              		.loc 1 136 0
- 509 00f0 0C4B     		ldr	r3, .L40+8
+ 509 00f0 0F4B     		ldr	r3, .L40+8
  510 00f2 1A69     		ldr	r2, [r3, #16]
  511 00f4 8023     		mov	r3, #128
  512 00f6 9B02     		lsl	r3, r3, #10
@@ -676,57 +676,63 @@
  140:../Sources/main.c ****     	  
  141:../Sources/main.c ****    }
  142:../Sources/main.c **** 
- 143:../Sources/main.c ****    TFC_SetMotorPWM(0, 0);
+ 143:../Sources/main.c ****    TFC_SetServo(0,0);
  519              		.loc 1 143 0
- 520 0100 0022     		mov	r2, #0
- 521 0102 0023     		mov	r3, #0
- 522 0104 101C     		add	r0, r2, #0
- 523 0106 191C     		add	r1, r3, #0
- 524 0108 FFF7FEFF 		bl	TFC_SetMotorPWM
- 144:../Sources/main.c ****    TFC_HBRIDGE_DISABLE;
- 525              		.loc 1 144 0
- 526 010c 034B     		ldr	r3, .L40
- 527 010e 8022     		mov	r2, #128
- 528 0110 9203     		lsl	r2, r2, #14
- 529 0112 9A60     		str	r2, [r3, #8]
- 145:../Sources/main.c ****    return 0;
+ 520 0100 0023     		mov	r3, #0
+ 521 0102 0020     		mov	r0, #0
+ 522 0104 191C     		add	r1, r3, #0
+ 523 0106 FFF7FEFF 		bl	TFC_SetServo
+ 144:../Sources/main.c ****    TFC_SetMotorPWM(0, 0);
+ 524              		.loc 1 144 0
+ 525 010a 0022     		mov	r2, #0
+ 526 010c 0023     		mov	r3, #0
+ 527 010e 101C     		add	r0, r2, #0
+ 528 0110 191C     		add	r1, r3, #0
+ 529 0112 FFF7FEFF 		bl	TFC_SetMotorPWM
+ 145:../Sources/main.c ****    TFC_HBRIDGE_DISABLE;
  530              		.loc 1 145 0
- 531 0114 0023     		mov	r3, #0
- 146:../Sources/main.c **** }
- 532              		.loc 1 146 0
- 533 0116 181C     		mov	r0, r3
- 534 0118 BD46     		mov	sp, r7
- 535              		@ sp needed for prologue
- 536 011a 80BD     		pop	{r7, pc}
- 537              	.L41:
- 538              		.align	2
- 539              	.L40:
- 540 011c 00F10F40 		.word	1074786560
- 541 0120 40F00F40 		.word	1074786368
- 542 0124 80F00F40 		.word	1074786432
- 543 0128 9A99993E 		.word	1050253722
- 544              		.cfi_endproc
- 545              	.LFE3:
- 547              		.text
- 548              	.Letext0:
- 549              		.file 2 "C:/Freescale/CW MCU v10.6/MCU/ARM_GCC_Support/ewl/EWL_C/include/cstdint"
- 550              		.file 3 "C:/Users/Jared/Desktop/freescalecup/FRDM-TFC/Project_Headers/MKL25Z4.h"
- 551              		.file 4 "C:/Users/Jared/Desktop/freescalecup/FRDM-TFC/Project_Headers/TFC\\TFC_LineScanCamera.h"
+ 531 0116 044B     		ldr	r3, .L40
+ 532 0118 8022     		mov	r2, #128
+ 533 011a 9203     		lsl	r2, r2, #14
+ 534 011c 9A60     		str	r2, [r3, #8]
+ 146:../Sources/main.c ****    return 0;
+ 535              		.loc 1 146 0
+ 536 011e 0023     		mov	r3, #0
+ 147:../Sources/main.c **** }
+ 537              		.loc 1 147 0
+ 538 0120 181C     		mov	r0, r3
+ 539 0122 BD46     		mov	sp, r7
+ 540              		@ sp needed for prologue
+ 541 0124 80BD     		pop	{r7, pc}
+ 542              	.L41:
+ 543 0126 C046     		.align	2
+ 544              	.L40:
+ 545 0128 00F10F40 		.word	1074786560
+ 546 012c 40F00F40 		.word	1074786368
+ 547 0130 80F00F40 		.word	1074786432
+ 548 0134 9A99993E 		.word	1050253722
+ 549              		.cfi_endproc
+ 550              	.LFE3:
+ 552              		.text
+ 553              	.Letext0:
+ 554              		.file 2 "C:/Freescale/CW MCU v10.6/MCU/ARM_GCC_Support/ewl/EWL_C/include/cstdint"
+ 555              		.file 3 "C:/Users/Jared/Desktop/freescalecup/FRDM-TFC/Project_Headers/MKL25Z4.h"
+ 556              		.file 4 "C:/Users/Jared/Desktop/freescalecup/FRDM-TFC/Project_Headers/TFC\\TFC_LineScanCamera.h"
 DEFINED SYMBOLS
                             *ABS*:00000000 main.c
-C:\Users\Jared\AppData\Local\Temp\ccsCxPtp.s:18     .text.forwardFull:00000000 $t
-C:\Users\Jared\AppData\Local\Temp\ccsCxPtp.s:23     .text.forwardFull:00000000 forwardFull
-C:\Users\Jared\AppData\Local\Temp\ccsCxPtp.s:75     .text.forwardFull:00000044 $d
-C:\Users\Jared\AppData\Local\Temp\ccsCxPtp.s:81     .rodata:00000000 $d
-C:\Users\Jared\AppData\Local\Temp\ccsCxPtp.s:91     .text.printCamera:00000000 $t
-C:\Users\Jared\AppData\Local\Temp\ccsCxPtp.s:96     .text.printCamera:00000000 printCamera
-C:\Users\Jared\AppData\Local\Temp\ccsCxPtp.s:205    .text.printCamera:00000090 $d
-C:\Users\Jared\AppData\Local\Temp\ccsCxPtp.s:219    .text.runToLine:00000000 $t
-C:\Users\Jared\AppData\Local\Temp\ccsCxPtp.s:224    .text.runToLine:00000000 runToLine
-C:\Users\Jared\AppData\Local\Temp\ccsCxPtp.s:332    .text.runToLine:00000098 $d
-C:\Users\Jared\AppData\Local\Temp\ccsCxPtp.s:342    .text.main:00000000 $t
-C:\Users\Jared\AppData\Local\Temp\ccsCxPtp.s:347    .text.main:00000000 main
-C:\Users\Jared\AppData\Local\Temp\ccsCxPtp.s:540    .text.main:0000011c $d
+C:\Users\Jared\AppData\Local\Temp\cchltWcD.s:18     .text.forwardFull:00000000 $t
+C:\Users\Jared\AppData\Local\Temp\cchltWcD.s:23     .text.forwardFull:00000000 forwardFull
+C:\Users\Jared\AppData\Local\Temp\cchltWcD.s:75     .text.forwardFull:00000044 $d
+C:\Users\Jared\AppData\Local\Temp\cchltWcD.s:81     .rodata:00000000 $d
+C:\Users\Jared\AppData\Local\Temp\cchltWcD.s:91     .text.printCamera:00000000 $t
+C:\Users\Jared\AppData\Local\Temp\cchltWcD.s:96     .text.printCamera:00000000 printCamera
+C:\Users\Jared\AppData\Local\Temp\cchltWcD.s:205    .text.printCamera:00000090 $d
+C:\Users\Jared\AppData\Local\Temp\cchltWcD.s:219    .text.runToLine:00000000 $t
+C:\Users\Jared\AppData\Local\Temp\cchltWcD.s:224    .text.runToLine:00000000 runToLine
+C:\Users\Jared\AppData\Local\Temp\cchltWcD.s:332    .text.runToLine:00000098 $d
+C:\Users\Jared\AppData\Local\Temp\cchltWcD.s:342    .text.main:00000000 $t
+C:\Users\Jared\AppData\Local\Temp\cchltWcD.s:347    .text.main:00000000 main
+C:\Users\Jared\AppData\Local\Temp\cchltWcD.s:545    .text.main:00000128 $d
                      .debug_frame:00000010 $d
 
 UNDEFINED SYMBOLS

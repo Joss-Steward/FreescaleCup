@@ -95,13 +95,11 @@ void algo_two(){
             if(LineScanImage0[i] == 0) {
                 sum += scale * 1;
             } else {
-                sum += scale * ((4096.0f / (float)LineScanImage0[i]) / 4096.0f);
+                sum += scale * ((1.0f / (float)LineScanImage0[i]));
             }
         }
     
-        sum = (double)(4160 - sum) / 2080.0f;
+        sum = (double)sum;
         TFC_SetServo( 0, sum);
     }
-    
-    delay(5);
 }

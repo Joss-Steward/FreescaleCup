@@ -140,6 +140,7 @@ int main(void){
     	  
    }
 
+   TFC_SetServo(0,0);
    TFC_SetMotorPWM(0, 0);
    TFC_HBRIDGE_DISABLE;
    return 0;
