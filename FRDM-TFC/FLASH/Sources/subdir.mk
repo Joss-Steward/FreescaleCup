@@ -6,49 +6,49 @@
 
 # Add inputs and outputs from these tool invocations to the build variables 
 C_SRCS_QUOTED += \
-"../Sources/AlgoOne.c" \
+"../Sources/Algorithms.c" \
 "../Sources/Common.c" \
 "../Sources/ConsoleIO.c" \
 "../Sources/main.c" \
 "../Sources/sa_mtb.c" \
 
 C_SRCS += \
-../Sources/AlgoOne.c \
+../Sources/Algorithms.c \
 ../Sources/Common.c \
 ../Sources/ConsoleIO.c \
 ../Sources/main.c \
 ../Sources/sa_mtb.c \
 
 OBJS += \
-./Sources/AlgoOne.o \
+./Sources/Algorithms.o \
 ./Sources/Common.o \
 ./Sources/ConsoleIO.o \
 ./Sources/main.o \
 ./Sources/sa_mtb.o \
 
 C_DEPS += \
-./Sources/AlgoOne.d \
+./Sources/Algorithms.d \
 ./Sources/Common.d \
 ./Sources/ConsoleIO.d \
 ./Sources/main.d \
 ./Sources/sa_mtb.d \
 
 OBJS_QUOTED += \
-"./Sources/AlgoOne.o" \
+"./Sources/Algorithms.o" \
 "./Sources/Common.o" \
 "./Sources/ConsoleIO.o" \
 "./Sources/main.o" \
 "./Sources/sa_mtb.o" \
 
 C_DEPS_QUOTED += \
-"./Sources/AlgoOne.d" \
+"./Sources/Algorithms.d" \
 "./Sources/Common.d" \
 "./Sources/ConsoleIO.d" \
 "./Sources/main.d" \
 "./Sources/sa_mtb.d" \
 
 OBJS_OS_FORMAT += \
-./Sources/AlgoOne.o \
+./Sources/Algorithms.o \
 ./Sources/Common.o \
 ./Sources/ConsoleIO.o \
 ./Sources/main.o \
@@ -56,11 +56,11 @@ OBJS_OS_FORMAT += \
 
 
 # Each subdirectory must supply rules for building sources it contributes
-Sources/AlgoOne.o: ../Sources/AlgoOne.c
+Sources/Algorithms.o: ../Sources/Algorithms.c
 	@echo 'Building file: $<'
 	@echo 'Executing target #1 $<'
 	@echo 'Invoking: ARM Ltd Windows GCC C Compiler'
-	"$(ARMSourceryDirEnv)/arm-none-eabi-gcc" "$<" @"Sources/AlgoOne.args" -Wa,-adhlns="$@.lst" -MMD -MP -MF"$(@:%.o=%.d)" -o"Sources/AlgoOne.o"
+	"$(ARMSourceryDirEnv)/arm-none-eabi-gcc" "$<" @"Sources/Algorithms.args" -Wa,-adhlns="$@.lst" -MMD -MP -MF"$(@:%.o=%.d)" -o"Sources/Algorithms.o"
 	@echo 'Finished building: $<'
 	@echo ' '
 

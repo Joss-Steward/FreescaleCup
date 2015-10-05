@@ -1,4 +1,4 @@
-Sources/AlgoOne.o: ../Sources/AlgoOne.c \
+Sources/Algorithms.o: ../Sources/Algorithms.c \
  C:/Freescale/CW\ MCU\ v10.6/MCU/ARM_GCC_Support/ewl/EWL_C/include/lib_ewl.prefix \
  C:/Freescale/CW\ MCU\ v10.6/MCU/ARM_GCC_Support/ewl/EWL_C/include/common.prefix \
  C:/Freescale/CW\ MCU\ v10.6/MCU/ARM_GCC_Support/ewl/EWL_C/include/ewl_c_version.h \
@@ -44,7 +44,18 @@ Sources/AlgoOne.o: ../Sources/AlgoOne.c \
  C:/Users/Jared/Desktop/freescalecup/FRDM-TFC/Project_Headers/TFC\TFC_Queue.h \
  C:/Users/Jared/Desktop/freescalecup/FRDM-TFC/Project_Headers/TFC\TFC_UART.h \
  C:/Users/Jared/Desktop/freescalecup/FRDM-TFC/Project_Headers/TFC\TFC_Terminal.h \
- ../Sources/Common.h
+ ../Sources/Common.h \
+ C:/Freescale/CW\ MCU\ v10.6/MCU/ARM_GCC_Support/ewl/EWL_C/include/Math.h \
+ C:/Freescale/CW\ MCU\ v10.6/MCU/ARM_GCC_Support/ewl/EWL_C/include/cmath \
+ C:/Freescale/CW\ MCU\ v10.6/MCU/ARM_GCC_Support/ewl/EWL_C/include/cfloat \
+ C:/Freescale/CW\ MCU\ v10.6/MCU/ARM_GCC_Support/ewl/EWL_C/include/ewl_t.h \
+ C:/Freescale/CW\ MCU\ v10.6/MCU/ARM_GCC_Support/ewl/EWL_C/include/arm/float.ARM.h \
+ C:/Freescale/CW\ MCU\ v10.6/MCU/ARM_GCC_Support/ewl/EWL_C/include/math_api.h \
+ C:/Freescale/CW\ MCU\ v10.6/MCU/ARM_GCC_Support/ewl/EWL_C/include/ewl_misra_types.h \
+ C:/Freescale/CW\ MCU\ v10.6/MCU/ARM_GCC_Support/ewl/EWL_C/include/math_inlines.h \
+ C:/Freescale/CW\ MCU\ v10.6/MCU/ARM_GCC_Support/ewl/EWL_C/include/math_config.h \
+ C:/Freescale/CW\ MCU\ v10.6/MCU/ARM_GCC_Support/ewl/EWL_C/include/arm/math.ARM.h \
+ C:/Freescale/CW\ MCU\ v10.6/MCU/ARM_GCC_Support/ewl/EWL_C/include/cerrno
 
 C:/Freescale/CW\ MCU\ v10.6/MCU/ARM_GCC_Support/ewl/EWL_C/include/lib_ewl.prefix:
 
@@ -137,3 +148,25 @@ C:/Users/Jared/Desktop/freescalecup/FRDM-TFC/Project_Headers/TFC\TFC_UART.h:
 C:/Users/Jared/Desktop/freescalecup/FRDM-TFC/Project_Headers/TFC\TFC_Terminal.h:
 
 ../Sources/Common.h:
+
+C:/Freescale/CW\ MCU\ v10.6/MCU/ARM_GCC_Support/ewl/EWL_C/include/Math.h:
+
+C:/Freescale/CW\ MCU\ v10.6/MCU/ARM_GCC_Support/ewl/EWL_C/include/cmath:
+
+C:/Freescale/CW\ MCU\ v10.6/MCU/ARM_GCC_Support/ewl/EWL_C/include/cfloat:
+
+C:/Freescale/CW\ MCU\ v10.6/MCU/ARM_GCC_Support/ewl/EWL_C/include/ewl_t.h:
+
+C:/Freescale/CW\ MCU\ v10.6/MCU/ARM_GCC_Support/ewl/EWL_C/include/arm/float.ARM.h:
+
+C:/Freescale/CW\ MCU\ v10.6/MCU/ARM_GCC_Support/ewl/EWL_C/include/math_api.h:
+
+C:/Freescale/CW\ MCU\ v10.6/MCU/ARM_GCC_Support/ewl/EWL_C/include/ewl_misra_types.h:
+
+C:/Freescale/CW\ MCU\ v10.6/MCU/ARM_GCC_Support/ewl/EWL_C/include/math_inlines.h:
+
+C:/Freescale/CW\ MCU\ v10.6/MCU/ARM_GCC_Support/ewl/EWL_C/include/math_config.h:
+
+C:/Freescale/CW\ MCU\ v10.6/MCU/ARM_GCC_Support/ewl/EWL_C/include/arm/math.ARM.h:
+
+C:/Freescale/CW\ MCU\ v10.6/MCU/ARM_GCC_Support/ewl/EWL_C/include/cerrno:

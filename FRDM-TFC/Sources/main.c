@@ -36,7 +36,7 @@ void printCamera() {
          int i;
          for(i = 0; i < 128; i++)
          {
-            printf("%X,", LineScanImage0[i]);
+            printf("%X", LineScanImage0[i]);
             if(i == 127)
                printf("\r\n");
             else
@@ -124,12 +124,16 @@ int main(void){
     	 break;
       case 4:
     	  TFC_BAT_LED0_ON;
+    	  TFC_BAT_LED1_ON;
+    	  TFC_BAT_LED2_ON;
+    	  TFC_BAT_LED3_ON;
     	  TFC_HBRIDGE_ENABLE;
     	  while(1) {
     		  TFC_Task();
+    		  //algo_one();
     	      algo_two();
     	      TFC_SetMotorPWM(.3, .3);
-    	      if(TFC_PUSH_BUTTON_0_PRESSED)break;
+    	      if(TFC_PUSH_BUTTON_1_PRESSED)break;
     	  }
     	  
     	  break;

@@ -44,7 +44,7 @@ Sources/main.o: ../Sources/main.c \
  C:/Users/Jared/Desktop/freescalecup/FRDM-TFC/Project_Headers/TFC\TFC_Queue.h \
  C:/Users/Jared/Desktop/freescalecup/FRDM-TFC/Project_Headers/TFC\TFC_UART.h \
  C:/Users/Jared/Desktop/freescalecup/FRDM-TFC/Project_Headers/TFC\TFC_Terminal.h \
- ../Sources/AlgoOne.h ../Sources/Common.h
+ ../Sources/Algorithms.h ../Sources/Common.h
 
 C:/Freescale/CW\ MCU\ v10.6/MCU/ARM_GCC_Support/ewl/EWL_C/include/lib_ewl.prefix:
 
@@ -136,6 +136,6 @@ C:/Users/Jared/Desktop/freescalecup/FRDM-TFC/Project_Headers/TFC\TFC_UART.h:
 
 C:/Users/Jared/Desktop/freescalecup/FRDM-TFC/Project_Headers/TFC\TFC_Terminal.h:
 
-../Sources/AlgoOne.h:
+../Sources/Algorithms.h:
 
 ../Sources/Common.h:
