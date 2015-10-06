@@ -10,5 +10,7 @@
 
 void algo_one();
 void algo_two();
+void algo_three();
+int stop_car();
 
 #endif /* ALGOONE_H_ */

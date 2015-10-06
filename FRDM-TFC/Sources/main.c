@@ -116,6 +116,12 @@ int main(void){
             while(1) {
                 TFC_Task();
                 algo_one();
+                TFC_SetMotorPWM(.3, .3);
+                if(TFC_PUSH_BUTTON_1_PRESSED)break;
+                if(stop_car()){
+                	delay(5);
+                    break;
+                }
             }
             break;
         case 2:
@@ -147,6 +153,10 @@ int main(void){
                 algo_two();
                 TFC_SetMotorPWM(.3, .3);
                 if(TFC_PUSH_BUTTON_1_PRESSED)break;
+                if(stop_car()){
+                	delay(5);
+                    break;
+                }
             }
 
             break;
@@ -159,8 +169,12 @@ int main(void){
             while(1) {
                 TFC_Task();
                 algo_three();
-                TFC_SetMotorPWM(0.3, 0.3);
+                TFC_SetMotorPWM(0.25, 0.25);
                 if(TFC_PUSH_BUTTON_1_PRESSED) break;
+                if(stop_car()){
+                	delay(5);
+                	break;
+                }
             }
 
             break;

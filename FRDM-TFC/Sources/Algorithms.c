@@ -75,7 +75,7 @@ void algo_one(){
     centerBelowAvg = sumBelowAvg / totBelowAvg; //calculates the center of the below average pixels
     diffCenter = center - centerBelowAvg;  //Clalculates the difference of the center of the below average pixels and all the pixels
     diff = (float)( center - diffCenter ) / (float)center; //Calculates "percent" difference. Ranges from 0 - 2
-    //TFC_SetServo(0,diff - 1); //Adjusts servo accordingly
+    TFC_SetServo(0,diff - 1); //Adjusts servo accordingly
     delay(2); //Allows servo time to move
 }
 
@@ -139,4 +139,23 @@ void algo_three() {
 
         TFC_SetServo(0, steering_value);
     }
+}
+
+int stop_car(){
+	
+	while(!LineScanImageReady);
+	LineScanImageReady = 0;
+	
+	int i;
+	int black_spots = 0;
+	
+	for( i = START_PIXEL; i < STOP_PIXEL; i++ ){
+		if( ( LineScanImage0[i] < ( LineScanImage0[i-1] - 750 ) ) || ( LineScanImage0[i] < ( LineScanImage0[i-2] - 750 ) ) ){ 
+			black_spots++;
+		}
+	}
+	if(black_spots > 3){
+		return 1;
+	}
+	else return 0;
 }
