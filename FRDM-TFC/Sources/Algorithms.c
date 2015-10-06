@@ -103,3 +103,39 @@ void algo_two(){
         TFC_SetServo( 0, sum);
     }
 }
+
+void algo_three() {
+    float mid_point = (STOP_PIXEL - START_PIXEL) / 2 + START_PIXEL;
+
+    if(LineScanImageReady){
+        LineScanImageReady = 0;
+        
+        int left_sum = 0;
+        int right_sum = 0;
+
+        int i = 0;
+
+        for(i = START_PIXEL; i < mid_point; i++){
+            left_sum += LineScanImage[i];
+        }
+
+        for(i = (int)mid_point; i < STOP_PIXEL; i++){
+            right_sum += LineScanImage[i];
+        }
+        
+        int diff = abs(left_sum - right_sum);
+
+        // Default to straight ahead
+        double steering_value = 0.0;
+
+        if(diff > 100){
+            if(left_sum < right_sum){
+                steering_value = 0.5;
+            } else {
+                steering_value = -0.5;
+            }
+        }
+
+        TFC_SetServo(0, steering_value);
+    }
+}
