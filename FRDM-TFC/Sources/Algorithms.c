@@ -9,6 +9,7 @@
 #include "TFC\TFC.h"
 #include "Common.h"
 #include "Math.h"
+#include "stdlib.h"
 
 #define START_PIXEL 10
 #define STOP_PIXEL 118
@@ -110,31 +111,31 @@ void algo_three() {
     if(LineScanImageReady){
         LineScanImageReady = 0;
         
-        int left_sum = 0;
-        int right_sum = 0;
+        double left_sum = 0;
+        double right_sum = 0;
 
         int i = 0;
 
         for(i = START_PIXEL; i < mid_point; i++){
-            left_sum += LineScanImage[i];
+            left_sum += LineScanImage0[i];
         }
 
         for(i = (int)mid_point; i < STOP_PIXEL; i++){
-            right_sum += LineScanImage[i];
+            right_sum += LineScanImage0[i];
         }
         
-        int diff = abs(left_sum - right_sum);
+        left_sum /= mid_point - START_PIXEL;
+        right_sum /= STOP_PIXEL - mid_point;
+        double diff = (double)abs(left_sum - right_sum);
 
         // Default to straight ahead
         double steering_value = 0.0;
 
-        if(diff > 100){
-            if(left_sum < right_sum){
-                steering_value = 0.5;
-            } else {
-                steering_value = -0.5;
-            }
-        }
+		if(left_sum < right_sum){
+			steering_value = 0.5 * diff;
+		} else {
+			steering_value = -0.5 * diff;
+		}
 
         TFC_SetServo(0, steering_value);
     }
