@@ -4,8 +4,8 @@
 #include "Common.h"
 
 #define DEL 50
-#define START_PIXEL 10
-#define STOP_PIXEL 118
+#define START_PIXEL 15
+#define STOP_PIXEL 113
 
 
 void forwardFull(){
@@ -166,16 +166,8 @@ int main(void){
             TFC_BAT_LED2_ON;
             TFC_BAT_LED3_OFF;
             TFC_HBRIDGE_ENABLE;
-            while(1) {
-                TFC_Task();
-                algo_three();
-                TFC_SetMotorPWM(0.25, 0.25);
-                if(TFC_PUSH_BUTTON_1_PRESSED) break;
-                if(stop_car()){
-                	delay(5);
-                	break;
-                }
-            }
+            
+			algo_three();
 
             break;
     }

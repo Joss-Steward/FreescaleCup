@@ -11,8 +11,8 @@
 #include "Math.h"
 #include "stdlib.h"
 
-#define START_PIXEL 10
-#define STOP_PIXEL 118
+#define START_PIXEL 15
+#define STOP_PIXEL 113
 
 void algo_one(){
     int i;
@@ -106,38 +106,62 @@ void algo_two(){
 }
 
 void algo_three() {
-    float mid_point = (STOP_PIXEL - START_PIXEL) / 2 + START_PIXEL;
+	double avg_left = 0, avg_right = 0;
+	unsigned int numberOfTries = 0;
+	
+    while(1) {
+        TFC_Task();
 
-    if(LineScanImageReady){
-        LineScanImageReady = 0;
-        
-        double left_sum = 0;
-        double right_sum = 0;
+        if(LineScanImageReady){
+        	numberOfTries++;
+            float mid_point = (STOP_PIXEL - START_PIXEL) / 2 + START_PIXEL;
+            LineScanImageReady = 0;
+            
+            double left_sum = 0;
+            double right_sum = 0;
 
-        int i = 0;
+            int i = 0;
 
-        for(i = START_PIXEL; i < mid_point; i++){
-            left_sum += LineScanImage0[i];
+            for(i = START_PIXEL; i < mid_point; i++){
+                left_sum += LineScanImage0[i];
+            }
+
+            for(i = (int)mid_point; i < STOP_PIXEL; i++){
+                right_sum += LineScanImage0[i];
+            }
+            
+            left_sum /= mid_point - START_PIXEL;
+            right_sum /= STOP_PIXEL - mid_point;
+            double diff = (double)abs(left_sum - right_sum);
+
+            diff /= 400;
+            
+            printf( "%d, %d, %d\n", (int)left_sum, (int)right_sum, (int)diff );
+            
+            // Default to straight ahead
+            double steering_value = 0.0;
+
+    		if(left_sum < right_sum){
+    			steering_value = 0.5 * diff;
+    		} else {
+    			steering_value = -0.5 * diff;
+    		}
+
+            TFC_SetServo(0, steering_value);
+            
+            if(left_sum < (0.90 * avg_left) && right_sum < (0.90 * avg_right)) {
+            	break;            	
+            } else {
+            	avg_left += left_sum;
+            	avg_left /= numberOfTries;
+            	
+            	avg_right += right_sum;
+            	avg_right /= numberOfTries;
+            }
         }
-
-        for(i = (int)mid_point; i < STOP_PIXEL; i++){
-            right_sum += LineScanImage0[i];
-        }
         
-        left_sum /= mid_point - START_PIXEL;
-        right_sum /= STOP_PIXEL - mid_point;
-        double diff = (double)abs(left_sum - right_sum);
-
-        // Default to straight ahead
-        double steering_value = 0.0;
-
-		if(left_sum < right_sum){
-			steering_value = 0.5 * diff;
-		} else {
-			steering_value = -0.5 * diff;
-		}
-
-        TFC_SetServo(0, steering_value);
+        TFC_SetMotorPWM(0.35, 0.35);
+        if(TFC_PUSH_BUTTON_1_PRESSED) break;
     }
 }
 
@@ -149,8 +173,8 @@ int stop_car(){
 	int i;
 	int black_spots = 0;
 	
-	for( i = START_PIXEL; i < STOP_PIXEL; i++ ){
-		if( ( LineScanImage0[i] < ( LineScanImage0[i-1] - 750 ) ) || ( LineScanImage0[i] < ( LineScanImage0[i-2] - 750 ) ) ){ 
+	for( i = START_PIXEL; i < STOP_PIXEL - 5; i++ ){
+		if( ( LineScanImage0[i] < ( LineScanImage0[i-1] - 500 ) ) || ( LineScanImage0[i] < ( LineScanImage0[i-2] - 1000 ) ) ){ 
 			black_spots++;
 		}
 	}
