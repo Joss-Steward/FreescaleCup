@@ -11,8 +11,34 @@
 #include "Math.h"
 #include "stdlib.h"
 
-#define START_PIXEL 15
-#define STOP_PIXEL 113
+#define START_PIXEL 10
+#define STOP_PIXEL 118
+
+
+int stop_car(){
+	
+	while(!LineScanImageReady);
+	LineScanImageReady = 0;
+	
+	int i;
+	int width = 0;
+	int start = START_PIXEL;
+	int stop = 0;
+	
+	for( i = START_PIXEL; i < STOP_PIXEL; i++ ){
+		if( LineScanImage0[i] < ( LineScanImage0[i-1] - 500 ) ){ 
+			start = i;
+		}
+		if( LineScanImage0[i] > ( LineScanImage0[i-1] + 500 ) ){
+			stop = i;
+		}
+		width = stop - start;
+		if( width > 20 ){
+			return 1;
+		}
+	}
+	return 0;
+}
 
 void algo_one(){
     int i;
@@ -106,8 +132,9 @@ void algo_two(){
 }
 
 void algo_three() {
-	double avg_left = 0, avg_right = 0;
+	//double avg_left = 0, avg_right = 0;
 	unsigned int numberOfTries = 0;
+	int stop_algo = 0;
 	
     while(1) {
         TFC_Task();
@@ -121,13 +148,42 @@ void algo_three() {
             double right_sum = 0;
 
             int i = 0;
+            
+            int avg_1 = 0;
+            int avg_2 = 0;
+            
 
+            int num_changes_left = 0;
+            int num_changes_right = 0;
+            float sensitivity = TFC_ReadPot(0);
+            int threshold = (int)(1000 * sensitivity);
+            
             for(i = START_PIXEL; i < mid_point; i++){
                 left_sum += LineScanImage0[i];
+                avg_1 = ( LineScanImage0[i - 2] + LineScanImage0[i - 1] + LineScanImage0[i] ) / 3;
+                avg_2 = ( LineScanImage0[i] + LineScanImage0[i + 1] + LineScanImage0[i + 2] ) / 3;
+                if( avg_2 < ( avg_1 - threshold ) ){
+                	num_changes_left++;
+                }
+                if( avg_2 > ( avg_1 + threshold ) ){
+                	num_changes_left++;
+                }
             }
 
             for(i = (int)mid_point; i < STOP_PIXEL; i++){
                 right_sum += LineScanImage0[i];
+                avg_1 = ( LineScanImage0[i - 2] + LineScanImage0[i - 1] + LineScanImage0[i] ) / 3;
+                avg_2 = ( LineScanImage0[i] + LineScanImage0[i + 1] + LineScanImage0[i + 2] ) / 3;
+                if( avg_2 < ( avg_1 - threshold ) ){
+                	num_changes_right++;
+                }
+                if( avg_2 > ( avg_1 + threshold ) ){
+                    num_changes_right++;
+                }
+            }
+            
+            if( num_changes_right >= 1 && num_changes_left >= 1 ){
+            	stop_algo = 1;
             }
             
             left_sum /= mid_point - START_PIXEL;
@@ -136,50 +192,32 @@ void algo_three() {
 
             diff /= 400;
             
-            printf( "%d, %d, %d\n", (int)left_sum, (int)right_sum, (int)diff );
+            printf( "%d, %d, %d, %d, %d:%d\n", (int)left_sum, (int)right_sum, (int)diff, threshold, num_changes_left, num_changes_right );
             
             // Default to straight ahead
             double steering_value = 0.0;
 
     		if(left_sum < right_sum){
     			steering_value = 0.5 * diff;
+    			if(steering_value > .7)steering_value = .7;
     		} else {
     			steering_value = -0.5 * diff;
+    			if(steering_value < -.7)steering_value = -.7;
     		}
 
             TFC_SetServo(0, steering_value);
-            
-            if(left_sum < (0.90 * avg_left) && right_sum < (0.90 * avg_right)) {
-            	break;            	
-            } else {
-            	avg_left += left_sum;
-            	avg_left /= numberOfTries;
-            	
-            	avg_right += right_sum;
-            	avg_right /= numberOfTries;
-            }
         }
         
-        TFC_SetMotorPWM(0.35, 0.35);
+        if(stop_algo == 0) {
+        	TFC_SetMotorPWM(0.30, 0.30);
+        } else {
+        	double motor = (5000 - stop_algo) / 5000;
+        	TFC_SetMotorPWM(motor, motor);
+        	stop_algo++;
+        }
         if(TFC_PUSH_BUTTON_1_PRESSED) break;
+        
+        if(stop_algo > 5000) break;
     }
 }
 
-int stop_car(){
-	
-	while(!LineScanImageReady);
-	LineScanImageReady = 0;
-	
-	int i;
-	int black_spots = 0;
-	
-	for( i = START_PIXEL; i < STOP_PIXEL - 5; i++ ){
-		if( ( LineScanImage0[i] < ( LineScanImage0[i-1] - 500 ) ) || ( LineScanImage0[i] < ( LineScanImage0[i-2] - 1000 ) ) ){ 
-			black_spots++;
-		}
-	}
-	if(black_spots > 3){
-		return 1;
-	}
-	else return 0;
-}

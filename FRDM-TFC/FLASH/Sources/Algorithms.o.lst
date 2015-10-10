@@ -14,25 +14,14 @@
   14              		.text
   15              	.Ltext0:
   16              		.cfi_sections	.debug_frame
-  17              		.global	__aeabi_idiv
-  18              		.section	.rodata
-  19              		.align	2
-  20              	.LC2:
-  21 0000 256400   		.ascii	"%d\000"
-  22 0003 00       		.align	2
-  23              	.LC4:
-  24 0004 0D00     		.ascii	"\015\000"
-  25              		.global	__aeabi_i2f
-  26              		.global	__aeabi_fdiv
-  27              		.global	__aeabi_fsub
-  28              		.section	.text.algo_one,"ax",%progbits
-  29              		.align	2
-  30              		.global	algo_one
-  31              		.code	16
-  32              		.thumb_func
-  34              	algo_one:
-  35              	.LFB0:
-  36              		.file 1 "../Sources/Algorithms.c"
+  17              		.section	.text.stop_car,"ax",%progbits
+  18              		.align	2
+  19              		.global	stop_car
+  20              		.code	16
+  21              		.thumb_func
+  23              	stop_car:
+  24              	.LFB0:
+  25              		.file 1 "../Sources/Algorithms.c"
    1:../Sources/Algorithms.c **** /*
    2:../Sources/Algorithms.c ****  * AlgoOne.c
    3:../Sources/Algorithms.c ****  *
@@ -46,1366 +35,1674 @@
   11:../Sources/Algorithms.c **** #include "Math.h"
   12:../Sources/Algorithms.c **** #include "stdlib.h"
   13:../Sources/Algorithms.c **** 
-  14:../Sources/Algorithms.c **** #define START_PIXEL 15
-  15:../Sources/Algorithms.c **** #define STOP_PIXEL 113
+  14:../Sources/Algorithms.c **** #define START_PIXEL 10
+  15:../Sources/Algorithms.c **** #define STOP_PIXEL 118
   16:../Sources/Algorithms.c **** 
-  17:../Sources/Algorithms.c **** void algo_one(){
-  37              		.loc 1 17 0
-  38              		.cfi_startproc
-  39 0000 90B5     		push	{r4, r7, lr}
-  40              	.LCFI0:
-  41              		.cfi_def_cfa_offset 12
-  42              		.cfi_offset 4, -12
-  43              		.cfi_offset 7, -8
-  44              		.cfi_offset 14, -4
-  45 0002 EDB0     		sub	sp, sp, #436
-  46              	.LCFI1:
-  47              		.cfi_def_cfa_offset 448
-  48 0004 00AF     		add	r7, sp, #0
-  49              	.LCFI2:
-  50              		.cfi_def_cfa_register 7
-  18:../Sources/Algorithms.c ****     int i;
-  19:../Sources/Algorithms.c **** 
-  20:../Sources/Algorithms.c ****     //Variables for calculating average light levels
-  21:../Sources/Algorithms.c ****     long int sum = 0;
-  51              		.loc 1 21 0
-  52 0006 0023     		mov	r3, #0
-  53 0008 D421     		mov	r1, #212
-  54 000a 4900     		lsl	r1, r1, #1
-  55 000c C919     		add	r1, r1, r7
-  56 000e 0B60     		str	r3, [r1]
-  22:../Sources/Algorithms.c ****     int avg;
-  23:../Sources/Algorithms.c **** 
-  24:../Sources/Algorithms.c ****     //Array recording if pixel light level is below average
-  25:../Sources/Algorithms.c ****     int belowAvg[ STOP_PIXEL - START_PIXEL + 1 ];
-  26:../Sources/Algorithms.c **** 
-  27:../Sources/Algorithms.c ****     //Variables for calculating center of the pixels below average and difference from center of al
-  28:../Sources/Algorithms.c ****     int sumBelowAvg = 0;
-  57              		.loc 1 28 0
-  58 0010 0023     		mov	r3, #0
-  59 0012 D222     		mov	r2, #210
-  60 0014 5200     		lsl	r2, r2, #1
-  61 0016 D219     		add	r2, r2, r7
-  62 0018 1360     		str	r3, [r2]
-  29:../Sources/Algorithms.c ****     int totBelowAvg = 0;
-  63              		.loc 1 29 0
-  64 001a 0023     		mov	r3, #0
-  65 001c D021     		mov	r1, #208
-  66 001e 4900     		lsl	r1, r1, #1
-  67 0020 C919     		add	r1, r1, r7
-  68 0022 0B60     		str	r3, [r1]
-  30:../Sources/Algorithms.c ****     int centerBelowAvg;
-  31:../Sources/Algorithms.c ****     int center = ( STOP_PIXEL - START_PIXEL + 1) / 2;
-  69              		.loc 1 31 0
-  70 0024 3123     		mov	r3, #49
-  71 0026 CE22     		mov	r2, #206
-  72 0028 5200     		lsl	r2, r2, #1
-  73 002a D219     		add	r2, r2, r7
-  74 002c 1360     		str	r3, [r2]
-  32:../Sources/Algorithms.c ****     int diffCenter;
-  33:../Sources/Algorithms.c ****     float diff;
-  34:../Sources/Algorithms.c **** 
-  35:../Sources/Algorithms.c ****     if( LineScanImageReady == 1 ){
-  75              		.loc 1 35 0
-  76 002e 984B     		ldr	r3, .L14
-  77 0030 1B78     		ldrb	r3, [r3]
-  78 0032 DBB2     		uxtb	r3, r3
-  79 0034 012B     		cmp	r3, #1
-  80 0036 00D0     		beq	.LCB40
-  81 0038 A5E0     		b	.L2	@long jump
-  82              	.LCB40:
-  36:../Sources/Algorithms.c ****         LineScanImageReady = 0;
-  83              		.loc 1 36 0
-  84 003a 954B     		ldr	r3, .L14
-  85 003c 0022     		mov	r2, #0
-  86 003e 1A70     		strb	r2, [r3]
-  37:../Sources/Algorithms.c **** 
-  38:../Sources/Algorithms.c ****         //Adds each pixels light value to the total
-  39:../Sources/Algorithms.c ****         for( i = START_PIXEL; i < STOP_PIXEL; i++ ){
-  87              		.loc 1 39 0
-  88 0040 0F23     		mov	r3, #15
-  89 0042 D621     		mov	r1, #214
-  90 0044 4900     		lsl	r1, r1, #1
-  91 0046 C919     		add	r1, r1, r7
-  92 0048 0B60     		str	r3, [r1]
-  93 004a 1BE0     		b	.L3
-  94              	.L4:
-  40:../Sources/Algorithms.c ****             sum += LineScanImage0[i];
-  95              		.loc 1 40 0
-  96 004c 914B     		ldr	r3, .L14+4
-  97 004e 1A68     		ldr	r2, [r3]
-  98 0050 D621     		mov	r1, #214
-  99 0052 4900     		lsl	r1, r1, #1
- 100 0054 C919     		add	r1, r1, r7
- 101 0056 0B68     		ldr	r3, [r1]
- 102 0058 5B00     		lsl	r3, r3, #1
- 103 005a D318     		add	r3, r2, r3
- 104 005c 1B88     		ldrh	r3, [r3]
- 105 005e 9BB2     		uxth	r3, r3
- 106 0060 D421     		mov	r1, #212
- 107 0062 4900     		lsl	r1, r1, #1
- 108 0064 C919     		add	r1, r1, r7
- 109 0066 0A68     		ldr	r2, [r1]
- 110 0068 D318     		add	r3, r2, r3
- 111 006a D422     		mov	r2, #212
- 112 006c 5200     		lsl	r2, r2, #1
- 113 006e D219     		add	r2, r2, r7
- 114 0070 1360     		str	r3, [r2]
-  39:../Sources/Algorithms.c ****         for( i = START_PIXEL; i < STOP_PIXEL; i++ ){
- 115              		.loc 1 39 0
- 116 0072 D621     		mov	r1, #214
- 117 0074 4900     		lsl	r1, r1, #1
- 118 0076 C919     		add	r1, r1, r7
- 119 0078 0B68     		ldr	r3, [r1]
- 120 007a 0133     		add	r3, r3, #1
- 121 007c D622     		mov	r2, #214
- 122 007e 5200     		lsl	r2, r2, #1
- 123 0080 D219     		add	r2, r2, r7
- 124 0082 1360     		str	r3, [r2]
- 125              	.L3:
-  39:../Sources/Algorithms.c ****         for( i = START_PIXEL; i < STOP_PIXEL; i++ ){
- 126              		.loc 1 39 0 is_stmt 0
- 127 0084 D621     		mov	r1, #214
- 128 0086 4900     		lsl	r1, r1, #1
- 129 0088 C919     		add	r1, r1, r7
- 130 008a 0B68     		ldr	r3, [r1]
- 131 008c 702B     		cmp	r3, #112
- 132 008e DDDD     		ble	.L4
-  41:../Sources/Algorithms.c ****         }
+  17:../Sources/Algorithms.c **** 
+  18:../Sources/Algorithms.c **** int stop_car(){
+  26              		.loc 1 18 0
+  27              		.cfi_startproc
+  28 0000 80B5     		push	{r7, lr}
+  29              	.LCFI0:
+  30              		.cfi_def_cfa_offset 8
+  31              		.cfi_offset 7, -8
+  32              		.cfi_offset 14, -4
+  33 0002 84B0     		sub	sp, sp, #16
+  34              	.LCFI1:
+  35              		.cfi_def_cfa_offset 24
+  36 0004 00AF     		add	r7, sp, #0
+  37              	.LCFI2:
+  38              		.cfi_def_cfa_register 7
+  19:../Sources/Algorithms.c **** 	
+  20:../Sources/Algorithms.c **** 	while(!LineScanImageReady);
+  39              		.loc 1 20 0
+  40 0006 C046     		mov	r8, r8
+  41              	.L2:
+  42              		.loc 1 20 0 is_stmt 0
+  43 0008 284B     		ldr	r3, .L9
+  44 000a 1B78     		ldrb	r3, [r3]
+  45 000c DBB2     		uxtb	r3, r3
+  46 000e 002B     		cmp	r3, #0
+  47 0010 FAD0     		beq	.L2
+  21:../Sources/Algorithms.c **** 	LineScanImageReady = 0;
+  48              		.loc 1 21 0 is_stmt 1
+  49 0012 264B     		ldr	r3, .L9
+  50 0014 0022     		mov	r2, #0
+  51 0016 1A70     		strb	r2, [r3]
+  22:../Sources/Algorithms.c **** 	
+  23:../Sources/Algorithms.c **** 	int i;
+  24:../Sources/Algorithms.c **** 	int width = 0;
+  52              		.loc 1 24 0
+  53 0018 0023     		mov	r3, #0
+  54 001a 3B60     		str	r3, [r7]
+  25:../Sources/Algorithms.c **** 	int start = START_PIXEL;
+  55              		.loc 1 25 0
+  56 001c 0A23     		mov	r3, #10
+  57 001e BB60     		str	r3, [r7, #8]
+  26:../Sources/Algorithms.c **** 	int stop = 0;
+  58              		.loc 1 26 0
+  59 0020 0023     		mov	r3, #0
+  60 0022 7B60     		str	r3, [r7, #4]
+  27:../Sources/Algorithms.c **** 	
+  28:../Sources/Algorithms.c **** 	for( i = START_PIXEL; i < STOP_PIXEL; i++ ){
+  61              		.loc 1 28 0
+  62 0024 0A23     		mov	r3, #10
+  63 0026 FB60     		str	r3, [r7, #12]
+  64 0028 37E0     		b	.L3
+  65              	.L8:
+  29:../Sources/Algorithms.c **** 		if( LineScanImage0[i] < ( LineScanImage0[i-1] - 500 ) ){ 
+  66              		.loc 1 29 0
+  67 002a 214B     		ldr	r3, .L9+4
+  68 002c 1A68     		ldr	r2, [r3]
+  69 002e FB68     		ldr	r3, [r7, #12]
+  70 0030 5B00     		lsl	r3, r3, #1
+  71 0032 D318     		add	r3, r2, r3
+  72 0034 1B88     		ldrh	r3, [r3]
+  73 0036 9BB2     		uxth	r3, r3
+  74 0038 1A1C     		mov	r2, r3
+  75 003a 1D4B     		ldr	r3, .L9+4
+  76 003c 1968     		ldr	r1, [r3]
+  77 003e FB68     		ldr	r3, [r7, #12]
+  78 0040 013B     		sub	r3, r3, #1
+  79 0042 5B00     		lsl	r3, r3, #1
+  80 0044 CB18     		add	r3, r1, r3
+  81 0046 1B88     		ldrh	r3, [r3]
+  82 0048 9BB2     		uxth	r3, r3
+  83 004a F53B     		sub	r3, r3, #245
+  84 004c FF3B     		sub	r3, r3, #255
+  85 004e 9A42     		cmp	r2, r3
+  86 0050 01DA     		bge	.L4
+  30:../Sources/Algorithms.c **** 			start = i;
+  87              		.loc 1 30 0
+  88 0052 FB68     		ldr	r3, [r7, #12]
+  89 0054 BB60     		str	r3, [r7, #8]
+  90              	.L4:
+  31:../Sources/Algorithms.c **** 		}
+  32:../Sources/Algorithms.c **** 		if( LineScanImage0[i] > ( LineScanImage0[i-1] + 500 ) ){
+  91              		.loc 1 32 0
+  92 0056 164B     		ldr	r3, .L9+4
+  93 0058 1A68     		ldr	r2, [r3]
+  94 005a FB68     		ldr	r3, [r7, #12]
+  95 005c 5B00     		lsl	r3, r3, #1
+  96 005e D318     		add	r3, r2, r3
+  97 0060 1B88     		ldrh	r3, [r3]
+  98 0062 9BB2     		uxth	r3, r3
+  99 0064 1A1C     		mov	r2, r3
+ 100 0066 124B     		ldr	r3, .L9+4
+ 101 0068 1968     		ldr	r1, [r3]
+ 102 006a FB68     		ldr	r3, [r7, #12]
+ 103 006c 013B     		sub	r3, r3, #1
+ 104 006e 5B00     		lsl	r3, r3, #1
+ 105 0070 CB18     		add	r3, r1, r3
+ 106 0072 1B88     		ldrh	r3, [r3]
+ 107 0074 9BB2     		uxth	r3, r3
+ 108 0076 F533     		add	r3, r3, #245
+ 109 0078 FF33     		add	r3, r3, #255
+ 110 007a 9A42     		cmp	r2, r3
+ 111 007c 01DD     		ble	.L5
+  33:../Sources/Algorithms.c **** 			stop = i;
+ 112              		.loc 1 33 0
+ 113 007e FB68     		ldr	r3, [r7, #12]
+ 114 0080 7B60     		str	r3, [r7, #4]
+ 115              	.L5:
+  34:../Sources/Algorithms.c **** 		}
+  35:../Sources/Algorithms.c **** 		width = stop - start;
+ 116              		.loc 1 35 0
+ 117 0082 7A68     		ldr	r2, [r7, #4]
+ 118 0084 BB68     		ldr	r3, [r7, #8]
+ 119 0086 D31A     		sub	r3, r2, r3
+ 120 0088 3B60     		str	r3, [r7]
+  36:../Sources/Algorithms.c **** 		if( width > 20 ){
+ 121              		.loc 1 36 0
+ 122 008a 3B68     		ldr	r3, [r7]
+ 123 008c 142B     		cmp	r3, #20
+ 124 008e 01DD     		ble	.L6
+  37:../Sources/Algorithms.c **** 			return 1;
+ 125              		.loc 1 37 0
+ 126 0090 0123     		mov	r3, #1
+ 127 0092 06E0     		b	.L7
+ 128              	.L6:
+  28:../Sources/Algorithms.c **** 	for( i = START_PIXEL; i < STOP_PIXEL; i++ ){
+ 129              		.loc 1 28 0
+ 130 0094 FB68     		ldr	r3, [r7, #12]
+ 131 0096 0133     		add	r3, r3, #1
+ 132 0098 FB60     		str	r3, [r7, #12]
+ 133              	.L3:
+  28:../Sources/Algorithms.c **** 	for( i = START_PIXEL; i < STOP_PIXEL; i++ ){
+ 134              		.loc 1 28 0 is_stmt 0
+ 135 009a FB68     		ldr	r3, [r7, #12]
+ 136 009c 752B     		cmp	r3, #117
+ 137 009e C4DD     		ble	.L8
+  38:../Sources/Algorithms.c **** 		}
+  39:../Sources/Algorithms.c **** 	}
+  40:../Sources/Algorithms.c **** 	return 0;
+ 138              		.loc 1 40 0 is_stmt 1
+ 139 00a0 0023     		mov	r3, #0
+ 140              	.L7:
+  41:../Sources/Algorithms.c **** }
+ 141              		.loc 1 41 0
+ 142 00a2 181C     		mov	r0, r3
+ 143 00a4 BD46     		mov	sp, r7
+ 144 00a6 04B0     		add	sp, sp, #16
+ 145              		@ sp needed for prologue
+ 146 00a8 80BD     		pop	{r7, pc}
+ 147              	.L10:
+ 148 00aa C046     		.align	2
+ 149              	.L9:
+ 150 00ac 00000000 		.word	LineScanImageReady
+ 151 00b0 00000000 		.word	LineScanImage0
+ 152              		.cfi_endproc
+ 153              	.LFE0:
+ 155              		.global	__aeabi_idiv
+ 156              		.section	.rodata
+ 157              		.align	2
+ 158              	.LC4:
+ 159 0000 256400   		.ascii	"%d\000"
+ 160 0003 00       		.align	2
+ 161              	.LC6:
+ 162 0004 0D00     		.ascii	"\015\000"
+ 163              		.global	__aeabi_i2f
+ 164              		.global	__aeabi_fdiv
+ 165              		.global	__aeabi_fsub
+ 166              		.section	.text.algo_one,"ax",%progbits
+ 167              		.align	2
+ 168              		.global	algo_one
+ 169              		.code	16
+ 170              		.thumb_func
+ 172              	algo_one:
+ 173              	.LFB1:
   42:../Sources/Algorithms.c **** 
-  43:../Sources/Algorithms.c ****         //Calculates average light value
-  44:../Sources/Algorithms.c ****         avg = sum / ( STOP_PIXEL - START_PIXEL );
- 133              		.loc 1 44 0 is_stmt 1
- 134 0090 D422     		mov	r2, #212
- 135 0092 5200     		lsl	r2, r2, #1
- 136 0094 D219     		add	r2, r2, r7
- 137 0096 1368     		ldr	r3, [r2]
- 138 0098 181C     		mov	r0, r3
- 139 009a 6221     		mov	r1, #98
- 140 009c FFF7FEFF 		bl	__aeabi_idiv
- 141 00a0 031C     		mov	r3, r0
- 142 00a2 CC21     		mov	r1, #204
- 143 00a4 4900     		lsl	r1, r1, #1
- 144 00a6 C919     		add	r1, r1, r7
- 145 00a8 0B60     		str	r3, [r1]
+  43:../Sources/Algorithms.c **** void algo_one(){
+ 174              		.loc 1 43 0
+ 175              		.cfi_startproc
+ 176 0000 90B5     		push	{r4, r7, lr}
+ 177              	.LCFI3:
+ 178              		.cfi_def_cfa_offset 12
+ 179              		.cfi_offset 4, -12
+ 180              		.cfi_offset 7, -8
+ 181              		.cfi_offset 14, -4
+ 182 0002 F7B0     		sub	sp, sp, #476
+ 183              	.LCFI4:
+ 184              		.cfi_def_cfa_offset 488
+ 185 0004 00AF     		add	r7, sp, #0
+ 186              	.LCFI5:
+ 187              		.cfi_def_cfa_register 7
+  44:../Sources/Algorithms.c ****     int i;
   45:../Sources/Algorithms.c **** 
-  46:../Sources/Algorithms.c ****         //Calculates which pixels are below average and fills the array accordingly
-  47:../Sources/Algorithms.c ****         for( i = START_PIXEL; i < STOP_PIXEL; i++ ){
- 146              		.loc 1 47 0
- 147 00aa 0F23     		mov	r3, #15
- 148 00ac D622     		mov	r2, #214
- 149 00ae 5200     		lsl	r2, r2, #1
- 150 00b0 D219     		add	r2, r2, r7
- 151 00b2 1360     		str	r3, [r2]
- 152 00b4 36E0     		b	.L5
- 153              	.L8:
-  48:../Sources/Algorithms.c **** 
-  49:../Sources/Algorithms.c ****             //If pixel is below average sets corresponding array element to 1
-  50:../Sources/Algorithms.c ****             if( LineScanImage0[i] < avg ){
- 154              		.loc 1 50 0
- 155 00b6 774B     		ldr	r3, .L14+4
- 156 00b8 1A68     		ldr	r2, [r3]
- 157 00ba D621     		mov	r1, #214
- 158 00bc 4900     		lsl	r1, r1, #1
- 159 00be C919     		add	r1, r1, r7
- 160 00c0 0B68     		ldr	r3, [r1]
- 161 00c2 5B00     		lsl	r3, r3, #1
- 162 00c4 D318     		add	r3, r2, r3
- 163 00c6 1B88     		ldrh	r3, [r3]
- 164 00c8 9BB2     		uxth	r3, r3
- 165 00ca 1A1C     		mov	r2, r3
- 166 00cc CC21     		mov	r1, #204
- 167 00ce 4900     		lsl	r1, r1, #1
- 168 00d0 C919     		add	r1, r1, r7
- 169 00d2 0B68     		ldr	r3, [r1]
- 170 00d4 9A42     		cmp	r2, r3
- 171 00d6 0EDA     		bge	.L6
-  51:../Sources/Algorithms.c ****                 belowAvg[ i - START_PIXEL ] = 1;
- 172              		.loc 1 51 0
- 173 00d8 D622     		mov	r2, #214
- 174 00da 5200     		lsl	r2, r2, #1
- 175 00dc D219     		add	r2, r2, r7
- 176 00de 1368     		ldr	r3, [r2]
- 177 00e0 1A1C     		mov	r2, r3
- 178 00e2 0F3A     		sub	r2, r2, #15
- 179 00e4 6C4B     		ldr	r3, .L14+8
- 180 00e6 D821     		mov	r1, #216
- 181 00e8 4900     		lsl	r1, r1, #1
- 182 00ea C919     		add	r1, r1, r7
- 183 00ec CB18     		add	r3, r1, r3
- 184 00ee 9200     		lsl	r2, r2, #2
- 185 00f0 0121     		mov	r1, #1
- 186 00f2 D150     		str	r1, [r2, r3]
- 187 00f4 0DE0     		b	.L7
- 188              	.L6:
-  52:../Sources/Algorithms.c ****             }
-  53:../Sources/Algorithms.c **** 
-  54:../Sources/Algorithms.c ****             //If pixel is above average sets corresponding array element to 0
-  55:../Sources/Algorithms.c ****             else {
-  56:../Sources/Algorithms.c ****                 belowAvg[ i - START_PIXEL ] = 0;
- 189              		.loc 1 56 0
- 190 00f6 D622     		mov	r2, #214
- 191 00f8 5200     		lsl	r2, r2, #1
- 192 00fa D219     		add	r2, r2, r7
- 193 00fc 1368     		ldr	r3, [r2]
- 194 00fe 1A1C     		mov	r2, r3
- 195 0100 0F3A     		sub	r2, r2, #15
- 196 0102 654B     		ldr	r3, .L14+8
- 197 0104 D821     		mov	r1, #216
- 198 0106 4900     		lsl	r1, r1, #1
- 199 0108 C919     		add	r1, r1, r7
- 200 010a CB18     		add	r3, r1, r3
- 201 010c 9200     		lsl	r2, r2, #2
- 202 010e 0021     		mov	r1, #0
- 203 0110 D150     		str	r1, [r2, r3]
- 204              	.L7:
-  47:../Sources/Algorithms.c ****         for( i = START_PIXEL; i < STOP_PIXEL; i++ ){
- 205              		.loc 1 47 0
- 206 0112 D622     		mov	r2, #214
- 207 0114 5200     		lsl	r2, r2, #1
- 208 0116 D219     		add	r2, r2, r7
- 209 0118 1368     		ldr	r3, [r2]
- 210 011a 0133     		add	r3, r3, #1
- 211 011c D621     		mov	r1, #214
- 212 011e 4900     		lsl	r1, r1, #1
- 213 0120 C919     		add	r1, r1, r7
- 214 0122 0B60     		str	r3, [r1]
- 215              	.L5:
-  47:../Sources/Algorithms.c ****         for( i = START_PIXEL; i < STOP_PIXEL; i++ ){
- 216              		.loc 1 47 0 is_stmt 0
- 217 0124 D622     		mov	r2, #214
- 218 0126 5200     		lsl	r2, r2, #1
- 219 0128 D219     		add	r2, r2, r7
- 220 012a 1368     		ldr	r3, [r2]
- 221 012c 702B     		cmp	r3, #112
- 222 012e C2DD     		ble	.L8
-  57:../Sources/Algorithms.c ****             }
-  58:../Sources/Algorithms.c ****         }
-  59:../Sources/Algorithms.c **** 
-  60:../Sources/Algorithms.c ****         //Outputs the array over serial
-  61:../Sources/Algorithms.c ****         for( i = START_PIXEL; i < STOP_PIXEL; i++ ){
- 223              		.loc 1 61 0 is_stmt 1
- 224 0130 0F23     		mov	r3, #15
- 225 0132 D621     		mov	r1, #214
- 226 0134 4900     		lsl	r1, r1, #1
- 227 0136 C919     		add	r1, r1, r7
- 228 0138 0B60     		str	r3, [r1]
- 229 013a 1AE0     		b	.L9
- 230              	.L10:
-  62:../Sources/Algorithms.c ****             printf( "%d", belowAvg[ i - START_PIXEL ] );
- 231              		.loc 1 62 0
- 232 013c D622     		mov	r2, #214
- 233 013e 5200     		lsl	r2, r2, #1
- 234 0140 D219     		add	r2, r2, r7
- 235 0142 1368     		ldr	r3, [r2]
- 236 0144 1A1C     		mov	r2, r3
- 237 0146 0F3A     		sub	r2, r2, #15
- 238 0148 534B     		ldr	r3, .L14+8
- 239 014a D821     		mov	r1, #216
- 240 014c 4900     		lsl	r1, r1, #1
- 241 014e C919     		add	r1, r1, r7
- 242 0150 CB18     		add	r3, r1, r3
- 243 0152 9200     		lsl	r2, r2, #2
- 244 0154 D358     		ldr	r3, [r2, r3]
- 245 0156 514A     		ldr	r2, .L14+12
- 246 0158 101C     		mov	r0, r2
- 247 015a 191C     		mov	r1, r3
- 248 015c FFF7FEFF 		bl	printf
-  61:../Sources/Algorithms.c ****         for( i = START_PIXEL; i < STOP_PIXEL; i++ ){
- 249              		.loc 1 61 0
- 250 0160 D622     		mov	r2, #214
- 251 0162 5200     		lsl	r2, r2, #1
- 252 0164 D219     		add	r2, r2, r7
- 253 0166 1368     		ldr	r3, [r2]
- 254 0168 0133     		add	r3, r3, #1
- 255 016a D621     		mov	r1, #214
- 256 016c 4900     		lsl	r1, r1, #1
- 257 016e C919     		add	r1, r1, r7
- 258 0170 0B60     		str	r3, [r1]
- 259              	.L9:
-  61:../Sources/Algorithms.c ****         for( i = START_PIXEL; i < STOP_PIXEL; i++ ){
- 260              		.loc 1 61 0 is_stmt 0
- 261 0172 D622     		mov	r2, #214
- 262 0174 5200     		lsl	r2, r2, #1
- 263 0176 D219     		add	r2, r2, r7
- 264 0178 1368     		ldr	r3, [r2]
- 265 017a 702B     		cmp	r3, #112
- 266 017c DEDD     		ble	.L10
-  63:../Sources/Algorithms.c ****         }
-  64:../Sources/Algorithms.c ****         printf( "\r\n" );
- 267              		.loc 1 64 0 is_stmt 1
- 268 017e 484B     		ldr	r3, .L14+16
- 269 0180 181C     		mov	r0, r3
- 270 0182 FFF7FEFF 		bl	puts
- 271              	.L2:
-  65:../Sources/Algorithms.c ****     }
-  66:../Sources/Algorithms.c **** 
-  67:../Sources/Algorithms.c ****     //Adds all the pixels below average
-  68:../Sources/Algorithms.c ****     for( i = 0; i < STOP_PIXEL - START_PIXEL + 1; i++){
- 272              		.loc 1 68 0
- 273 0186 0023     		mov	r3, #0
- 274 0188 D621     		mov	r1, #214
- 275 018a 4900     		lsl	r1, r1, #1
- 276 018c C919     		add	r1, r1, r7
- 277 018e 0B60     		str	r3, [r1]
- 278 0190 2BE0     		b	.L11
- 279              	.L13:
-  69:../Sources/Algorithms.c ****         if( belowAvg[i] ){
- 280              		.loc 1 69 0
- 281 0192 414B     		ldr	r3, .L14+8
- 282 0194 D822     		mov	r2, #216
- 283 0196 5200     		lsl	r2, r2, #1
- 284 0198 D219     		add	r2, r2, r7
- 285 019a D318     		add	r3, r2, r3
- 286 019c D621     		mov	r1, #214
- 287 019e 4900     		lsl	r1, r1, #1
- 288 01a0 C919     		add	r1, r1, r7
- 289 01a2 0A68     		ldr	r2, [r1]
- 290 01a4 9200     		lsl	r2, r2, #2
- 291 01a6 D358     		ldr	r3, [r2, r3]
- 292 01a8 002B     		cmp	r3, #0
- 293 01aa 15D0     		beq	.L12
-  70:../Sources/Algorithms.c ****             totBelowAvg++;
- 294              		.loc 1 70 0
- 295 01ac D022     		mov	r2, #208
- 296 01ae 5200     		lsl	r2, r2, #1
- 297 01b0 D219     		add	r2, r2, r7
- 298 01b2 1368     		ldr	r3, [r2]
- 299 01b4 0133     		add	r3, r3, #1
- 300 01b6 D021     		mov	r1, #208
- 301 01b8 4900     		lsl	r1, r1, #1
- 302 01ba C919     		add	r1, r1, r7
- 303 01bc 0B60     		str	r3, [r1]
-  71:../Sources/Algorithms.c ****             sumBelowAvg += i;
- 304              		.loc 1 71 0
- 305 01be D223     		mov	r3, #210
- 306 01c0 5B00     		lsl	r3, r3, #1
- 307 01c2 DB19     		add	r3, r3, r7
- 308 01c4 1A68     		ldr	r2, [r3]
- 309 01c6 D621     		mov	r1, #214
- 310 01c8 4900     		lsl	r1, r1, #1
- 311 01ca C919     		add	r1, r1, r7
- 312 01cc 0B68     		ldr	r3, [r1]
- 313 01ce D318     		add	r3, r2, r3
- 314 01d0 D222     		mov	r2, #210
- 315 01d2 5200     		lsl	r2, r2, #1
- 316 01d4 D219     		add	r2, r2, r7
- 317 01d6 1360     		str	r3, [r2]
- 318              	.L12:
-  68:../Sources/Algorithms.c ****     for( i = 0; i < STOP_PIXEL - START_PIXEL + 1; i++){
- 319              		.loc 1 68 0
- 320 01d8 D621     		mov	r1, #214
- 321 01da 4900     		lsl	r1, r1, #1
- 322 01dc C919     		add	r1, r1, r7
- 323 01de 0B68     		ldr	r3, [r1]
- 324 01e0 0133     		add	r3, r3, #1
- 325 01e2 D622     		mov	r2, #214
- 326 01e4 5200     		lsl	r2, r2, #1
- 327 01e6 D219     		add	r2, r2, r7
- 328 01e8 1360     		str	r3, [r2]
- 329              	.L11:
-  68:../Sources/Algorithms.c ****     for( i = 0; i < STOP_PIXEL - START_PIXEL + 1; i++){
- 330              		.loc 1 68 0 is_stmt 0
- 331 01ea D621     		mov	r1, #214
- 332 01ec 4900     		lsl	r1, r1, #1
- 333 01ee C919     		add	r1, r1, r7
- 334 01f0 0B68     		ldr	r3, [r1]
- 335 01f2 622B     		cmp	r3, #98
- 336 01f4 CDDD     		ble	.L13
-  72:../Sources/Algorithms.c ****         }
-  73:../Sources/Algorithms.c ****     }
+  46:../Sources/Algorithms.c ****     //Variables for calculating average light levels
+  47:../Sources/Algorithms.c ****     long int sum = 0;
+ 188              		.loc 1 47 0
+ 189 0006 0023     		mov	r3, #0
+ 190 0008 E821     		mov	r1, #232
+ 191 000a 4900     		lsl	r1, r1, #1
+ 192 000c C919     		add	r1, r1, r7
+ 193 000e 0B60     		str	r3, [r1]
+  48:../Sources/Algorithms.c ****     int avg;
+  49:../Sources/Algorithms.c **** 
+  50:../Sources/Algorithms.c ****     //Array recording if pixel light level is below average
+  51:../Sources/Algorithms.c ****     int belowAvg[ STOP_PIXEL - START_PIXEL + 1 ];
+  52:../Sources/Algorithms.c **** 
+  53:../Sources/Algorithms.c ****     //Variables for calculating center of the pixels below average and difference from center of al
+  54:../Sources/Algorithms.c ****     int sumBelowAvg = 0;
+ 194              		.loc 1 54 0
+ 195 0010 0023     		mov	r3, #0
+ 196 0012 E622     		mov	r2, #230
+ 197 0014 5200     		lsl	r2, r2, #1
+ 198 0016 D219     		add	r2, r2, r7
+ 199 0018 1360     		str	r3, [r2]
+  55:../Sources/Algorithms.c ****     int totBelowAvg = 0;
+ 200              		.loc 1 55 0
+ 201 001a 0023     		mov	r3, #0
+ 202 001c E421     		mov	r1, #228
+ 203 001e 4900     		lsl	r1, r1, #1
+ 204 0020 C919     		add	r1, r1, r7
+ 205 0022 0B60     		str	r3, [r1]
+  56:../Sources/Algorithms.c ****     int centerBelowAvg;
+  57:../Sources/Algorithms.c ****     int center = ( STOP_PIXEL - START_PIXEL + 1) / 2;
+ 206              		.loc 1 57 0
+ 207 0024 3623     		mov	r3, #54
+ 208 0026 E222     		mov	r2, #226
+ 209 0028 5200     		lsl	r2, r2, #1
+ 210 002a D219     		add	r2, r2, r7
+ 211 002c 1360     		str	r3, [r2]
+  58:../Sources/Algorithms.c ****     int diffCenter;
+  59:../Sources/Algorithms.c ****     float diff;
+  60:../Sources/Algorithms.c **** 
+  61:../Sources/Algorithms.c ****     if( LineScanImageReady == 1 ){
+ 212              		.loc 1 61 0
+ 213 002e 984B     		ldr	r3, .L24
+ 214 0030 1B78     		ldrb	r3, [r3]
+ 215 0032 DBB2     		uxtb	r3, r3
+ 216 0034 012B     		cmp	r3, #1
+ 217 0036 00D0     		beq	.LCB169
+ 218 0038 A5E0     		b	.L12	@long jump
+ 219              	.LCB169:
+  62:../Sources/Algorithms.c ****         LineScanImageReady = 0;
+ 220              		.loc 1 62 0
+ 221 003a 954B     		ldr	r3, .L24
+ 222 003c 0022     		mov	r2, #0
+ 223 003e 1A70     		strb	r2, [r3]
+  63:../Sources/Algorithms.c **** 
+  64:../Sources/Algorithms.c ****         //Adds each pixels light value to the total
+  65:../Sources/Algorithms.c ****         for( i = START_PIXEL; i < STOP_PIXEL; i++ ){
+ 224              		.loc 1 65 0
+ 225 0040 0A23     		mov	r3, #10
+ 226 0042 EA21     		mov	r1, #234
+ 227 0044 4900     		lsl	r1, r1, #1
+ 228 0046 C919     		add	r1, r1, r7
+ 229 0048 0B60     		str	r3, [r1]
+ 230 004a 1BE0     		b	.L13
+ 231              	.L14:
+  66:../Sources/Algorithms.c ****             sum += LineScanImage0[i];
+ 232              		.loc 1 66 0
+ 233 004c 914B     		ldr	r3, .L24+4
+ 234 004e 1A68     		ldr	r2, [r3]
+ 235 0050 EA21     		mov	r1, #234
+ 236 0052 4900     		lsl	r1, r1, #1
+ 237 0054 C919     		add	r1, r1, r7
+ 238 0056 0B68     		ldr	r3, [r1]
+ 239 0058 5B00     		lsl	r3, r3, #1
+ 240 005a D318     		add	r3, r2, r3
+ 241 005c 1B88     		ldrh	r3, [r3]
+ 242 005e 9BB2     		uxth	r3, r3
+ 243 0060 E821     		mov	r1, #232
+ 244 0062 4900     		lsl	r1, r1, #1
+ 245 0064 C919     		add	r1, r1, r7
+ 246 0066 0A68     		ldr	r2, [r1]
+ 247 0068 D318     		add	r3, r2, r3
+ 248 006a E822     		mov	r2, #232
+ 249 006c 5200     		lsl	r2, r2, #1
+ 250 006e D219     		add	r2, r2, r7
+ 251 0070 1360     		str	r3, [r2]
+  65:../Sources/Algorithms.c ****         for( i = START_PIXEL; i < STOP_PIXEL; i++ ){
+ 252              		.loc 1 65 0
+ 253 0072 EA21     		mov	r1, #234
+ 254 0074 4900     		lsl	r1, r1, #1
+ 255 0076 C919     		add	r1, r1, r7
+ 256 0078 0B68     		ldr	r3, [r1]
+ 257 007a 0133     		add	r3, r3, #1
+ 258 007c EA22     		mov	r2, #234
+ 259 007e 5200     		lsl	r2, r2, #1
+ 260 0080 D219     		add	r2, r2, r7
+ 261 0082 1360     		str	r3, [r2]
+ 262              	.L13:
+  65:../Sources/Algorithms.c ****         for( i = START_PIXEL; i < STOP_PIXEL; i++ ){
+ 263              		.loc 1 65 0 is_stmt 0
+ 264 0084 EA21     		mov	r1, #234
+ 265 0086 4900     		lsl	r1, r1, #1
+ 266 0088 C919     		add	r1, r1, r7
+ 267 008a 0B68     		ldr	r3, [r1]
+ 268 008c 752B     		cmp	r3, #117
+ 269 008e DDDD     		ble	.L14
+  67:../Sources/Algorithms.c ****         }
+  68:../Sources/Algorithms.c **** 
+  69:../Sources/Algorithms.c ****         //Calculates average light value
+  70:../Sources/Algorithms.c ****         avg = sum / ( STOP_PIXEL - START_PIXEL );
+ 270              		.loc 1 70 0 is_stmt 1
+ 271 0090 E822     		mov	r2, #232
+ 272 0092 5200     		lsl	r2, r2, #1
+ 273 0094 D219     		add	r2, r2, r7
+ 274 0096 1368     		ldr	r3, [r2]
+ 275 0098 181C     		mov	r0, r3
+ 276 009a 6C21     		mov	r1, #108
+ 277 009c FFF7FEFF 		bl	__aeabi_idiv
+ 278 00a0 031C     		mov	r3, r0
+ 279 00a2 E021     		mov	r1, #224
+ 280 00a4 4900     		lsl	r1, r1, #1
+ 281 00a6 C919     		add	r1, r1, r7
+ 282 00a8 0B60     		str	r3, [r1]
+  71:../Sources/Algorithms.c **** 
+  72:../Sources/Algorithms.c ****         //Calculates which pixels are below average and fills the array accordingly
+  73:../Sources/Algorithms.c ****         for( i = START_PIXEL; i < STOP_PIXEL; i++ ){
+ 283              		.loc 1 73 0
+ 284 00aa 0A23     		mov	r3, #10
+ 285 00ac EA22     		mov	r2, #234
+ 286 00ae 5200     		lsl	r2, r2, #1
+ 287 00b0 D219     		add	r2, r2, r7
+ 288 00b2 1360     		str	r3, [r2]
+ 289 00b4 36E0     		b	.L15
+ 290              	.L18:
   74:../Sources/Algorithms.c **** 
-  75:../Sources/Algorithms.c ****     centerBelowAvg = sumBelowAvg / totBelowAvg; //calculates the center of the below average pixels
- 337              		.loc 1 75 0 is_stmt 1
- 338 01f6 D222     		mov	r2, #210
- 339 01f8 5200     		lsl	r2, r2, #1
- 340 01fa D219     		add	r2, r2, r7
- 341 01fc 1068     		ldr	r0, [r2]
- 342 01fe D023     		mov	r3, #208
- 343 0200 5B00     		lsl	r3, r3, #1
- 344 0202 DB19     		add	r3, r3, r7
- 345 0204 1968     		ldr	r1, [r3]
- 346 0206 FFF7FEFF 		bl	__aeabi_idiv
- 347 020a 031C     		mov	r3, r0
- 348 020c CA21     		mov	r1, #202
- 349 020e 4900     		lsl	r1, r1, #1
- 350 0210 C919     		add	r1, r1, r7
- 351 0212 0B60     		str	r3, [r1]
-  76:../Sources/Algorithms.c ****     diffCenter = center - centerBelowAvg;  //Clalculates the difference of the center of the below 
- 352              		.loc 1 76 0
- 353 0214 CE23     		mov	r3, #206
- 354 0216 5B00     		lsl	r3, r3, #1
- 355 0218 DB19     		add	r3, r3, r7
- 356 021a 1A68     		ldr	r2, [r3]
- 357 021c CA21     		mov	r1, #202
- 358 021e 4900     		lsl	r1, r1, #1
- 359 0220 C919     		add	r1, r1, r7
- 360 0222 0B68     		ldr	r3, [r1]
- 361 0224 D31A     		sub	r3, r2, r3
- 362 0226 C822     		mov	r2, #200
- 363 0228 5200     		lsl	r2, r2, #1
- 364 022a D219     		add	r2, r2, r7
- 365 022c 1360     		str	r3, [r2]
-  77:../Sources/Algorithms.c ****     diff = (float)( center - diffCenter ) / (float)center; //Calculates "percent" difference. Range
- 366              		.loc 1 77 0
- 367 022e CE23     		mov	r3, #206
- 368 0230 5B00     		lsl	r3, r3, #1
- 369 0232 DB19     		add	r3, r3, r7
- 370 0234 1A68     		ldr	r2, [r3]
- 371 0236 C821     		mov	r1, #200
- 372 0238 4900     		lsl	r1, r1, #1
- 373 023a C919     		add	r1, r1, r7
- 374 023c 0B68     		ldr	r3, [r1]
- 375 023e D31A     		sub	r3, r2, r3
- 376 0240 181C     		mov	r0, r3
- 377 0242 FFF7FEFF 		bl	__aeabi_i2f
- 378 0246 041C     		add	r4, r0, #0
- 379 0248 CE22     		mov	r2, #206
- 380 024a 5200     		lsl	r2, r2, #1
- 381 024c D219     		add	r2, r2, r7
- 382 024e 1068     		ldr	r0, [r2]
- 383 0250 FFF7FEFF 		bl	__aeabi_i2f
- 384 0254 031C     		add	r3, r0, #0
- 385 0256 201C     		add	r0, r4, #0
- 386 0258 191C     		add	r1, r3, #0
- 387 025a FFF7FEFF 		bl	__aeabi_fdiv
- 388 025e 031C     		add	r3, r0, #0
- 389 0260 C621     		mov	r1, #198
- 390 0262 4900     		lsl	r1, r1, #1
- 391 0264 C919     		add	r1, r1, r7
- 392 0266 0B60     		str	r3, [r1]
-  78:../Sources/Algorithms.c ****     TFC_SetServo(0,diff - 1); //Adjusts servo accordingly
- 393              		.loc 1 78 0
- 394 0268 C622     		mov	r2, #198
- 395 026a 5200     		lsl	r2, r2, #1
- 396 026c D219     		add	r2, r2, r7
- 397 026e 1068     		ldr	r0, [r2]
- 398 0270 FE21     		mov	r1, #254
- 399 0272 8905     		lsl	r1, r1, #22
- 400 0274 FFF7FEFF 		bl	__aeabi_fsub
- 401 0278 031C     		add	r3, r0, #0
- 402 027a 0020     		mov	r0, #0
- 403 027c 191C     		add	r1, r3, #0
- 404 027e FFF7FEFF 		bl	TFC_SetServo
-  79:../Sources/Algorithms.c ****     delay(2); //Allows servo time to move
- 405              		.loc 1 79 0
- 406 0282 0220     		mov	r0, #2
- 407 0284 FFF7FEFF 		bl	delay
-  80:../Sources/Algorithms.c **** }
- 408              		.loc 1 80 0
- 409 0288 BD46     		mov	sp, r7
- 410 028a 6DB0     		add	sp, sp, #436
- 411              		@ sp needed for prologue
- 412 028c 90BD     		pop	{r4, r7, pc}
- 413              	.L15:
- 414 028e C046     		.align	2
- 415              	.L14:
- 416 0290 00000000 		.word	LineScanImageReady
- 417 0294 00000000 		.word	LineScanImage0
- 418 0298 50FEFFFF 		.word	-432
- 419 029c 00000000 		.word	.LC2
- 420 02a0 04000000 		.word	.LC4
- 421              		.cfi_endproc
- 422              	.LFE0:
- 424              		.global	__aeabi_f2iz
- 425              		.global	__aeabi_f2d
- 426              		.global	__aeabi_dadd
- 427              		.global	__aeabi_ui2f
- 428              		.global	__aeabi_dmul
- 429              		.global	__aeabi_d2f
- 430              		.section	.text.algo_two,"ax",%progbits
- 431              		.align	2
- 432              		.global	algo_two
- 433              		.code	16
- 434              		.thumb_func
- 436              	algo_two:
- 437              	.LFB1:
-  81:../Sources/Algorithms.c **** 
-  82:../Sources/Algorithms.c **** void algo_two(){
- 438              		.loc 1 82 0
- 439              		.cfi_startproc
- 440 0000 90B5     		push	{r4, r7, lr}
- 441              	.LCFI3:
- 442              		.cfi_def_cfa_offset 12
- 443              		.cfi_offset 4, -12
- 444              		.cfi_offset 7, -8
- 445              		.cfi_offset 14, -4
- 446 0002 89B0     		sub	sp, sp, #36
- 447              	.LCFI4:
- 448              		.cfi_def_cfa_offset 48
- 449 0004 00AF     		add	r7, sp, #0
- 450              	.LCFI5:
- 451              		.cfi_def_cfa_register 7
-  83:../Sources/Algorithms.c ****     float mid_point = ( STOP_PIXEL - START_PIXEL ) / 2 + START_PIXEL;
- 452              		.loc 1 83 0
- 453 0006 8523     		mov	r3, #133
- 454 0008 DB05     		lsl	r3, r3, #23
- 455 000a BB60     		str	r3, [r7, #8]
-  84:../Sources/Algorithms.c **** 
-  85:../Sources/Algorithms.c ****     if( LineScanImageReady == 1 ){
- 456              		.loc 1 85 0
- 457 000c 424B     		ldr	r3, .L23+8
- 458 000e 1B78     		ldrb	r3, [r3]
- 459 0010 DBB2     		uxtb	r3, r3
- 460 0012 012B     		cmp	r3, #1
- 461 0014 00D0     		beq	.LCB398
- 462 0016 77E0     		b	.L16	@long jump
- 463              	.LCB398:
- 464              	.LBB2:
-  86:../Sources/Algorithms.c ****         LineScanImageReady = 0;
- 465              		.loc 1 86 0
- 466 0018 3F4B     		ldr	r3, .L23+8
- 467 001a 0022     		mov	r2, #0
- 468 001c 1A70     		strb	r2, [r3]
-  87:../Sources/Algorithms.c ****         
-  88:../Sources/Algorithms.c ****         int i;
-  89:../Sources/Algorithms.c ****         double sum = 0.0f;
- 469              		.loc 1 89 0
- 470 001e 3D4C     		ldr	r4, .L23+4
- 471 0020 3B4B     		ldr	r3, .L23
- 472 0022 3B61     		str	r3, [r7, #16]
- 473 0024 7C61     		str	r4, [r7, #20]
-  90:../Sources/Algorithms.c ****         for( i = START_PIXEL; i < STOP_PIXEL; i++ ){
- 474              		.loc 1 90 0
- 475 0026 0F23     		mov	r3, #15
- 476 0028 FB61     		str	r3, [r7, #28]
- 477 002a 61E0     		b	.L18
- 478              	.L22:
- 479              	.LBB3:
-  91:../Sources/Algorithms.c ****             int offset = mid_point - i;
- 480              		.loc 1 91 0
- 481 002c F869     		ldr	r0, [r7, #28]
- 482 002e FFF7FEFF 		bl	__aeabi_i2f
- 483 0032 031C     		add	r3, r0, #0
- 484 0034 B868     		ldr	r0, [r7, #8]
- 485 0036 191C     		add	r1, r3, #0
- 486 0038 FFF7FEFF 		bl	__aeabi_fsub
- 487 003c 031C     		add	r3, r0, #0
- 488 003e 181C     		add	r0, r3, #0
- 489 0040 FFF7FEFF 		bl	__aeabi_f2iz
- 490 0044 031C     		mov	r3, r0
- 491 0046 FB60     		str	r3, [r7, #12]
+  75:../Sources/Algorithms.c ****             //If pixel is below average sets corresponding array element to 1
+  76:../Sources/Algorithms.c ****             if( LineScanImage0[i] < avg ){
+ 291              		.loc 1 76 0
+ 292 00b6 774B     		ldr	r3, .L24+4
+ 293 00b8 1A68     		ldr	r2, [r3]
+ 294 00ba EA21     		mov	r1, #234
+ 295 00bc 4900     		lsl	r1, r1, #1
+ 296 00be C919     		add	r1, r1, r7
+ 297 00c0 0B68     		ldr	r3, [r1]
+ 298 00c2 5B00     		lsl	r3, r3, #1
+ 299 00c4 D318     		add	r3, r2, r3
+ 300 00c6 1B88     		ldrh	r3, [r3]
+ 301 00c8 9BB2     		uxth	r3, r3
+ 302 00ca 1A1C     		mov	r2, r3
+ 303 00cc E021     		mov	r1, #224
+ 304 00ce 4900     		lsl	r1, r1, #1
+ 305 00d0 C919     		add	r1, r1, r7
+ 306 00d2 0B68     		ldr	r3, [r1]
+ 307 00d4 9A42     		cmp	r2, r3
+ 308 00d6 0EDA     		bge	.L16
+  77:../Sources/Algorithms.c ****                 belowAvg[ i - START_PIXEL ] = 1;
+ 309              		.loc 1 77 0
+ 310 00d8 EA22     		mov	r2, #234
+ 311 00da 5200     		lsl	r2, r2, #1
+ 312 00dc D219     		add	r2, r2, r7
+ 313 00de 1368     		ldr	r3, [r2]
+ 314 00e0 1A1C     		mov	r2, r3
+ 315 00e2 0A3A     		sub	r2, r2, #10
+ 316 00e4 6C4B     		ldr	r3, .L24+8
+ 317 00e6 EC21     		mov	r1, #236
+ 318 00e8 4900     		lsl	r1, r1, #1
+ 319 00ea C919     		add	r1, r1, r7
+ 320 00ec CB18     		add	r3, r1, r3
+ 321 00ee 9200     		lsl	r2, r2, #2
+ 322 00f0 0121     		mov	r1, #1
+ 323 00f2 D150     		str	r1, [r2, r3]
+ 324 00f4 0DE0     		b	.L17
+ 325              	.L16:
+  78:../Sources/Algorithms.c ****             }
+  79:../Sources/Algorithms.c **** 
+  80:../Sources/Algorithms.c ****             //If pixel is above average sets corresponding array element to 0
+  81:../Sources/Algorithms.c ****             else {
+  82:../Sources/Algorithms.c ****                 belowAvg[ i - START_PIXEL ] = 0;
+ 326              		.loc 1 82 0
+ 327 00f6 EA22     		mov	r2, #234
+ 328 00f8 5200     		lsl	r2, r2, #1
+ 329 00fa D219     		add	r2, r2, r7
+ 330 00fc 1368     		ldr	r3, [r2]
+ 331 00fe 1A1C     		mov	r2, r3
+ 332 0100 0A3A     		sub	r2, r2, #10
+ 333 0102 654B     		ldr	r3, .L24+8
+ 334 0104 EC21     		mov	r1, #236
+ 335 0106 4900     		lsl	r1, r1, #1
+ 336 0108 C919     		add	r1, r1, r7
+ 337 010a CB18     		add	r3, r1, r3
+ 338 010c 9200     		lsl	r2, r2, #2
+ 339 010e 0021     		mov	r1, #0
+ 340 0110 D150     		str	r1, [r2, r3]
+ 341              	.L17:
+  73:../Sources/Algorithms.c ****         for( i = START_PIXEL; i < STOP_PIXEL; i++ ){
+ 342              		.loc 1 73 0
+ 343 0112 EA22     		mov	r2, #234
+ 344 0114 5200     		lsl	r2, r2, #1
+ 345 0116 D219     		add	r2, r2, r7
+ 346 0118 1368     		ldr	r3, [r2]
+ 347 011a 0133     		add	r3, r3, #1
+ 348 011c EA21     		mov	r1, #234
+ 349 011e 4900     		lsl	r1, r1, #1
+ 350 0120 C919     		add	r1, r1, r7
+ 351 0122 0B60     		str	r3, [r1]
+ 352              	.L15:
+  73:../Sources/Algorithms.c ****         for( i = START_PIXEL; i < STOP_PIXEL; i++ ){
+ 353              		.loc 1 73 0 is_stmt 0
+ 354 0124 EA22     		mov	r2, #234
+ 355 0126 5200     		lsl	r2, r2, #1
+ 356 0128 D219     		add	r2, r2, r7
+ 357 012a 1368     		ldr	r3, [r2]
+ 358 012c 752B     		cmp	r3, #117
+ 359 012e C2DD     		ble	.L18
+  83:../Sources/Algorithms.c ****             }
+  84:../Sources/Algorithms.c ****         }
+  85:../Sources/Algorithms.c **** 
+  86:../Sources/Algorithms.c ****         //Outputs the array over serial
+  87:../Sources/Algorithms.c ****         for( i = START_PIXEL; i < STOP_PIXEL; i++ ){
+ 360              		.loc 1 87 0 is_stmt 1
+ 361 0130 0A23     		mov	r3, #10
+ 362 0132 EA21     		mov	r1, #234
+ 363 0134 4900     		lsl	r1, r1, #1
+ 364 0136 C919     		add	r1, r1, r7
+ 365 0138 0B60     		str	r3, [r1]
+ 366 013a 1AE0     		b	.L19
+ 367              	.L20:
+  88:../Sources/Algorithms.c ****             printf( "%d", belowAvg[ i - START_PIXEL ] );
+ 368              		.loc 1 88 0
+ 369 013c EA22     		mov	r2, #234
+ 370 013e 5200     		lsl	r2, r2, #1
+ 371 0140 D219     		add	r2, r2, r7
+ 372 0142 1368     		ldr	r3, [r2]
+ 373 0144 1A1C     		mov	r2, r3
+ 374 0146 0A3A     		sub	r2, r2, #10
+ 375 0148 534B     		ldr	r3, .L24+8
+ 376 014a EC21     		mov	r1, #236
+ 377 014c 4900     		lsl	r1, r1, #1
+ 378 014e C919     		add	r1, r1, r7
+ 379 0150 CB18     		add	r3, r1, r3
+ 380 0152 9200     		lsl	r2, r2, #2
+ 381 0154 D358     		ldr	r3, [r2, r3]
+ 382 0156 514A     		ldr	r2, .L24+12
+ 383 0158 101C     		mov	r0, r2
+ 384 015a 191C     		mov	r1, r3
+ 385 015c FFF7FEFF 		bl	printf
+  87:../Sources/Algorithms.c ****         for( i = START_PIXEL; i < STOP_PIXEL; i++ ){
+ 386              		.loc 1 87 0
+ 387 0160 EA22     		mov	r2, #234
+ 388 0162 5200     		lsl	r2, r2, #1
+ 389 0164 D219     		add	r2, r2, r7
+ 390 0166 1368     		ldr	r3, [r2]
+ 391 0168 0133     		add	r3, r3, #1
+ 392 016a EA21     		mov	r1, #234
+ 393 016c 4900     		lsl	r1, r1, #1
+ 394 016e C919     		add	r1, r1, r7
+ 395 0170 0B60     		str	r3, [r1]
+ 396              	.L19:
+  87:../Sources/Algorithms.c ****         for( i = START_PIXEL; i < STOP_PIXEL; i++ ){
+ 397              		.loc 1 87 0 is_stmt 0
+ 398 0172 EA22     		mov	r2, #234
+ 399 0174 5200     		lsl	r2, r2, #1
+ 400 0176 D219     		add	r2, r2, r7
+ 401 0178 1368     		ldr	r3, [r2]
+ 402 017a 752B     		cmp	r3, #117
+ 403 017c DEDD     		ble	.L20
+  89:../Sources/Algorithms.c ****         }
+  90:../Sources/Algorithms.c ****         printf( "\r\n" );
+ 404              		.loc 1 90 0 is_stmt 1
+ 405 017e 484B     		ldr	r3, .L24+16
+ 406 0180 181C     		mov	r0, r3
+ 407 0182 FFF7FEFF 		bl	puts
+ 408              	.L12:
+  91:../Sources/Algorithms.c ****     }
   92:../Sources/Algorithms.c **** 
-  93:../Sources/Algorithms.c ****             if(offset == 0) offset = 1;
- 492              		.loc 1 93 0
- 493 0048 FB68     		ldr	r3, [r7, #12]
- 494 004a 002B     		cmp	r3, #0
- 495 004c 01D1     		bne	.L19
- 496              		.loc 1 93 0 is_stmt 0
- 497 004e 0123     		mov	r3, #1
- 498 0050 FB60     		str	r3, [r7, #12]
- 499              	.L19:
-  94:../Sources/Algorithms.c ****             double scale = mid_point / offset;
- 500              		.loc 1 94 0 is_stmt 1
- 501 0052 F868     		ldr	r0, [r7, #12]
- 502 0054 FFF7FEFF 		bl	__aeabi_i2f
- 503 0058 031C     		add	r3, r0, #0
- 504 005a B868     		ldr	r0, [r7, #8]
- 505 005c 191C     		add	r1, r3, #0
- 506 005e FFF7FEFF 		bl	__aeabi_fdiv
- 507 0062 031C     		add	r3, r0, #0
- 508 0064 181C     		add	r0, r3, #0
- 509 0066 FFF7FEFF 		bl	__aeabi_f2d
- 510 006a 031C     		mov	r3, r0
- 511 006c 0C1C     		mov	r4, r1
- 512 006e 3B60     		str	r3, [r7]
- 513 0070 7C60     		str	r4, [r7, #4]
-  95:../Sources/Algorithms.c **** 
-  96:../Sources/Algorithms.c ****             if(LineScanImage0[i] == 0) {
- 514              		.loc 1 96 0
- 515 0072 2A4B     		ldr	r3, .L23+12
- 516 0074 1A68     		ldr	r2, [r3]
- 517 0076 FB69     		ldr	r3, [r7, #28]
- 518 0078 5B00     		lsl	r3, r3, #1
- 519 007a D318     		add	r3, r2, r3
- 520 007c 1B88     		ldrh	r3, [r3]
- 521 007e 9BB2     		uxth	r3, r3
- 522 0080 002B     		cmp	r3, #0
- 523 0082 0AD1     		bne	.L20
-  97:../Sources/Algorithms.c ****                 sum += scale * 1;
- 524              		.loc 1 97 0
- 525 0084 3869     		ldr	r0, [r7, #16]
- 526 0086 7969     		ldr	r1, [r7, #20]
- 527 0088 3A68     		ldr	r2, [r7]
- 528 008a 7B68     		ldr	r3, [r7, #4]
- 529 008c FFF7FEFF 		bl	__aeabi_dadd
- 530 0090 031C     		mov	r3, r0
- 531 0092 0C1C     		mov	r4, r1
- 532 0094 3B61     		str	r3, [r7, #16]
- 533 0096 7C61     		str	r4, [r7, #20]
- 534 0098 27E0     		b	.L21
- 535              	.L20:
-  98:../Sources/Algorithms.c ****             } else {
-  99:../Sources/Algorithms.c ****                 sum += scale * ((1.0f / (float)LineScanImage0[i]));
- 536              		.loc 1 99 0
- 537 009a 204B     		ldr	r3, .L23+12
- 538 009c 1A68     		ldr	r2, [r3]
- 539 009e FB69     		ldr	r3, [r7, #28]
- 540 00a0 5B00     		lsl	r3, r3, #1
- 541 00a2 D318     		add	r3, r2, r3
- 542 00a4 1B88     		ldrh	r3, [r3]
- 543 00a6 9BB2     		uxth	r3, r3
- 544 00a8 181C     		mov	r0, r3
- 545 00aa FFF7FEFF 		bl	__aeabi_ui2f
- 546 00ae 031C     		add	r3, r0, #0
- 547 00b0 FE20     		mov	r0, #254
- 548 00b2 8005     		lsl	r0, r0, #22
- 549 00b4 191C     		add	r1, r3, #0
- 550 00b6 FFF7FEFF 		bl	__aeabi_fdiv
- 551 00ba 031C     		add	r3, r0, #0
- 552 00bc 181C     		add	r0, r3, #0
- 553 00be FFF7FEFF 		bl	__aeabi_f2d
- 554 00c2 031C     		mov	r3, r0
- 555 00c4 0C1C     		mov	r4, r1
- 556 00c6 181C     		mov	r0, r3
- 557 00c8 211C     		mov	r1, r4
- 558 00ca 3A68     		ldr	r2, [r7]
- 559 00cc 7B68     		ldr	r3, [r7, #4]
- 560 00ce FFF7FEFF 		bl	__aeabi_dmul
- 561 00d2 031C     		mov	r3, r0
- 562 00d4 0C1C     		mov	r4, r1
- 563 00d6 3869     		ldr	r0, [r7, #16]
- 564 00d8 7969     		ldr	r1, [r7, #20]
- 565 00da 1A1C     		mov	r2, r3
- 566 00dc 231C     		mov	r3, r4
- 567 00de FFF7FEFF 		bl	__aeabi_dadd
- 568 00e2 031C     		mov	r3, r0
- 569 00e4 0C1C     		mov	r4, r1
- 570 00e6 3B61     		str	r3, [r7, #16]
- 571 00e8 7C61     		str	r4, [r7, #20]
- 572              	.L21:
- 573              	.LBE3:
-  90:../Sources/Algorithms.c ****         for( i = START_PIXEL; i < STOP_PIXEL; i++ ){
- 574              		.loc 1 90 0
- 575 00ea FB69     		ldr	r3, [r7, #28]
- 576 00ec 0133     		add	r3, r3, #1
- 577 00ee FB61     		str	r3, [r7, #28]
- 578              	.L18:
-  90:../Sources/Algorithms.c ****         for( i = START_PIXEL; i < STOP_PIXEL; i++ ){
- 579              		.loc 1 90 0 is_stmt 0
- 580 00f0 FB69     		ldr	r3, [r7, #28]
- 581 00f2 702B     		cmp	r3, #112
- 582 00f4 9ADD     		ble	.L22
- 100:../Sources/Algorithms.c ****             }
- 101:../Sources/Algorithms.c ****         }
- 102:../Sources/Algorithms.c ****     
- 103:../Sources/Algorithms.c ****         sum = (double)sum;
- 104:../Sources/Algorithms.c ****         TFC_SetServo( 0, sum);
- 583              		.loc 1 104 0 is_stmt 1
- 584 00f6 3869     		ldr	r0, [r7, #16]
- 585 00f8 7969     		ldr	r1, [r7, #20]
- 586 00fa FFF7FEFF 		bl	__aeabi_d2f
- 587 00fe 031C     		add	r3, r0, #0
- 588 0100 0020     		mov	r0, #0
- 589 0102 191C     		add	r1, r3, #0
- 590 0104 FFF7FEFF 		bl	TFC_SetServo
- 591              	.L16:
- 592              	.LBE2:
- 105:../Sources/Algorithms.c ****     }
+  93:../Sources/Algorithms.c ****     //Adds all the pixels below average
+  94:../Sources/Algorithms.c ****     for( i = 0; i < STOP_PIXEL - START_PIXEL + 1; i++){
+ 409              		.loc 1 94 0
+ 410 0186 0023     		mov	r3, #0
+ 411 0188 EA21     		mov	r1, #234
+ 412 018a 4900     		lsl	r1, r1, #1
+ 413 018c C919     		add	r1, r1, r7
+ 414 018e 0B60     		str	r3, [r1]
+ 415 0190 2BE0     		b	.L21
+ 416              	.L23:
+  95:../Sources/Algorithms.c ****         if( belowAvg[i] ){
+ 417              		.loc 1 95 0
+ 418 0192 414B     		ldr	r3, .L24+8
+ 419 0194 EC22     		mov	r2, #236
+ 420 0196 5200     		lsl	r2, r2, #1
+ 421 0198 D219     		add	r2, r2, r7
+ 422 019a D318     		add	r3, r2, r3
+ 423 019c EA21     		mov	r1, #234
+ 424 019e 4900     		lsl	r1, r1, #1
+ 425 01a0 C919     		add	r1, r1, r7
+ 426 01a2 0A68     		ldr	r2, [r1]
+ 427 01a4 9200     		lsl	r2, r2, #2
+ 428 01a6 D358     		ldr	r3, [r2, r3]
+ 429 01a8 002B     		cmp	r3, #0
+ 430 01aa 15D0     		beq	.L22
+  96:../Sources/Algorithms.c ****             totBelowAvg++;
+ 431              		.loc 1 96 0
+ 432 01ac E422     		mov	r2, #228
+ 433 01ae 5200     		lsl	r2, r2, #1
+ 434 01b0 D219     		add	r2, r2, r7
+ 435 01b2 1368     		ldr	r3, [r2]
+ 436 01b4 0133     		add	r3, r3, #1
+ 437 01b6 E421     		mov	r1, #228
+ 438 01b8 4900     		lsl	r1, r1, #1
+ 439 01ba C919     		add	r1, r1, r7
+ 440 01bc 0B60     		str	r3, [r1]
+  97:../Sources/Algorithms.c ****             sumBelowAvg += i;
+ 441              		.loc 1 97 0
+ 442 01be E623     		mov	r3, #230
+ 443 01c0 5B00     		lsl	r3, r3, #1
+ 444 01c2 DB19     		add	r3, r3, r7
+ 445 01c4 1A68     		ldr	r2, [r3]
+ 446 01c6 EA21     		mov	r1, #234
+ 447 01c8 4900     		lsl	r1, r1, #1
+ 448 01ca C919     		add	r1, r1, r7
+ 449 01cc 0B68     		ldr	r3, [r1]
+ 450 01ce D318     		add	r3, r2, r3
+ 451 01d0 E622     		mov	r2, #230
+ 452 01d2 5200     		lsl	r2, r2, #1
+ 453 01d4 D219     		add	r2, r2, r7
+ 454 01d6 1360     		str	r3, [r2]
+ 455              	.L22:
+  94:../Sources/Algorithms.c ****     for( i = 0; i < STOP_PIXEL - START_PIXEL + 1; i++){
+ 456              		.loc 1 94 0
+ 457 01d8 EA21     		mov	r1, #234
+ 458 01da 4900     		lsl	r1, r1, #1
+ 459 01dc C919     		add	r1, r1, r7
+ 460 01de 0B68     		ldr	r3, [r1]
+ 461 01e0 0133     		add	r3, r3, #1
+ 462 01e2 EA22     		mov	r2, #234
+ 463 01e4 5200     		lsl	r2, r2, #1
+ 464 01e6 D219     		add	r2, r2, r7
+ 465 01e8 1360     		str	r3, [r2]
+ 466              	.L21:
+  94:../Sources/Algorithms.c ****     for( i = 0; i < STOP_PIXEL - START_PIXEL + 1; i++){
+ 467              		.loc 1 94 0 is_stmt 0
+ 468 01ea EA21     		mov	r1, #234
+ 469 01ec 4900     		lsl	r1, r1, #1
+ 470 01ee C919     		add	r1, r1, r7
+ 471 01f0 0B68     		ldr	r3, [r1]
+ 472 01f2 6C2B     		cmp	r3, #108
+ 473 01f4 CDDD     		ble	.L23
+  98:../Sources/Algorithms.c ****         }
+  99:../Sources/Algorithms.c ****     }
+ 100:../Sources/Algorithms.c **** 
+ 101:../Sources/Algorithms.c ****     centerBelowAvg = sumBelowAvg / totBelowAvg; //calculates the center of the below average pixels
+ 474              		.loc 1 101 0 is_stmt 1
+ 475 01f6 E622     		mov	r2, #230
+ 476 01f8 5200     		lsl	r2, r2, #1
+ 477 01fa D219     		add	r2, r2, r7
+ 478 01fc 1068     		ldr	r0, [r2]
+ 479 01fe E423     		mov	r3, #228
+ 480 0200 5B00     		lsl	r3, r3, #1
+ 481 0202 DB19     		add	r3, r3, r7
+ 482 0204 1968     		ldr	r1, [r3]
+ 483 0206 FFF7FEFF 		bl	__aeabi_idiv
+ 484 020a 031C     		mov	r3, r0
+ 485 020c DE21     		mov	r1, #222
+ 486 020e 4900     		lsl	r1, r1, #1
+ 487 0210 C919     		add	r1, r1, r7
+ 488 0212 0B60     		str	r3, [r1]
+ 102:../Sources/Algorithms.c ****     diffCenter = center - centerBelowAvg;  //Clalculates the difference of the center of the below 
+ 489              		.loc 1 102 0
+ 490 0214 E223     		mov	r3, #226
+ 491 0216 5B00     		lsl	r3, r3, #1
+ 492 0218 DB19     		add	r3, r3, r7
+ 493 021a 1A68     		ldr	r2, [r3]
+ 494 021c DE21     		mov	r1, #222
+ 495 021e 4900     		lsl	r1, r1, #1
+ 496 0220 C919     		add	r1, r1, r7
+ 497 0222 0B68     		ldr	r3, [r1]
+ 498 0224 D31A     		sub	r3, r2, r3
+ 499 0226 DC22     		mov	r2, #220
+ 500 0228 5200     		lsl	r2, r2, #1
+ 501 022a D219     		add	r2, r2, r7
+ 502 022c 1360     		str	r3, [r2]
+ 103:../Sources/Algorithms.c ****     diff = (float)( center - diffCenter ) / (float)center; //Calculates "percent" difference. Range
+ 503              		.loc 1 103 0
+ 504 022e E223     		mov	r3, #226
+ 505 0230 5B00     		lsl	r3, r3, #1
+ 506 0232 DB19     		add	r3, r3, r7
+ 507 0234 1A68     		ldr	r2, [r3]
+ 508 0236 DC21     		mov	r1, #220
+ 509 0238 4900     		lsl	r1, r1, #1
+ 510 023a C919     		add	r1, r1, r7
+ 511 023c 0B68     		ldr	r3, [r1]
+ 512 023e D31A     		sub	r3, r2, r3
+ 513 0240 181C     		mov	r0, r3
+ 514 0242 FFF7FEFF 		bl	__aeabi_i2f
+ 515 0246 041C     		add	r4, r0, #0
+ 516 0248 E222     		mov	r2, #226
+ 517 024a 5200     		lsl	r2, r2, #1
+ 518 024c D219     		add	r2, r2, r7
+ 519 024e 1068     		ldr	r0, [r2]
+ 520 0250 FFF7FEFF 		bl	__aeabi_i2f
+ 521 0254 031C     		add	r3, r0, #0
+ 522 0256 201C     		add	r0, r4, #0
+ 523 0258 191C     		add	r1, r3, #0
+ 524 025a FFF7FEFF 		bl	__aeabi_fdiv
+ 525 025e 031C     		add	r3, r0, #0
+ 526 0260 DA21     		mov	r1, #218
+ 527 0262 4900     		lsl	r1, r1, #1
+ 528 0264 C919     		add	r1, r1, r7
+ 529 0266 0B60     		str	r3, [r1]
+ 104:../Sources/Algorithms.c ****     TFC_SetServo(0,diff - 1); //Adjusts servo accordingly
+ 530              		.loc 1 104 0
+ 531 0268 DA22     		mov	r2, #218
+ 532 026a 5200     		lsl	r2, r2, #1
+ 533 026c D219     		add	r2, r2, r7
+ 534 026e 1068     		ldr	r0, [r2]
+ 535 0270 FE21     		mov	r1, #254
+ 536 0272 8905     		lsl	r1, r1, #22
+ 537 0274 FFF7FEFF 		bl	__aeabi_fsub
+ 538 0278 031C     		add	r3, r0, #0
+ 539 027a 0020     		mov	r0, #0
+ 540 027c 191C     		add	r1, r3, #0
+ 541 027e FFF7FEFF 		bl	TFC_SetServo
+ 105:../Sources/Algorithms.c ****     delay(2); //Allows servo time to move
+ 542              		.loc 1 105 0
+ 543 0282 0220     		mov	r0, #2
+ 544 0284 FFF7FEFF 		bl	delay
  106:../Sources/Algorithms.c **** }
- 593              		.loc 1 106 0
- 594 0108 BD46     		mov	sp, r7
- 595 010a 09B0     		add	sp, sp, #36
- 596              		@ sp needed for prologue
- 597 010c 90BD     		pop	{r4, r7, pc}
- 598              	.L24:
- 599 010e C046     		.align	3
- 600              	.L23:
- 601 0110 00000000 		.word	0
- 602 0114 00000000 		.word	0
- 603 0118 00000000 		.word	LineScanImageReady
- 604 011c 00000000 		.word	LineScanImage0
- 605              		.cfi_endproc
- 606              	.LFE1:
- 608              		.global	__aeabi_i2d
- 609              		.global	__aeabi_fcmplt
- 610              		.global	__aeabi_ddiv
- 611              		.global	__aeabi_dsub
- 612              		.global	__aeabi_d2iz
- 613              		.section	.rodata
- 614 0006 0000     		.align	2
- 615              	.LC10:
- 616 0008 25642C20 		.ascii	"%d, %d, %d\012\000"
- 616      25642C20 
- 616      25640A00 
- 617              		.global	__aeabi_dcmplt
- 618              		.global	__aeabi_dcmpgt
- 619              		.global	__aeabi_ui2d
- 620              		.section	.text.algo_three,"ax",%progbits
- 621              		.align	2
- 622              		.global	algo_three
- 623              		.code	16
- 624              		.thumb_func
- 626              	algo_three:
- 627              	.LFB2:
+ 545              		.loc 1 106 0
+ 546 0288 BD46     		mov	sp, r7
+ 547 028a 77B0     		add	sp, sp, #476
+ 548              		@ sp needed for prologue
+ 549 028c 90BD     		pop	{r4, r7, pc}
+ 550              	.L25:
+ 551 028e C046     		.align	2
+ 552              	.L24:
+ 553 0290 00000000 		.word	LineScanImageReady
+ 554 0294 00000000 		.word	LineScanImage0
+ 555 0298 28FEFFFF 		.word	-472
+ 556 029c 00000000 		.word	.LC4
+ 557 02a0 04000000 		.word	.LC6
+ 558              		.cfi_endproc
+ 559              	.LFE1:
+ 561              		.global	__aeabi_f2iz
+ 562              		.global	__aeabi_f2d
+ 563              		.global	__aeabi_dadd
+ 564              		.global	__aeabi_ui2f
+ 565              		.global	__aeabi_dmul
+ 566              		.global	__aeabi_d2f
+ 567              		.section	.text.algo_two,"ax",%progbits
+ 568              		.align	2
+ 569              		.global	algo_two
+ 570              		.code	16
+ 571              		.thumb_func
+ 573              	algo_two:
+ 574              	.LFB2:
  107:../Sources/Algorithms.c **** 
- 108:../Sources/Algorithms.c **** void algo_three() {
- 628              		.loc 1 108 0
- 629              		.cfi_startproc
- 630 0000 B0B5     		push	{r4, r5, r7, lr}
- 631              	.LCFI6:
- 632              		.cfi_def_cfa_offset 16
- 633              		.cfi_offset 4, -16
- 634              		.cfi_offset 5, -12
- 635              		.cfi_offset 7, -8
- 636              		.cfi_offset 14, -4
- 637 0002 92B0     		sub	sp, sp, #72
- 638              	.LCFI7:
- 639              		.cfi_def_cfa_offset 88
- 640 0004 00AF     		add	r7, sp, #0
- 641              	.LCFI8:
- 642              		.cfi_def_cfa_register 7
- 109:../Sources/Algorithms.c **** 	double avg_left = 0, avg_right = 0;
- 643              		.loc 1 109 0
- 644 0006 B14C     		ldr	r4, .L43+4
- 645 0008 AF4B     		ldr	r3, .L43
- 646 000a 3B64     		str	r3, [r7, #64]
- 647 000c 7C64     		str	r4, [r7, #68]
- 648 000e AF4C     		ldr	r4, .L43+4
- 649 0010 AD4B     		ldr	r3, .L43
- 650 0012 BB63     		str	r3, [r7, #56]
- 651 0014 FC63     		str	r4, [r7, #60]
- 110:../Sources/Algorithms.c **** 	unsigned int numberOfTries = 0;
- 652              		.loc 1 110 0
- 653 0016 0023     		mov	r3, #0
- 654 0018 7B63     		str	r3, [r7, #52]
- 655 001a 00E0     		b	.L38
- 656              	.L42:
- 111:../Sources/Algorithms.c **** 	
- 112:../Sources/Algorithms.c ****     while(1) {
- 113:../Sources/Algorithms.c ****         TFC_Task();
- 114:../Sources/Algorithms.c **** 
- 115:../Sources/Algorithms.c ****         if(LineScanImageReady){
- 116:../Sources/Algorithms.c ****         	numberOfTries++;
- 117:../Sources/Algorithms.c ****             float mid_point = (STOP_PIXEL - START_PIXEL) / 2 + START_PIXEL;
- 118:../Sources/Algorithms.c ****             LineScanImageReady = 0;
- 119:../Sources/Algorithms.c ****             
- 120:../Sources/Algorithms.c ****             double left_sum = 0;
- 121:../Sources/Algorithms.c ****             double right_sum = 0;
- 122:../Sources/Algorithms.c **** 
- 123:../Sources/Algorithms.c ****             int i = 0;
- 124:../Sources/Algorithms.c **** 
- 125:../Sources/Algorithms.c ****             for(i = START_PIXEL; i < mid_point; i++){
- 126:../Sources/Algorithms.c ****                 left_sum += LineScanImage0[i];
- 127:../Sources/Algorithms.c ****             }
- 128:../Sources/Algorithms.c **** 
- 129:../Sources/Algorithms.c ****             for(i = (int)mid_point; i < STOP_PIXEL; i++){
- 130:../Sources/Algorithms.c ****                 right_sum += LineScanImage0[i];
- 131:../Sources/Algorithms.c ****             }
- 132:../Sources/Algorithms.c ****             
- 133:../Sources/Algorithms.c ****             left_sum /= mid_point - START_PIXEL;
- 134:../Sources/Algorithms.c ****             right_sum /= STOP_PIXEL - mid_point;
- 135:../Sources/Algorithms.c ****             double diff = (double)abs(left_sum - right_sum);
- 136:../Sources/Algorithms.c **** 
- 137:../Sources/Algorithms.c ****             diff /= 400;
- 138:../Sources/Algorithms.c ****             
- 139:../Sources/Algorithms.c ****             printf( "%d, %d, %d\n", (int)left_sum, (int)right_sum, (int)diff );
- 140:../Sources/Algorithms.c ****             
- 141:../Sources/Algorithms.c ****             // Default to straight ahead
- 142:../Sources/Algorithms.c ****             double steering_value = 0.0;
- 143:../Sources/Algorithms.c **** 
- 144:../Sources/Algorithms.c ****     		if(left_sum < right_sum){
- 145:../Sources/Algorithms.c ****     			steering_value = 0.5 * diff;
- 146:../Sources/Algorithms.c ****     		} else {
- 147:../Sources/Algorithms.c ****     			steering_value = -0.5 * diff;
- 148:../Sources/Algorithms.c ****     		}
+ 108:../Sources/Algorithms.c **** void algo_two(){
+ 575              		.loc 1 108 0
+ 576              		.cfi_startproc
+ 577 0000 90B5     		push	{r4, r7, lr}
+ 578              	.LCFI6:
+ 579              		.cfi_def_cfa_offset 12
+ 580              		.cfi_offset 4, -12
+ 581              		.cfi_offset 7, -8
+ 582              		.cfi_offset 14, -4
+ 583 0002 89B0     		sub	sp, sp, #36
+ 584              	.LCFI7:
+ 585              		.cfi_def_cfa_offset 48
+ 586 0004 00AF     		add	r7, sp, #0
+ 587              	.LCFI8:
+ 588              		.cfi_def_cfa_register 7
+ 109:../Sources/Algorithms.c ****     float mid_point = ( STOP_PIXEL - START_PIXEL ) / 2 + START_PIXEL;
+ 589              		.loc 1 109 0
+ 590 0006 8523     		mov	r3, #133
+ 591 0008 DB05     		lsl	r3, r3, #23
+ 592 000a BB60     		str	r3, [r7, #8]
+ 110:../Sources/Algorithms.c **** 
+ 111:../Sources/Algorithms.c ****     if( LineScanImageReady == 1 ){
+ 593              		.loc 1 111 0
+ 594 000c 424B     		ldr	r3, .L33+8
+ 595 000e 1B78     		ldrb	r3, [r3]
+ 596 0010 DBB2     		uxtb	r3, r3
+ 597 0012 012B     		cmp	r3, #1
+ 598 0014 00D0     		beq	.LCB527
+ 599 0016 77E0     		b	.L26	@long jump
+ 600              	.LCB527:
+ 601              	.LBB2:
+ 112:../Sources/Algorithms.c ****         LineScanImageReady = 0;
+ 602              		.loc 1 112 0
+ 603 0018 3F4B     		ldr	r3, .L33+8
+ 604 001a 0022     		mov	r2, #0
+ 605 001c 1A70     		strb	r2, [r3]
+ 113:../Sources/Algorithms.c ****         
+ 114:../Sources/Algorithms.c ****         int i;
+ 115:../Sources/Algorithms.c ****         double sum = 0.0f;
+ 606              		.loc 1 115 0
+ 607 001e 3D4C     		ldr	r4, .L33+4
+ 608 0020 3B4B     		ldr	r3, .L33
+ 609 0022 3B61     		str	r3, [r7, #16]
+ 610 0024 7C61     		str	r4, [r7, #20]
+ 116:../Sources/Algorithms.c ****         for( i = START_PIXEL; i < STOP_PIXEL; i++ ){
+ 611              		.loc 1 116 0
+ 612 0026 0A23     		mov	r3, #10
+ 613 0028 FB61     		str	r3, [r7, #28]
+ 614 002a 61E0     		b	.L28
+ 615              	.L32:
+ 616              	.LBB3:
+ 117:../Sources/Algorithms.c ****             int offset = mid_point - i;
+ 617              		.loc 1 117 0
+ 618 002c F869     		ldr	r0, [r7, #28]
+ 619 002e FFF7FEFF 		bl	__aeabi_i2f
+ 620 0032 031C     		add	r3, r0, #0
+ 621 0034 B868     		ldr	r0, [r7, #8]
+ 622 0036 191C     		add	r1, r3, #0
+ 623 0038 FFF7FEFF 		bl	__aeabi_fsub
+ 624 003c 031C     		add	r3, r0, #0
+ 625 003e 181C     		add	r0, r3, #0
+ 626 0040 FFF7FEFF 		bl	__aeabi_f2iz
+ 627 0044 031C     		mov	r3, r0
+ 628 0046 FB60     		str	r3, [r7, #12]
+ 118:../Sources/Algorithms.c **** 
+ 119:../Sources/Algorithms.c ****             if(offset == 0) offset = 1;
+ 629              		.loc 1 119 0
+ 630 0048 FB68     		ldr	r3, [r7, #12]
+ 631 004a 002B     		cmp	r3, #0
+ 632 004c 01D1     		bne	.L29
+ 633              		.loc 1 119 0 is_stmt 0
+ 634 004e 0123     		mov	r3, #1
+ 635 0050 FB60     		str	r3, [r7, #12]
+ 636              	.L29:
+ 120:../Sources/Algorithms.c ****             double scale = mid_point / offset;
+ 637              		.loc 1 120 0 is_stmt 1
+ 638 0052 F868     		ldr	r0, [r7, #12]
+ 639 0054 FFF7FEFF 		bl	__aeabi_i2f
+ 640 0058 031C     		add	r3, r0, #0
+ 641 005a B868     		ldr	r0, [r7, #8]
+ 642 005c 191C     		add	r1, r3, #0
+ 643 005e FFF7FEFF 		bl	__aeabi_fdiv
+ 644 0062 031C     		add	r3, r0, #0
+ 645 0064 181C     		add	r0, r3, #0
+ 646 0066 FFF7FEFF 		bl	__aeabi_f2d
+ 647 006a 031C     		mov	r3, r0
+ 648 006c 0C1C     		mov	r4, r1
+ 649 006e 3B60     		str	r3, [r7]
+ 650 0070 7C60     		str	r4, [r7, #4]
+ 121:../Sources/Algorithms.c **** 
+ 122:../Sources/Algorithms.c ****             if(LineScanImage0[i] == 0) {
+ 651              		.loc 1 122 0
+ 652 0072 2A4B     		ldr	r3, .L33+12
+ 653 0074 1A68     		ldr	r2, [r3]
+ 654 0076 FB69     		ldr	r3, [r7, #28]
+ 655 0078 5B00     		lsl	r3, r3, #1
+ 656 007a D318     		add	r3, r2, r3
+ 657 007c 1B88     		ldrh	r3, [r3]
+ 658 007e 9BB2     		uxth	r3, r3
+ 659 0080 002B     		cmp	r3, #0
+ 660 0082 0AD1     		bne	.L30
+ 123:../Sources/Algorithms.c ****                 sum += scale * 1;
+ 661              		.loc 1 123 0
+ 662 0084 3869     		ldr	r0, [r7, #16]
+ 663 0086 7969     		ldr	r1, [r7, #20]
+ 664 0088 3A68     		ldr	r2, [r7]
+ 665 008a 7B68     		ldr	r3, [r7, #4]
+ 666 008c FFF7FEFF 		bl	__aeabi_dadd
+ 667 0090 031C     		mov	r3, r0
+ 668 0092 0C1C     		mov	r4, r1
+ 669 0094 3B61     		str	r3, [r7, #16]
+ 670 0096 7C61     		str	r4, [r7, #20]
+ 671 0098 27E0     		b	.L31
+ 672              	.L30:
+ 124:../Sources/Algorithms.c ****             } else {
+ 125:../Sources/Algorithms.c ****                 sum += scale * ((1.0f / (float)LineScanImage0[i]));
+ 673              		.loc 1 125 0
+ 674 009a 204B     		ldr	r3, .L33+12
+ 675 009c 1A68     		ldr	r2, [r3]
+ 676 009e FB69     		ldr	r3, [r7, #28]
+ 677 00a0 5B00     		lsl	r3, r3, #1
+ 678 00a2 D318     		add	r3, r2, r3
+ 679 00a4 1B88     		ldrh	r3, [r3]
+ 680 00a6 9BB2     		uxth	r3, r3
+ 681 00a8 181C     		mov	r0, r3
+ 682 00aa FFF7FEFF 		bl	__aeabi_ui2f
+ 683 00ae 031C     		add	r3, r0, #0
+ 684 00b0 FE20     		mov	r0, #254
+ 685 00b2 8005     		lsl	r0, r0, #22
+ 686 00b4 191C     		add	r1, r3, #0
+ 687 00b6 FFF7FEFF 		bl	__aeabi_fdiv
+ 688 00ba 031C     		add	r3, r0, #0
+ 689 00bc 181C     		add	r0, r3, #0
+ 690 00be FFF7FEFF 		bl	__aeabi_f2d
+ 691 00c2 031C     		mov	r3, r0
+ 692 00c4 0C1C     		mov	r4, r1
+ 693 00c6 181C     		mov	r0, r3
+ 694 00c8 211C     		mov	r1, r4
+ 695 00ca 3A68     		ldr	r2, [r7]
+ 696 00cc 7B68     		ldr	r3, [r7, #4]
+ 697 00ce FFF7FEFF 		bl	__aeabi_dmul
+ 698 00d2 031C     		mov	r3, r0
+ 699 00d4 0C1C     		mov	r4, r1
+ 700 00d6 3869     		ldr	r0, [r7, #16]
+ 701 00d8 7969     		ldr	r1, [r7, #20]
+ 702 00da 1A1C     		mov	r2, r3
+ 703 00dc 231C     		mov	r3, r4
+ 704 00de FFF7FEFF 		bl	__aeabi_dadd
+ 705 00e2 031C     		mov	r3, r0
+ 706 00e4 0C1C     		mov	r4, r1
+ 707 00e6 3B61     		str	r3, [r7, #16]
+ 708 00e8 7C61     		str	r4, [r7, #20]
+ 709              	.L31:
+ 710              	.LBE3:
+ 116:../Sources/Algorithms.c ****         for( i = START_PIXEL; i < STOP_PIXEL; i++ ){
+ 711              		.loc 1 116 0
+ 712 00ea FB69     		ldr	r3, [r7, #28]
+ 713 00ec 0133     		add	r3, r3, #1
+ 714 00ee FB61     		str	r3, [r7, #28]
+ 715              	.L28:
+ 116:../Sources/Algorithms.c ****         for( i = START_PIXEL; i < STOP_PIXEL; i++ ){
+ 716              		.loc 1 116 0 is_stmt 0
+ 717 00f0 FB69     		ldr	r3, [r7, #28]
+ 718 00f2 752B     		cmp	r3, #117
+ 719 00f4 9ADD     		ble	.L32
+ 126:../Sources/Algorithms.c ****             }
+ 127:../Sources/Algorithms.c ****         }
+ 128:../Sources/Algorithms.c ****     
+ 129:../Sources/Algorithms.c ****         sum = (double)sum;
+ 130:../Sources/Algorithms.c ****         TFC_SetServo( 0, sum);
+ 720              		.loc 1 130 0 is_stmt 1
+ 721 00f6 3869     		ldr	r0, [r7, #16]
+ 722 00f8 7969     		ldr	r1, [r7, #20]
+ 723 00fa FFF7FEFF 		bl	__aeabi_d2f
+ 724 00fe 031C     		add	r3, r0, #0
+ 725 0100 0020     		mov	r0, #0
+ 726 0102 191C     		add	r1, r3, #0
+ 727 0104 FFF7FEFF 		bl	TFC_SetServo
+ 728              	.L26:
+ 729              	.LBE2:
+ 131:../Sources/Algorithms.c ****     }
+ 132:../Sources/Algorithms.c **** }
+ 730              		.loc 1 132 0
+ 731 0108 BD46     		mov	sp, r7
+ 732 010a 09B0     		add	sp, sp, #36
+ 733              		@ sp needed for prologue
+ 734 010c 90BD     		pop	{r4, r7, pc}
+ 735              	.L34:
+ 736 010e C046     		.align	3
+ 737              	.L33:
+ 738 0110 00000000 		.word	0
+ 739 0114 00000000 		.word	0
+ 740 0118 00000000 		.word	LineScanImageReady
+ 741 011c 00000000 		.word	LineScanImage0
+ 742              		.cfi_endproc
+ 743              	.LFE2:
+ 745              		.global	__aeabi_fmul
+ 746              		.global	__aeabi_i2d
+ 747              		.global	__aeabi_fcmplt
+ 748              		.global	__aeabi_ddiv
+ 749              		.global	__aeabi_dsub
+ 750              		.global	__aeabi_d2iz
+ 751              		.section	.rodata
+ 752 0006 0000     		.align	2
+ 753              	.LC12:
+ 754 0008 25642C20 		.ascii	"%d, %d, %d, %d, %d:%d\012\000"
+ 754      25642C20 
+ 754      25642C20 
+ 754      25642C20 
+ 754      25643A25 
+ 755              		.global	__aeabi_dcmplt
+ 756              		.global	__aeabi_dcmpgt
+ 757 001f 00       		.section	.text.algo_three,"ax",%progbits
+ 758              		.align	2
+ 759              		.global	algo_three
+ 760              		.code	16
+ 761              		.thumb_func
+ 763              	algo_three:
+ 764              	.LFB3:
+ 133:../Sources/Algorithms.c **** 
+ 134:../Sources/Algorithms.c **** void algo_three() {
+ 765              		.loc 1 134 0
+ 766              		.cfi_startproc
+ 767 0000 B0B5     		push	{r4, r5, r7, lr}
+ 768              	.LCFI9:
+ 769              		.cfi_def_cfa_offset 16
+ 770              		.cfi_offset 4, -16
+ 771              		.cfi_offset 5, -12
+ 772              		.cfi_offset 7, -8
+ 773              		.cfi_offset 14, -4
+ 774 0002 9AB0     		sub	sp, sp, #104
+ 775              	.LCFI10:
+ 776              		.cfi_def_cfa_offset 120
+ 777 0004 04AF     		add	r7, sp, #16
+ 778              	.LCFI11:
+ 779              		.cfi_def_cfa 7, 104
+ 135:../Sources/Algorithms.c **** 	//double avg_left = 0, avg_right = 0;
+ 136:../Sources/Algorithms.c **** 	unsigned int numberOfTries = 0;
+ 780              		.loc 1 136 0
+ 781 0006 0023     		mov	r3, #0
+ 782 0008 7B65     		str	r3, [r7, #84]
+ 137:../Sources/Algorithms.c **** 	int stop_algo = 0;
+ 783              		.loc 1 137 0
+ 784 000a 0023     		mov	r3, #0
+ 785 000c 3B65     		str	r3, [r7, #80]
+ 786 000e 00E0     		b	.L56
+ 787              	.L62:
+ 138:../Sources/Algorithms.c **** 	
+ 139:../Sources/Algorithms.c ****     while(1) {
+ 140:../Sources/Algorithms.c ****         TFC_Task();
+ 141:../Sources/Algorithms.c **** 
+ 142:../Sources/Algorithms.c ****         if(LineScanImageReady){
+ 143:../Sources/Algorithms.c ****         	numberOfTries++;
+ 144:../Sources/Algorithms.c ****             float mid_point = (STOP_PIXEL - START_PIXEL) / 2 + START_PIXEL;
+ 145:../Sources/Algorithms.c ****             LineScanImageReady = 0;
+ 146:../Sources/Algorithms.c ****             
+ 147:../Sources/Algorithms.c ****             double left_sum = 0;
+ 148:../Sources/Algorithms.c ****             double right_sum = 0;
  149:../Sources/Algorithms.c **** 
- 150:../Sources/Algorithms.c ****             TFC_SetServo(0, steering_value);
+ 150:../Sources/Algorithms.c ****             int i = 0;
  151:../Sources/Algorithms.c ****             
- 152:../Sources/Algorithms.c ****             if(left_sum < (0.90 * avg_left) && right_sum < (0.90 * avg_right)) {
- 153:../Sources/Algorithms.c ****             	break;            	
- 154:../Sources/Algorithms.c ****             } else {
- 155:../Sources/Algorithms.c ****             	avg_left += left_sum;
- 156:../Sources/Algorithms.c ****             	avg_left /= numberOfTries;
- 157:../Sources/Algorithms.c ****             	
- 158:../Sources/Algorithms.c ****             	avg_right += right_sum;
- 159:../Sources/Algorithms.c ****             	avg_right /= numberOfTries;
- 160:../Sources/Algorithms.c ****             }
- 161:../Sources/Algorithms.c ****         }
- 162:../Sources/Algorithms.c ****         
- 163:../Sources/Algorithms.c ****         TFC_SetMotorPWM(0.35, 0.35);
- 164:../Sources/Algorithms.c ****         if(TFC_PUSH_BUTTON_1_PRESSED) break;
- 165:../Sources/Algorithms.c ****     }
- 657              		.loc 1 165 0
- 658 001c C046     		mov	r8, r8
- 659              	.L38:
- 113:../Sources/Algorithms.c ****         TFC_Task();
- 660              		.loc 1 113 0
- 661 001e FFF7FEFF 		bl	TFC_Task
- 115:../Sources/Algorithms.c ****         if(LineScanImageReady){
- 662              		.loc 1 115 0
- 663 0022 B34B     		ldr	r3, .L43+40
- 664 0024 1B78     		ldrb	r3, [r3]
- 665 0026 DBB2     		uxtb	r3, r3
- 666 0028 002B     		cmp	r3, #0
- 667 002a 00D1     		bne	.LCB566
- 668 002c 38E1     		b	.L26	@long jump
- 669              	.LCB566:
- 670              	.LBB4:
- 116:../Sources/Algorithms.c ****         	numberOfTries++;
- 671              		.loc 1 116 0
- 672 002e 7B6B     		ldr	r3, [r7, #52]
- 673 0030 0133     		add	r3, r3, #1
- 674 0032 7B63     		str	r3, [r7, #52]
- 117:../Sources/Algorithms.c ****             float mid_point = (STOP_PIXEL - START_PIXEL) / 2 + START_PIXEL;
- 675              		.loc 1 117 0
- 676 0034 8523     		mov	r3, #133
- 677 0036 DB05     		lsl	r3, r3, #23
- 678 0038 FB60     		str	r3, [r7, #12]
- 118:../Sources/Algorithms.c ****             LineScanImageReady = 0;
- 679              		.loc 1 118 0
- 680 003a AD4B     		ldr	r3, .L43+40
- 681 003c 0022     		mov	r2, #0
- 682 003e 1A70     		strb	r2, [r3]
- 120:../Sources/Algorithms.c ****             double left_sum = 0;
- 683              		.loc 1 120 0
- 684 0040 A24C     		ldr	r4, .L43+4
- 685 0042 A14B     		ldr	r3, .L43
- 686 0044 BB62     		str	r3, [r7, #40]
- 687 0046 FC62     		str	r4, [r7, #44]
- 121:../Sources/Algorithms.c ****             double right_sum = 0;
- 688              		.loc 1 121 0
- 689 0048 A04C     		ldr	r4, .L43+4
- 690 004a 9F4B     		ldr	r3, .L43
- 691 004c 3B62     		str	r3, [r7, #32]
- 692 004e 7C62     		str	r4, [r7, #36]
- 123:../Sources/Algorithms.c ****             int i = 0;
- 693              		.loc 1 123 0
- 694 0050 0023     		mov	r3, #0
- 695 0052 FB61     		str	r3, [r7, #28]
- 125:../Sources/Algorithms.c ****             for(i = START_PIXEL; i < mid_point; i++){
- 696              		.loc 1 125 0
- 697 0054 0F23     		mov	r3, #15
- 698 0056 FB61     		str	r3, [r7, #28]
- 699 0058 18E0     		b	.L27
- 700              	.L28:
- 126:../Sources/Algorithms.c ****                 left_sum += LineScanImage0[i];
- 701              		.loc 1 126 0
- 702 005a A64B     		ldr	r3, .L43+44
- 703 005c 1A68     		ldr	r2, [r3]
- 704 005e FB69     		ldr	r3, [r7, #28]
- 705 0060 5B00     		lsl	r3, r3, #1
- 706 0062 D318     		add	r3, r2, r3
- 707 0064 1B88     		ldrh	r3, [r3]
- 708 0066 9BB2     		uxth	r3, r3
- 709 0068 181C     		mov	r0, r3
- 710 006a FFF7FEFF 		bl	__aeabi_i2d
- 711 006e 031C     		mov	r3, r0
- 712 0070 0C1C     		mov	r4, r1
- 713 0072 B86A     		ldr	r0, [r7, #40]
- 714 0074 F96A     		ldr	r1, [r7, #44]
- 715 0076 1A1C     		mov	r2, r3
- 716 0078 231C     		mov	r3, r4
- 717 007a FFF7FEFF 		bl	__aeabi_dadd
- 718 007e 031C     		mov	r3, r0
- 719 0080 0C1C     		mov	r4, r1
- 720 0082 BB62     		str	r3, [r7, #40]
- 721 0084 FC62     		str	r4, [r7, #44]
- 125:../Sources/Algorithms.c ****             for(i = START_PIXEL; i < mid_point; i++){
- 722              		.loc 1 125 0
- 723 0086 FB69     		ldr	r3, [r7, #28]
- 724 0088 0133     		add	r3, r3, #1
- 725 008a FB61     		str	r3, [r7, #28]
- 726              	.L27:
- 125:../Sources/Algorithms.c ****             for(i = START_PIXEL; i < mid_point; i++){
- 727              		.loc 1 125 0 is_stmt 0
- 728 008c F869     		ldr	r0, [r7, #28]
- 729 008e FFF7FEFF 		bl	__aeabi_i2f
- 730 0092 031C     		add	r3, r0, #0
- 731 0094 181C     		add	r0, r3, #0
- 732 0096 F968     		ldr	r1, [r7, #12]
- 733 0098 FFF7FEFF 		bl	__aeabi_fcmplt
- 734 009c 031C     		mov	r3, r0
- 735 009e 002B     		cmp	r3, #0
- 736 00a0 DBD1     		bne	.L28
- 129:../Sources/Algorithms.c ****             for(i = (int)mid_point; i < STOP_PIXEL; i++){
- 737              		.loc 1 129 0 is_stmt 1
- 738 00a2 F868     		ldr	r0, [r7, #12]
- 739 00a4 FFF7FEFF 		bl	__aeabi_f2iz
- 740 00a8 031C     		mov	r3, r0
- 741 00aa FB61     		str	r3, [r7, #28]
- 742 00ac 18E0     		b	.L29
- 743              	.L30:
- 130:../Sources/Algorithms.c ****                 right_sum += LineScanImage0[i];
- 744              		.loc 1 130 0
- 745 00ae 914B     		ldr	r3, .L43+44
- 746 00b0 1A68     		ldr	r2, [r3]
- 747 00b2 FB69     		ldr	r3, [r7, #28]
- 748 00b4 5B00     		lsl	r3, r3, #1
- 749 00b6 D318     		add	r3, r2, r3
- 750 00b8 1B88     		ldrh	r3, [r3]
- 751 00ba 9BB2     		uxth	r3, r3
- 752 00bc 181C     		mov	r0, r3
- 753 00be FFF7FEFF 		bl	__aeabi_i2d
- 754 00c2 031C     		mov	r3, r0
- 755 00c4 0C1C     		mov	r4, r1
- 756 00c6 386A     		ldr	r0, [r7, #32]
- 757 00c8 796A     		ldr	r1, [r7, #36]
- 758 00ca 1A1C     		mov	r2, r3
- 759 00cc 231C     		mov	r3, r4
- 760 00ce FFF7FEFF 		bl	__aeabi_dadd
- 761 00d2 031C     		mov	r3, r0
- 762 00d4 0C1C     		mov	r4, r1
- 763 00d6 3B62     		str	r3, [r7, #32]
- 764 00d8 7C62     		str	r4, [r7, #36]
- 129:../Sources/Algorithms.c ****             for(i = (int)mid_point; i < STOP_PIXEL; i++){
- 765              		.loc 1 129 0
- 766 00da FB69     		ldr	r3, [r7, #28]
- 767 00dc 0133     		add	r3, r3, #1
- 768 00de FB61     		str	r3, [r7, #28]
- 769              	.L29:
- 129:../Sources/Algorithms.c ****             for(i = (int)mid_point; i < STOP_PIXEL; i++){
- 770              		.loc 1 129 0 is_stmt 0
- 771 00e0 FB69     		ldr	r3, [r7, #28]
- 772 00e2 702B     		cmp	r3, #112
- 773 00e4 E3DD     		ble	.L30
- 133:../Sources/Algorithms.c ****             left_sum /= mid_point - START_PIXEL;
- 774              		.loc 1 133 0 is_stmt 1
- 775 00e6 F868     		ldr	r0, [r7, #12]
- 776 00e8 8349     		ldr	r1, .L43+48
- 777 00ea FFF7FEFF 		bl	__aeabi_fsub
- 778 00ee 031C     		add	r3, r0, #0
- 779 00f0 181C     		add	r0, r3, #0
- 780 00f2 FFF7FEFF 		bl	__aeabi_f2d
- 781 00f6 031C     		mov	r3, r0
- 782 00f8 0C1C     		mov	r4, r1
- 783 00fa B86A     		ldr	r0, [r7, #40]
- 784 00fc F96A     		ldr	r1, [r7, #44]
- 785 00fe 1A1C     		mov	r2, r3
- 786 0100 231C     		mov	r3, r4
- 787 0102 FFF7FEFF 		bl	__aeabi_ddiv
- 788 0106 031C     		mov	r3, r0
- 789 0108 0C1C     		mov	r4, r1
- 790 010a BB62     		str	r3, [r7, #40]
- 791 010c FC62     		str	r4, [r7, #44]
- 134:../Sources/Algorithms.c ****             right_sum /= STOP_PIXEL - mid_point;
- 792              		.loc 1 134 0
- 793 010e 7B48     		ldr	r0, .L43+52
- 794 0110 F968     		ldr	r1, [r7, #12]
- 795 0112 FFF7FEFF 		bl	__aeabi_fsub
- 796 0116 031C     		add	r3, r0, #0
- 797 0118 181C     		add	r0, r3, #0
- 798 011a FFF7FEFF 		bl	__aeabi_f2d
- 799 011e 031C     		mov	r3, r0
- 800 0120 0C1C     		mov	r4, r1
- 801 0122 386A     		ldr	r0, [r7, #32]
- 802 0124 796A     		ldr	r1, [r7, #36]
- 803 0126 1A1C     		mov	r2, r3
- 804 0128 231C     		mov	r3, r4
- 805 012a FFF7FEFF 		bl	__aeabi_ddiv
- 806 012e 031C     		mov	r3, r0
- 807 0130 0C1C     		mov	r4, r1
- 808 0132 3B62     		str	r3, [r7, #32]
- 809 0134 7C62     		str	r4, [r7, #36]
- 135:../Sources/Algorithms.c ****             double diff = (double)abs(left_sum - right_sum);
- 810              		.loc 1 135 0
- 811 0136 B86A     		ldr	r0, [r7, #40]
- 812 0138 F96A     		ldr	r1, [r7, #44]
- 813 013a 3A6A     		ldr	r2, [r7, #32]
- 814 013c 7B6A     		ldr	r3, [r7, #36]
- 815 013e FFF7FEFF 		bl	__aeabi_dsub
- 816 0142 031C     		mov	r3, r0
- 817 0144 0C1C     		mov	r4, r1
- 818 0146 181C     		mov	r0, r3
- 819 0148 211C     		mov	r1, r4
- 820 014a FFF7FEFF 		bl	__aeabi_d2iz
- 821 014e 031C     		mov	r3, r0
- 822 0150 DA17     		asr	r2, r3, #31
- 823 0152 9B18     		add	r3, r3, r2
- 824 0154 5340     		eor	r3, r2
- 825 0156 181C     		mov	r0, r3
- 826 0158 FFF7FEFF 		bl	__aeabi_i2d
- 827 015c 031C     		mov	r3, r0
- 828 015e 0C1C     		mov	r4, r1
- 829 0160 3B60     		str	r3, [r7]
- 830 0162 7C60     		str	r4, [r7, #4]
- 137:../Sources/Algorithms.c ****             diff /= 400;
- 831              		.loc 1 137 0
- 832 0164 3868     		ldr	r0, [r7]
- 833 0166 7968     		ldr	r1, [r7, #4]
- 834 0168 594A     		ldr	r2, .L43+8
- 835 016a 5A4B     		ldr	r3, .L43+12
- 836 016c FFF7FEFF 		bl	__aeabi_ddiv
- 837 0170 031C     		mov	r3, r0
- 838 0172 0C1C     		mov	r4, r1
- 839 0174 3B60     		str	r3, [r7]
- 840 0176 7C60     		str	r4, [r7, #4]
- 139:../Sources/Algorithms.c ****             printf( "%d, %d, %d\n", (int)left_sum, (int)right_sum, (int)diff );
- 841              		.loc 1 139 0
- 842 0178 B86A     		ldr	r0, [r7, #40]
- 843 017a F96A     		ldr	r1, [r7, #44]
- 844 017c FFF7FEFF 		bl	__aeabi_d2iz
- 845 0180 051C     		mov	r5, r0
- 846 0182 386A     		ldr	r0, [r7, #32]
- 847 0184 796A     		ldr	r1, [r7, #36]
- 848 0186 FFF7FEFF 		bl	__aeabi_d2iz
- 849 018a 041C     		mov	r4, r0
- 850 018c 3868     		ldr	r0, [r7]
- 851 018e 7968     		ldr	r1, [r7, #4]
- 852 0190 FFF7FEFF 		bl	__aeabi_d2iz
- 853 0194 031C     		mov	r3, r0
- 854 0196 5A4A     		ldr	r2, .L43+56
- 855 0198 101C     		mov	r0, r2
- 856 019a 291C     		mov	r1, r5
- 857 019c 221C     		mov	r2, r4
- 858 019e FFF7FEFF 		bl	printf
- 142:../Sources/Algorithms.c ****             double steering_value = 0.0;
- 859              		.loc 1 142 0
- 860 01a2 4A4C     		ldr	r4, .L43+4
- 861 01a4 484B     		ldr	r3, .L43
- 862 01a6 3B61     		str	r3, [r7, #16]
- 863 01a8 7C61     		str	r4, [r7, #20]
- 144:../Sources/Algorithms.c ****     		if(left_sum < right_sum){
- 864              		.loc 1 144 0
- 865 01aa B86A     		ldr	r0, [r7, #40]
- 866 01ac F96A     		ldr	r1, [r7, #44]
- 867 01ae 3A6A     		ldr	r2, [r7, #32]
- 868 01b0 7B6A     		ldr	r3, [r7, #36]
- 869 01b2 FFF7FEFF 		bl	__aeabi_dcmplt
- 870 01b6 031C     		mov	r3, r0
- 871 01b8 002B     		cmp	r3, #0
- 872 01ba 0AD0     		beq	.L41
- 873              	.L39:
- 145:../Sources/Algorithms.c ****     			steering_value = 0.5 * diff;
- 874              		.loc 1 145 0
- 875 01bc 3868     		ldr	r0, [r7]
- 876 01be 7968     		ldr	r1, [r7, #4]
- 877 01c0 454A     		ldr	r2, .L43+16
- 878 01c2 464B     		ldr	r3, .L43+20
- 879 01c4 FFF7FEFF 		bl	__aeabi_dmul
- 880 01c8 031C     		mov	r3, r0
- 881 01ca 0C1C     		mov	r4, r1
- 882 01cc 3B61     		str	r3, [r7, #16]
- 883 01ce 7C61     		str	r4, [r7, #20]
- 884 01d0 09E0     		b	.L33
- 885              	.L41:
- 147:../Sources/Algorithms.c ****     			steering_value = -0.5 * diff;
- 886              		.loc 1 147 0
- 887 01d2 3868     		ldr	r0, [r7]
- 888 01d4 7968     		ldr	r1, [r7, #4]
- 889 01d6 424A     		ldr	r2, .L43+24
- 890 01d8 424B     		ldr	r3, .L43+28
- 891 01da FFF7FEFF 		bl	__aeabi_dmul
- 892 01de 031C     		mov	r3, r0
- 893 01e0 0C1C     		mov	r4, r1
- 894 01e2 3B61     		str	r3, [r7, #16]
- 895 01e4 7C61     		str	r4, [r7, #20]
- 896              	.L33:
- 150:../Sources/Algorithms.c ****             TFC_SetServo(0, steering_value);
- 897              		.loc 1 150 0
- 898 01e6 3869     		ldr	r0, [r7, #16]
- 899 01e8 7969     		ldr	r1, [r7, #20]
- 900 01ea FFF7FEFF 		bl	__aeabi_d2f
- 901 01ee 031C     		add	r3, r0, #0
- 902 01f0 0020     		mov	r0, #0
- 903 01f2 191C     		add	r1, r3, #0
- 904 01f4 FFF7FEFF 		bl	TFC_SetServo
- 152:../Sources/Algorithms.c ****             if(left_sum < (0.90 * avg_left) && right_sum < (0.90 * avg_right)) {
- 905              		.loc 1 152 0
- 906 01f8 386C     		ldr	r0, [r7, #64]
- 907 01fa 796C     		ldr	r1, [r7, #68]
- 908 01fc 3A4A     		ldr	r2, .L43+32
- 909 01fe 3B4B     		ldr	r3, .L43+36
- 910 0200 FFF7FEFF 		bl	__aeabi_dmul
- 911 0204 031C     		mov	r3, r0
- 912 0206 0C1C     		mov	r4, r1
- 913 0208 181C     		mov	r0, r3
- 914 020a 211C     		mov	r1, r4
- 915 020c BA6A     		ldr	r2, [r7, #40]
- 916 020e FB6A     		ldr	r3, [r7, #44]
- 917 0210 FFF7FEFF 		bl	__aeabi_dcmpgt
- 918 0214 031C     		mov	r3, r0
- 919 0216 002B     		cmp	r3, #0
- 920 0218 10D0     		beq	.L34
- 921              	.L40:
- 152:../Sources/Algorithms.c ****             if(left_sum < (0.90 * avg_left) && right_sum < (0.90 * avg_right)) {
- 922              		.loc 1 152 0 is_stmt 0
- 923 021a B86B     		ldr	r0, [r7, #56]
- 924 021c F96B     		ldr	r1, [r7, #60]
- 925 021e 324A     		ldr	r2, .L43+32
- 926 0220 324B     		ldr	r3, .L43+36
- 927 0222 FFF7FEFF 		bl	__aeabi_dmul
- 928 0226 031C     		mov	r3, r0
- 929 0228 0C1C     		mov	r4, r1
- 930 022a 181C     		mov	r0, r3
- 931 022c 211C     		mov	r1, r4
- 932 022e 3A6A     		ldr	r2, [r7, #32]
- 933 0230 7B6A     		ldr	r3, [r7, #36]
- 934 0232 FFF7FEFF 		bl	__aeabi_dcmpgt
- 935 0236 031C     		mov	r3, r0
- 936 0238 002B     		cmp	r3, #0
- 937 023a 3FD1     		bne	.L25
- 938              	.L34:
- 155:../Sources/Algorithms.c ****             	avg_left += left_sum;
- 939              		.loc 1 155 0 is_stmt 1
- 940 023c 386C     		ldr	r0, [r7, #64]
- 941 023e 796C     		ldr	r1, [r7, #68]
- 942 0240 BA6A     		ldr	r2, [r7, #40]
- 943 0242 FB6A     		ldr	r3, [r7, #44]
- 944 0244 FFF7FEFF 		bl	__aeabi_dadd
- 945 0248 031C     		mov	r3, r0
- 946 024a 0C1C     		mov	r4, r1
- 947 024c 3B64     		str	r3, [r7, #64]
- 948 024e 7C64     		str	r4, [r7, #68]
- 156:../Sources/Algorithms.c ****             	avg_left /= numberOfTries;
- 949              		.loc 1 156 0
- 950 0250 786B     		ldr	r0, [r7, #52]
- 951 0252 FFF7FEFF 		bl	__aeabi_ui2d
- 952 0256 031C     		mov	r3, r0
- 953 0258 0C1C     		mov	r4, r1
- 954 025a 386C     		ldr	r0, [r7, #64]
- 955 025c 796C     		ldr	r1, [r7, #68]
- 956 025e 1A1C     		mov	r2, r3
- 957 0260 231C     		mov	r3, r4
- 958 0262 FFF7FEFF 		bl	__aeabi_ddiv
- 959 0266 031C     		mov	r3, r0
- 960 0268 0C1C     		mov	r4, r1
- 961 026a 3B64     		str	r3, [r7, #64]
- 962 026c 7C64     		str	r4, [r7, #68]
- 158:../Sources/Algorithms.c ****             	avg_right += right_sum;
- 963              		.loc 1 158 0
- 964 026e B86B     		ldr	r0, [r7, #56]
- 965 0270 F96B     		ldr	r1, [r7, #60]
- 966 0272 3A6A     		ldr	r2, [r7, #32]
- 967 0274 7B6A     		ldr	r3, [r7, #36]
- 968 0276 FFF7FEFF 		bl	__aeabi_dadd
- 969 027a 031C     		mov	r3, r0
- 970 027c 0C1C     		mov	r4, r1
- 971 027e BB63     		str	r3, [r7, #56]
- 972 0280 FC63     		str	r4, [r7, #60]
- 159:../Sources/Algorithms.c ****             	avg_right /= numberOfTries;
- 973              		.loc 1 159 0
- 974 0282 786B     		ldr	r0, [r7, #52]
- 975 0284 FFF7FEFF 		bl	__aeabi_ui2d
- 976 0288 031C     		mov	r3, r0
- 977 028a 0C1C     		mov	r4, r1
- 978 028c B86B     		ldr	r0, [r7, #56]
- 979 028e F96B     		ldr	r1, [r7, #60]
- 980 0290 1A1C     		mov	r2, r3
- 981 0292 231C     		mov	r3, r4
- 982 0294 FFF7FEFF 		bl	__aeabi_ddiv
- 983 0298 031C     		mov	r3, r0
- 984 029a 0C1C     		mov	r4, r1
- 985 029c BB63     		str	r3, [r7, #56]
- 986 029e FC63     		str	r4, [r7, #60]
- 987              	.L26:
- 988              	.LBE4:
- 163:../Sources/Algorithms.c ****         TFC_SetMotorPWM(0.35, 0.35);
- 989              		.loc 1 163 0
- 990 02a0 184A     		ldr	r2, .L43+60
- 991 02a2 184B     		ldr	r3, .L43+60
- 992 02a4 101C     		add	r0, r2, #0
- 993 02a6 191C     		add	r1, r3, #0
- 994 02a8 FFF7FEFF 		bl	TFC_SetMotorPWM
- 164:../Sources/Algorithms.c ****         if(TFC_PUSH_BUTTON_1_PRESSED) break;
- 995              		.loc 1 164 0
- 996 02ac 164B     		ldr	r3, .L43+64
- 997 02ae 1A69     		ldr	r2, [r3, #16]
- 998 02b0 8023     		mov	r3, #128
- 999 02b2 9B02     		lsl	r3, r3, #10
- 1000 02b4 1340     		and	r3, r2
- 1001 02b6 00D1     		bne	.LCB829
- 1002 02b8 B0E6     		b	.L42	@long jump
- 1003              	.LCB829:
- 1004 02ba C046     		mov	r8, r8
- 1005              	.L25:
- 166:../Sources/Algorithms.c **** }
- 1006              		.loc 1 166 0
- 1007 02bc BD46     		mov	sp, r7
- 1008 02be 12B0     		add	sp, sp, #72
- 1009              		@ sp needed for prologue
- 1010 02c0 B0BD     		pop	{r4, r5, r7, pc}
- 1011              	.L44:
- 1012 02c2 C046C046 		.align	3
- 1012      C046
- 1013              	.L43:
- 1014 02c8 00000000 		.word	0
- 1015 02cc 00000000 		.word	0
- 1016 02d0 00000000 		.word	0
- 1017 02d4 00007940 		.word	1081671680
- 1018 02d8 00000000 		.word	0
- 1019 02dc 0000E03F 		.word	1071644672
- 1020 02e0 00000000 		.word	0
- 1021 02e4 0000E0BF 		.word	-1075838976
- 1022 02e8 CDCCCCCC 		.word	-858993459
- 1023 02ec CCCCEC3F 		.word	1072483532
- 1024 02f0 00000000 		.word	LineScanImageReady
- 1025 02f4 00000000 		.word	LineScanImage0
- 1026 02f8 00007041 		.word	1097859072
- 1027 02fc 0000E242 		.word	1122107392
- 1028 0300 08000000 		.word	.LC10
- 1029 0304 3333B33E 		.word	1051931443
- 1030 0308 80F00F40 		.word	1074786432
- 1031              		.cfi_endproc
- 1032              	.LFE2:
- 1034 030c C046C046 		.section	.text.stop_car,"ax",%progbits
- 1035              		.align	2
- 1036              		.global	stop_car
- 1037              		.code	16
- 1038              		.thumb_func
- 1040              	stop_car:
- 1041              	.LFB3:
- 167:../Sources/Algorithms.c **** 
- 168:../Sources/Algorithms.c **** int stop_car(){
- 1042              		.loc 1 168 0
- 1043              		.cfi_startproc
- 1044 0000 80B5     		push	{r7, lr}
- 1045              	.LCFI9:
- 1046              		.cfi_def_cfa_offset 8
- 1047              		.cfi_offset 7, -8
- 1048              		.cfi_offset 14, -4
- 1049 0002 82B0     		sub	sp, sp, #8
- 1050              	.LCFI10:
- 1051              		.cfi_def_cfa_offset 16
- 1052 0004 00AF     		add	r7, sp, #0
- 1053              	.LCFI11:
- 1054              		.cfi_def_cfa_register 7
- 169:../Sources/Algorithms.c **** 	
- 170:../Sources/Algorithms.c **** 	while(!LineScanImageReady);
- 1055              		.loc 1 170 0
- 1056 0006 C046     		mov	r8, r8
- 1057              	.L46:
- 1058              		.loc 1 170 0 is_stmt 0
- 1059 0008 234B     		ldr	r3, .L53
- 1060 000a 1B78     		ldrb	r3, [r3]
- 1061 000c DBB2     		uxtb	r3, r3
- 1062 000e 002B     		cmp	r3, #0
- 1063 0010 FAD0     		beq	.L46
- 171:../Sources/Algorithms.c **** 	LineScanImageReady = 0;
- 1064              		.loc 1 171 0 is_stmt 1
- 1065 0012 214B     		ldr	r3, .L53
- 1066 0014 0022     		mov	r2, #0
- 1067 0016 1A70     		strb	r2, [r3]
- 172:../Sources/Algorithms.c **** 	
- 173:../Sources/Algorithms.c **** 	int i;
- 174:../Sources/Algorithms.c **** 	int black_spots = 0;
- 1068              		.loc 1 174 0
- 1069 0018 0023     		mov	r3, #0
- 1070 001a 3B60     		str	r3, [r7]
- 175:../Sources/Algorithms.c **** 	
- 176:../Sources/Algorithms.c **** 	for( i = START_PIXEL; i < STOP_PIXEL - 5; i++ ){
- 1071              		.loc 1 176 0
- 1072 001c 0F23     		mov	r3, #15
- 1073 001e 7B60     		str	r3, [r7, #4]
- 1074 0020 2DE0     		b	.L47
- 1075              	.L50:
- 177:../Sources/Algorithms.c **** 		if( ( LineScanImage0[i] < ( LineScanImage0[i-1] - 500 ) ) || ( LineScanImage0[i] < ( LineScanImag
- 1076              		.loc 1 177 0
- 1077 0022 1E4B     		ldr	r3, .L53+4
- 1078 0024 1A68     		ldr	r2, [r3]
- 1079 0026 7B68     		ldr	r3, [r7, #4]
- 1080 0028 5B00     		lsl	r3, r3, #1
- 1081 002a D318     		add	r3, r2, r3
- 1082 002c 1B88     		ldrh	r3, [r3]
- 1083 002e 9BB2     		uxth	r3, r3
- 1084 0030 1A1C     		mov	r2, r3
- 1085 0032 1A4B     		ldr	r3, .L53+4
- 1086 0034 1968     		ldr	r1, [r3]
- 1087 0036 7B68     		ldr	r3, [r7, #4]
- 1088 0038 013B     		sub	r3, r3, #1
- 1089 003a 5B00     		lsl	r3, r3, #1
- 1090 003c CB18     		add	r3, r1, r3
- 1091 003e 1B88     		ldrh	r3, [r3]
- 1092 0040 9BB2     		uxth	r3, r3
- 1093 0042 F53B     		sub	r3, r3, #245
- 1094 0044 FF3B     		sub	r3, r3, #255
- 1095 0046 9A42     		cmp	r2, r3
- 1096 0048 13DB     		blt	.L48
- 1097              		.loc 1 177 0 is_stmt 0
- 1098 004a 144B     		ldr	r3, .L53+4
- 1099 004c 1A68     		ldr	r2, [r3]
- 1100 004e 7B68     		ldr	r3, [r7, #4]
- 1101 0050 5B00     		lsl	r3, r3, #1
- 1102 0052 D318     		add	r3, r2, r3
- 1103 0054 1B88     		ldrh	r3, [r3]
- 1104 0056 9BB2     		uxth	r3, r3
- 1105 0058 1A1C     		mov	r2, r3
- 1106 005a 104B     		ldr	r3, .L53+4
- 1107 005c 1968     		ldr	r1, [r3]
- 1108 005e 7B68     		ldr	r3, [r7, #4]
- 1109 0060 023B     		sub	r3, r3, #2
- 1110 0062 5B00     		lsl	r3, r3, #1
- 1111 0064 CB18     		add	r3, r1, r3
- 1112 0066 1B88     		ldrh	r3, [r3]
- 1113 0068 9BB2     		uxth	r3, r3
- 1114 006a 0D49     		ldr	r1, .L53+8
- 1115 006c 5B18     		add	r3, r3, r1
- 1116 006e 9A42     		cmp	r2, r3
- 1117 0070 02DA     		bge	.L49
- 1118              	.L48:
- 178:../Sources/Algorithms.c **** 			black_spots++;
- 1119              		.loc 1 178 0 is_stmt 1
- 1120 0072 3B68     		ldr	r3, [r7]
- 1121 0074 0133     		add	r3, r3, #1
- 1122 0076 3B60     		str	r3, [r7]
- 1123              	.L49:
- 176:../Sources/Algorithms.c **** 	for( i = START_PIXEL; i < STOP_PIXEL - 5; i++ ){
- 1124              		.loc 1 176 0
- 1125 0078 7B68     		ldr	r3, [r7, #4]
- 1126 007a 0133     		add	r3, r3, #1
- 1127 007c 7B60     		str	r3, [r7, #4]
- 1128              	.L47:
- 176:../Sources/Algorithms.c **** 	for( i = START_PIXEL; i < STOP_PIXEL - 5; i++ ){
- 1129              		.loc 1 176 0 is_stmt 0
- 1130 007e 7B68     		ldr	r3, [r7, #4]
- 1131 0080 6B2B     		cmp	r3, #107
- 1132 0082 CEDD     		ble	.L50
- 179:../Sources/Algorithms.c **** 		}
- 180:../Sources/Algorithms.c **** 	}
- 181:../Sources/Algorithms.c **** 	if(black_spots > 3){
- 1133              		.loc 1 181 0 is_stmt 1
- 1134 0084 3B68     		ldr	r3, [r7]
- 1135 0086 032B     		cmp	r3, #3
- 1136 0088 01DD     		ble	.L51
- 182:../Sources/Algorithms.c **** 		return 1;
- 1137              		.loc 1 182 0
- 1138 008a 0123     		mov	r3, #1
- 1139 008c 00E0     		b	.L52
- 1140              	.L51:
- 183:../Sources/Algorithms.c **** 	}
- 184:../Sources/Algorithms.c **** 	else return 0;
- 1141              		.loc 1 184 0
- 1142 008e 0023     		mov	r3, #0
- 1143              	.L52:
- 185:../Sources/Algorithms.c **** }
- 1144              		.loc 1 185 0
- 1145 0090 181C     		mov	r0, r3
- 1146 0092 BD46     		mov	sp, r7
- 1147 0094 02B0     		add	sp, sp, #8
- 1148              		@ sp needed for prologue
- 1149 0096 80BD     		pop	{r7, pc}
- 1150              	.L54:
- 1151              		.align	2
- 1152              	.L53:
- 1153 0098 00000000 		.word	LineScanImageReady
- 1154 009c 00000000 		.word	LineScanImage0
- 1155 00a0 18FCFFFF 		.word	-1000
- 1156              		.cfi_endproc
- 1157              	.LFE3:
- 1159              		.text
- 1160              	.Letext0:
- 1161              		.file 2 "C:/Freescale/CW MCU v10.6/MCU/ARM_GCC_Support/ewl/EWL_C/include/cstdint"
- 1162              		.file 3 "C:/Users/Jared/Desktop/freescalecup/FRDM-TFC/Project_Headers/MKL25Z4.h"
- 1163              		.file 4 "C:/Users/Jared/Desktop/freescalecup/FRDM-TFC/Project_Headers/TFC\\TFC_LineScanCamera.h"
+ 152:../Sources/Algorithms.c ****             int avg_1 = 0;
+ 153:../Sources/Algorithms.c ****             int avg_2 = 0;
+ 154:../Sources/Algorithms.c ****             
+ 155:../Sources/Algorithms.c **** 
+ 156:../Sources/Algorithms.c ****             int num_changes_left = 0;
+ 157:../Sources/Algorithms.c ****             int num_changes_right = 0;
+ 158:../Sources/Algorithms.c ****             float sensitivity = TFC_ReadPot(0);
+ 159:../Sources/Algorithms.c ****             int threshold = (int)(1000 * sensitivity);
+ 160:../Sources/Algorithms.c ****             
+ 161:../Sources/Algorithms.c ****             for(i = START_PIXEL; i < mid_point; i++){
+ 162:../Sources/Algorithms.c ****                 left_sum += LineScanImage0[i];
+ 163:../Sources/Algorithms.c ****                 avg_1 = ( LineScanImage0[i - 2] + LineScanImage0[i - 1] + LineScanImage0[i] ) / 3;
+ 164:../Sources/Algorithms.c ****                 avg_2 = ( LineScanImage0[i] + LineScanImage0[i + 1] + LineScanImage0[i + 2] ) / 3;
+ 165:../Sources/Algorithms.c ****                 if( avg_2 < ( avg_1 - threshold ) ){
+ 166:../Sources/Algorithms.c ****                 	num_changes_left++;
+ 167:../Sources/Algorithms.c ****                 }
+ 168:../Sources/Algorithms.c ****                 if( avg_2 > ( avg_1 + threshold ) ){
+ 169:../Sources/Algorithms.c ****                 	num_changes_left++;
+ 170:../Sources/Algorithms.c ****                 }
+ 171:../Sources/Algorithms.c ****             }
+ 172:../Sources/Algorithms.c **** 
+ 173:../Sources/Algorithms.c ****             for(i = (int)mid_point; i < STOP_PIXEL; i++){
+ 174:../Sources/Algorithms.c ****                 right_sum += LineScanImage0[i];
+ 175:../Sources/Algorithms.c ****                 avg_1 = ( LineScanImage0[i - 2] + LineScanImage0[i - 1] + LineScanImage0[i] ) / 3;
+ 176:../Sources/Algorithms.c ****                 avg_2 = ( LineScanImage0[i] + LineScanImage0[i + 1] + LineScanImage0[i + 2] ) / 3;
+ 177:../Sources/Algorithms.c ****                 if( avg_2 < ( avg_1 - threshold ) ){
+ 178:../Sources/Algorithms.c ****                 	num_changes_right++;
+ 179:../Sources/Algorithms.c ****                 }
+ 180:../Sources/Algorithms.c ****                 if( avg_2 > ( avg_1 + threshold ) ){
+ 181:../Sources/Algorithms.c ****                     num_changes_right++;
+ 182:../Sources/Algorithms.c ****                 }
+ 183:../Sources/Algorithms.c ****             }
+ 184:../Sources/Algorithms.c ****             
+ 185:../Sources/Algorithms.c ****             if( num_changes_right >= 1 && num_changes_left >= 1 ){
+ 186:../Sources/Algorithms.c ****             	stop_algo = 1;
+ 187:../Sources/Algorithms.c ****             }
+ 188:../Sources/Algorithms.c ****             
+ 189:../Sources/Algorithms.c ****             left_sum /= mid_point - START_PIXEL;
+ 190:../Sources/Algorithms.c ****             right_sum /= STOP_PIXEL - mid_point;
+ 191:../Sources/Algorithms.c ****             double diff = (double)abs(left_sum - right_sum);
+ 192:../Sources/Algorithms.c **** 
+ 193:../Sources/Algorithms.c ****             diff /= 400;
+ 194:../Sources/Algorithms.c ****             
+ 195:../Sources/Algorithms.c ****             printf( "%d, %d, %d, %d, %d:%d\n", (int)left_sum, (int)right_sum, (int)diff, threshold,
+ 196:../Sources/Algorithms.c ****             
+ 197:../Sources/Algorithms.c ****             // Default to straight ahead
+ 198:../Sources/Algorithms.c ****             double steering_value = 0.0;
+ 199:../Sources/Algorithms.c **** 
+ 200:../Sources/Algorithms.c ****     		if(left_sum < right_sum){
+ 201:../Sources/Algorithms.c ****     			steering_value = 0.5 * diff;
+ 202:../Sources/Algorithms.c ****     			if(steering_value > .7)steering_value = .7;
+ 203:../Sources/Algorithms.c ****     		} else {
+ 204:../Sources/Algorithms.c ****     			steering_value = -0.5 * diff;
+ 205:../Sources/Algorithms.c ****     			if(steering_value < -.7)steering_value = -.7;
+ 206:../Sources/Algorithms.c ****     		}
+ 207:../Sources/Algorithms.c **** 
+ 208:../Sources/Algorithms.c ****             TFC_SetServo(0, steering_value);
+ 209:../Sources/Algorithms.c ****         }
+ 210:../Sources/Algorithms.c ****         
+ 211:../Sources/Algorithms.c ****         if(stop_algo == 0) {
+ 212:../Sources/Algorithms.c ****         	TFC_SetMotorPWM(0.30, 0.30);
+ 213:../Sources/Algorithms.c ****         } else {
+ 214:../Sources/Algorithms.c ****         	double motor = (5000 - stop_algo) / 5000;
+ 215:../Sources/Algorithms.c ****         	TFC_SetMotorPWM(motor, motor);
+ 216:../Sources/Algorithms.c ****         	stop_algo++;
+ 217:../Sources/Algorithms.c ****         }
+ 218:../Sources/Algorithms.c ****         if(TFC_PUSH_BUTTON_1_PRESSED) break;
+ 219:../Sources/Algorithms.c ****         
+ 220:../Sources/Algorithms.c ****         if(stop_algo > 5000) break;
+ 221:../Sources/Algorithms.c ****     }
+ 788              		.loc 1 221 0
+ 789 0010 C046     		mov	r8, r8
+ 790              	.L56:
+ 140:../Sources/Algorithms.c ****         TFC_Task();
+ 791              		.loc 1 140 0
+ 792 0012 FFF7FEFF 		bl	TFC_Task
+ 142:../Sources/Algorithms.c ****         if(LineScanImageReady){
+ 793              		.loc 1 142 0
+ 794 0016 E04B     		ldr	r3, .L63+32
+ 795 0018 1B78     		ldrb	r3, [r3]
+ 796 001a DBB2     		uxtb	r3, r3
+ 797 001c 002B     		cmp	r3, #0
+ 798 001e 00D1     		bne	.LCB693
+ 799 0020 E6E1     		b	.L36	@long jump
+ 800              	.LCB693:
+ 801              	.LBB4:
+ 143:../Sources/Algorithms.c ****         	numberOfTries++;
+ 802              		.loc 1 143 0
+ 803 0022 7B6D     		ldr	r3, [r7, #84]
+ 804 0024 0133     		add	r3, r3, #1
+ 805 0026 7B65     		str	r3, [r7, #84]
+ 144:../Sources/Algorithms.c ****             float mid_point = (STOP_PIXEL - START_PIXEL) / 2 + START_PIXEL;
+ 806              		.loc 1 144 0
+ 807 0028 8523     		mov	r3, #133
+ 808 002a DB05     		lsl	r3, r3, #23
+ 809 002c 7B62     		str	r3, [r7, #36]
+ 145:../Sources/Algorithms.c ****             LineScanImageReady = 0;
+ 810              		.loc 1 145 0
+ 811 002e DA4B     		ldr	r3, .L63+32
+ 812 0030 0022     		mov	r2, #0
+ 813 0032 1A70     		strb	r2, [r3]
+ 147:../Sources/Algorithms.c ****             double left_sum = 0;
+ 814              		.loc 1 147 0
+ 815 0034 D14C     		ldr	r4, .L63+4
+ 816 0036 D04B     		ldr	r3, .L63
+ 817 0038 BB64     		str	r3, [r7, #72]
+ 818 003a FC64     		str	r4, [r7, #76]
+ 148:../Sources/Algorithms.c ****             double right_sum = 0;
+ 819              		.loc 1 148 0
+ 820 003c CF4C     		ldr	r4, .L63+4
+ 821 003e CE4B     		ldr	r3, .L63
+ 822 0040 3B64     		str	r3, [r7, #64]
+ 823 0042 7C64     		str	r4, [r7, #68]
+ 150:../Sources/Algorithms.c ****             int i = 0;
+ 824              		.loc 1 150 0
+ 825 0044 0023     		mov	r3, #0
+ 826 0046 FB63     		str	r3, [r7, #60]
+ 152:../Sources/Algorithms.c ****             int avg_1 = 0;
+ 827              		.loc 1 152 0
+ 828 0048 0023     		mov	r3, #0
+ 829 004a 3B62     		str	r3, [r7, #32]
+ 153:../Sources/Algorithms.c ****             int avg_2 = 0;
+ 830              		.loc 1 153 0
+ 831 004c 0023     		mov	r3, #0
+ 832 004e FB61     		str	r3, [r7, #28]
+ 156:../Sources/Algorithms.c ****             int num_changes_left = 0;
+ 833              		.loc 1 156 0
+ 834 0050 0023     		mov	r3, #0
+ 835 0052 BB63     		str	r3, [r7, #56]
+ 157:../Sources/Algorithms.c ****             int num_changes_right = 0;
+ 836              		.loc 1 157 0
+ 837 0054 0023     		mov	r3, #0
+ 838 0056 7B63     		str	r3, [r7, #52]
+ 158:../Sources/Algorithms.c ****             float sensitivity = TFC_ReadPot(0);
+ 839              		.loc 1 158 0
+ 840 0058 0020     		mov	r0, #0
+ 841 005a FFF7FEFF 		bl	TFC_ReadPot
+ 842 005e 031C     		add	r3, r0, #0
+ 843 0060 BB61     		str	r3, [r7, #24]
+ 159:../Sources/Algorithms.c ****             int threshold = (int)(1000 * sensitivity);
+ 844              		.loc 1 159 0
+ 845 0062 B869     		ldr	r0, [r7, #24]
+ 846 0064 CD49     		ldr	r1, .L63+36
+ 847 0066 FFF7FEFF 		bl	__aeabi_fmul
+ 848 006a 031C     		add	r3, r0, #0
+ 849 006c 181C     		add	r0, r3, #0
+ 850 006e FFF7FEFF 		bl	__aeabi_f2iz
+ 851 0072 031C     		mov	r3, r0
+ 852 0074 7B61     		str	r3, [r7, #20]
+ 161:../Sources/Algorithms.c ****             for(i = START_PIXEL; i < mid_point; i++){
+ 853              		.loc 1 161 0
+ 854 0076 0A23     		mov	r3, #10
+ 855 0078 FB63     		str	r3, [r7, #60]
+ 856 007a 6AE0     		b	.L37
+ 857              	.L40:
+ 162:../Sources/Algorithms.c ****                 left_sum += LineScanImage0[i];
+ 858              		.loc 1 162 0
+ 859 007c C84B     		ldr	r3, .L63+40
+ 860 007e 1A68     		ldr	r2, [r3]
+ 861 0080 FB6B     		ldr	r3, [r7, #60]
+ 862 0082 5B00     		lsl	r3, r3, #1
+ 863 0084 D318     		add	r3, r2, r3
+ 864 0086 1B88     		ldrh	r3, [r3]
+ 865 0088 9BB2     		uxth	r3, r3
+ 866 008a 181C     		mov	r0, r3
+ 867 008c FFF7FEFF 		bl	__aeabi_i2d
+ 868 0090 031C     		mov	r3, r0
+ 869 0092 0C1C     		mov	r4, r1
+ 870 0094 B86C     		ldr	r0, [r7, #72]
+ 871 0096 F96C     		ldr	r1, [r7, #76]
+ 872 0098 1A1C     		mov	r2, r3
+ 873 009a 231C     		mov	r3, r4
+ 874 009c FFF7FEFF 		bl	__aeabi_dadd
+ 875 00a0 031C     		mov	r3, r0
+ 876 00a2 0C1C     		mov	r4, r1
+ 877 00a4 BB64     		str	r3, [r7, #72]
+ 878 00a6 FC64     		str	r4, [r7, #76]
+ 163:../Sources/Algorithms.c ****                 avg_1 = ( LineScanImage0[i - 2] + LineScanImage0[i - 1] + LineScanImage0[i] ) / 3;
+ 879              		.loc 1 163 0
+ 880 00a8 BD4B     		ldr	r3, .L63+40
+ 881 00aa 1A68     		ldr	r2, [r3]
+ 882 00ac FB6B     		ldr	r3, [r7, #60]
+ 883 00ae 023B     		sub	r3, r3, #2
+ 884 00b0 5B00     		lsl	r3, r3, #1
+ 885 00b2 D318     		add	r3, r2, r3
+ 886 00b4 1B88     		ldrh	r3, [r3]
+ 887 00b6 9BB2     		uxth	r3, r3
+ 888 00b8 1A1C     		mov	r2, r3
+ 889 00ba B94B     		ldr	r3, .L63+40
+ 890 00bc 1968     		ldr	r1, [r3]
+ 891 00be FB6B     		ldr	r3, [r7, #60]
+ 892 00c0 013B     		sub	r3, r3, #1
+ 893 00c2 5B00     		lsl	r3, r3, #1
+ 894 00c4 CB18     		add	r3, r1, r3
+ 895 00c6 1B88     		ldrh	r3, [r3]
+ 896 00c8 9BB2     		uxth	r3, r3
+ 897 00ca D218     		add	r2, r2, r3
+ 898 00cc B44B     		ldr	r3, .L63+40
+ 899 00ce 1968     		ldr	r1, [r3]
+ 900 00d0 FB6B     		ldr	r3, [r7, #60]
+ 901 00d2 5B00     		lsl	r3, r3, #1
+ 902 00d4 CB18     		add	r3, r1, r3
+ 903 00d6 1B88     		ldrh	r3, [r3]
+ 904 00d8 9BB2     		uxth	r3, r3
+ 905 00da D318     		add	r3, r2, r3
+ 906 00dc 181C     		mov	r0, r3
+ 907 00de 0321     		mov	r1, #3
+ 908 00e0 FFF7FEFF 		bl	__aeabi_idiv
+ 909 00e4 031C     		mov	r3, r0
+ 910 00e6 3B62     		str	r3, [r7, #32]
+ 164:../Sources/Algorithms.c ****                 avg_2 = ( LineScanImage0[i] + LineScanImage0[i + 1] + LineScanImage0[i + 2] ) / 3;
+ 911              		.loc 1 164 0
+ 912 00e8 AD4B     		ldr	r3, .L63+40
+ 913 00ea 1A68     		ldr	r2, [r3]
+ 914 00ec FB6B     		ldr	r3, [r7, #60]
+ 915 00ee 5B00     		lsl	r3, r3, #1
+ 916 00f0 D318     		add	r3, r2, r3
+ 917 00f2 1B88     		ldrh	r3, [r3]
+ 918 00f4 9BB2     		uxth	r3, r3
+ 919 00f6 1A1C     		mov	r2, r3
+ 920 00f8 A94B     		ldr	r3, .L63+40
+ 921 00fa 1968     		ldr	r1, [r3]
+ 922 00fc FB6B     		ldr	r3, [r7, #60]
+ 923 00fe 0133     		add	r3, r3, #1
+ 924 0100 5B00     		lsl	r3, r3, #1
+ 925 0102 CB18     		add	r3, r1, r3
+ 926 0104 1B88     		ldrh	r3, [r3]
+ 927 0106 9BB2     		uxth	r3, r3
+ 928 0108 D218     		add	r2, r2, r3
+ 929 010a A54B     		ldr	r3, .L63+40
+ 930 010c 1968     		ldr	r1, [r3]
+ 931 010e FB6B     		ldr	r3, [r7, #60]
+ 932 0110 0233     		add	r3, r3, #2
+ 933 0112 5B00     		lsl	r3, r3, #1
+ 934 0114 CB18     		add	r3, r1, r3
+ 935 0116 1B88     		ldrh	r3, [r3]
+ 936 0118 9BB2     		uxth	r3, r3
+ 937 011a D318     		add	r3, r2, r3
+ 938 011c 181C     		mov	r0, r3
+ 939 011e 0321     		mov	r1, #3
+ 940 0120 FFF7FEFF 		bl	__aeabi_idiv
+ 941 0124 031C     		mov	r3, r0
+ 942 0126 FB61     		str	r3, [r7, #28]
+ 165:../Sources/Algorithms.c ****                 if( avg_2 < ( avg_1 - threshold ) ){
+ 943              		.loc 1 165 0
+ 944 0128 3A6A     		ldr	r2, [r7, #32]
+ 945 012a 7B69     		ldr	r3, [r7, #20]
+ 946 012c D21A     		sub	r2, r2, r3
+ 947 012e FB69     		ldr	r3, [r7, #28]
+ 948 0130 9A42     		cmp	r2, r3
+ 949 0132 02DD     		ble	.L38
+ 166:../Sources/Algorithms.c ****                 	num_changes_left++;
+ 950              		.loc 1 166 0
+ 951 0134 BB6B     		ldr	r3, [r7, #56]
+ 952 0136 0133     		add	r3, r3, #1
+ 953 0138 BB63     		str	r3, [r7, #56]
+ 954              	.L38:
+ 168:../Sources/Algorithms.c ****                 if( avg_2 > ( avg_1 + threshold ) ){
+ 955              		.loc 1 168 0
+ 956 013a 3A6A     		ldr	r2, [r7, #32]
+ 957 013c 7B69     		ldr	r3, [r7, #20]
+ 958 013e D218     		add	r2, r2, r3
+ 959 0140 FB69     		ldr	r3, [r7, #28]
+ 960 0142 9A42     		cmp	r2, r3
+ 961 0144 02DA     		bge	.L39
+ 169:../Sources/Algorithms.c ****                 	num_changes_left++;
+ 962              		.loc 1 169 0
+ 963 0146 BB6B     		ldr	r3, [r7, #56]
+ 964 0148 0133     		add	r3, r3, #1
+ 965 014a BB63     		str	r3, [r7, #56]
+ 966              	.L39:
+ 161:../Sources/Algorithms.c ****             for(i = START_PIXEL; i < mid_point; i++){
+ 967              		.loc 1 161 0
+ 968 014c FB6B     		ldr	r3, [r7, #60]
+ 969 014e 0133     		add	r3, r3, #1
+ 970 0150 FB63     		str	r3, [r7, #60]
+ 971              	.L37:
+ 161:../Sources/Algorithms.c ****             for(i = START_PIXEL; i < mid_point; i++){
+ 972              		.loc 1 161 0 is_stmt 0
+ 973 0152 F86B     		ldr	r0, [r7, #60]
+ 974 0154 FFF7FEFF 		bl	__aeabi_i2f
+ 975 0158 031C     		add	r3, r0, #0
+ 976 015a 181C     		add	r0, r3, #0
+ 977 015c 796A     		ldr	r1, [r7, #36]
+ 978 015e FFF7FEFF 		bl	__aeabi_fcmplt
+ 979 0162 031C     		mov	r3, r0
+ 980 0164 002B     		cmp	r3, #0
+ 981 0166 89D1     		bne	.L40
+ 173:../Sources/Algorithms.c ****             for(i = (int)mid_point; i < STOP_PIXEL; i++){
+ 982              		.loc 1 173 0 is_stmt 1
+ 983 0168 786A     		ldr	r0, [r7, #36]
+ 984 016a FFF7FEFF 		bl	__aeabi_f2iz
+ 985 016e 031C     		mov	r3, r0
+ 986 0170 FB63     		str	r3, [r7, #60]
+ 987 0172 6AE0     		b	.L41
+ 988              	.L44:
+ 174:../Sources/Algorithms.c ****                 right_sum += LineScanImage0[i];
+ 989              		.loc 1 174 0
+ 990 0174 8A4B     		ldr	r3, .L63+40
+ 991 0176 1A68     		ldr	r2, [r3]
+ 992 0178 FB6B     		ldr	r3, [r7, #60]
+ 993 017a 5B00     		lsl	r3, r3, #1
+ 994 017c D318     		add	r3, r2, r3
+ 995 017e 1B88     		ldrh	r3, [r3]
+ 996 0180 9BB2     		uxth	r3, r3
+ 997 0182 181C     		mov	r0, r3
+ 998 0184 FFF7FEFF 		bl	__aeabi_i2d
+ 999 0188 031C     		mov	r3, r0
+ 1000 018a 0C1C     		mov	r4, r1
+ 1001 018c 386C     		ldr	r0, [r7, #64]
+ 1002 018e 796C     		ldr	r1, [r7, #68]
+ 1003 0190 1A1C     		mov	r2, r3
+ 1004 0192 231C     		mov	r3, r4
+ 1005 0194 FFF7FEFF 		bl	__aeabi_dadd
+ 1006 0198 031C     		mov	r3, r0
+ 1007 019a 0C1C     		mov	r4, r1
+ 1008 019c 3B64     		str	r3, [r7, #64]
+ 1009 019e 7C64     		str	r4, [r7, #68]
+ 175:../Sources/Algorithms.c ****                 avg_1 = ( LineScanImage0[i - 2] + LineScanImage0[i - 1] + LineScanImage0[i] ) / 3;
+ 1010              		.loc 1 175 0
+ 1011 01a0 7F4B     		ldr	r3, .L63+40
+ 1012 01a2 1A68     		ldr	r2, [r3]
+ 1013 01a4 FB6B     		ldr	r3, [r7, #60]
+ 1014 01a6 023B     		sub	r3, r3, #2
+ 1015 01a8 5B00     		lsl	r3, r3, #1
+ 1016 01aa D318     		add	r3, r2, r3
+ 1017 01ac 1B88     		ldrh	r3, [r3]
+ 1018 01ae 9BB2     		uxth	r3, r3
+ 1019 01b0 1A1C     		mov	r2, r3
+ 1020 01b2 7B4B     		ldr	r3, .L63+40
+ 1021 01b4 1968     		ldr	r1, [r3]
+ 1022 01b6 FB6B     		ldr	r3, [r7, #60]
+ 1023 01b8 013B     		sub	r3, r3, #1
+ 1024 01ba 5B00     		lsl	r3, r3, #1
+ 1025 01bc CB18     		add	r3, r1, r3
+ 1026 01be 1B88     		ldrh	r3, [r3]
+ 1027 01c0 9BB2     		uxth	r3, r3
+ 1028 01c2 D218     		add	r2, r2, r3
+ 1029 01c4 764B     		ldr	r3, .L63+40
+ 1030 01c6 1968     		ldr	r1, [r3]
+ 1031 01c8 FB6B     		ldr	r3, [r7, #60]
+ 1032 01ca 5B00     		lsl	r3, r3, #1
+ 1033 01cc CB18     		add	r3, r1, r3
+ 1034 01ce 1B88     		ldrh	r3, [r3]
+ 1035 01d0 9BB2     		uxth	r3, r3
+ 1036 01d2 D318     		add	r3, r2, r3
+ 1037 01d4 181C     		mov	r0, r3
+ 1038 01d6 0321     		mov	r1, #3
+ 1039 01d8 FFF7FEFF 		bl	__aeabi_idiv
+ 1040 01dc 031C     		mov	r3, r0
+ 1041 01de 3B62     		str	r3, [r7, #32]
+ 176:../Sources/Algorithms.c ****                 avg_2 = ( LineScanImage0[i] + LineScanImage0[i + 1] + LineScanImage0[i + 2] ) / 3;
+ 1042              		.loc 1 176 0
+ 1043 01e0 6F4B     		ldr	r3, .L63+40
+ 1044 01e2 1A68     		ldr	r2, [r3]
+ 1045 01e4 FB6B     		ldr	r3, [r7, #60]
+ 1046 01e6 5B00     		lsl	r3, r3, #1
+ 1047 01e8 D318     		add	r3, r2, r3
+ 1048 01ea 1B88     		ldrh	r3, [r3]
+ 1049 01ec 9BB2     		uxth	r3, r3
+ 1050 01ee 1A1C     		mov	r2, r3
+ 1051 01f0 6B4B     		ldr	r3, .L63+40
+ 1052 01f2 1968     		ldr	r1, [r3]
+ 1053 01f4 FB6B     		ldr	r3, [r7, #60]
+ 1054 01f6 0133     		add	r3, r3, #1
+ 1055 01f8 5B00     		lsl	r3, r3, #1
+ 1056 01fa CB18     		add	r3, r1, r3
+ 1057 01fc 1B88     		ldrh	r3, [r3]
+ 1058 01fe 9BB2     		uxth	r3, r3
+ 1059 0200 D218     		add	r2, r2, r3
+ 1060 0202 674B     		ldr	r3, .L63+40
+ 1061 0204 1968     		ldr	r1, [r3]
+ 1062 0206 FB6B     		ldr	r3, [r7, #60]
+ 1063 0208 0233     		add	r3, r3, #2
+ 1064 020a 5B00     		lsl	r3, r3, #1
+ 1065 020c CB18     		add	r3, r1, r3
+ 1066 020e 1B88     		ldrh	r3, [r3]
+ 1067 0210 9BB2     		uxth	r3, r3
+ 1068 0212 D318     		add	r3, r2, r3
+ 1069 0214 181C     		mov	r0, r3
+ 1070 0216 0321     		mov	r1, #3
+ 1071 0218 FFF7FEFF 		bl	__aeabi_idiv
+ 1072 021c 031C     		mov	r3, r0
+ 1073 021e FB61     		str	r3, [r7, #28]
+ 177:../Sources/Algorithms.c ****                 if( avg_2 < ( avg_1 - threshold ) ){
+ 1074              		.loc 1 177 0
+ 1075 0220 3A6A     		ldr	r2, [r7, #32]
+ 1076 0222 7B69     		ldr	r3, [r7, #20]
+ 1077 0224 D21A     		sub	r2, r2, r3
+ 1078 0226 FB69     		ldr	r3, [r7, #28]
+ 1079 0228 9A42     		cmp	r2, r3
+ 1080 022a 02DD     		ble	.L42
+ 178:../Sources/Algorithms.c ****                 	num_changes_right++;
+ 1081              		.loc 1 178 0
+ 1082 022c 7B6B     		ldr	r3, [r7, #52]
+ 1083 022e 0133     		add	r3, r3, #1
+ 1084 0230 7B63     		str	r3, [r7, #52]
+ 1085              	.L42:
+ 180:../Sources/Algorithms.c ****                 if( avg_2 > ( avg_1 + threshold ) ){
+ 1086              		.loc 1 180 0
+ 1087 0232 3A6A     		ldr	r2, [r7, #32]
+ 1088 0234 7B69     		ldr	r3, [r7, #20]
+ 1089 0236 D218     		add	r2, r2, r3
+ 1090 0238 FB69     		ldr	r3, [r7, #28]
+ 1091 023a 9A42     		cmp	r2, r3
+ 1092 023c 02DA     		bge	.L43
+ 181:../Sources/Algorithms.c ****                     num_changes_right++;
+ 1093              		.loc 1 181 0
+ 1094 023e 7B6B     		ldr	r3, [r7, #52]
+ 1095 0240 0133     		add	r3, r3, #1
+ 1096 0242 7B63     		str	r3, [r7, #52]
+ 1097              	.L43:
+ 173:../Sources/Algorithms.c ****             for(i = (int)mid_point; i < STOP_PIXEL; i++){
+ 1098              		.loc 1 173 0
+ 1099 0244 FB6B     		ldr	r3, [r7, #60]
+ 1100 0246 0133     		add	r3, r3, #1
+ 1101 0248 FB63     		str	r3, [r7, #60]
+ 1102              	.L41:
+ 173:../Sources/Algorithms.c ****             for(i = (int)mid_point; i < STOP_PIXEL; i++){
+ 1103              		.loc 1 173 0 is_stmt 0
+ 1104 024a FB6B     		ldr	r3, [r7, #60]
+ 1105 024c 752B     		cmp	r3, #117
+ 1106 024e 91DD     		ble	.L44
+ 185:../Sources/Algorithms.c ****             if( num_changes_right >= 1 && num_changes_left >= 1 ){
+ 1107              		.loc 1 185 0 is_stmt 1
+ 1108 0250 7B6B     		ldr	r3, [r7, #52]
+ 1109 0252 002B     		cmp	r3, #0
+ 1110 0254 04DD     		ble	.L45
+ 185:../Sources/Algorithms.c ****             if( num_changes_right >= 1 && num_changes_left >= 1 ){
+ 1111              		.loc 1 185 0 is_stmt 0
+ 1112 0256 BB6B     		ldr	r3, [r7, #56]
+ 1113 0258 002B     		cmp	r3, #0
+ 1114 025a 01DD     		ble	.L45
+ 186:../Sources/Algorithms.c ****             	stop_algo = 1;
+ 1115              		.loc 1 186 0 is_stmt 1
+ 1116 025c 0123     		mov	r3, #1
+ 1117 025e 3B65     		str	r3, [r7, #80]
+ 1118              	.L45:
+ 189:../Sources/Algorithms.c ****             left_sum /= mid_point - START_PIXEL;
+ 1119              		.loc 1 189 0
+ 1120 0260 786A     		ldr	r0, [r7, #36]
+ 1121 0262 5049     		ldr	r1, .L63+44
+ 1122 0264 FFF7FEFF 		bl	__aeabi_fsub
+ 1123 0268 031C     		add	r3, r0, #0
+ 1124 026a 181C     		add	r0, r3, #0
+ 1125 026c FFF7FEFF 		bl	__aeabi_f2d
+ 1126 0270 031C     		mov	r3, r0
+ 1127 0272 0C1C     		mov	r4, r1
+ 1128 0274 B86C     		ldr	r0, [r7, #72]
+ 1129 0276 F96C     		ldr	r1, [r7, #76]
+ 1130 0278 1A1C     		mov	r2, r3
+ 1131 027a 231C     		mov	r3, r4
+ 1132 027c FFF7FEFF 		bl	__aeabi_ddiv
+ 1133 0280 031C     		mov	r3, r0
+ 1134 0282 0C1C     		mov	r4, r1
+ 1135 0284 BB64     		str	r3, [r7, #72]
+ 1136 0286 FC64     		str	r4, [r7, #76]
+ 190:../Sources/Algorithms.c ****             right_sum /= STOP_PIXEL - mid_point;
+ 1137              		.loc 1 190 0
+ 1138 0288 4748     		ldr	r0, .L63+48
+ 1139 028a 796A     		ldr	r1, [r7, #36]
+ 1140 028c FFF7FEFF 		bl	__aeabi_fsub
+ 1141 0290 031C     		add	r3, r0, #0
+ 1142 0292 181C     		add	r0, r3, #0
+ 1143 0294 FFF7FEFF 		bl	__aeabi_f2d
+ 1144 0298 031C     		mov	r3, r0
+ 1145 029a 0C1C     		mov	r4, r1
+ 1146 029c 386C     		ldr	r0, [r7, #64]
+ 1147 029e 796C     		ldr	r1, [r7, #68]
+ 1148 02a0 1A1C     		mov	r2, r3
+ 1149 02a2 231C     		mov	r3, r4
+ 1150 02a4 FFF7FEFF 		bl	__aeabi_ddiv
+ 1151 02a8 031C     		mov	r3, r0
+ 1152 02aa 0C1C     		mov	r4, r1
+ 1153 02ac 3B64     		str	r3, [r7, #64]
+ 1154 02ae 7C64     		str	r4, [r7, #68]
+ 191:../Sources/Algorithms.c ****             double diff = (double)abs(left_sum - right_sum);
+ 1155              		.loc 1 191 0
+ 1156 02b0 B86C     		ldr	r0, [r7, #72]
+ 1157 02b2 F96C     		ldr	r1, [r7, #76]
+ 1158 02b4 3A6C     		ldr	r2, [r7, #64]
+ 1159 02b6 7B6C     		ldr	r3, [r7, #68]
+ 1160 02b8 FFF7FEFF 		bl	__aeabi_dsub
+ 1161 02bc 031C     		mov	r3, r0
+ 1162 02be 0C1C     		mov	r4, r1
+ 1163 02c0 181C     		mov	r0, r3
+ 1164 02c2 211C     		mov	r1, r4
+ 1165 02c4 FFF7FEFF 		bl	__aeabi_d2iz
+ 1166 02c8 031C     		mov	r3, r0
+ 1167 02ca DA17     		asr	r2, r3, #31
+ 1168 02cc 9B18     		add	r3, r3, r2
+ 1169 02ce 5340     		eor	r3, r2
+ 1170 02d0 181C     		mov	r0, r3
+ 1171 02d2 FFF7FEFF 		bl	__aeabi_i2d
+ 1172 02d6 031C     		mov	r3, r0
+ 1173 02d8 0C1C     		mov	r4, r1
+ 1174 02da BB60     		str	r3, [r7, #8]
+ 1175 02dc FC60     		str	r4, [r7, #12]
+ 193:../Sources/Algorithms.c ****             diff /= 400;
+ 1176              		.loc 1 193 0
+ 1177 02de B868     		ldr	r0, [r7, #8]
+ 1178 02e0 F968     		ldr	r1, [r7, #12]
+ 1179 02e2 274A     		ldr	r2, .L63+8
+ 1180 02e4 274B     		ldr	r3, .L63+12
+ 1181 02e6 FFF7FEFF 		bl	__aeabi_ddiv
+ 1182 02ea 031C     		mov	r3, r0
+ 1183 02ec 0C1C     		mov	r4, r1
+ 1184 02ee BB60     		str	r3, [r7, #8]
+ 1185 02f0 FC60     		str	r4, [r7, #12]
+ 195:../Sources/Algorithms.c ****             printf( "%d, %d, %d, %d, %d:%d\n", (int)left_sum, (int)right_sum, (int)diff, threshold,
+ 1186              		.loc 1 195 0
+ 1187 02f2 B86C     		ldr	r0, [r7, #72]
+ 1188 02f4 F96C     		ldr	r1, [r7, #76]
+ 1189 02f6 FFF7FEFF 		bl	__aeabi_d2iz
+ 1190 02fa 051C     		mov	r5, r0
+ 1191 02fc 386C     		ldr	r0, [r7, #64]
+ 1192 02fe 796C     		ldr	r1, [r7, #68]
+ 1193 0300 FFF7FEFF 		bl	__aeabi_d2iz
+ 1194 0304 041C     		mov	r4, r0
+ 1195 0306 B868     		ldr	r0, [r7, #8]
+ 1196 0308 F968     		ldr	r1, [r7, #12]
+ 1197 030a FFF7FEFF 		bl	__aeabi_d2iz
+ 1198 030e 031C     		mov	r3, r0
+ 1199 0310 264A     		ldr	r2, .L63+52
+ 1200 0312 7969     		ldr	r1, [r7, #20]
+ 1201 0314 0091     		str	r1, [sp]
+ 1202 0316 B96B     		ldr	r1, [r7, #56]
+ 1203 0318 0191     		str	r1, [sp, #4]
+ 1204 031a 796B     		ldr	r1, [r7, #52]
+ 1205 031c 0291     		str	r1, [sp, #8]
+ 1206 031e 101C     		mov	r0, r2
+ 1207 0320 291C     		mov	r1, r5
+ 1208 0322 221C     		mov	r2, r4
+ 1209 0324 FFF7FEFF 		bl	printf
+ 198:../Sources/Algorithms.c ****             double steering_value = 0.0;
+ 1210              		.loc 1 198 0
+ 1211 0328 144C     		ldr	r4, .L63+4
+ 1212 032a 134B     		ldr	r3, .L63
+ 1213 032c BB62     		str	r3, [r7, #40]
+ 1214 032e FC62     		str	r4, [r7, #44]
+ 200:../Sources/Algorithms.c ****     		if(left_sum < right_sum){
+ 1215              		.loc 1 200 0
+ 1216 0330 B86C     		ldr	r0, [r7, #72]
+ 1217 0332 F96C     		ldr	r1, [r7, #76]
+ 1218 0334 3A6C     		ldr	r2, [r7, #64]
+ 1219 0336 7B6C     		ldr	r3, [r7, #68]
+ 1220 0338 FFF7FEFF 		bl	__aeabi_dcmplt
+ 1221 033c 031C     		mov	r3, r0
+ 1222 033e 002B     		cmp	r3, #0
+ 1223 0340 36D0     		beq	.L60
+ 1224              	.L57:
+ 201:../Sources/Algorithms.c ****     			steering_value = 0.5 * diff;
+ 1225              		.loc 1 201 0
+ 1226 0342 B868     		ldr	r0, [r7, #8]
+ 1227 0344 F968     		ldr	r1, [r7, #12]
+ 1228 0346 104A     		ldr	r2, .L63+16
+ 1229 0348 104B     		ldr	r3, .L63+20
+ 1230 034a FFF7FEFF 		bl	__aeabi_dmul
+ 1231 034e 031C     		mov	r3, r0
+ 1232 0350 0C1C     		mov	r4, r1
+ 1233 0352 BB62     		str	r3, [r7, #40]
+ 1234 0354 FC62     		str	r4, [r7, #44]
+ 202:../Sources/Algorithms.c ****     			if(steering_value > .7)steering_value = .7;
+ 1235              		.loc 1 202 0
+ 1236 0356 B86A     		ldr	r0, [r7, #40]
+ 1237 0358 F96A     		ldr	r1, [r7, #44]
+ 1238 035a 0D4A     		ldr	r2, .L63+24
+ 1239 035c 0D4B     		ldr	r3, .L63+28
+ 1240 035e FFF7FEFF 		bl	__aeabi_dcmpgt
+ 1241 0362 031C     		mov	r3, r0
+ 1242 0364 002B     		cmp	r3, #0
+ 1243 0366 3AD0     		beq	.L48
+ 1244              	.L58:
+ 202:../Sources/Algorithms.c ****     			if(steering_value > .7)steering_value = .7;
+ 1245              		.loc 1 202 0 is_stmt 0
+ 1246 0368 094B     		ldr	r3, .L63+24
+ 1247 036a 0A4C     		ldr	r4, .L63+28
+ 1248 036c BB62     		str	r3, [r7, #40]
+ 1249 036e FC62     		str	r4, [r7, #44]
+ 1250 0370 35E0     		b	.L48
+ 1251              	.L64:
+ 1252 0372 C046C046 		.align	3
+ 1252      C046
+ 1253              	.L63:
+ 1254 0378 00000000 		.word	0
+ 1255 037c 00000000 		.word	0
+ 1256 0380 00000000 		.word	0
+ 1257 0384 00007940 		.word	1081671680
+ 1258 0388 00000000 		.word	0
+ 1259 038c 0000E03F 		.word	1071644672
+ 1260 0390 66666666 		.word	1717986918
+ 1261 0394 6666E63F 		.word	1072064102
+ 1262 0398 00000000 		.word	LineScanImageReady
+ 1263 039c 00007A44 		.word	1148846080
+ 1264 03a0 00000000 		.word	LineScanImage0
+ 1265 03a4 00002041 		.word	1092616192
+ 1266 03a8 0000EC42 		.word	1122762752
+ 1267 03ac 08000000 		.word	.LC12
+ 1268              	.L60:
+ 204:../Sources/Algorithms.c ****     			steering_value = -0.5 * diff;
+ 1269              		.loc 1 204 0 is_stmt 1
+ 1270 03b0 B868     		ldr	r0, [r7, #8]
+ 1271 03b2 F968     		ldr	r1, [r7, #12]
+ 1272 03b4 2D4B     		ldr	r3, .L65+4
+ 1273 03b6 2C4A     		ldr	r2, .L65
+ 1274 03b8 FFF7FEFF 		bl	__aeabi_dmul
+ 1275 03bc 031C     		mov	r3, r0
+ 1276 03be 0C1C     		mov	r4, r1
+ 1277 03c0 BB62     		str	r3, [r7, #40]
+ 1278 03c2 FC62     		str	r4, [r7, #44]
+ 205:../Sources/Algorithms.c ****     			if(steering_value < -.7)steering_value = -.7;
+ 1279              		.loc 1 205 0
+ 1280 03c4 B86A     		ldr	r0, [r7, #40]
+ 1281 03c6 F96A     		ldr	r1, [r7, #44]
+ 1282 03c8 294A     		ldr	r2, .L65+8
+ 1283 03ca 2A4B     		ldr	r3, .L65+12
+ 1284 03cc FFF7FEFF 		bl	__aeabi_dcmplt
+ 1285 03d0 031C     		mov	r3, r0
+ 1286 03d2 002B     		cmp	r3, #0
+ 1287 03d4 03D0     		beq	.L48
+ 1288              	.L59:
+ 205:../Sources/Algorithms.c ****     			if(steering_value < -.7)steering_value = -.7;
+ 1289              		.loc 1 205 0 is_stmt 0
+ 1290 03d6 264B     		ldr	r3, .L65+8
+ 1291 03d8 264C     		ldr	r4, .L65+12
+ 1292 03da BB62     		str	r3, [r7, #40]
+ 1293 03dc FC62     		str	r4, [r7, #44]
+ 1294              	.L48:
+ 208:../Sources/Algorithms.c ****             TFC_SetServo(0, steering_value);
+ 1295              		.loc 1 208 0 is_stmt 1
+ 1296 03de B86A     		ldr	r0, [r7, #40]
+ 1297 03e0 F96A     		ldr	r1, [r7, #44]
+ 1298 03e2 FFF7FEFF 		bl	__aeabi_d2f
+ 1299 03e6 031C     		add	r3, r0, #0
+ 1300 03e8 0020     		mov	r0, #0
+ 1301 03ea 191C     		add	r1, r3, #0
+ 1302 03ec FFF7FEFF 		bl	TFC_SetServo
+ 1303              	.L36:
+ 1304              	.LBE4:
+ 211:../Sources/Algorithms.c ****         if(stop_algo == 0) {
+ 1305              		.loc 1 211 0
+ 1306 03f0 3B6D     		ldr	r3, [r7, #80]
+ 1307 03f2 002B     		cmp	r3, #0
+ 1308 03f4 06D1     		bne	.L51
+ 212:../Sources/Algorithms.c ****         	TFC_SetMotorPWM(0.30, 0.30);
+ 1309              		.loc 1 212 0
+ 1310 03f6 204A     		ldr	r2, .L65+16
+ 1311 03f8 1F4B     		ldr	r3, .L65+16
+ 1312 03fa 101C     		add	r0, r2, #0
+ 1313 03fc 191C     		add	r1, r3, #0
+ 1314 03fe FFF7FEFF 		bl	TFC_SetMotorPWM
+ 1315 0402 1FE0     		b	.L52
+ 1316              	.L51:
+ 1317              	.LBB5:
+ 214:../Sources/Algorithms.c ****         	double motor = (5000 - stop_algo) / 5000;
+ 1318              		.loc 1 214 0
+ 1319 0404 3B6D     		ldr	r3, [r7, #80]
+ 1320 0406 1D4A     		ldr	r2, .L65+20
+ 1321 0408 D31A     		sub	r3, r2, r3
+ 1322 040a 181C     		mov	r0, r3
+ 1323 040c 1B49     		ldr	r1, .L65+20
+ 1324 040e FFF7FEFF 		bl	__aeabi_idiv
+ 1325 0412 031C     		mov	r3, r0
+ 1326 0414 181C     		mov	r0, r3
+ 1327 0416 FFF7FEFF 		bl	__aeabi_i2d
+ 1328 041a 031C     		mov	r3, r0
+ 1329 041c 0C1C     		mov	r4, r1
+ 1330 041e 3B60     		str	r3, [r7]
+ 1331 0420 7C60     		str	r4, [r7, #4]
+ 215:../Sources/Algorithms.c ****         	TFC_SetMotorPWM(motor, motor);
+ 1332              		.loc 1 215 0
+ 1333 0422 3868     		ldr	r0, [r7]
+ 1334 0424 7968     		ldr	r1, [r7, #4]
+ 1335 0426 FFF7FEFF 		bl	__aeabi_d2f
+ 1336 042a 041C     		add	r4, r0, #0
+ 1337 042c 3868     		ldr	r0, [r7]
+ 1338 042e 7968     		ldr	r1, [r7, #4]
+ 1339 0430 FFF7FEFF 		bl	__aeabi_d2f
+ 1340 0434 031C     		add	r3, r0, #0
+ 1341 0436 201C     		add	r0, r4, #0
+ 1342 0438 191C     		add	r1, r3, #0
+ 1343 043a FFF7FEFF 		bl	TFC_SetMotorPWM
+ 216:../Sources/Algorithms.c ****         	stop_algo++;
+ 1344              		.loc 1 216 0
+ 1345 043e 3B6D     		ldr	r3, [r7, #80]
+ 1346 0440 0133     		add	r3, r3, #1
+ 1347 0442 3B65     		str	r3, [r7, #80]
+ 1348              	.L52:
+ 1349              	.LBE5:
+ 218:../Sources/Algorithms.c ****         if(TFC_PUSH_BUTTON_1_PRESSED) break;
+ 1350              		.loc 1 218 0
+ 1351 0444 0E4B     		ldr	r3, .L65+24
+ 1352 0446 1A69     		ldr	r2, [r3, #16]
+ 1353 0448 8023     		mov	r3, #128
+ 1354 044a 9B02     		lsl	r3, r3, #10
+ 1355 044c 1340     		and	r3, r2
+ 1356 044e 05D1     		bne	.L61
+ 1357              	.L53:
+ 220:../Sources/Algorithms.c ****         if(stop_algo > 5000) break;
+ 1358              		.loc 1 220 0
+ 1359 0450 3A6D     		ldr	r2, [r7, #80]
+ 1360 0452 0A4B     		ldr	r3, .L65+20
+ 1361 0454 9A42     		cmp	r2, r3
+ 1362 0456 00DC     		bgt	.LCB1173
+ 1363 0458 DAE5     		b	.L62	@long jump
+ 1364              	.LCB1173:
+ 1365 045a 00E0     		b	.L35
+ 1366              	.L61:
+ 218:../Sources/Algorithms.c ****         if(TFC_PUSH_BUTTON_1_PRESSED) break;
+ 1367              		.loc 1 218 0
+ 1368 045c C046     		mov	r8, r8
+ 1369              	.L35:
+ 222:../Sources/Algorithms.c **** }
+ 1370              		.loc 1 222 0
+ 1371 045e BD46     		mov	sp, r7
+ 1372 0460 16B0     		add	sp, sp, #88
+ 1373              		@ sp needed for prologue
+ 1374 0462 B0BD     		pop	{r4, r5, r7, pc}
+ 1375              	.L66:
+ 1376 0464 C046C046 		.align	3
+ 1377              	.L65:
+ 1378 0468 00000000 		.word	0
+ 1379 046c 0000E0BF 		.word	-1075838976
+ 1380 0470 66666666 		.word	1717986918
+ 1381 0474 6666E6BF 		.word	-1075419546
+ 1382 0478 9A99993E 		.word	1050253722
+ 1383 047c 88130000 		.word	5000
+ 1384 0480 80F00F40 		.word	1074786432
+ 1385              		.cfi_endproc
+ 1386              	.LFE3:
+ 1388 0484 C046C046 		.text
+ 1389              	.Letext0:
+ 1390              		.file 2 "C:/Freescale/CW MCU v10.6/MCU/ARM_GCC_Support/ewl/EWL_C/include/cstdint"
+ 1391              		.file 3 "C:/Users/Jared/Desktop/freescalecup/FRDM-TFC/Project_Headers/MKL25Z4.h"
+ 1392              		.file 4 "C:/Users/Jared/Desktop/freescalecup/FRDM-TFC/Project_Headers/TFC\\TFC_LineScanCamera.h"
 DEFINED SYMBOLS
                             *ABS*:00000000 Algorithms.c
-C:\Users\Jared\AppData\Local\Temp\cc3whimL.s:19     .rodata:00000000 $d
-C:\Users\Jared\AppData\Local\Temp\cc3whimL.s:29     .text.algo_one:00000000 $t
-C:\Users\Jared\AppData\Local\Temp\cc3whimL.s:34     .text.algo_one:00000000 algo_one
-C:\Users\Jared\AppData\Local\Temp\cc3whimL.s:416    .text.algo_one:00000290 $d
-C:\Users\Jared\AppData\Local\Temp\cc3whimL.s:431    .text.algo_two:00000000 $t
-C:\Users\Jared\AppData\Local\Temp\cc3whimL.s:436    .text.algo_two:00000000 algo_two
-C:\Users\Jared\AppData\Local\Temp\cc3whimL.s:601    .text.algo_two:00000110 $d
-C:\Users\Jared\AppData\Local\Temp\cc3whimL.s:621    .text.algo_three:00000000 $t
-C:\Users\Jared\AppData\Local\Temp\cc3whimL.s:626    .text.algo_three:00000000 algo_three
-C:\Users\Jared\AppData\Local\Temp\cc3whimL.s:1014   .text.algo_three:000002c8 $d
-C:\Users\Jared\AppData\Local\Temp\cc3whimL.s:1035   .text.stop_car:00000000 $t
-C:\Users\Jared\AppData\Local\Temp\cc3whimL.s:1040   .text.stop_car:00000000 stop_car
-C:\Users\Jared\AppData\Local\Temp\cc3whimL.s:1153   .text.stop_car:00000098 $d
+C:\Users\Jared\AppData\Local\Temp\ccUatkEZ.s:18     .text.stop_car:00000000 $t
+C:\Users\Jared\AppData\Local\Temp\ccUatkEZ.s:23     .text.stop_car:00000000 stop_car
+C:\Users\Jared\AppData\Local\Temp\ccUatkEZ.s:150    .text.stop_car:000000ac $d
+C:\Users\Jared\AppData\Local\Temp\ccUatkEZ.s:157    .rodata:00000000 $d
+C:\Users\Jared\AppData\Local\Temp\ccUatkEZ.s:167    .text.algo_one:00000000 $t
+C:\Users\Jared\AppData\Local\Temp\ccUatkEZ.s:172    .text.algo_one:00000000 algo_one
+C:\Users\Jared\AppData\Local\Temp\ccUatkEZ.s:553    .text.algo_one:00000290 $d
+C:\Users\Jared\AppData\Local\Temp\ccUatkEZ.s:568    .text.algo_two:00000000 $t
+C:\Users\Jared\AppData\Local\Temp\ccUatkEZ.s:573    .text.algo_two:00000000 algo_two
+C:\Users\Jared\AppData\Local\Temp\ccUatkEZ.s:738    .text.algo_two:00000110 $d
+C:\Users\Jared\AppData\Local\Temp\ccUatkEZ.s:758    .text.algo_three:00000000 $t
+C:\Users\Jared\AppData\Local\Temp\ccUatkEZ.s:763    .text.algo_three:00000000 algo_three
+C:\Users\Jared\AppData\Local\Temp\ccUatkEZ.s:1254   .text.algo_three:00000378 $d
+C:\Users\Jared\AppData\Local\Temp\ccUatkEZ.s:1270   .text.algo_three:000003b0 $t
+C:\Users\Jared\AppData\Local\Temp\ccUatkEZ.s:1378   .text.algo_three:00000468 $d
                      .debug_frame:00000010 $d
-C:\Users\Jared\AppData\Local\Temp\cc3whimL.s:1034   .text.algo_three:0000030c $t
+C:\Users\Jared\AppData\Local\Temp\ccUatkEZ.s:1388   .text.algo_three:00000484 $t
 
 UNDEFINED SYMBOLS
+LineScanImageReady
+LineScanImage0
 __aeabi_idiv
 __aeabi_i2f
 __aeabi_fdiv
@@ -1414,14 +1711,13 @@ printf
 puts
 TFC_SetServo
 delay
-LineScanImageReady
-LineScanImage0
 __aeabi_f2iz
 __aeabi_f2d
 __aeabi_dadd
 __aeabi_ui2f
 __aeabi_dmul
 __aeabi_d2f
+__aeabi_fmul
 __aeabi_i2d
 __aeabi_fcmplt
 __aeabi_ddiv
@@ -1429,6 +1725,6 @@ __aeabi_dsub
 __aeabi_d2iz
 __aeabi_dcmplt
 __aeabi_dcmpgt
-__aeabi_ui2d
 TFC_Task
+TFC_ReadPot
 TFC_SetMotorPWM

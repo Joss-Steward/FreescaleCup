@@ -4,8 +4,8 @@
 #include "Common.h"
 
 #define DEL 50
-#define START_PIXEL 15
-#define STOP_PIXEL 113
+#define START_PIXEL 10
+#define STOP_PIXEL 118
 
 
 void forwardFull(){
@@ -84,6 +84,8 @@ void runToLine(){
 
 int main(void){
     TFC_Init();
+    
+    restart:
     TFC_SetMotorPWM(0, 0);
     TFC_HBRIDGE_DISABLE;
 
@@ -168,7 +170,7 @@ int main(void){
             TFC_HBRIDGE_ENABLE;
             
 			algo_three();
-
+			
             break;
     }
 
@@ -179,5 +181,6 @@ int main(void){
     TFC_BAT_LED2_OFF;
     TFC_BAT_LED3_OFF;
     TFC_HBRIDGE_DISABLE;
+    goto restart;
     return 0;
 }
