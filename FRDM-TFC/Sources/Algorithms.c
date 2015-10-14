@@ -11,14 +11,15 @@
 #include "Math.h"
 #include "stdlib.h"
 
-#define START_PIXEL 10
-#define STOP_PIXEL 118
-#define MID_POINT (STOP_PIXEL-START_PIXEL)/2+START_PIXEL
+#define START_PIXEL 15
+#define STOP_PIXEL 113
+#define MID_POINT (((STOP_PIXEL-START_PIXEL)/2)+START_PIXEL)
 #define LEFT_PIXELS MID_POINT-START_PIXEL
-#define RIGHT_PIXELS STOP_PIXEL-MID_POINT
-#define DIFFDIV 400
+#define RIGHT_PIXELS STOP_PIXEL-MID_POINT 
+#define DIFFDIV 1000
+#define SENSITIVITY 1000
 #define STOP_CYCLES 5000
-#define SPEED .30
+#define SPEED .50
 
 
 struct sideInfo{
@@ -26,6 +27,53 @@ struct sideInfo{
 	int Changes;
 };
 
+int determineSensitivity(){
+	return( (int)( SENSITIVITY * ( TFC_ReadPot(0) + 1 ) ) );
+}
+
+float determineSpeed(){
+	return( ( SPEED * ( TFC_ReadPot(1) + 1 ) ) );
+}
+
+struct sideInfo findSideInfo( int start, int stop, int threshold ){
+	struct sideInfo sideInfo;
+	sideInfo.Sum = 0.0;
+	sideInfo.Changes = 0;
+	
+	int i;
+	int avg_1 = 0;
+	int avg_2 = 0;
+	for(i = start; i <= stop; i++){
+		sideInfo.Sum += LineScanImage0[i];
+	    avg_1 = ( LineScanImage0[i - 2] + LineScanImage0[i - 1] + LineScanImage0[i] ) / 3;
+	    avg_2 = ( LineScanImage0[i] + LineScanImage0[i + 1] + LineScanImage0[i + 2] ) / 3;
+	    
+	    if( (avg_2 < ( avg_1 - threshold )) || (avg_2 > ( avg_1 + threshold )) ){
+	    	sideInfo.Changes++;
+	    }
+	}
+	
+	sideInfo.Sum /= (double)i;
+	return(sideInfo);
+}
+
+void setTurn( struct sideInfo left, struct sideInfo right ){
+	double difference = (double)abs(left.Sum - right.Sum);
+	difference /= DIFFDIV;
+	            
+	// Default to straight ahead
+	double steering_value = 0.0;
+
+	if(left.Sum < right.Sum){
+		steering_value = 0.5 * difference;
+	    if(steering_value > .7)steering_value = .7;
+	} else {
+	    steering_value = -0.5 * difference;
+	    if(steering_value < -.7)steering_value = -.7;
+	}
+
+	TFC_SetServo(0, steering_value);
+}
 
 int stop_car(){
 	
@@ -146,28 +194,39 @@ void algo_two(){
 void algo_three() {
 	int stop_algo = 0;
 	int threshold = 0;
+	float speed = 0;
 	
     while(1) {
+    	struct sideInfo right;
+    	right.Sum = 0.0;
+    	right.Changes = 0;
+    	struct sideInfo left;
+    	left.Sum = 0.0;
+    	left.Changes = 0;
+    	
         TFC_Task();
 
         threshold = determineSensitivity();
-        sideInfo right;
-        sideInfo left;
+        speed = determineSpeed();
         
         if(LineScanImageReady){
             LineScanImageReady = 0;
             left = findSideInfo( START_PIXEL, MID_POINT, threshold );
-            right = findSideInfo( (int)MID_POINT, STOP_PIXEL, threshold );      
+            right = findSideInfo( (int)MID_POINT, STOP_PIXEL, threshold ); 
+            
+            if(stop_algo == 0)
+            	stop_algo = ( right.Changes >= 1 && left.Changes >= 1 );
+            
+            setTurn(left, right);
         }
-        if(!stop_algo)stop_algo = ( right.Changes >= 1 && left.Changes >= 1 );
-        setTurn(left, right);
+        
         if(stop_algo == 0) {
-        	TFC_SetMotorPWM(SPEED, SPEED);
+        	TFC_SetMotorPWM(speed, speed);
         } else {
-        	double motor = (STOP_CYCLES * SPEED - stop_algo) / STOP_CYCLES;
+        	double motor = speed * ((STOP_CYCLES - stop_algo) / STOP_CYCLES);
         	TFC_SetMotorPWM(motor, motor);
         	stop_algo++;
-        }
+        }     
         
         if(TFC_PUSH_BUTTON_1_PRESSED) break;
         
@@ -175,45 +234,3 @@ void algo_three() {
     }
 }
 
-int determineSensitivity(){
-	return( (int)( 1000 * TFC_ReadPot(0) ) );
-}
-
-sideInfo findSideInfo( int start, int stop, int threshold ){
-	sideInfo sideInfo = 0;
-	int i;
-	int avg_1 = 0;
-	int avg_2 = 0;
-	for(i = start; i < stop; i++){
-		sideInfo.Sum += LineScanImage0[i];
-	    avg_1 = ( LineScanImage0[i - 2] + LineScanImage0[i - 1] + LineScanImage0[i] ) / 3;
-	    avg_2 = ( LineScanImage0[i] + LineScanImage0[i + 1] + LineScanImage0[i + 2] ) / 3;
-	    if( avg_2 < ( avg_1 - threshold ) ){
-	    	sideInfo.Changes++;
-	    }
-	    if( avg_2 > ( avg_1 + threshold ) ){
-	    	sideInfo.Changes++;
-	    }
-	}
-	return(sideInfo);
-}
-
-void setTurn( sideInfo left, sideInfo right ){
-	left.Sum /= LEFT_PIXELS;
-	right.Sum /= RIGHT_PIXELS;
-	double difference = (double)abs(left.Sum - right.Sum);
-	difference /= DIFFDIV;
-	            
-	// Default to straight ahead
-	double steering_value = 0.0;
-
-	if(left.Sum < right.Sum){
-		steering_value = 0.5 * diff;
-	    if(steering_value > .7)steering_value = .7;
-	} else {
-	    steering_value = -0.5 * diff;
-	    if(steering_value < -.7)steering_value = -.7;
-	}
-
-	TFC_SetServo(0, steering_value);
-}
