@@ -13,6 +13,18 @@
 
 #define START_PIXEL 10
 #define STOP_PIXEL 118
+#define MID_POINT (STOP_PIXEL-START_PIXEL)/2+START_PIXEL
+#define LEFT_PIXELS MID_POINT-START_PIXEL
+#define RIGHT_PIXELS STOP_PIXEL-MID_POINT
+#define DIFFDIV 400
+#define STOP_CYCLES 5000
+#define SPEED .30
+
+
+struct sideInfo{
+	double Sum;
+	int Changes;
+};
 
 
 int stop_car(){
@@ -132,92 +144,76 @@ void algo_two(){
 }
 
 void algo_three() {
-	//double avg_left = 0, avg_right = 0;
-	unsigned int numberOfTries = 0;
 	int stop_algo = 0;
+	int threshold = 0;
 	
     while(1) {
         TFC_Task();
 
-        if(LineScanImageReady){
-        	numberOfTries++;
-            float mid_point = (STOP_PIXEL - START_PIXEL) / 2 + START_PIXEL;
-            LineScanImageReady = 0;
-            
-            double left_sum = 0;
-            double right_sum = 0;
-
-            int i = 0;
-            
-            int avg_1 = 0;
-            int avg_2 = 0;
-            
-
-            int num_changes_left = 0;
-            int num_changes_right = 0;
-            float sensitivity = TFC_ReadPot(0);
-            int threshold = (int)(1000 * sensitivity);
-            
-            for(i = START_PIXEL; i < mid_point; i++){
-                left_sum += LineScanImage0[i];
-                avg_1 = ( LineScanImage0[i - 2] + LineScanImage0[i - 1] + LineScanImage0[i] ) / 3;
-                avg_2 = ( LineScanImage0[i] + LineScanImage0[i + 1] + LineScanImage0[i + 2] ) / 3;
-                if( avg_2 < ( avg_1 - threshold ) ){
-                	num_changes_left++;
-                }
-                if( avg_2 > ( avg_1 + threshold ) ){
-                	num_changes_left++;
-                }
-            }
-
-            for(i = (int)mid_point; i < STOP_PIXEL; i++){
-                right_sum += LineScanImage0[i];
-                avg_1 = ( LineScanImage0[i - 2] + LineScanImage0[i - 1] + LineScanImage0[i] ) / 3;
-                avg_2 = ( LineScanImage0[i] + LineScanImage0[i + 1] + LineScanImage0[i + 2] ) / 3;
-                if( avg_2 < ( avg_1 - threshold ) ){
-                	num_changes_right++;
-                }
-                if( avg_2 > ( avg_1 + threshold ) ){
-                    num_changes_right++;
-                }
-            }
-            
-            if( num_changes_right >= 1 && num_changes_left >= 1 ){
-            	stop_algo = 1;
-            }
-            
-            left_sum /= mid_point - START_PIXEL;
-            right_sum /= STOP_PIXEL - mid_point;
-            double diff = (double)abs(left_sum - right_sum);
-
-            diff /= 400;
-            
-            printf( "%d, %d, %d, %d, %d:%d\n", (int)left_sum, (int)right_sum, (int)diff, threshold, num_changes_left, num_changes_right );
-            
-            // Default to straight ahead
-            double steering_value = 0.0;
-
-    		if(left_sum < right_sum){
-    			steering_value = 0.5 * diff;
-    			if(steering_value > .7)steering_value = .7;
-    		} else {
-    			steering_value = -0.5 * diff;
-    			if(steering_value < -.7)steering_value = -.7;
-    		}
-
-            TFC_SetServo(0, steering_value);
-        }
+        threshold = determineSensitivity();
+        sideInfo right;
+        sideInfo left;
         
+        if(LineScanImageReady){
+            LineScanImageReady = 0;
+            left = findSideInfo( START_PIXEL, MID_POINT, threshold );
+            right = findSideInfo( (int)MID_POINT, STOP_PIXEL, threshold );      
+        }
+        if(!stop_algo)stop_algo = ( right.Changes >= 1 && left.Changes >= 1 );
+        setTurn(left, right);
         if(stop_algo == 0) {
-        	TFC_SetMotorPWM(0.30, 0.30);
+        	TFC_SetMotorPWM(SPEED, SPEED);
         } else {
-        	double motor = (5000 - stop_algo) / 5000;
+        	double motor = (STOP_CYCLES * SPEED - stop_algo) / STOP_CYCLES;
         	TFC_SetMotorPWM(motor, motor);
         	stop_algo++;
         }
+        
         if(TFC_PUSH_BUTTON_1_PRESSED) break;
         
-        if(stop_algo > 5000) break;
+        if(stop_algo > STOP_CYCLES) break;
     }
 }
 
+int determineSensitivity(){
+	return( (int)( 1000 * TFC_ReadPot(0) ) );
+}
+
+sideInfo findSideInfo( int start, int stop, int threshold ){
+	sideInfo sideInfo = 0;
+	int i;
+	int avg_1 = 0;
+	int avg_2 = 0;
+	for(i = start; i < stop; i++){
+		sideInfo.Sum += LineScanImage0[i];
+	    avg_1 = ( LineScanImage0[i - 2] + LineScanImage0[i - 1] + LineScanImage0[i] ) / 3;
+	    avg_2 = ( LineScanImage0[i] + LineScanImage0[i + 1] + LineScanImage0[i + 2] ) / 3;
+	    if( avg_2 < ( avg_1 - threshold ) ){
+	    	sideInfo.Changes++;
+	    }
+	    if( avg_2 > ( avg_1 + threshold ) ){
+	    	sideInfo.Changes++;
+	    }
+	}
+	return(sideInfo);
+}
+
+void setTurn( sideInfo left, sideInfo right ){
+	left.Sum /= LEFT_PIXELS;
+	right.Sum /= RIGHT_PIXELS;
+	double difference = (double)abs(left.Sum - right.Sum);
+	difference /= DIFFDIV;
+	            
+	// Default to straight ahead
+	double steering_value = 0.0;
+
+	if(left.Sum < right.Sum){
+		steering_value = 0.5 * diff;
+	    if(steering_value > .7)steering_value = .7;
+	} else {
+	    steering_value = -0.5 * diff;
+	    if(steering_value < -.7)steering_value = -.7;
+	}
+
+	TFC_SetServo(0, steering_value);
+}
