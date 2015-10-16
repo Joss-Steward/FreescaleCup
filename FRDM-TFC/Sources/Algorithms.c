@@ -43,7 +43,7 @@ struct sideInfo findSideInfo( int start, int stop, int threshold ){
 	int i;
 	int avg_1 = 0;
 	int avg_2 = 0;
-	for(i = start; i <= stop; i++){
+	for(i = start; i < stop; i++){
 		sideInfo.Sum += LineScanImage0[i];
 	    avg_1 = ( LineScanImage0[i - 2] + LineScanImage0[i - 1] + LineScanImage0[i] ) / 3;
 	    avg_2 = ( LineScanImage0[i] + LineScanImage0[i + 1] + LineScanImage0[i + 2] ) / 3;
@@ -53,7 +53,7 @@ struct sideInfo findSideInfo( int start, int stop, int threshold ){
 	    }
 	}
 	
-	sideInfo.Sum /= (double)i;
+	sideInfo.Sum /= (double)(stop - start);
 	return(sideInfo);
 }
 
@@ -213,6 +213,8 @@ void algo_three() {
             LineScanImageReady = 0;
             left = findSideInfo( START_PIXEL, MID_POINT, threshold );
             right = findSideInfo( (int)MID_POINT, STOP_PIXEL, threshold ); 
+            
+            printf("%d %d\n", (int)left.Sum, (int)right.Sum);
             
             if(stop_algo == 0)
             	stop_algo = ( right.Changes >= 1 && left.Changes >= 1 );
