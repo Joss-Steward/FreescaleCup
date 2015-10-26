@@ -8,9 +8,8 @@
 #ifndef ALGOONE_H_
 #define ALGOONE_H_
 
+
 void algo_one();
-void algo_two();
-void algo_three();
-int stop_car();
+void algo_one_debug(int);
 
 #endif /* ALGOONE_H_ */

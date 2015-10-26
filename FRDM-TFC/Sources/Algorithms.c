@@ -75,124 +75,103 @@ void setTurn( struct sideInfo left, struct sideInfo right ){
 	TFC_SetServo(0, steering_value);
 }
 
-int stop_car(){
-	
-	while(!LineScanImageReady);
-	LineScanImageReady = 0;
-	
-	int i;
-	int width = 0;
-	int start = START_PIXEL;
+double setTurn( struct sideInfo left, struct sideInfo right ){
+	double difference = (double)abs(left.Sum - right.Sum);
+	difference /= DIFFDIV;
+	            
+	// Default to straight ahead
+	double steering_value = 0.0;
+
+	if(left.Sum < right.Sum){
+		steering_value = 0.5 * difference;
+	    if(steering_value > .7)steering_value = .7;
+	} else {
+	    steering_value = -0.5 * difference;
+	    if(steering_value < -.7)steering_value = -.7;
+	}
+
+	return(steering_value);
+}
+
+void algo_one_debug(int mode){
 	int stop = 0;
+	int threshold = 0;
+	float speed = 0;
+	double steer = 0;
+	double motor = 0;
 	
-	for( i = START_PIXEL; i < STOP_PIXEL; i++ ){
-		if( LineScanImage0[i] < ( LineScanImage0[i-1] - 500 ) ){ 
-			start = i;
+	while(1) {
+		struct sideInfo right;
+		right.Sum = 0.0;
+		right.Changes = 0;
+		struct sideInfo left;
+		left.Sum = 0.0;
+		left.Changes = 0;
+		
+		TFC_Task();
+
+		threshold = determineSensitivity();
+		speed = determineSpeed();
+		
+		if(LineScanImageReady){
+			LineScanImageReady = 0;
+			left = findSideInfo( START_PIXEL, MID_POINT, threshold );
+			right = findSideInfo( (int)MID_POINT, STOP_PIXEL, threshold ); 
+			
+			printf("%d %d\n", (int)left.Sum, (int)right.Sum);
+			
+			if(stop_algo == 0)
+				stop = ( right.Changes >= 1 && left.Changes >= 1 );
 		}
-		if( LineScanImage0[i] > ( LineScanImage0[i-1] + 500 ) ){
-			stop = i;
+		
+		steer = findTurn(left, right);
+		
+		if(stop == 0) {
+		} else {
+			motor = speed * ((STOP_CYCLES - stop) / STOP_CYCLES);
+			stop++;
+		}     
+		
+		if(TFC_PUSH_BUTTON_1_PRESSED) break;
+		
+		if(stop > STOP_CYCLES) break;
+		
+		if(mode == 1){
+			printf("%d %d\n", left.Changes, right.Changes);
 		}
-		width = stop - start;
-		if( width > 20 ){
-			return 1;
+		if(mode == 2){
+			printf("%d %d\n", (int)left.Sum, (int)right.Sum);		
+		}
+		if(mode == 3){
+			printf("%d %d\n", threshold, (int)(speed*1000000) );
+		}
+		if(mode == 4){
+			printf("%d\n", (int)(motor*1000000) );
+		}
+		if(mode == 5){
+			printf("%d\n", (int)(steer*1000000.0) );		
+		}
+		if(mode == 6){
+			printf("%d\n", stop);
+		}
+		if(mode == 7){
+			printf("Left Average = %d\n", (int)left.Sum);
+			printf("Left Changes = %d\n", left.Changes);
+			printf("Right Average = %d\n", (int)right.Sum);
+			printf("Right Changes = %d\n", right.Changes);
+			printf("Threshold = %d\n", threshold);
+			printf("Speed * 10^6 = %d\n", (int)(speed*1000000) );
+			printf("Modified Speed * 10^6 = %d\n", (int)(motor*1000000) );
+			printf("Turn * 10^6 = %d\n", (int)(steer*1000000.0) );
+			printf("Stop = %d\n", stop);
+			delay(1000);
 		}
 	}
-	return 0;
 }
 
-void algo_one(){
-    int i;
 
-    //Variables for calculating average light levels
-    long int sum = 0;
-    int avg;
-
-    //Array recording if pixel light level is below average
-    int belowAvg[ STOP_PIXEL - START_PIXEL + 1 ];
-
-    //Variables for calculating center of the pixels below average and difference from center of all pixels
-    int sumBelowAvg = 0;
-    int totBelowAvg = 0;
-    int centerBelowAvg;
-    int center = ( STOP_PIXEL - START_PIXEL + 1) / 2;
-    int diffCenter;
-    float diff;
-
-    if( LineScanImageReady == 1 ){
-        LineScanImageReady = 0;
-
-        //Adds each pixels light value to the total
-        for( i = START_PIXEL; i < STOP_PIXEL; i++ ){
-            sum += LineScanImage0[i];
-        }
-
-        //Calculates average light value
-        avg = sum / ( STOP_PIXEL - START_PIXEL );
-
-        //Calculates which pixels are below average and fills the array accordingly
-        for( i = START_PIXEL; i < STOP_PIXEL; i++ ){
-
-            //If pixel is below average sets corresponding array element to 1
-            if( LineScanImage0[i] < avg ){
-                belowAvg[ i - START_PIXEL ] = 1;
-            }
-
-            //If pixel is above average sets corresponding array element to 0
-            else {
-                belowAvg[ i - START_PIXEL ] = 0;
-            }
-        }
-
-        //Outputs the array over serial
-        for( i = START_PIXEL; i < STOP_PIXEL; i++ ){
-            printf( "%d", belowAvg[ i - START_PIXEL ] );
-        }
-        printf( "\r\n" );
-    }
-
-    //Adds all the pixels below average
-    for( i = 0; i < STOP_PIXEL - START_PIXEL + 1; i++){
-        if( belowAvg[i] ){
-            totBelowAvg++;
-            sumBelowAvg += i;
-        }
-    }
-
-    centerBelowAvg = sumBelowAvg / totBelowAvg; //calculates the center of the below average pixels
-    diffCenter = center - centerBelowAvg;  //Clalculates the difference of the center of the below average pixels and all the pixels
-    diff = (float)( center - diffCenter ) / (float)center; //Calculates "percent" difference. Ranges from 0 - 2
-    TFC_SetServo(0,diff - 1); //Adjusts servo accordingly
-    delay(2); //Allows servo time to move
-}
-
-void algo_two(){
-    float mid_point = ( STOP_PIXEL - START_PIXEL ) / 2 + START_PIXEL;
-
-    if( LineScanImageReady == 1 ){
-        LineScanImageReady = 0;
-        
-        int i;
-        double sum = 0.0f;
-        for( i = START_PIXEL; i < STOP_PIXEL; i++ ){
-            int offset = mid_point - i;
-
-            if(offset == 0) offset = 1;
-            double scale = mid_point / offset;
-
-            if(LineScanImage0[i] == 0) {
-                sum += scale * 1;
-            } else {
-                sum += scale * ((1.0f / (float)LineScanImage0[i]));
-            }
-        }
-    
-        sum = (double)sum;
-        TFC_SetServo( 0, sum);
-    }
-}
-
-void algo_three() {
-	int stop_algo = 0;
+void algo_one() {
+	int stop = 0;
 	int threshold = 0;
 	float speed = 0;
 	
@@ -217,22 +196,22 @@ void algo_three() {
             printf("%d %d\n", (int)left.Sum, (int)right.Sum);
             
             if(stop_algo == 0)
-            	stop_algo = ( right.Changes >= 1 && left.Changes >= 1 );
-            
-            setTurn(left, right);
+            	stop = ( right.Changes >= 1 && left.Changes >= 1 );
         }
         
-        if(stop_algo == 0) {
+        setTurn(left, right);
+        
+        if(stop == 0) {
         	TFC_SetMotorPWM(speed, speed);
         } else {
-        	double motor = speed * ((STOP_CYCLES - stop_algo) / STOP_CYCLES);
+        	double motor = speed * ((STOP_CYCLES - stop) / STOP_CYCLES);
         	TFC_SetMotorPWM(motor, motor);
-        	stop_algo++;
+        	stop++;
         }     
         
         if(TFC_PUSH_BUTTON_1_PRESSED) break;
         
-        if(stop_algo > STOP_CYCLES) break;
+        if(stop > STOP_CYCLES) break;
     }
 }
 

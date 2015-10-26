@@ -8,15 +8,6 @@
 #define STOP_PIXEL 118
 
 
-void forwardFull(){
-    TFC_HBRIDGE_ENABLE;
-    TFC_SetServo(0,-.15);
-    TFC_SetMotorPWM(1,1);
-    delay(30);
-    TFC_SetMotorPWM(0,0);
-    TFC_HBRIDGE_DISABLE;
-}
-
 void printCamera() {
     int t = 0;
 
@@ -26,12 +17,6 @@ void printCamera() {
             LineScanImageReady = 0;
             printf("\r\n");
             printf("L:");
-            if(t == 0)
-                t = 3;
-            else
-                t--;
-
-            TFC_SetBatteryLED_Level(t);
 
             int i;
             for(i = 0; i < 128; i++)
@@ -47,42 +32,6 @@ void printCamera() {
     }
 }
 
-
-void runToLine(){
-
-    long int sum;
-    int avg = 0;
-    int i;
-
-
-
-    while(1){
-        TFC_Task();
-        sum = 0;
-        TFC_SetServo(0,-.15);
-        if( LineScanImageReady == 1 ){
-            LineScanImageReady = 0;
-
-            //Adds each pixels light value to the total
-            for( i = START_PIXEL; i < STOP_PIXEL; i++ ){
-                sum += LineScanImage0[i];
-            }
-
-            //Calculates average light value
-            avg = sum / ( STOP_PIXEL - START_PIXEL );
-        }
-        printf("\n%X", avg);
-        if(avg>>11&&0x01){
-            TFC_SetMotorPWM(.3, .3);
-        }
-        else{
-            TFC_SetMotorPWM(0, 0);
-            TFC_HBRIDGE_DISABLE;
-            break;
-        }
-        if(TFC_PUSH_BUTTON_1_PRESSED)break;
-    }
-}
 
 int main(void){
     TFC_Init();
@@ -100,34 +49,24 @@ int main(void){
 		while(!TFC_PUSH_BUTTON_0_PRESSED);
 	
 		/* Then set the operating mode based on the DIP switch */
-		switch(TFC_GetDIP_Switch()&0x07) {
+		switch(TFC_GetDIP_Switch()) {
 			default:
 			case 0:
 				TFC_BAT_LED0_OFF;
 				TFC_BAT_LED1_OFF;
 				TFC_BAT_LED2_OFF;
 				TFC_BAT_LED3_OFF;
-				// In the default mode, simply read out the camera forever
-				printCamera();
-				
+				TFC_HBRIDGE_ENABLE;
+				// In this mode, we run the algorithm
+				algo_one();
 				break;
 			case 1:
 				TFC_BAT_LED0_ON;
 				TFC_BAT_LED1_OFF;
 				TFC_BAT_LED2_OFF;
 				TFC_BAT_LED3_OFF;
-				TFC_HBRIDGE_ENABLE;
-				// In this mode, we will actually run the analysis and drive.
-				while(1) {
-					TFC_Task();
-					algo_one();
-					TFC_SetMotorPWM(.3, .3);
-					if(TFC_PUSH_BUTTON_1_PRESSED)break;
-					if(stop_car()){
-						delay(5);
-						break;
-					}
-				}
+				// In this mode, we print the number of changes on each side
+				algo_one_debug(1);
 				break;
 			case 2:
 				// In this mode, we drive forward a little bit.
@@ -135,8 +74,7 @@ int main(void){
 				TFC_BAT_LED1_ON;
 				TFC_BAT_LED2_OFF;
 				TFC_BAT_LED3_OFF;
-				delay(300);
-				forwardFull();
+				algo_one_debug(2);
 				break;
 			case 3:
 				// In this mode, we drive forward until the input is below a threshold
@@ -144,36 +82,49 @@ int main(void){
 				TFC_BAT_LED1_ON;
 				TFC_BAT_LED2_OFF;
 				TFC_BAT_LED3_OFF;
-				TFC_HBRIDGE_ENABLE;
-				runToLine();
+				algo_one_debug(3);
 				break;
 			case 4:
 				TFC_BAT_LED0_OFF;
 				TFC_BAT_LED1_OFF;
 				TFC_BAT_LED2_ON;
 				TFC_BAT_LED3_OFF;
-				TFC_HBRIDGE_ENABLE;
-				while(1) {
-					TFC_Task();
-					algo_two();
-					TFC_SetMotorPWM(.3, .3);
-					if(TFC_PUSH_BUTTON_1_PRESSED)break;
-					if(stop_car()){
-						delay(5);
-						break;
-					}
-				}
-	
+				algo_one_debug(4);
 				break;
 			case 5:
 				TFC_BAT_LED0_ON;
 				TFC_BAT_LED1_OFF;
 				TFC_BAT_LED2_ON;
 				TFC_BAT_LED3_OFF;
-				TFC_HBRIDGE_ENABLE;
-				
-				algo_three();
-				
+				algo_one_debug(5);
+				break;
+			case 6:
+				TFC_BAT_LED0_OFF;
+				TFC_BAT_LED1_ON;
+				TFC_BAT_LED2_ON;
+				TFC_BAT_LED3_OFF;
+				algo_one_debug(6);
+				break;
+			case 7:
+				TFC_BAT_LED0_ON;
+				TFC_BAT_LED1_ON;
+				TFC_BAT_LED2_ON;
+				TFC_BAT_LED3_OFF;
+				algo_one_debug(7);
+				break;
+			case 14:
+				TFC_BAT_LED0_OFF;
+				TFC_BAT_LED1_ON;
+				TFC_BAT_LED2_ON;
+				TFC_BAT_LED3_ON;
+				break;
+			case 15:
+				TFC_BAT_LED0_ON;
+				TFC_BAT_LED1_ON;
+				TFC_BAT_LED2_ON;
+				TFC_BAT_LED3_ON;
+				// In this mode, we simply read out the camera forever
+				printCamera();
 				break;
 		}
 	
