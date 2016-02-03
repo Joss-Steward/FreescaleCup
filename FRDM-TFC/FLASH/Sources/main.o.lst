@@ -14,14 +14,24 @@
   14              		.text
   15              	.Ltext0:
   16              		.cfi_sections	.debug_frame
-  17              		.section	.text.forwardFull,"ax",%progbits
+  17              		.section	.rodata
   18              		.align	2
-  19              		.global	forwardFull
-  20              		.code	16
-  21              		.thumb_func
-  23              	forwardFull:
-  24              	.LFB0:
-  25              		.file 1 "../Sources/main.c"
+  19              	.LC1:
+  20 0000 0D00     		.ascii	"\015\000"
+  21 0002 0000     		.align	2
+  22              	.LC3:
+  23 0004 4C3A00   		.ascii	"L:\000"
+  24 0007 00       		.align	2
+  25              	.LC6:
+  26 0008 255800   		.ascii	"%X\000"
+  27 000b 00       		.section	.text.printCamera,"ax",%progbits
+  28              		.align	2
+  29              		.global	printCamera
+  30              		.code	16
+  31              		.thumb_func
+  33              	printCamera:
+  34              	.LFB0:
+  35              		.file 1 "../Sources/main.c"
    1:../Sources/main.c **** #include "derivative.h" /* include peripheral declarations */
    2:../Sources/main.c **** #include "TFC\TFC.h"
    3:../Sources/main.c **** #include "Algorithms.h"
@@ -32,979 +42,681 @@
    8:../Sources/main.c **** #define STOP_PIXEL 118
    9:../Sources/main.c **** 
   10:../Sources/main.c **** 
-  11:../Sources/main.c **** void forwardFull(){
-  26              		.loc 1 11 0
-  27              		.cfi_startproc
-  28 0000 80B5     		push	{r7, lr}
-  29              	.LCFI0:
-  30              		.cfi_def_cfa_offset 8
-  31              		.cfi_offset 7, -8
-  32              		.cfi_offset 14, -4
-  33 0002 00AF     		add	r7, sp, #0
-  34              	.LCFI1:
-  35              		.cfi_def_cfa_register 7
-  12:../Sources/main.c ****     TFC_HBRIDGE_ENABLE;
-  36              		.loc 1 12 0
-  37 0004 0F4B     		ldr	r3, .L2
-  38 0006 8022     		mov	r2, #128
-  39 0008 9203     		lsl	r2, r2, #14
-  40 000a 5A60     		str	r2, [r3, #4]
-  13:../Sources/main.c ****     TFC_SetServo(0,-.15);
-  41              		.loc 1 13 0
-  42 000c 0E4B     		ldr	r3, .L2+4
-  43 000e 0020     		mov	r0, #0
-  44 0010 191C     		add	r1, r3, #0
-  45 0012 FFF7FEFF 		bl	TFC_SetServo
-  14:../Sources/main.c ****     TFC_SetMotorPWM(1,1);
-  46              		.loc 1 14 0
-  47 0016 FE22     		mov	r2, #254
-  48 0018 9205     		lsl	r2, r2, #22
-  49 001a FE23     		mov	r3, #254
-  50 001c 9B05     		lsl	r3, r3, #22
-  51 001e 101C     		add	r0, r2, #0
-  52 0020 191C     		add	r1, r3, #0
-  53 0022 FFF7FEFF 		bl	TFC_SetMotorPWM
-  15:../Sources/main.c ****     delay(30);
-  54              		.loc 1 15 0
-  55 0026 1E20     		mov	r0, #30
-  56 0028 FFF7FEFF 		bl	delay
-  16:../Sources/main.c ****     TFC_SetMotorPWM(0,0);
-  57              		.loc 1 16 0
-  58 002c 0022     		mov	r2, #0
-  59 002e 0023     		mov	r3, #0
-  60 0030 101C     		add	r0, r2, #0
-  61 0032 191C     		add	r1, r3, #0
-  62 0034 FFF7FEFF 		bl	TFC_SetMotorPWM
-  17:../Sources/main.c ****     TFC_HBRIDGE_DISABLE;
-  63              		.loc 1 17 0
-  64 0038 024B     		ldr	r3, .L2
-  65 003a 8022     		mov	r2, #128
-  66 003c 9203     		lsl	r2, r2, #14
-  67 003e 9A60     		str	r2, [r3, #8]
-  18:../Sources/main.c **** }
-  68              		.loc 1 18 0
-  69 0040 BD46     		mov	sp, r7
-  70              		@ sp needed for prologue
-  71 0042 80BD     		pop	{r7, pc}
-  72              	.L3:
-  73              		.align	2
-  74              	.L2:
-  75 0044 00F10F40 		.word	1074786560
-  76 0048 9A9919BE 		.word	-1105618534
-  77              		.cfi_endproc
-  78              	.LFE0:
-  80              		.section	.rodata
-  81              		.align	2
-  82              	.LC1:
-  83 0000 0D00     		.ascii	"\015\000"
-  84 0002 0000     		.align	2
-  85              	.LC3:
-  86 0004 4C3A00   		.ascii	"L:\000"
-  87 0007 00       		.align	2
-  88              	.LC6:
-  89 0008 255800   		.ascii	"%X\000"
-  90              		.section	.text.printCamera,"ax",%progbits
-  91              		.align	2
-  92              		.global	printCamera
-  93              		.code	16
-  94              		.thumb_func
-  96              	printCamera:
-  97              	.LFB1:
-  19:../Sources/main.c **** 
-  20:../Sources/main.c **** void printCamera() {
-  98              		.loc 1 20 0
-  99              		.cfi_startproc
- 100 0000 80B5     		push	{r7, lr}
- 101              	.LCFI2:
- 102              		.cfi_def_cfa_offset 8
- 103              		.cfi_offset 7, -8
- 104              		.cfi_offset 14, -4
- 105 0002 82B0     		sub	sp, sp, #8
- 106              	.LCFI3:
- 107              		.cfi_def_cfa_offset 16
- 108 0004 00AF     		add	r7, sp, #0
- 109              	.LCFI4:
- 110              		.cfi_def_cfa_register 7
-  21:../Sources/main.c ****     int t = 0;
- 111              		.loc 1 21 0
- 112 0006 0023     		mov	r3, #0
- 113 0008 7B60     		str	r3, [r7, #4]
- 114 000a 00E0     		b	.L14
- 115              	.L15:
-  22:../Sources/main.c **** 
-  23:../Sources/main.c ****     while(1){
-  24:../Sources/main.c ****         TFC_Task();
-  25:../Sources/main.c ****         if(LineScanImageReady == 1) {
-  26:../Sources/main.c ****             LineScanImageReady = 0;
-  27:../Sources/main.c ****             printf("\r\n");
-  28:../Sources/main.c ****             printf("L:");
-  29:../Sources/main.c ****             if(t == 0)
-  30:../Sources/main.c ****                 t = 3;
-  31:../Sources/main.c ****             else
-  32:../Sources/main.c ****                 t--;
-  33:../Sources/main.c **** 
-  34:../Sources/main.c ****             TFC_SetBatteryLED_Level(t);
+  11:../Sources/main.c **** void printCamera() {
+  36              		.loc 1 11 0
+  37              		.cfi_startproc
+  38 0000 80B5     		push	{r7, lr}
+  39              	.LCFI0:
+  40              		.cfi_def_cfa_offset 8
+  41              		.cfi_offset 7, -8
+  42              		.cfi_offset 14, -4
+  43 0002 82B0     		sub	sp, sp, #8
+  44              	.LCFI1:
+  45              		.cfi_def_cfa_offset 16
+  46 0004 00AF     		add	r7, sp, #0
+  47              	.LCFI2:
+  48              		.cfi_def_cfa_register 7
+  12:../Sources/main.c ****     int t = 0;
+  49              		.loc 1 12 0
+  50 0006 0023     		mov	r3, #0
+  51 0008 3B60     		str	r3, [r7]
+  52 000a 00E0     		b	.L9
+  53              	.L10:
+  13:../Sources/main.c **** 
+  14:../Sources/main.c ****     while(1){
+  15:../Sources/main.c ****         TFC_Task();
+  16:../Sources/main.c ****         if(LineScanImageReady == 1) {
+  17:../Sources/main.c ****             LineScanImageReady = 0;
+  18:../Sources/main.c ****             printf("\r\n");
+  19:../Sources/main.c ****             printf("L:");
+  20:../Sources/main.c **** 
+  21:../Sources/main.c ****             int i;
+  22:../Sources/main.c ****             for(i = 0; i < 128; i++)
+  23:../Sources/main.c ****             {
+  24:../Sources/main.c ****                 printf("%X", LineScanImage0[i]);
+  25:../Sources/main.c ****                 if(i == 127)
+  26:../Sources/main.c ****                     printf("\r\n");
+  27:../Sources/main.c ****                 else
+  28:../Sources/main.c ****                     printf(",");
+  29:../Sources/main.c ****             }
+  30:../Sources/main.c ****         }
+  31:../Sources/main.c ****         if(TFC_PUSH_BUTTON_1_PRESSED)break;
+  32:../Sources/main.c ****     }
+  54              		.loc 1 32 0
+  55 000c C046     		mov	r8, r8
+  56              	.L9:
+  15:../Sources/main.c ****         TFC_Task();
+  57              		.loc 1 15 0
+  58 000e FFF7FEFF 		bl	TFC_Task
+  16:../Sources/main.c ****         if(LineScanImageReady == 1) {
+  59              		.loc 1 16 0
+  60 0012 1D4B     		ldr	r3, .L11
+  61 0014 1B78     		ldrb	r3, [r3]
+  62 0016 DBB2     		uxtb	r3, r3
+  63 0018 012B     		cmp	r3, #1
+  64 001a 2AD1     		bne	.L2
+  65              	.LBB2:
+  17:../Sources/main.c ****             LineScanImageReady = 0;
+  66              		.loc 1 17 0
+  67 001c 1A4B     		ldr	r3, .L11
+  68 001e 0022     		mov	r2, #0
+  69 0020 1A70     		strb	r2, [r3]
+  18:../Sources/main.c ****             printf("\r\n");
+  70              		.loc 1 18 0
+  71 0022 1A4B     		ldr	r3, .L11+4
+  72 0024 181C     		mov	r0, r3
+  73 0026 FFF7FEFF 		bl	puts
+  19:../Sources/main.c ****             printf("L:");
+  74              		.loc 1 19 0
+  75 002a 194B     		ldr	r3, .L11+8
+  76 002c 181C     		mov	r0, r3
+  77 002e FFF7FEFF 		bl	printf
+  22:../Sources/main.c ****             for(i = 0; i < 128; i++)
+  78              		.loc 1 22 0
+  79 0032 0023     		mov	r3, #0
+  80 0034 7B60     		str	r3, [r7, #4]
+  81 0036 19E0     		b	.L3
+  82              	.L6:
+  24:../Sources/main.c ****                 printf("%X", LineScanImage0[i]);
+  83              		.loc 1 24 0
+  84 0038 164B     		ldr	r3, .L11+12
+  85 003a 1A68     		ldr	r2, [r3]
+  86 003c 7B68     		ldr	r3, [r7, #4]
+  87 003e 5B00     		lsl	r3, r3, #1
+  88 0040 D318     		add	r3, r2, r3
+  89 0042 1B88     		ldrh	r3, [r3]
+  90 0044 9BB2     		uxth	r3, r3
+  91 0046 144A     		ldr	r2, .L11+16
+  92 0048 101C     		mov	r0, r2
+  93 004a 191C     		mov	r1, r3
+  94 004c FFF7FEFF 		bl	printf
+  25:../Sources/main.c ****                 if(i == 127)
+  95              		.loc 1 25 0
+  96 0050 7B68     		ldr	r3, [r7, #4]
+  97 0052 7F2B     		cmp	r3, #127
+  98 0054 04D1     		bne	.L4
+  26:../Sources/main.c ****                     printf("\r\n");
+  99              		.loc 1 26 0
+ 100 0056 0D4B     		ldr	r3, .L11+4
+ 101 0058 181C     		mov	r0, r3
+ 102 005a FFF7FEFF 		bl	puts
+ 103 005e 02E0     		b	.L5
+ 104              	.L4:
+  28:../Sources/main.c ****                     printf(",");
+ 105              		.loc 1 28 0
+ 106 0060 2C20     		mov	r0, #44
+ 107 0062 FFF7FEFF 		bl	putchar
+ 108              	.L5:
+  22:../Sources/main.c ****             for(i = 0; i < 128; i++)
+ 109              		.loc 1 22 0
+ 110 0066 7B68     		ldr	r3, [r7, #4]
+ 111 0068 0133     		add	r3, r3, #1
+ 112 006a 7B60     		str	r3, [r7, #4]
+ 113              	.L3:
+  22:../Sources/main.c ****             for(i = 0; i < 128; i++)
+ 114              		.loc 1 22 0 is_stmt 0
+ 115 006c 7B68     		ldr	r3, [r7, #4]
+ 116 006e 7F2B     		cmp	r3, #127
+ 117 0070 E2DD     		ble	.L6
+ 118              	.L2:
+ 119              	.LBE2:
+  31:../Sources/main.c ****         if(TFC_PUSH_BUTTON_1_PRESSED)break;
+ 120              		.loc 1 31 0 is_stmt 1
+ 121 0072 0A4B     		ldr	r3, .L11+20
+ 122 0074 1A69     		ldr	r2, [r3, #16]
+ 123 0076 8023     		mov	r3, #128
+ 124 0078 9B02     		lsl	r3, r3, #10
+ 125 007a 1340     		and	r3, r2
+ 126 007c C6D0     		beq	.L10
+ 127 007e C046     		mov	r8, r8
+  33:../Sources/main.c **** }
+ 128              		.loc 1 33 0
+ 129 0080 BD46     		mov	sp, r7
+ 130 0082 02B0     		add	sp, sp, #8
+ 131              		@ sp needed for prologue
+ 132 0084 80BD     		pop	{r7, pc}
+ 133              	.L12:
+ 134 0086 C046     		.align	2
+ 135              	.L11:
+ 136 0088 00000000 		.word	LineScanImageReady
+ 137 008c 00000000 		.word	.LC1
+ 138 0090 04000000 		.word	.LC3
+ 139 0094 00000000 		.word	LineScanImage0
+ 140 0098 08000000 		.word	.LC6
+ 141 009c 80F00F40 		.word	1074786432
+ 142              		.cfi_endproc
+ 143              	.LFE0:
+ 145              		.section	.text.main,"ax",%progbits
+ 146              		.align	2
+ 147              		.global	main
+ 148              		.code	16
+ 149              		.thumb_func
+ 151              	main:
+ 152              	.LFB1:
+  34:../Sources/main.c **** 
   35:../Sources/main.c **** 
-  36:../Sources/main.c ****             int i;
-  37:../Sources/main.c ****             for(i = 0; i < 128; i++)
-  38:../Sources/main.c ****             {
-  39:../Sources/main.c ****                 printf("%X", LineScanImage0[i]);
-  40:../Sources/main.c ****                 if(i == 127)
-  41:../Sources/main.c ****                     printf("\r\n");
-  42:../Sources/main.c ****                 else
-  43:../Sources/main.c ****                     printf(",");
-  44:../Sources/main.c ****             }
-  45:../Sources/main.c ****         }
-  46:../Sources/main.c ****         if(TFC_PUSH_BUTTON_1_PRESSED)break;
-  47:../Sources/main.c ****     }
- 116              		.loc 1 47 0
- 117 000c C046     		mov	r8, r8
- 118              	.L14:
-  24:../Sources/main.c ****         TFC_Task();
- 119              		.loc 1 24 0
- 120 000e FFF7FEFF 		bl	TFC_Task
-  25:../Sources/main.c ****         if(LineScanImageReady == 1) {
- 121              		.loc 1 25 0
- 122 0012 244B     		ldr	r3, .L16
- 123 0014 1B78     		ldrb	r3, [r3]
- 124 0016 DBB2     		uxtb	r3, r3
- 125 0018 012B     		cmp	r3, #1
- 126 001a 38D1     		bne	.L5
- 127              	.LBB2:
-  26:../Sources/main.c ****             LineScanImageReady = 0;
- 128              		.loc 1 26 0
- 129 001c 214B     		ldr	r3, .L16
- 130 001e 0022     		mov	r2, #0
- 131 0020 1A70     		strb	r2, [r3]
-  27:../Sources/main.c ****             printf("\r\n");
- 132              		.loc 1 27 0
- 133 0022 214B     		ldr	r3, .L16+4
- 134 0024 181C     		mov	r0, r3
- 135 0026 FFF7FEFF 		bl	puts
-  28:../Sources/main.c ****             printf("L:");
- 136              		.loc 1 28 0
- 137 002a 204B     		ldr	r3, .L16+8
- 138 002c 181C     		mov	r0, r3
- 139 002e FFF7FEFF 		bl	printf
-  29:../Sources/main.c ****             if(t == 0)
- 140              		.loc 1 29 0
- 141 0032 7B68     		ldr	r3, [r7, #4]
- 142 0034 002B     		cmp	r3, #0
- 143 0036 02D1     		bne	.L6
-  30:../Sources/main.c ****                 t = 3;
- 144              		.loc 1 30 0
- 145 0038 0323     		mov	r3, #3
- 146 003a 7B60     		str	r3, [r7, #4]
- 147 003c 02E0     		b	.L7
- 148              	.L6:
-  32:../Sources/main.c ****                 t--;
- 149              		.loc 1 32 0
- 150 003e 7B68     		ldr	r3, [r7, #4]
- 151 0040 013B     		sub	r3, r3, #1
- 152 0042 7B60     		str	r3, [r7, #4]
- 153              	.L7:
-  34:../Sources/main.c ****             TFC_SetBatteryLED_Level(t);
- 154              		.loc 1 34 0
- 155 0044 7B68     		ldr	r3, [r7, #4]
- 156 0046 DBB2     		uxtb	r3, r3
- 157 0048 181C     		mov	r0, r3
- 158 004a FFF7FEFF 		bl	TFC_SetBatteryLED_Level
-  37:../Sources/main.c ****             for(i = 0; i < 128; i++)
- 159              		.loc 1 37 0
- 160 004e 0023     		mov	r3, #0
- 161 0050 3B60     		str	r3, [r7]
- 162 0052 19E0     		b	.L8
- 163              	.L11:
-  39:../Sources/main.c ****                 printf("%X", LineScanImage0[i]);
- 164              		.loc 1 39 0
- 165 0054 164B     		ldr	r3, .L16+12
- 166 0056 1A68     		ldr	r2, [r3]
- 167 0058 3B68     		ldr	r3, [r7]
- 168 005a 5B00     		lsl	r3, r3, #1
- 169 005c D318     		add	r3, r2, r3
- 170 005e 1B88     		ldrh	r3, [r3]
- 171 0060 9BB2     		uxth	r3, r3
- 172 0062 144A     		ldr	r2, .L16+16
- 173 0064 101C     		mov	r0, r2
- 174 0066 191C     		mov	r1, r3
- 175 0068 FFF7FEFF 		bl	printf
-  40:../Sources/main.c ****                 if(i == 127)
- 176              		.loc 1 40 0
- 177 006c 3B68     		ldr	r3, [r7]
- 178 006e 7F2B     		cmp	r3, #127
- 179 0070 04D1     		bne	.L9
-  41:../Sources/main.c ****                     printf("\r\n");
- 180              		.loc 1 41 0
- 181 0072 0D4B     		ldr	r3, .L16+4
- 182 0074 181C     		mov	r0, r3
- 183 0076 FFF7FEFF 		bl	puts
- 184 007a 02E0     		b	.L10
- 185              	.L9:
-  43:../Sources/main.c ****                     printf(",");
- 186              		.loc 1 43 0
- 187 007c 2C20     		mov	r0, #44
- 188 007e FFF7FEFF 		bl	putchar
- 189              	.L10:
-  37:../Sources/main.c ****             for(i = 0; i < 128; i++)
- 190              		.loc 1 37 0
- 191 0082 3B68     		ldr	r3, [r7]
- 192 0084 0133     		add	r3, r3, #1
- 193 0086 3B60     		str	r3, [r7]
- 194              	.L8:
-  37:../Sources/main.c ****             for(i = 0; i < 128; i++)
- 195              		.loc 1 37 0 is_stmt 0
- 196 0088 3B68     		ldr	r3, [r7]
- 197 008a 7F2B     		cmp	r3, #127
- 198 008c E2DD     		ble	.L11
- 199              	.L5:
- 200              	.LBE2:
-  46:../Sources/main.c ****         if(TFC_PUSH_BUTTON_1_PRESSED)break;
- 201              		.loc 1 46 0 is_stmt 1
- 202 008e 0A4B     		ldr	r3, .L16+20
- 203 0090 1A69     		ldr	r2, [r3, #16]
- 204 0092 8023     		mov	r3, #128
- 205 0094 9B02     		lsl	r3, r3, #10
- 206 0096 1340     		and	r3, r2
- 207 0098 B8D0     		beq	.L15
- 208 009a C046     		mov	r8, r8
-  48:../Sources/main.c **** }
- 209              		.loc 1 48 0
- 210 009c BD46     		mov	sp, r7
- 211 009e 02B0     		add	sp, sp, #8
- 212              		@ sp needed for prologue
- 213 00a0 80BD     		pop	{r7, pc}
- 214              	.L17:
- 215 00a2 C046     		.align	2
- 216              	.L16:
- 217 00a4 00000000 		.word	LineScanImageReady
- 218 00a8 00000000 		.word	.LC1
- 219 00ac 04000000 		.word	.LC3
- 220 00b0 00000000 		.word	LineScanImage0
- 221 00b4 08000000 		.word	.LC6
- 222 00b8 80F00F40 		.word	1074786432
- 223              		.cfi_endproc
- 224              	.LFE1:
- 226              		.global	__aeabi_idiv
- 227              		.section	.rodata
- 228 000b 00       		.align	2
- 229              	.LC10:
- 230 000c 0A255800 		.ascii	"\012%X\000"
- 231              		.section	.text.runToLine,"ax",%progbits
- 232              		.align	2
- 233              		.global	runToLine
- 234              		.code	16
- 235              		.thumb_func
- 237              	runToLine:
- 238              	.LFB2:
-  49:../Sources/main.c **** 
-  50:../Sources/main.c **** 
-  51:../Sources/main.c **** void runToLine(){
- 239              		.loc 1 51 0
- 240              		.cfi_startproc
- 241 0000 80B5     		push	{r7, lr}
- 242              	.LCFI5:
- 243              		.cfi_def_cfa_offset 8
- 244              		.cfi_offset 7, -8
- 245              		.cfi_offset 14, -4
- 246 0002 84B0     		sub	sp, sp, #16
- 247              	.LCFI6:
- 248              		.cfi_def_cfa_offset 24
- 249 0004 00AF     		add	r7, sp, #0
- 250              	.LCFI7:
- 251              		.cfi_def_cfa_register 7
-  52:../Sources/main.c **** 
-  53:../Sources/main.c ****     long int sum;
-  54:../Sources/main.c ****     int avg = 0;
- 252              		.loc 1 54 0
- 253 0006 0023     		mov	r3, #0
- 254 0008 BB60     		str	r3, [r7, #8]
- 255              	.L26:
-  55:../Sources/main.c ****     int i;
-  56:../Sources/main.c **** 
-  57:../Sources/main.c **** 
-  58:../Sources/main.c **** 
-  59:../Sources/main.c ****     while(1){
-  60:../Sources/main.c ****         TFC_Task();
- 256              		.loc 1 60 0
- 257 000a FFF7FEFF 		bl	TFC_Task
-  61:../Sources/main.c ****         sum = 0;
- 258              		.loc 1 61 0
- 259 000e 0023     		mov	r3, #0
- 260 0010 FB60     		str	r3, [r7, #12]
-  62:../Sources/main.c ****         TFC_SetServo(0,-.15);
- 261              		.loc 1 62 0
- 262 0012 264B     		ldr	r3, .L29
- 263 0014 0020     		mov	r0, #0
- 264 0016 191C     		add	r1, r3, #0
- 265 0018 FFF7FEFF 		bl	TFC_SetServo
-  63:../Sources/main.c ****         if( LineScanImageReady == 1 ){
- 266              		.loc 1 63 0
- 267 001c 244B     		ldr	r3, .L29+4
- 268 001e 1B78     		ldrb	r3, [r3]
- 269 0020 DBB2     		uxtb	r3, r3
- 270 0022 012B     		cmp	r3, #1
- 271 0024 1CD1     		bne	.L19
-  64:../Sources/main.c ****             LineScanImageReady = 0;
- 272              		.loc 1 64 0
- 273 0026 224B     		ldr	r3, .L29+4
- 274 0028 0022     		mov	r2, #0
- 275 002a 1A70     		strb	r2, [r3]
-  65:../Sources/main.c **** 
-  66:../Sources/main.c ****             //Adds each pixels light value to the total
-  67:../Sources/main.c ****             for( i = START_PIXEL; i < STOP_PIXEL; i++ ){
- 276              		.loc 1 67 0
- 277 002c 0A23     		mov	r3, #10
- 278 002e 7B60     		str	r3, [r7, #4]
- 279 0030 0CE0     		b	.L20
- 280              	.L21:
-  68:../Sources/main.c ****                 sum += LineScanImage0[i];
- 281              		.loc 1 68 0
- 282 0032 204B     		ldr	r3, .L29+8
- 283 0034 1A68     		ldr	r2, [r3]
- 284 0036 7B68     		ldr	r3, [r7, #4]
- 285 0038 5B00     		lsl	r3, r3, #1
- 286 003a D318     		add	r3, r2, r3
- 287 003c 1B88     		ldrh	r3, [r3]
- 288 003e 9BB2     		uxth	r3, r3
- 289 0040 FA68     		ldr	r2, [r7, #12]
- 290 0042 D318     		add	r3, r2, r3
- 291 0044 FB60     		str	r3, [r7, #12]
-  67:../Sources/main.c ****             for( i = START_PIXEL; i < STOP_PIXEL; i++ ){
- 292              		.loc 1 67 0
- 293 0046 7B68     		ldr	r3, [r7, #4]
- 294 0048 0133     		add	r3, r3, #1
- 295 004a 7B60     		str	r3, [r7, #4]
- 296              	.L20:
-  67:../Sources/main.c ****             for( i = START_PIXEL; i < STOP_PIXEL; i++ ){
- 297              		.loc 1 67 0 is_stmt 0
- 298 004c 7B68     		ldr	r3, [r7, #4]
- 299 004e 752B     		cmp	r3, #117
- 300 0050 EFDD     		ble	.L21
-  69:../Sources/main.c ****             }
-  70:../Sources/main.c **** 
-  71:../Sources/main.c ****             //Calculates average light value
-  72:../Sources/main.c ****             avg = sum / ( STOP_PIXEL - START_PIXEL );
- 301              		.loc 1 72 0 is_stmt 1
- 302 0052 FB68     		ldr	r3, [r7, #12]
- 303 0054 181C     		mov	r0, r3
- 304 0056 6C21     		mov	r1, #108
- 305 0058 FFF7FEFF 		bl	__aeabi_idiv
- 306 005c 031C     		mov	r3, r0
- 307 005e BB60     		str	r3, [r7, #8]
- 308              	.L19:
-  73:../Sources/main.c ****         }
-  74:../Sources/main.c ****         printf("\n%X", avg);
- 309              		.loc 1 74 0
- 310 0060 154A     		ldr	r2, .L29+12
- 311 0062 BB68     		ldr	r3, [r7, #8]
- 312 0064 101C     		mov	r0, r2
- 313 0066 191C     		mov	r1, r3
- 314 0068 FFF7FEFF 		bl	printf
-  75:../Sources/main.c ****         if(avg>>11&&0x01){
- 315              		.loc 1 75 0
- 316 006c BB68     		ldr	r3, [r7, #8]
- 317 006e DB12     		asr	r3, r3, #11
- 318 0070 0CD0     		beq	.L22
-  76:../Sources/main.c ****             TFC_SetMotorPWM(.3, .3);
- 319              		.loc 1 76 0
- 320 0072 124A     		ldr	r2, .L29+16
- 321 0074 114B     		ldr	r3, .L29+16
- 322 0076 101C     		add	r0, r2, #0
- 323 0078 191C     		add	r1, r3, #0
- 324 007a FFF7FEFF 		bl	TFC_SetMotorPWM
-  77:../Sources/main.c ****         }
-  78:../Sources/main.c ****         else{
-  79:../Sources/main.c ****             TFC_SetMotorPWM(0, 0);
-  80:../Sources/main.c ****             TFC_HBRIDGE_DISABLE;
-  81:../Sources/main.c ****             break;
-  82:../Sources/main.c ****         }
-  83:../Sources/main.c ****         if(TFC_PUSH_BUTTON_1_PRESSED)break;
- 325              		.loc 1 83 0
- 326 007e 104B     		ldr	r3, .L29+20
- 327 0080 1A69     		ldr	r2, [r3, #16]
- 328 0082 8023     		mov	r3, #128
- 329 0084 9B02     		lsl	r3, r3, #10
- 330 0086 1340     		and	r3, r2
- 331 0088 0CD1     		bne	.L28
- 332 008a 0AE0     		b	.L27
- 333              	.L22:
-  79:../Sources/main.c ****             TFC_SetMotorPWM(0, 0);
- 334              		.loc 1 79 0
- 335 008c 0022     		mov	r2, #0
- 336 008e 0023     		mov	r3, #0
- 337 0090 101C     		add	r0, r2, #0
- 338 0092 191C     		add	r1, r3, #0
- 339 0094 FFF7FEFF 		bl	TFC_SetMotorPWM
-  80:../Sources/main.c ****             TFC_HBRIDGE_DISABLE;
- 340              		.loc 1 80 0
- 341 0098 0A4B     		ldr	r3, .L29+24
- 342 009a 8022     		mov	r2, #128
- 343 009c 9203     		lsl	r2, r2, #14
- 344 009e 9A60     		str	r2, [r3, #8]
-  81:../Sources/main.c ****             break;
- 345              		.loc 1 81 0
- 346 00a0 01E0     		b	.L18
- 347              	.L27:
-  84:../Sources/main.c ****     }
- 348              		.loc 1 84 0
- 349 00a2 B2E7     		b	.L26
- 350              	.L28:
-  83:../Sources/main.c ****         if(TFC_PUSH_BUTTON_1_PRESSED)break;
- 351              		.loc 1 83 0
- 352 00a4 C046     		mov	r8, r8
- 353              	.L18:
-  85:../Sources/main.c **** }
- 354              		.loc 1 85 0
- 355 00a6 BD46     		mov	sp, r7
- 356 00a8 04B0     		add	sp, sp, #16
- 357              		@ sp needed for prologue
- 358 00aa 80BD     		pop	{r7, pc}
- 359              	.L30:
- 360              		.align	2
- 361              	.L29:
- 362 00ac 9A9919BE 		.word	-1105618534
- 363 00b0 00000000 		.word	LineScanImageReady
- 364 00b4 00000000 		.word	LineScanImage0
- 365 00b8 0C000000 		.word	.LC10
- 366 00bc 9A99993E 		.word	1050253722
- 367 00c0 80F00F40 		.word	1074786432
- 368 00c4 00F10F40 		.word	1074786560
- 369              		.cfi_endproc
- 370              	.LFE2:
- 372              		.section	.text.main,"ax",%progbits
- 373              		.align	2
- 374              		.global	main
- 375              		.code	16
- 376              		.thumb_func
- 378              	main:
- 379              	.LFB3:
-  86:../Sources/main.c **** 
-  87:../Sources/main.c **** int main(void){
- 380              		.loc 1 87 0
- 381              		.cfi_startproc
- 382 0000 80B5     		push	{r7, lr}
- 383              	.LCFI8:
- 384              		.cfi_def_cfa_offset 8
- 385              		.cfi_offset 7, -8
- 386              		.cfi_offset 14, -4
- 387 0002 00AF     		add	r7, sp, #0
- 388              	.LCFI9:
- 389              		.cfi_def_cfa_register 7
-  88:../Sources/main.c ****     TFC_Init();
- 390              		.loc 1 88 0
- 391 0004 FFF7FEFF 		bl	TFC_Init
- 392              	.L49:
-  89:../Sources/main.c ****     
-  90:../Sources/main.c ****     while(1){
-  91:../Sources/main.c **** 		TFC_SetMotorPWM(0, 0);
- 393              		.loc 1 91 0
- 394 0008 0022     		mov	r2, #0
- 395 000a 0023     		mov	r3, #0
- 396 000c 101C     		add	r0, r2, #0
- 397 000e 191C     		add	r1, r3, #0
- 398 0010 FFF7FEFF 		bl	TFC_SetMotorPWM
-  92:../Sources/main.c **** 		TFC_HBRIDGE_DISABLE;
- 399              		.loc 1 92 0
- 400 0014 814B     		ldr	r3, .L54
- 401 0016 8022     		mov	r2, #128
- 402 0018 9203     		lsl	r2, r2, #14
- 403 001a 9A60     		str	r2, [r3, #8]
-  93:../Sources/main.c **** 	
-  94:../Sources/main.c **** 		/* After power on, Wait for a button press before doing anything.
-  95:../Sources/main.c **** 		 * This gives us time to set the DIP switches and etc */
-  96:../Sources/main.c **** 		TFC_BAT_LED0_ON; // These lights will indicate that we're waiting
- 404              		.loc 1 96 0
- 405 001c 804B     		ldr	r3, .L54+4
- 406 001e 8022     		mov	r2, #128
- 407 0020 5200     		lsl	r2, r2, #1
- 408 0022 5A60     		str	r2, [r3, #4]
-  97:../Sources/main.c **** 		TFC_BAT_LED1_ON;
- 409              		.loc 1 97 0
- 410 0024 7E4B     		ldr	r3, .L54+4
- 411 0026 8022     		mov	r2, #128
- 412 0028 9200     		lsl	r2, r2, #2
- 413 002a 5A60     		str	r2, [r3, #4]
-  98:../Sources/main.c **** 		TFC_BAT_LED2_ON;
- 414              		.loc 1 98 0
- 415 002c 7C4B     		ldr	r3, .L54+4
- 416 002e 8022     		mov	r2, #128
- 417 0030 D200     		lsl	r2, r2, #3
- 418 0032 5A60     		str	r2, [r3, #4]
-  99:../Sources/main.c **** 		TFC_BAT_LED3_ON;
- 419              		.loc 1 99 0
- 420 0034 7A4B     		ldr	r3, .L54+4
- 421 0036 8022     		mov	r2, #128
- 422 0038 1201     		lsl	r2, r2, #4
- 423 003a 5A60     		str	r2, [r3, #4]
- 100:../Sources/main.c **** 		while(!TFC_PUSH_BUTTON_0_PRESSED);
- 424              		.loc 1 100 0
- 425 003c C046     		mov	r8, r8
- 426              	.L32:
- 427              		.loc 1 100 0 is_stmt 0
- 428 003e 794B     		ldr	r3, .L54+8
- 429 0040 1A69     		ldr	r2, [r3, #16]
- 430 0042 8023     		mov	r3, #128
- 431 0044 9B01     		lsl	r3, r3, #6
- 432 0046 1340     		and	r3, r2
- 433 0048 F9D0     		beq	.L32
- 101:../Sources/main.c **** 	
- 102:../Sources/main.c **** 		/* Then set the operating mode based on the DIP switch */
- 103:../Sources/main.c **** 		switch(TFC_GetDIP_Switch()&0x07) {
- 434              		.loc 1 103 0 is_stmt 1
- 435 004a FFF7FEFF 		bl	TFC_GetDIP_Switch
- 436 004e 031C     		mov	r3, r0
- 437 0050 1A1C     		mov	r2, r3
- 438 0052 0723     		mov	r3, #7
- 439 0054 1340     		and	r3, r2
- 440 0056 052B     		cmp	r3, #5
- 441 0058 04D8     		bhi	.L33
- 442 005a 9A00     		lsl	r2, r3, #2
- 443 005c 724B     		ldr	r3, .L54+12
- 444 005e D318     		add	r3, r2, r3
- 445 0060 1B68     		ldr	r3, [r3]
- 446 0062 9F46     		mov	pc, r3
- 447              		.section	.rodata.main,"a",%progbits
- 448              		.align	2
- 449              	.L39:
- 450 0000 64000000 		.word	.L33
- 451 0004 8A000000 		.word	.L34
- 452 0008 EC000000 		.word	.L35
- 453 000c 1C010000 		.word	.L36
- 454 0010 4A010000 		.word	.L37
- 455 0014 AC010000 		.word	.L38
- 456              		.section	.text.main
- 457              	.L33:
- 104:../Sources/main.c **** 			default:
- 105:../Sources/main.c **** 			case 0:
- 106:../Sources/main.c **** 				TFC_BAT_LED0_OFF;
- 458              		.loc 1 106 0
- 459 0064 6E4B     		ldr	r3, .L54+4
- 460 0066 8022     		mov	r2, #128
- 461 0068 5200     		lsl	r2, r2, #1
- 462 006a 9A60     		str	r2, [r3, #8]
- 107:../Sources/main.c **** 				TFC_BAT_LED1_OFF;
- 463              		.loc 1 107 0
- 464 006c 6C4B     		ldr	r3, .L54+4
- 465 006e 8022     		mov	r2, #128
- 466 0070 9200     		lsl	r2, r2, #2
- 467 0072 9A60     		str	r2, [r3, #8]
- 108:../Sources/main.c **** 				TFC_BAT_LED2_OFF;
- 468              		.loc 1 108 0
- 469 0074 6A4B     		ldr	r3, .L54+4
- 470 0076 8022     		mov	r2, #128
- 471 0078 D200     		lsl	r2, r2, #3
- 472 007a 9A60     		str	r2, [r3, #8]
- 109:../Sources/main.c **** 				TFC_BAT_LED3_OFF;
- 473              		.loc 1 109 0
- 474 007c 684B     		ldr	r3, .L54+4
- 475 007e 8022     		mov	r2, #128
- 476 0080 1201     		lsl	r2, r2, #4
- 477 0082 9A60     		str	r2, [r3, #8]
- 110:../Sources/main.c **** 				// In the default mode, simply read out the camera forever
- 111:../Sources/main.c **** 				printCamera();
- 478              		.loc 1 111 0
- 479 0084 FFF7FEFF 		bl	printCamera
- 112:../Sources/main.c **** 				
- 113:../Sources/main.c **** 				break;
- 480              		.loc 1 113 0
- 481 0088 A7E0     		b	.L40
- 482              	.L34:
- 114:../Sources/main.c **** 			case 1:
- 115:../Sources/main.c **** 				TFC_BAT_LED0_ON;
- 483              		.loc 1 115 0
- 484 008a 654B     		ldr	r3, .L54+4
- 485 008c 8022     		mov	r2, #128
- 486 008e 5200     		lsl	r2, r2, #1
- 487 0090 5A60     		str	r2, [r3, #4]
- 116:../Sources/main.c **** 				TFC_BAT_LED1_OFF;
- 488              		.loc 1 116 0
- 489 0092 634B     		ldr	r3, .L54+4
- 490 0094 8022     		mov	r2, #128
- 491 0096 9200     		lsl	r2, r2, #2
- 492 0098 9A60     		str	r2, [r3, #8]
- 117:../Sources/main.c **** 				TFC_BAT_LED2_OFF;
- 493              		.loc 1 117 0
- 494 009a 614B     		ldr	r3, .L54+4
- 495 009c 8022     		mov	r2, #128
- 496 009e D200     		lsl	r2, r2, #3
- 497 00a0 9A60     		str	r2, [r3, #8]
- 118:../Sources/main.c **** 				TFC_BAT_LED3_OFF;
- 498              		.loc 1 118 0
- 499 00a2 5F4B     		ldr	r3, .L54+4
- 500 00a4 8022     		mov	r2, #128
- 501 00a6 1201     		lsl	r2, r2, #4
- 502 00a8 9A60     		str	r2, [r3, #8]
- 119:../Sources/main.c **** 				TFC_HBRIDGE_ENABLE;
- 503              		.loc 1 119 0
- 504 00aa 5C4B     		ldr	r3, .L54
- 505 00ac 8022     		mov	r2, #128
- 506 00ae 9203     		lsl	r2, r2, #14
- 507 00b0 5A60     		str	r2, [r3, #4]
- 508 00b2 00E0     		b	.L44
- 509              	.L51:
- 120:../Sources/main.c **** 				// In this mode, we will actually run the analysis and drive.
- 121:../Sources/main.c **** 				while(1) {
- 122:../Sources/main.c **** 					TFC_Task();
- 123:../Sources/main.c **** 					algo_one();
- 124:../Sources/main.c **** 					TFC_SetMotorPWM(.3, .3);
- 125:../Sources/main.c **** 					if(TFC_PUSH_BUTTON_1_PRESSED)break;
- 126:../Sources/main.c **** 					if(stop_car()){
- 127:../Sources/main.c **** 						delay(5);
- 128:../Sources/main.c **** 						break;
- 129:../Sources/main.c **** 					}
- 130:../Sources/main.c **** 				}
- 510              		.loc 1 130 0
- 511 00b4 C046     		mov	r8, r8
- 512              	.L44:
- 122:../Sources/main.c **** 					TFC_Task();
- 513              		.loc 1 122 0
- 514 00b6 FFF7FEFF 		bl	TFC_Task
- 123:../Sources/main.c **** 					algo_one();
- 515              		.loc 1 123 0
- 516 00ba FFF7FEFF 		bl	algo_one
- 124:../Sources/main.c **** 					TFC_SetMotorPWM(.3, .3);
- 517              		.loc 1 124 0
- 518 00be 5B4A     		ldr	r2, .L54+16
- 519 00c0 5A4B     		ldr	r3, .L54+16
- 520 00c2 101C     		add	r0, r2, #0
- 521 00c4 191C     		add	r1, r3, #0
- 522 00c6 FFF7FEFF 		bl	TFC_SetMotorPWM
- 125:../Sources/main.c **** 					if(TFC_PUSH_BUTTON_1_PRESSED)break;
- 523              		.loc 1 125 0
- 524 00ca 564B     		ldr	r3, .L54+8
- 525 00cc 1A69     		ldr	r2, [r3, #16]
- 526 00ce 8023     		mov	r3, #128
- 527 00d0 9B02     		lsl	r3, r3, #10
- 528 00d2 1340     		and	r3, r2
- 529 00d4 08D1     		bne	.L50
- 530              	.L41:
- 126:../Sources/main.c **** 					if(stop_car()){
- 531              		.loc 1 126 0
- 532 00d6 FFF7FEFF 		bl	stop_car
- 533 00da 031C     		mov	r3, r0
- 534 00dc 002B     		cmp	r3, #0
- 535 00de E9D0     		beq	.L51
- 127:../Sources/main.c **** 						delay(5);
- 536              		.loc 1 127 0
- 537 00e0 0520     		mov	r0, #5
- 538 00e2 FFF7FEFF 		bl	delay
- 128:../Sources/main.c **** 						break;
- 539              		.loc 1 128 0
- 540 00e6 00E0     		b	.L42
- 541              	.L50:
- 125:../Sources/main.c **** 					if(TFC_PUSH_BUTTON_1_PRESSED)break;
- 542              		.loc 1 125 0
- 543 00e8 C046     		mov	r8, r8
- 544              	.L42:
- 131:../Sources/main.c **** 				break;
- 545              		.loc 1 131 0
- 546 00ea 76E0     		b	.L40
- 547              	.L35:
- 132:../Sources/main.c **** 			case 2:
- 133:../Sources/main.c **** 				// In this mode, we drive forward a little bit.
- 134:../Sources/main.c **** 				TFC_BAT_LED0_OFF;
- 548              		.loc 1 134 0
- 549 00ec 4C4B     		ldr	r3, .L54+4
- 550 00ee 8022     		mov	r2, #128
- 551 00f0 5200     		lsl	r2, r2, #1
- 552 00f2 9A60     		str	r2, [r3, #8]
- 135:../Sources/main.c **** 				TFC_BAT_LED1_ON;
- 553              		.loc 1 135 0
- 554 00f4 4A4B     		ldr	r3, .L54+4
- 555 00f6 8022     		mov	r2, #128
- 556 00f8 9200     		lsl	r2, r2, #2
- 557 00fa 5A60     		str	r2, [r3, #4]
- 136:../Sources/main.c **** 				TFC_BAT_LED2_OFF;
- 558              		.loc 1 136 0
- 559 00fc 484B     		ldr	r3, .L54+4
- 560 00fe 8022     		mov	r2, #128
- 561 0100 D200     		lsl	r2, r2, #3
- 562 0102 9A60     		str	r2, [r3, #8]
- 137:../Sources/main.c **** 				TFC_BAT_LED3_OFF;
- 563              		.loc 1 137 0
- 564 0104 464B     		ldr	r3, .L54+4
- 565 0106 8022     		mov	r2, #128
- 566 0108 1201     		lsl	r2, r2, #4
- 567 010a 9A60     		str	r2, [r3, #8]
- 138:../Sources/main.c **** 				delay(300);
- 568              		.loc 1 138 0
- 569 010c 9623     		mov	r3, #150
- 570 010e 5B00     		lsl	r3, r3, #1
- 571 0110 181C     		mov	r0, r3
- 572 0112 FFF7FEFF 		bl	delay
- 139:../Sources/main.c **** 				forwardFull();
- 573              		.loc 1 139 0
- 574 0116 FFF7FEFF 		bl	forwardFull
- 140:../Sources/main.c **** 				break;
- 575              		.loc 1 140 0
- 576 011a 5EE0     		b	.L40
- 577              	.L36:
- 141:../Sources/main.c **** 			case 3:
- 142:../Sources/main.c **** 				// In this mode, we drive forward until the input is below a threshold
- 143:../Sources/main.c **** 				TFC_BAT_LED0_ON;
- 578              		.loc 1 143 0
- 579 011c 404B     		ldr	r3, .L54+4
- 580 011e 8022     		mov	r2, #128
- 581 0120 5200     		lsl	r2, r2, #1
- 582 0122 5A60     		str	r2, [r3, #4]
- 144:../Sources/main.c **** 				TFC_BAT_LED1_ON;
- 583              		.loc 1 144 0
- 584 0124 3E4B     		ldr	r3, .L54+4
- 585 0126 8022     		mov	r2, #128
- 586 0128 9200     		lsl	r2, r2, #2
- 587 012a 5A60     		str	r2, [r3, #4]
- 145:../Sources/main.c **** 				TFC_BAT_LED2_OFF;
- 588              		.loc 1 145 0
- 589 012c 3C4B     		ldr	r3, .L54+4
- 590 012e 8022     		mov	r2, #128
- 591 0130 D200     		lsl	r2, r2, #3
- 592 0132 9A60     		str	r2, [r3, #8]
- 146:../Sources/main.c **** 				TFC_BAT_LED3_OFF;
- 593              		.loc 1 146 0
- 594 0134 3A4B     		ldr	r3, .L54+4
- 595 0136 8022     		mov	r2, #128
- 596 0138 1201     		lsl	r2, r2, #4
- 597 013a 9A60     		str	r2, [r3, #8]
- 147:../Sources/main.c **** 				TFC_HBRIDGE_ENABLE;
- 598              		.loc 1 147 0
- 599 013c 374B     		ldr	r3, .L54
- 600 013e 8022     		mov	r2, #128
- 601 0140 9203     		lsl	r2, r2, #14
- 602 0142 5A60     		str	r2, [r3, #4]
- 148:../Sources/main.c **** 				runToLine();
- 603              		.loc 1 148 0
- 604 0144 FFF7FEFF 		bl	runToLine
- 149:../Sources/main.c **** 				break;
- 605              		.loc 1 149 0
- 606 0148 47E0     		b	.L40
- 607              	.L37:
- 150:../Sources/main.c **** 			case 4:
- 151:../Sources/main.c **** 				TFC_BAT_LED0_OFF;
- 608              		.loc 1 151 0
- 609 014a 354B     		ldr	r3, .L54+4
- 610 014c 8022     		mov	r2, #128
- 611 014e 5200     		lsl	r2, r2, #1
- 612 0150 9A60     		str	r2, [r3, #8]
- 152:../Sources/main.c **** 				TFC_BAT_LED1_OFF;
- 613              		.loc 1 152 0
- 614 0152 334B     		ldr	r3, .L54+4
- 615 0154 8022     		mov	r2, #128
- 616 0156 9200     		lsl	r2, r2, #2
- 617 0158 9A60     		str	r2, [r3, #8]
- 153:../Sources/main.c **** 				TFC_BAT_LED2_ON;
- 618              		.loc 1 153 0
- 619 015a 314B     		ldr	r3, .L54+4
- 620 015c 8022     		mov	r2, #128
- 621 015e D200     		lsl	r2, r2, #3
- 622 0160 5A60     		str	r2, [r3, #4]
- 154:../Sources/main.c **** 				TFC_BAT_LED3_OFF;
- 623              		.loc 1 154 0
- 624 0162 2F4B     		ldr	r3, .L54+4
- 625 0164 8022     		mov	r2, #128
- 626 0166 1201     		lsl	r2, r2, #4
- 627 0168 9A60     		str	r2, [r3, #8]
- 155:../Sources/main.c **** 				TFC_HBRIDGE_ENABLE;
- 628              		.loc 1 155 0
- 629 016a 2C4B     		ldr	r3, .L54
- 630 016c 8022     		mov	r2, #128
- 631 016e 9203     		lsl	r2, r2, #14
- 632 0170 5A60     		str	r2, [r3, #4]
- 633 0172 00E0     		b	.L48
- 634              	.L53:
- 156:../Sources/main.c **** 				while(1) {
- 157:../Sources/main.c **** 					TFC_Task();
- 158:../Sources/main.c **** 					algo_two();
- 159:../Sources/main.c **** 					TFC_SetMotorPWM(.3, .3);
- 160:../Sources/main.c **** 					if(TFC_PUSH_BUTTON_1_PRESSED)break;
- 161:../Sources/main.c **** 					if(stop_car()){
- 162:../Sources/main.c **** 						delay(5);
- 163:../Sources/main.c **** 						break;
- 164:../Sources/main.c **** 					}
- 165:../Sources/main.c **** 				}
- 635              		.loc 1 165 0
- 636 0174 C046     		mov	r8, r8
- 637              	.L48:
- 157:../Sources/main.c **** 					TFC_Task();
- 638              		.loc 1 157 0
- 639 0176 FFF7FEFF 		bl	TFC_Task
- 158:../Sources/main.c **** 					algo_two();
- 640              		.loc 1 158 0
- 641 017a FFF7FEFF 		bl	algo_two
- 159:../Sources/main.c **** 					TFC_SetMotorPWM(.3, .3);
- 642              		.loc 1 159 0
- 643 017e 2B4A     		ldr	r2, .L54+16
- 644 0180 2A4B     		ldr	r3, .L54+16
- 645 0182 101C     		add	r0, r2, #0
- 646 0184 191C     		add	r1, r3, #0
- 647 0186 FFF7FEFF 		bl	TFC_SetMotorPWM
- 160:../Sources/main.c **** 					if(TFC_PUSH_BUTTON_1_PRESSED)break;
- 648              		.loc 1 160 0
- 649 018a 264B     		ldr	r3, .L54+8
- 650 018c 1A69     		ldr	r2, [r3, #16]
- 651 018e 8023     		mov	r3, #128
- 652 0190 9B02     		lsl	r3, r3, #10
- 653 0192 1340     		and	r3, r2
- 654 0194 08D1     		bne	.L52
- 655              	.L45:
- 161:../Sources/main.c **** 					if(stop_car()){
- 656              		.loc 1 161 0
- 657 0196 FFF7FEFF 		bl	stop_car
- 658 019a 031C     		mov	r3, r0
- 659 019c 002B     		cmp	r3, #0
- 660 019e E9D0     		beq	.L53
- 162:../Sources/main.c **** 						delay(5);
- 661              		.loc 1 162 0
- 662 01a0 0520     		mov	r0, #5
- 663 01a2 FFF7FEFF 		bl	delay
- 163:../Sources/main.c **** 						break;
- 664              		.loc 1 163 0
- 665 01a6 00E0     		b	.L46
- 666              	.L52:
- 160:../Sources/main.c **** 					if(TFC_PUSH_BUTTON_1_PRESSED)break;
- 667              		.loc 1 160 0
- 668 01a8 C046     		mov	r8, r8
- 669              	.L46:
- 166:../Sources/main.c **** 	
- 167:../Sources/main.c **** 				break;
- 670              		.loc 1 167 0
- 671 01aa 16E0     		b	.L40
- 672              	.L38:
- 168:../Sources/main.c **** 			case 5:
- 169:../Sources/main.c **** 				TFC_BAT_LED0_ON;
- 673              		.loc 1 169 0
- 674 01ac 1C4B     		ldr	r3, .L54+4
- 675 01ae 8022     		mov	r2, #128
- 676 01b0 5200     		lsl	r2, r2, #1
- 677 01b2 5A60     		str	r2, [r3, #4]
- 170:../Sources/main.c **** 				TFC_BAT_LED1_OFF;
- 678              		.loc 1 170 0
- 679 01b4 1A4B     		ldr	r3, .L54+4
- 680 01b6 8022     		mov	r2, #128
- 681 01b8 9200     		lsl	r2, r2, #2
- 682 01ba 9A60     		str	r2, [r3, #8]
- 171:../Sources/main.c **** 				TFC_BAT_LED2_ON;
- 683              		.loc 1 171 0
- 684 01bc 184B     		ldr	r3, .L54+4
- 685 01be 8022     		mov	r2, #128
- 686 01c0 D200     		lsl	r2, r2, #3
- 687 01c2 5A60     		str	r2, [r3, #4]
- 172:../Sources/main.c **** 				TFC_BAT_LED3_OFF;
- 688              		.loc 1 172 0
- 689 01c4 164B     		ldr	r3, .L54+4
- 690 01c6 8022     		mov	r2, #128
- 691 01c8 1201     		lsl	r2, r2, #4
- 692 01ca 9A60     		str	r2, [r3, #8]
- 173:../Sources/main.c **** 				TFC_HBRIDGE_ENABLE;
- 693              		.loc 1 173 0
- 694 01cc 134B     		ldr	r3, .L54
- 695 01ce 8022     		mov	r2, #128
- 696 01d0 9203     		lsl	r2, r2, #14
- 697 01d2 5A60     		str	r2, [r3, #4]
- 174:../Sources/main.c **** 				
- 175:../Sources/main.c **** 				algo_three();
- 698              		.loc 1 175 0
- 699 01d4 FFF7FEFF 		bl	algo_three
- 176:../Sources/main.c **** 				
- 177:../Sources/main.c **** 				break;
- 700              		.loc 1 177 0
- 701 01d8 C046     		mov	r8, r8
- 702              	.L40:
- 178:../Sources/main.c **** 		}
- 179:../Sources/main.c **** 	
- 180:../Sources/main.c **** 		TFC_SetServo(0,0);
- 703              		.loc 1 180 0
- 704 01da 0023     		mov	r3, #0
- 705 01dc 0020     		mov	r0, #0
- 706 01de 191C     		add	r1, r3, #0
- 707 01e0 FFF7FEFF 		bl	TFC_SetServo
- 181:../Sources/main.c **** 		TFC_SetMotorPWM(0, 0);
- 708              		.loc 1 181 0
- 709 01e4 0022     		mov	r2, #0
- 710 01e6 0023     		mov	r3, #0
- 711 01e8 101C     		add	r0, r2, #0
- 712 01ea 191C     		add	r1, r3, #0
- 713 01ec FFF7FEFF 		bl	TFC_SetMotorPWM
- 182:../Sources/main.c **** 		TFC_BAT_LED0_OFF;
- 714              		.loc 1 182 0
- 715 01f0 0B4B     		ldr	r3, .L54+4
- 716 01f2 8022     		mov	r2, #128
- 717 01f4 5200     		lsl	r2, r2, #1
- 718 01f6 9A60     		str	r2, [r3, #8]
- 183:../Sources/main.c **** 		TFC_BAT_LED1_OFF;
- 719              		.loc 1 183 0
- 720 01f8 094B     		ldr	r3, .L54+4
- 721 01fa 8022     		mov	r2, #128
- 722 01fc 9200     		lsl	r2, r2, #2
- 723 01fe 9A60     		str	r2, [r3, #8]
- 184:../Sources/main.c **** 		TFC_BAT_LED2_OFF;
- 724              		.loc 1 184 0
- 725 0200 074B     		ldr	r3, .L54+4
- 726 0202 8022     		mov	r2, #128
- 727 0204 D200     		lsl	r2, r2, #3
- 728 0206 9A60     		str	r2, [r3, #8]
- 185:../Sources/main.c **** 		TFC_BAT_LED3_OFF;
- 729              		.loc 1 185 0
- 730 0208 054B     		ldr	r3, .L54+4
- 731 020a 8022     		mov	r2, #128
- 732 020c 1201     		lsl	r2, r2, #4
- 733 020e 9A60     		str	r2, [r3, #8]
- 186:../Sources/main.c **** 		TFC_HBRIDGE_DISABLE;
- 734              		.loc 1 186 0
- 735 0210 024B     		ldr	r3, .L54
- 736 0212 8022     		mov	r2, #128
- 737 0214 9203     		lsl	r2, r2, #14
- 738 0216 9A60     		str	r2, [r3, #8]
- 187:../Sources/main.c ****     }
- 739              		.loc 1 187 0
- 740 0218 F6E6     		b	.L49
- 741              	.L55:
- 742 021a C046     		.align	2
- 743              	.L54:
- 744 021c 00F10F40 		.word	1074786560
- 745 0220 40F00F40 		.word	1074786368
- 746 0224 80F00F40 		.word	1074786432
- 747 0228 00000000 		.word	.L39
- 748 022c 9A99993E 		.word	1050253722
- 749              		.cfi_endproc
- 750              	.LFE3:
- 752              		.text
- 753              	.Letext0:
- 754              		.file 2 "C:/Freescale/CW MCU v10.6/MCU/ARM_GCC_Support/ewl/EWL_C/include/cstdint"
- 755              		.file 3 "C:/Users/Jared/Desktop/freescalecup/FRDM-TFC/Project_Headers/MKL25Z4.h"
- 756              		.file 4 "C:/Users/Jared/Desktop/freescalecup/FRDM-TFC/Project_Headers/TFC\\TFC_LineScanCamera.h"
+  36:../Sources/main.c **** int main(void){
+ 153              		.loc 1 36 0
+ 154              		.cfi_startproc
+ 155 0000 80B5     		push	{r7, lr}
+ 156              	.LCFI3:
+ 157              		.cfi_def_cfa_offset 8
+ 158              		.cfi_offset 7, -8
+ 159              		.cfi_offset 14, -4
+ 160 0002 00AF     		add	r7, sp, #0
+ 161              	.LCFI4:
+ 162              		.cfi_def_cfa_register 7
+  37:../Sources/main.c ****     TFC_Init();
+ 163              		.loc 1 37 0
+ 164 0004 FFF7FEFF 		bl	TFC_Init
+ 165              	.L27:
+  38:../Sources/main.c ****     
+  39:../Sources/main.c ****     while(1){
+  40:../Sources/main.c **** 		TFC_SetMotorPWM(0, 0);
+ 166              		.loc 1 40 0
+ 167 0008 0022     		mov	r2, #0
+ 168 000a 0023     		mov	r3, #0
+ 169 000c 101C     		add	r0, r2, #0
+ 170 000e 191C     		add	r1, r3, #0
+ 171 0010 FFF7FEFF 		bl	TFC_SetMotorPWM
+  41:../Sources/main.c **** 		TFC_HBRIDGE_DISABLE;
+ 172              		.loc 1 41 0
+ 173 0014 854B     		ldr	r3, .L28
+ 174 0016 8022     		mov	r2, #128
+ 175 0018 9203     		lsl	r2, r2, #14
+ 176 001a 9A60     		str	r2, [r3, #8]
+  42:../Sources/main.c **** 	
+  43:../Sources/main.c **** 		/* After power on, Wait for a button press before doing anything.
+  44:../Sources/main.c **** 		 * This gives us time to set the DIP switches and etc */
+  45:../Sources/main.c **** 		TFC_BAT_LED0_ON; // These lights will indicate that we're waiting
+ 177              		.loc 1 45 0
+ 178 001c 844B     		ldr	r3, .L28+4
+ 179 001e 8022     		mov	r2, #128
+ 180 0020 5200     		lsl	r2, r2, #1
+ 181 0022 5A60     		str	r2, [r3, #4]
+  46:../Sources/main.c **** 		TFC_BAT_LED1_ON;
+ 182              		.loc 1 46 0
+ 183 0024 824B     		ldr	r3, .L28+4
+ 184 0026 8022     		mov	r2, #128
+ 185 0028 9200     		lsl	r2, r2, #2
+ 186 002a 5A60     		str	r2, [r3, #4]
+  47:../Sources/main.c **** 		TFC_BAT_LED2_ON;
+ 187              		.loc 1 47 0
+ 188 002c 804B     		ldr	r3, .L28+4
+ 189 002e 8022     		mov	r2, #128
+ 190 0030 D200     		lsl	r2, r2, #3
+ 191 0032 5A60     		str	r2, [r3, #4]
+  48:../Sources/main.c **** 		TFC_BAT_LED3_ON;
+ 192              		.loc 1 48 0
+ 193 0034 7E4B     		ldr	r3, .L28+4
+ 194 0036 8022     		mov	r2, #128
+ 195 0038 1201     		lsl	r2, r2, #4
+ 196 003a 5A60     		str	r2, [r3, #4]
+  49:../Sources/main.c **** 		while(!TFC_PUSH_BUTTON_0_PRESSED);
+ 197              		.loc 1 49 0
+ 198 003c C046     		mov	r8, r8
+ 199              	.L14:
+ 200              		.loc 1 49 0 is_stmt 0
+ 201 003e 7D4B     		ldr	r3, .L28+8
+ 202 0040 1A69     		ldr	r2, [r3, #16]
+ 203 0042 8023     		mov	r3, #128
+ 204 0044 9B01     		lsl	r3, r3, #6
+ 205 0046 1340     		and	r3, r2
+ 206 0048 F9D0     		beq	.L14
+  50:../Sources/main.c **** 	
+  51:../Sources/main.c **** 		/* Then set the operating mode based on the DIP switch */
+  52:../Sources/main.c **** 		switch(TFC_GetDIP_Switch()) {
+ 207              		.loc 1 52 0 is_stmt 1
+ 208 004a FFF7FEFF 		bl	TFC_GetDIP_Switch
+ 209 004e 031C     		mov	r3, r0
+ 210 0050 0F2B     		cmp	r3, #15
+ 211 0052 04D8     		bhi	.L15
+ 212 0054 9A00     		lsl	r2, r3, #2
+ 213 0056 784B     		ldr	r3, .L28+12
+ 214 0058 D318     		add	r3, r2, r3
+ 215 005a 1B68     		ldr	r3, [r3]
+ 216 005c 9F46     		mov	pc, r3
+ 217              		.section	.rodata.main,"a",%progbits
+ 218              		.align	2
+ 219              	.L25:
+ 220 0000 5E000000 		.word	.L15
+ 221 0004 8C000000 		.word	.L16
+ 222 0008 B4000000 		.word	.L17
+ 223 000c DC000000 		.word	.L18
+ 224 0010 04010000 		.word	.L19
+ 225 0014 2C010000 		.word	.L20
+ 226 0018 54010000 		.word	.L21
+ 227 001c 7C010000 		.word	.L22
+ 228 0020 5E000000 		.word	.L15
+ 229 0024 5E000000 		.word	.L15
+ 230 0028 5E000000 		.word	.L15
+ 231 002c 5E000000 		.word	.L15
+ 232 0030 5E000000 		.word	.L15
+ 233 0034 5E000000 		.word	.L15
+ 234 0038 A4010000 		.word	.L23
+ 235 003c C6010000 		.word	.L24
+ 236              		.section	.text.main
+ 237              	.L15:
+  53:../Sources/main.c **** 			default:
+  54:../Sources/main.c **** 			case 0:
+  55:../Sources/main.c **** 				TFC_BAT_LED0_OFF;
+ 238              		.loc 1 55 0
+ 239 005e 744B     		ldr	r3, .L28+4
+ 240 0060 8022     		mov	r2, #128
+ 241 0062 5200     		lsl	r2, r2, #1
+ 242 0064 9A60     		str	r2, [r3, #8]
+  56:../Sources/main.c **** 				TFC_BAT_LED1_OFF;
+ 243              		.loc 1 56 0
+ 244 0066 724B     		ldr	r3, .L28+4
+ 245 0068 8022     		mov	r2, #128
+ 246 006a 9200     		lsl	r2, r2, #2
+ 247 006c 9A60     		str	r2, [r3, #8]
+  57:../Sources/main.c **** 				TFC_BAT_LED2_OFF;
+ 248              		.loc 1 57 0
+ 249 006e 704B     		ldr	r3, .L28+4
+ 250 0070 8022     		mov	r2, #128
+ 251 0072 D200     		lsl	r2, r2, #3
+ 252 0074 9A60     		str	r2, [r3, #8]
+  58:../Sources/main.c **** 				TFC_BAT_LED3_OFF;
+ 253              		.loc 1 58 0
+ 254 0076 6E4B     		ldr	r3, .L28+4
+ 255 0078 8022     		mov	r2, #128
+ 256 007a 1201     		lsl	r2, r2, #4
+ 257 007c 9A60     		str	r2, [r3, #8]
+  59:../Sources/main.c **** 				TFC_HBRIDGE_ENABLE;
+ 258              		.loc 1 59 0
+ 259 007e 6B4B     		ldr	r3, .L28
+ 260 0080 8022     		mov	r2, #128
+ 261 0082 9203     		lsl	r2, r2, #14
+ 262 0084 5A60     		str	r2, [r3, #4]
+  60:../Sources/main.c **** 				// In this mode, we run the algorithm
+  61:../Sources/main.c **** 				algo_one();
+ 263              		.loc 1 61 0
+ 264 0086 FFF7FEFF 		bl	algo_one
+  62:../Sources/main.c **** 				break;
+ 265              		.loc 1 62 0
+ 266 008a AFE0     		b	.L26
+ 267              	.L16:
+  63:../Sources/main.c **** 			case 1:
+  64:../Sources/main.c **** 				TFC_BAT_LED0_ON;
+ 268              		.loc 1 64 0
+ 269 008c 684B     		ldr	r3, .L28+4
+ 270 008e 8022     		mov	r2, #128
+ 271 0090 5200     		lsl	r2, r2, #1
+ 272 0092 5A60     		str	r2, [r3, #4]
+  65:../Sources/main.c **** 				TFC_BAT_LED1_OFF;
+ 273              		.loc 1 65 0
+ 274 0094 664B     		ldr	r3, .L28+4
+ 275 0096 8022     		mov	r2, #128
+ 276 0098 9200     		lsl	r2, r2, #2
+ 277 009a 9A60     		str	r2, [r3, #8]
+  66:../Sources/main.c **** 				TFC_BAT_LED2_OFF;
+ 278              		.loc 1 66 0
+ 279 009c 644B     		ldr	r3, .L28+4
+ 280 009e 8022     		mov	r2, #128
+ 281 00a0 D200     		lsl	r2, r2, #3
+ 282 00a2 9A60     		str	r2, [r3, #8]
+  67:../Sources/main.c **** 				TFC_BAT_LED3_OFF;
+ 283              		.loc 1 67 0
+ 284 00a4 624B     		ldr	r3, .L28+4
+ 285 00a6 8022     		mov	r2, #128
+ 286 00a8 1201     		lsl	r2, r2, #4
+ 287 00aa 9A60     		str	r2, [r3, #8]
+  68:../Sources/main.c **** 				// In this mode, we print the number of changes on each side
+  69:../Sources/main.c **** 				algo_one_debug(1);
+ 288              		.loc 1 69 0
+ 289 00ac 0120     		mov	r0, #1
+ 290 00ae FFF7FEFF 		bl	algo_one_debug
+  70:../Sources/main.c **** 				break;
+ 291              		.loc 1 70 0
+ 292 00b2 9BE0     		b	.L26
+ 293              	.L17:
+  71:../Sources/main.c **** 			case 2:
+  72:../Sources/main.c **** 				// In this mode, we drive forward a little bit.
+  73:../Sources/main.c **** 				TFC_BAT_LED0_OFF;
+ 294              		.loc 1 73 0
+ 295 00b4 5E4B     		ldr	r3, .L28+4
+ 296 00b6 8022     		mov	r2, #128
+ 297 00b8 5200     		lsl	r2, r2, #1
+ 298 00ba 9A60     		str	r2, [r3, #8]
+  74:../Sources/main.c **** 				TFC_BAT_LED1_ON;
+ 299              		.loc 1 74 0
+ 300 00bc 5C4B     		ldr	r3, .L28+4
+ 301 00be 8022     		mov	r2, #128
+ 302 00c0 9200     		lsl	r2, r2, #2
+ 303 00c2 5A60     		str	r2, [r3, #4]
+  75:../Sources/main.c **** 				TFC_BAT_LED2_OFF;
+ 304              		.loc 1 75 0
+ 305 00c4 5A4B     		ldr	r3, .L28+4
+ 306 00c6 8022     		mov	r2, #128
+ 307 00c8 D200     		lsl	r2, r2, #3
+ 308 00ca 9A60     		str	r2, [r3, #8]
+  76:../Sources/main.c **** 				TFC_BAT_LED3_OFF;
+ 309              		.loc 1 76 0
+ 310 00cc 584B     		ldr	r3, .L28+4
+ 311 00ce 8022     		mov	r2, #128
+ 312 00d0 1201     		lsl	r2, r2, #4
+ 313 00d2 9A60     		str	r2, [r3, #8]
+  77:../Sources/main.c **** 				algo_one_debug(2);
+ 314              		.loc 1 77 0
+ 315 00d4 0220     		mov	r0, #2
+ 316 00d6 FFF7FEFF 		bl	algo_one_debug
+  78:../Sources/main.c **** 				break;
+ 317              		.loc 1 78 0
+ 318 00da 87E0     		b	.L26
+ 319              	.L18:
+  79:../Sources/main.c **** 			case 3:
+  80:../Sources/main.c **** 				// In this mode, we drive forward until the input is below a threshold
+  81:../Sources/main.c **** 				TFC_BAT_LED0_ON;
+ 320              		.loc 1 81 0
+ 321 00dc 544B     		ldr	r3, .L28+4
+ 322 00de 8022     		mov	r2, #128
+ 323 00e0 5200     		lsl	r2, r2, #1
+ 324 00e2 5A60     		str	r2, [r3, #4]
+  82:../Sources/main.c **** 				TFC_BAT_LED1_ON;
+ 325              		.loc 1 82 0
+ 326 00e4 524B     		ldr	r3, .L28+4
+ 327 00e6 8022     		mov	r2, #128
+ 328 00e8 9200     		lsl	r2, r2, #2
+ 329 00ea 5A60     		str	r2, [r3, #4]
+  83:../Sources/main.c **** 				TFC_BAT_LED2_OFF;
+ 330              		.loc 1 83 0
+ 331 00ec 504B     		ldr	r3, .L28+4
+ 332 00ee 8022     		mov	r2, #128
+ 333 00f0 D200     		lsl	r2, r2, #3
+ 334 00f2 9A60     		str	r2, [r3, #8]
+  84:../Sources/main.c **** 				TFC_BAT_LED3_OFF;
+ 335              		.loc 1 84 0
+ 336 00f4 4E4B     		ldr	r3, .L28+4
+ 337 00f6 8022     		mov	r2, #128
+ 338 00f8 1201     		lsl	r2, r2, #4
+ 339 00fa 9A60     		str	r2, [r3, #8]
+  85:../Sources/main.c **** 				algo_one_debug(3);
+ 340              		.loc 1 85 0
+ 341 00fc 0320     		mov	r0, #3
+ 342 00fe FFF7FEFF 		bl	algo_one_debug
+  86:../Sources/main.c **** 				break;
+ 343              		.loc 1 86 0
+ 344 0102 73E0     		b	.L26
+ 345              	.L19:
+  87:../Sources/main.c **** 			case 4:
+  88:../Sources/main.c **** 				TFC_BAT_LED0_OFF;
+ 346              		.loc 1 88 0
+ 347 0104 4A4B     		ldr	r3, .L28+4
+ 348 0106 8022     		mov	r2, #128
+ 349 0108 5200     		lsl	r2, r2, #1
+ 350 010a 9A60     		str	r2, [r3, #8]
+  89:../Sources/main.c **** 				TFC_BAT_LED1_OFF;
+ 351              		.loc 1 89 0
+ 352 010c 484B     		ldr	r3, .L28+4
+ 353 010e 8022     		mov	r2, #128
+ 354 0110 9200     		lsl	r2, r2, #2
+ 355 0112 9A60     		str	r2, [r3, #8]
+  90:../Sources/main.c **** 				TFC_BAT_LED2_ON;
+ 356              		.loc 1 90 0
+ 357 0114 464B     		ldr	r3, .L28+4
+ 358 0116 8022     		mov	r2, #128
+ 359 0118 D200     		lsl	r2, r2, #3
+ 360 011a 5A60     		str	r2, [r3, #4]
+  91:../Sources/main.c **** 				TFC_BAT_LED3_OFF;
+ 361              		.loc 1 91 0
+ 362 011c 444B     		ldr	r3, .L28+4
+ 363 011e 8022     		mov	r2, #128
+ 364 0120 1201     		lsl	r2, r2, #4
+ 365 0122 9A60     		str	r2, [r3, #8]
+  92:../Sources/main.c **** 				algo_one_debug(4);
+ 366              		.loc 1 92 0
+ 367 0124 0420     		mov	r0, #4
+ 368 0126 FFF7FEFF 		bl	algo_one_debug
+  93:../Sources/main.c **** 				break;
+ 369              		.loc 1 93 0
+ 370 012a 5FE0     		b	.L26
+ 371              	.L20:
+  94:../Sources/main.c **** 			case 5:
+  95:../Sources/main.c **** 				TFC_BAT_LED0_ON;
+ 372              		.loc 1 95 0
+ 373 012c 404B     		ldr	r3, .L28+4
+ 374 012e 8022     		mov	r2, #128
+ 375 0130 5200     		lsl	r2, r2, #1
+ 376 0132 5A60     		str	r2, [r3, #4]
+  96:../Sources/main.c **** 				TFC_BAT_LED1_OFF;
+ 377              		.loc 1 96 0
+ 378 0134 3E4B     		ldr	r3, .L28+4
+ 379 0136 8022     		mov	r2, #128
+ 380 0138 9200     		lsl	r2, r2, #2
+ 381 013a 9A60     		str	r2, [r3, #8]
+  97:../Sources/main.c **** 				TFC_BAT_LED2_ON;
+ 382              		.loc 1 97 0
+ 383 013c 3C4B     		ldr	r3, .L28+4
+ 384 013e 8022     		mov	r2, #128
+ 385 0140 D200     		lsl	r2, r2, #3
+ 386 0142 5A60     		str	r2, [r3, #4]
+  98:../Sources/main.c **** 				TFC_BAT_LED3_OFF;
+ 387              		.loc 1 98 0
+ 388 0144 3A4B     		ldr	r3, .L28+4
+ 389 0146 8022     		mov	r2, #128
+ 390 0148 1201     		lsl	r2, r2, #4
+ 391 014a 9A60     		str	r2, [r3, #8]
+  99:../Sources/main.c **** 				algo_one_debug(5);
+ 392              		.loc 1 99 0
+ 393 014c 0520     		mov	r0, #5
+ 394 014e FFF7FEFF 		bl	algo_one_debug
+ 100:../Sources/main.c **** 				break;
+ 395              		.loc 1 100 0
+ 396 0152 4BE0     		b	.L26
+ 397              	.L21:
+ 101:../Sources/main.c **** 			case 6:
+ 102:../Sources/main.c **** 				TFC_BAT_LED0_OFF;
+ 398              		.loc 1 102 0
+ 399 0154 364B     		ldr	r3, .L28+4
+ 400 0156 8022     		mov	r2, #128
+ 401 0158 5200     		lsl	r2, r2, #1
+ 402 015a 9A60     		str	r2, [r3, #8]
+ 103:../Sources/main.c **** 				TFC_BAT_LED1_ON;
+ 403              		.loc 1 103 0
+ 404 015c 344B     		ldr	r3, .L28+4
+ 405 015e 8022     		mov	r2, #128
+ 406 0160 9200     		lsl	r2, r2, #2
+ 407 0162 5A60     		str	r2, [r3, #4]
+ 104:../Sources/main.c **** 				TFC_BAT_LED2_ON;
+ 408              		.loc 1 104 0
+ 409 0164 324B     		ldr	r3, .L28+4
+ 410 0166 8022     		mov	r2, #128
+ 411 0168 D200     		lsl	r2, r2, #3
+ 412 016a 5A60     		str	r2, [r3, #4]
+ 105:../Sources/main.c **** 				TFC_BAT_LED3_OFF;
+ 413              		.loc 1 105 0
+ 414 016c 304B     		ldr	r3, .L28+4
+ 415 016e 8022     		mov	r2, #128
+ 416 0170 1201     		lsl	r2, r2, #4
+ 417 0172 9A60     		str	r2, [r3, #8]
+ 106:../Sources/main.c **** 				algo_one_debug(6);
+ 418              		.loc 1 106 0
+ 419 0174 0620     		mov	r0, #6
+ 420 0176 FFF7FEFF 		bl	algo_one_debug
+ 107:../Sources/main.c **** 				break;
+ 421              		.loc 1 107 0
+ 422 017a 37E0     		b	.L26
+ 423              	.L22:
+ 108:../Sources/main.c **** 			case 7:
+ 109:../Sources/main.c **** 				TFC_BAT_LED0_ON;
+ 424              		.loc 1 109 0
+ 425 017c 2C4B     		ldr	r3, .L28+4
+ 426 017e 8022     		mov	r2, #128
+ 427 0180 5200     		lsl	r2, r2, #1
+ 428 0182 5A60     		str	r2, [r3, #4]
+ 110:../Sources/main.c **** 				TFC_BAT_LED1_ON;
+ 429              		.loc 1 110 0
+ 430 0184 2A4B     		ldr	r3, .L28+4
+ 431 0186 8022     		mov	r2, #128
+ 432 0188 9200     		lsl	r2, r2, #2
+ 433 018a 5A60     		str	r2, [r3, #4]
+ 111:../Sources/main.c **** 				TFC_BAT_LED2_ON;
+ 434              		.loc 1 111 0
+ 435 018c 284B     		ldr	r3, .L28+4
+ 436 018e 8022     		mov	r2, #128
+ 437 0190 D200     		lsl	r2, r2, #3
+ 438 0192 5A60     		str	r2, [r3, #4]
+ 112:../Sources/main.c **** 				TFC_BAT_LED3_OFF;
+ 439              		.loc 1 112 0
+ 440 0194 264B     		ldr	r3, .L28+4
+ 441 0196 8022     		mov	r2, #128
+ 442 0198 1201     		lsl	r2, r2, #4
+ 443 019a 9A60     		str	r2, [r3, #8]
+ 113:../Sources/main.c **** 				algo_one_debug(7);
+ 444              		.loc 1 113 0
+ 445 019c 0720     		mov	r0, #7
+ 446 019e FFF7FEFF 		bl	algo_one_debug
+ 114:../Sources/main.c **** 				break;
+ 447              		.loc 1 114 0
+ 448 01a2 23E0     		b	.L26
+ 449              	.L23:
+ 115:../Sources/main.c **** 			case 14:
+ 116:../Sources/main.c **** 				TFC_BAT_LED0_OFF;
+ 450              		.loc 1 116 0
+ 451 01a4 224B     		ldr	r3, .L28+4
+ 452 01a6 8022     		mov	r2, #128
+ 453 01a8 5200     		lsl	r2, r2, #1
+ 454 01aa 9A60     		str	r2, [r3, #8]
+ 117:../Sources/main.c **** 				TFC_BAT_LED1_ON;
+ 455              		.loc 1 117 0
+ 456 01ac 204B     		ldr	r3, .L28+4
+ 457 01ae 8022     		mov	r2, #128
+ 458 01b0 9200     		lsl	r2, r2, #2
+ 459 01b2 5A60     		str	r2, [r3, #4]
+ 118:../Sources/main.c **** 				TFC_BAT_LED2_ON;
+ 460              		.loc 1 118 0
+ 461 01b4 1E4B     		ldr	r3, .L28+4
+ 462 01b6 8022     		mov	r2, #128
+ 463 01b8 D200     		lsl	r2, r2, #3
+ 464 01ba 5A60     		str	r2, [r3, #4]
+ 119:../Sources/main.c **** 				TFC_BAT_LED3_ON;
+ 465              		.loc 1 119 0
+ 466 01bc 1C4B     		ldr	r3, .L28+4
+ 467 01be 8022     		mov	r2, #128
+ 468 01c0 1201     		lsl	r2, r2, #4
+ 469 01c2 5A60     		str	r2, [r3, #4]
+ 120:../Sources/main.c **** 				break;
+ 470              		.loc 1 120 0
+ 471 01c4 12E0     		b	.L26
+ 472              	.L24:
+ 121:../Sources/main.c **** 			case 15:
+ 122:../Sources/main.c **** 				TFC_BAT_LED0_ON;
+ 473              		.loc 1 122 0
+ 474 01c6 1A4B     		ldr	r3, .L28+4
+ 475 01c8 8022     		mov	r2, #128
+ 476 01ca 5200     		lsl	r2, r2, #1
+ 477 01cc 5A60     		str	r2, [r3, #4]
+ 123:../Sources/main.c **** 				TFC_BAT_LED1_ON;
+ 478              		.loc 1 123 0
+ 479 01ce 184B     		ldr	r3, .L28+4
+ 480 01d0 8022     		mov	r2, #128
+ 481 01d2 9200     		lsl	r2, r2, #2
+ 482 01d4 5A60     		str	r2, [r3, #4]
+ 124:../Sources/main.c **** 				TFC_BAT_LED2_ON;
+ 483              		.loc 1 124 0
+ 484 01d6 164B     		ldr	r3, .L28+4
+ 485 01d8 8022     		mov	r2, #128
+ 486 01da D200     		lsl	r2, r2, #3
+ 487 01dc 5A60     		str	r2, [r3, #4]
+ 125:../Sources/main.c **** 				TFC_BAT_LED3_ON;
+ 488              		.loc 1 125 0
+ 489 01de 144B     		ldr	r3, .L28+4
+ 490 01e0 8022     		mov	r2, #128
+ 491 01e2 1201     		lsl	r2, r2, #4
+ 492 01e4 5A60     		str	r2, [r3, #4]
+ 126:../Sources/main.c **** 				// In this mode, we simply read out the camera forever
+ 127:../Sources/main.c **** 				printCamera();
+ 493              		.loc 1 127 0
+ 494 01e6 FFF7FEFF 		bl	printCamera
+ 128:../Sources/main.c **** 				break;
+ 495              		.loc 1 128 0
+ 496 01ea C046     		mov	r8, r8
+ 497              	.L26:
+ 129:../Sources/main.c **** 		}
+ 130:../Sources/main.c **** 	
+ 131:../Sources/main.c **** 		TFC_SetServo(0,0);
+ 498              		.loc 1 131 0
+ 499 01ec 0023     		mov	r3, #0
+ 500 01ee 0020     		mov	r0, #0
+ 501 01f0 191C     		add	r1, r3, #0
+ 502 01f2 FFF7FEFF 		bl	TFC_SetServo
+ 132:../Sources/main.c **** 		TFC_SetMotorPWM(0, 0);
+ 503              		.loc 1 132 0
+ 504 01f6 0022     		mov	r2, #0
+ 505 01f8 0023     		mov	r3, #0
+ 506 01fa 101C     		add	r0, r2, #0
+ 507 01fc 191C     		add	r1, r3, #0
+ 508 01fe FFF7FEFF 		bl	TFC_SetMotorPWM
+ 133:../Sources/main.c **** 		TFC_BAT_LED0_OFF;
+ 509              		.loc 1 133 0
+ 510 0202 0B4B     		ldr	r3, .L28+4
+ 511 0204 8022     		mov	r2, #128
+ 512 0206 5200     		lsl	r2, r2, #1
+ 513 0208 9A60     		str	r2, [r3, #8]
+ 134:../Sources/main.c **** 		TFC_BAT_LED1_OFF;
+ 514              		.loc 1 134 0
+ 515 020a 094B     		ldr	r3, .L28+4
+ 516 020c 8022     		mov	r2, #128
+ 517 020e 9200     		lsl	r2, r2, #2
+ 518 0210 9A60     		str	r2, [r3, #8]
+ 135:../Sources/main.c **** 		TFC_BAT_LED2_OFF;
+ 519              		.loc 1 135 0
+ 520 0212 074B     		ldr	r3, .L28+4
+ 521 0214 8022     		mov	r2, #128
+ 522 0216 D200     		lsl	r2, r2, #3
+ 523 0218 9A60     		str	r2, [r3, #8]
+ 136:../Sources/main.c **** 		TFC_BAT_LED3_OFF;
+ 524              		.loc 1 136 0
+ 525 021a 054B     		ldr	r3, .L28+4
+ 526 021c 8022     		mov	r2, #128
+ 527 021e 1201     		lsl	r2, r2, #4
+ 528 0220 9A60     		str	r2, [r3, #8]
+ 137:../Sources/main.c **** 		TFC_HBRIDGE_DISABLE;
+ 529              		.loc 1 137 0
+ 530 0222 024B     		ldr	r3, .L28
+ 531 0224 8022     		mov	r2, #128
+ 532 0226 9203     		lsl	r2, r2, #14
+ 533 0228 9A60     		str	r2, [r3, #8]
+ 138:../Sources/main.c ****     }
+ 534              		.loc 1 138 0
+ 535 022a EDE6     		b	.L27
+ 536              	.L29:
+ 537              		.align	2
+ 538              	.L28:
+ 539 022c 00F10F40 		.word	1074786560
+ 540 0230 40F00F40 		.word	1074786368
+ 541 0234 80F00F40 		.word	1074786432
+ 542 0238 00000000 		.word	.L25
+ 543              		.cfi_endproc
+ 544              	.LFE1:
+ 546              		.text
+ 547              	.Letext0:
+ 548              		.file 2 "C:/Freescale/CW MCU v10.6/MCU/ARM_GCC_Support/ewl/EWL_C/include/cstdint"
+ 549              		.file 3 "C:/Users/Jared/Desktop/freescalecup/FRDM-TFC/Project_Headers/MKL25Z4.h"
+ 550              		.file 4 "C:/Users/Jared/Desktop/freescalecup/FRDM-TFC/Project_Headers/TFC\\TFC_LineScanCamera.h"
 DEFINED SYMBOLS
                             *ABS*:00000000 main.c
-C:\Users\Jared\AppData\Local\Temp\ccN9Iv2m.s:18     .text.forwardFull:00000000 $t
-C:\Users\Jared\AppData\Local\Temp\ccN9Iv2m.s:23     .text.forwardFull:00000000 forwardFull
-C:\Users\Jared\AppData\Local\Temp\ccN9Iv2m.s:75     .text.forwardFull:00000044 $d
-C:\Users\Jared\AppData\Local\Temp\ccN9Iv2m.s:81     .rodata:00000000 $d
-C:\Users\Jared\AppData\Local\Temp\ccN9Iv2m.s:91     .text.printCamera:00000000 $t
-C:\Users\Jared\AppData\Local\Temp\ccN9Iv2m.s:96     .text.printCamera:00000000 printCamera
-C:\Users\Jared\AppData\Local\Temp\ccN9Iv2m.s:217    .text.printCamera:000000a4 $d
-C:\Users\Jared\AppData\Local\Temp\ccN9Iv2m.s:232    .text.runToLine:00000000 $t
-C:\Users\Jared\AppData\Local\Temp\ccN9Iv2m.s:237    .text.runToLine:00000000 runToLine
-C:\Users\Jared\AppData\Local\Temp\ccN9Iv2m.s:362    .text.runToLine:000000ac $d
-C:\Users\Jared\AppData\Local\Temp\ccN9Iv2m.s:373    .text.main:00000000 $t
-C:\Users\Jared\AppData\Local\Temp\ccN9Iv2m.s:378    .text.main:00000000 main
-C:\Users\Jared\AppData\Local\Temp\ccN9Iv2m.s:448    .rodata.main:00000000 $d
-C:\Users\Jared\AppData\Local\Temp\ccN9Iv2m.s:744    .text.main:0000021c $d
+C:\Users\Jared\AppData\Local\Temp\ccmyaBCs.s:18     .rodata:00000000 $d
+C:\Users\Jared\AppData\Local\Temp\ccmyaBCs.s:28     .text.printCamera:00000000 $t
+C:\Users\Jared\AppData\Local\Temp\ccmyaBCs.s:33     .text.printCamera:00000000 printCamera
+C:\Users\Jared\AppData\Local\Temp\ccmyaBCs.s:136    .text.printCamera:00000088 $d
+C:\Users\Jared\AppData\Local\Temp\ccmyaBCs.s:146    .text.main:00000000 $t
+C:\Users\Jared\AppData\Local\Temp\ccmyaBCs.s:151    .text.main:00000000 main
+C:\Users\Jared\AppData\Local\Temp\ccmyaBCs.s:218    .rodata.main:00000000 $d
+C:\Users\Jared\AppData\Local\Temp\ccmyaBCs.s:539    .text.main:0000022c $d
                      .debug_frame:00000010 $d
 
 UNDEFINED SYMBOLS
-TFC_SetServo
-TFC_SetMotorPWM
-delay
 TFC_Task
 puts
 printf
-TFC_SetBatteryLED_Level
 putchar
 LineScanImageReady
 LineScanImage0
-__aeabi_idiv
 TFC_Init
+TFC_SetMotorPWM
 TFC_GetDIP_Switch
 algo_one
-stop_car
-algo_two
-algo_three
+algo_one_debug
+TFC_SetServo

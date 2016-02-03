@@ -41,92 +41,16 @@ int main(void){
 		TFC_HBRIDGE_DISABLE;
 	
 		/* After power on, Wait for a button press before doing anything.
-		 * This gives us time to set the DIP switches and etc */
+		 * This gives us time to set the DIP switches and etc 
+		 */
 		TFC_BAT_LED0_ON; // These lights will indicate that we're waiting
 		TFC_BAT_LED1_ON;
 		TFC_BAT_LED2_ON;
 		TFC_BAT_LED3_ON;
 		while(!TFC_PUSH_BUTTON_0_PRESSED);
 	
-		/* Then set the operating mode based on the DIP switch */
-		switch(TFC_GetDIP_Switch()) {
-			default:
-			case 0:
-				TFC_BAT_LED0_OFF;
-				TFC_BAT_LED1_OFF;
-				TFC_BAT_LED2_OFF;
-				TFC_BAT_LED3_OFF;
-				TFC_HBRIDGE_ENABLE;
-				// In this mode, we run the algorithm
-				algo_one();
-				break;
-			case 1:
-				TFC_BAT_LED0_ON;
-				TFC_BAT_LED1_OFF;
-				TFC_BAT_LED2_OFF;
-				TFC_BAT_LED3_OFF;
-				// In this mode, we print the number of changes on each side
-				algo_one_debug(1);
-				break;
-			case 2:
-				// In this mode, we drive forward a little bit.
-				TFC_BAT_LED0_OFF;
-				TFC_BAT_LED1_ON;
-				TFC_BAT_LED2_OFF;
-				TFC_BAT_LED3_OFF;
-				algo_one_debug(2);
-				break;
-			case 3:
-				// In this mode, we drive forward until the input is below a threshold
-				TFC_BAT_LED0_ON;
-				TFC_BAT_LED1_ON;
-				TFC_BAT_LED2_OFF;
-				TFC_BAT_LED3_OFF;
-				algo_one_debug(3);
-				break;
-			case 4:
-				TFC_BAT_LED0_OFF;
-				TFC_BAT_LED1_OFF;
-				TFC_BAT_LED2_ON;
-				TFC_BAT_LED3_OFF;
-				algo_one_debug(4);
-				break;
-			case 5:
-				TFC_BAT_LED0_ON;
-				TFC_BAT_LED1_OFF;
-				TFC_BAT_LED2_ON;
-				TFC_BAT_LED3_OFF;
-				algo_one_debug(5);
-				break;
-			case 6:
-				TFC_BAT_LED0_OFF;
-				TFC_BAT_LED1_ON;
-				TFC_BAT_LED2_ON;
-				TFC_BAT_LED3_OFF;
-				algo_one_debug(6);
-				break;
-			case 7:
-				TFC_BAT_LED0_ON;
-				TFC_BAT_LED1_ON;
-				TFC_BAT_LED2_ON;
-				TFC_BAT_LED3_OFF;
-				algo_one_debug(7);
-				break;
-			case 14:
-				TFC_BAT_LED0_OFF;
-				TFC_BAT_LED1_ON;
-				TFC_BAT_LED2_ON;
-				TFC_BAT_LED3_ON;
-				break;
-			case 15:
-				TFC_BAT_LED0_ON;
-				TFC_BAT_LED1_ON;
-				TFC_BAT_LED2_ON;
-				TFC_BAT_LED3_ON;
-				// In this mode, we simply read out the camera forever
-				printCamera();
-				break;
-		}
+		// Set the operating mode based on the DIP switch 
+		setMode( TFC_GetDIP_Switch() );
 	
 		TFC_SetServo(0,0);
 		TFC_SetMotorPWM(0, 0);
@@ -134,7 +58,32 @@ int main(void){
 		TFC_BAT_LED1_OFF;
 		TFC_BAT_LED2_OFF;
 		TFC_BAT_LED3_OFF;
-		TFC_HBRIDGE_DISABLE;
     }
     return 0;
+}
+
+void setMode(int mode){
+	switch(mode) {
+		default:
+			
+		case 0:
+			TFC_BAT_LED0_OFF;
+			TFC_BAT_LED1_OFF;
+			TFC_BAT_LED2_OFF;
+			TFC_BAT_LED3_OFF;
+			TFC_HBRIDGE_ENABLE;
+			// In this mode, we run the algorithm
+			algo_one();
+			TFC_HBRIDGE_DISABLE;
+			break;
+		case 1:
+			TFC_BAT_LED0_ON;
+			TFC_BAT_LED1_OFF;
+			TFC_BAT_LED2_OFF;
+			TFC_BAT_LED3_OFF;
+			// In this mode, we run live debug
+			liveDebug();
+			break;
+			
+	}
 }

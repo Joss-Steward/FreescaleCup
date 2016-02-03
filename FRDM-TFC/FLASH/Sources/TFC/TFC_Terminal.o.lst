@@ -1745,44 +1745,44 @@
  1355              		.file 6 "C:/Users/Jared/Desktop/freescalecup/FRDM-TFC/Project_Headers/TFC\\TFC_UART.h"
 DEFINED SYMBOLS
                             *ABS*:00000000 TFC_Terminal.c
-C:\Users\Jared\AppData\Local\Temp\ccfhHsBt.s:59     .data.MyTerminalCallbackRecords:00000000 MyTerminalCallbackRecords
-C:\Users\Jared\AppData\Local\Temp\ccfhHsBt.s:19     .rodata:00000000 $d
-C:\Users\Jared\AppData\Local\Temp\ccfhHsBt.s:56     .data.MyTerminalCallbackRecords:00000000 $d
-C:\Users\Jared\AppData\Local\Temp\ccfhHsBt.s:232    .text.TerminalCmd_Help:00000000 TerminalCmd_Help
-C:\Users\Jared\AppData\Local\Temp\ccfhHsBt.s:492    .text.TerminalCmd_GetLineScan:00000000 TerminalCmd_GetLineScan
-C:\Users\Jared\AppData\Local\Temp\ccfhHsBt.s:679    .text.TerminalCmd_S:00000000 TerminalCmd_S
-C:\Users\Jared\AppData\Local\Temp\ccfhHsBt.s:794    .text.TerminalCmd_H:00000000 TerminalCmd_H
-C:\Users\Jared\AppData\Local\Temp\ccfhHsBt.s:375    .text.TerminalCmd_E:00000000 TerminalCmd_E
-C:\Users\Jared\AppData\Local\Temp\ccfhHsBt.s:426    .text.TerminalCmd_D:00000000 TerminalCmd_D
+C:\Users\Jared\AppData\Local\Temp\ccQRWBib.s:59     .data.MyTerminalCallbackRecords:00000000 MyTerminalCallbackRecords
+C:\Users\Jared\AppData\Local\Temp\ccQRWBib.s:19     .rodata:00000000 $d
+C:\Users\Jared\AppData\Local\Temp\ccQRWBib.s:56     .data.MyTerminalCallbackRecords:00000000 $d
+C:\Users\Jared\AppData\Local\Temp\ccQRWBib.s:232    .text.TerminalCmd_Help:00000000 TerminalCmd_Help
+C:\Users\Jared\AppData\Local\Temp\ccQRWBib.s:492    .text.TerminalCmd_GetLineScan:00000000 TerminalCmd_GetLineScan
+C:\Users\Jared\AppData\Local\Temp\ccQRWBib.s:679    .text.TerminalCmd_S:00000000 TerminalCmd_S
+C:\Users\Jared\AppData\Local\Temp\ccQRWBib.s:794    .text.TerminalCmd_H:00000000 TerminalCmd_H
+C:\Users\Jared\AppData\Local\Temp\ccQRWBib.s:375    .text.TerminalCmd_E:00000000 TerminalCmd_E
+C:\Users\Jared\AppData\Local\Temp\ccQRWBib.s:426    .text.TerminalCmd_D:00000000 TerminalCmd_D
                             *COM*:00000040 TerminalLineBuf
                             *COM*:00000001 TerminalPos
                             *COM*:00000021 TerminalCmdBuf
                             *COM*:00000020 TerminalArgs
                             *COM*:00000001 NextCharIn
                             *COM*:00000001 CmdFound
-C:\Users\Jared\AppData\Local\Temp\ccfhHsBt.s:105    .text.TerminalBootMsg:00000000 $t
-C:\Users\Jared\AppData\Local\Temp\ccfhHsBt.s:110    .text.TerminalBootMsg:00000000 TerminalBootMsg
-C:\Users\Jared\AppData\Local\Temp\ccfhHsBt.s:166    .text.TerminalBootMsg:00000050 $d
-C:\Users\Jared\AppData\Local\Temp\ccfhHsBt.s:177    .text.TFC_InitTerminal:00000000 $t
-C:\Users\Jared\AppData\Local\Temp\ccfhHsBt.s:182    .text.TFC_InitTerminal:00000000 TFC_InitTerminal
-C:\Users\Jared\AppData\Local\Temp\ccfhHsBt.s:211    .text.TFC_InitTerminal:00000018 $d
-C:\Users\Jared\AppData\Local\Temp\ccfhHsBt.s:227    .text.TerminalCmd_Help:00000000 $t
-C:\Users\Jared\AppData\Local\Temp\ccfhHsBt.s:324    .text.TerminalCmd_Help:0000008c $d
-C:\Users\Jared\AppData\Local\Temp\ccfhHsBt.s:334    .text.TerminalCmd_Reboot:00000000 $t
-C:\Users\Jared\AppData\Local\Temp\ccfhHsBt.s:339    .text.TerminalCmd_Reboot:00000000 TerminalCmd_Reboot
-C:\Users\Jared\AppData\Local\Temp\ccfhHsBt.s:370    .text.TerminalCmd_E:00000000 $t
-C:\Users\Jared\AppData\Local\Temp\ccfhHsBt.s:410    .text.TerminalCmd_E:00000024 $d
-C:\Users\Jared\AppData\Local\Temp\ccfhHsBt.s:421    .text.TerminalCmd_D:00000000 $t
-C:\Users\Jared\AppData\Local\Temp\ccfhHsBt.s:467    .text.TerminalCmd_D:00000030 $d
-C:\Users\Jared\AppData\Local\Temp\ccfhHsBt.s:487    .text.TerminalCmd_GetLineScan:00000000 $t
-C:\Users\Jared\AppData\Local\Temp\ccfhHsBt.s:648    .text.TerminalCmd_GetLineScan:000000f8 $d
-C:\Users\Jared\AppData\Local\Temp\ccfhHsBt.s:674    .text.TerminalCmd_S:00000000 $t
-C:\Users\Jared\AppData\Local\Temp\ccfhHsBt.s:771    .text.TerminalCmd_S:00000098 $d
-C:\Users\Jared\AppData\Local\Temp\ccfhHsBt.s:789    .text.TerminalCmd_H:00000000 $t
-C:\Users\Jared\AppData\Local\Temp\ccfhHsBt.s:884    .text.TerminalCmd_H:00000094 $d
-C:\Users\Jared\AppData\Local\Temp\ccfhHsBt.s:906    .text.TFC_ProcessTerminal:00000000 $t
-C:\Users\Jared\AppData\Local\Temp\ccfhHsBt.s:911    .text.TFC_ProcessTerminal:00000000 TFC_ProcessTerminal
-C:\Users\Jared\AppData\Local\Temp\ccfhHsBt.s:1333   .text.TFC_ProcessTerminal:0000028c $d
+C:\Users\Jared\AppData\Local\Temp\ccQRWBib.s:105    .text.TerminalBootMsg:00000000 $t
+C:\Users\Jared\AppData\Local\Temp\ccQRWBib.s:110    .text.TerminalBootMsg:00000000 TerminalBootMsg
+C:\Users\Jared\AppData\Local\Temp\ccQRWBib.s:166    .text.TerminalBootMsg:00000050 $d
+C:\Users\Jared\AppData\Local\Temp\ccQRWBib.s:177    .text.TFC_InitTerminal:00000000 $t
+C:\Users\Jared\AppData\Local\Temp\ccQRWBib.s:182    .text.TFC_InitTerminal:00000000 TFC_InitTerminal
+C:\Users\Jared\AppData\Local\Temp\ccQRWBib.s:211    .text.TFC_InitTerminal:00000018 $d
+C:\Users\Jared\AppData\Local\Temp\ccQRWBib.s:227    .text.TerminalCmd_Help:00000000 $t
+C:\Users\Jared\AppData\Local\Temp\ccQRWBib.s:324    .text.TerminalCmd_Help:0000008c $d
+C:\Users\Jared\AppData\Local\Temp\ccQRWBib.s:334    .text.TerminalCmd_Reboot:00000000 $t
+C:\Users\Jared\AppData\Local\Temp\ccQRWBib.s:339    .text.TerminalCmd_Reboot:00000000 TerminalCmd_Reboot
+C:\Users\Jared\AppData\Local\Temp\ccQRWBib.s:370    .text.TerminalCmd_E:00000000 $t
+C:\Users\Jared\AppData\Local\Temp\ccQRWBib.s:410    .text.TerminalCmd_E:00000024 $d
+C:\Users\Jared\AppData\Local\Temp\ccQRWBib.s:421    .text.TerminalCmd_D:00000000 $t
+C:\Users\Jared\AppData\Local\Temp\ccQRWBib.s:467    .text.TerminalCmd_D:00000030 $d
+C:\Users\Jared\AppData\Local\Temp\ccQRWBib.s:487    .text.TerminalCmd_GetLineScan:00000000 $t
+C:\Users\Jared\AppData\Local\Temp\ccQRWBib.s:648    .text.TerminalCmd_GetLineScan:000000f8 $d
+C:\Users\Jared\AppData\Local\Temp\ccQRWBib.s:674    .text.TerminalCmd_S:00000000 $t
+C:\Users\Jared\AppData\Local\Temp\ccQRWBib.s:771    .text.TerminalCmd_S:00000098 $d
+C:\Users\Jared\AppData\Local\Temp\ccQRWBib.s:789    .text.TerminalCmd_H:00000000 $t
+C:\Users\Jared\AppData\Local\Temp\ccQRWBib.s:884    .text.TerminalCmd_H:00000094 $d
+C:\Users\Jared\AppData\Local\Temp\ccQRWBib.s:906    .text.TFC_ProcessTerminal:00000000 $t
+C:\Users\Jared\AppData\Local\Temp\ccQRWBib.s:911    .text.TFC_ProcessTerminal:00000000 TFC_ProcessTerminal
+C:\Users\Jared\AppData\Local\Temp\ccQRWBib.s:1333   .text.TFC_ProcessTerminal:0000028c $d
                      .debug_frame:00000010 $d
 
 UNDEFINED SYMBOLS

@@ -75,7 +75,7 @@ void setTurn( struct sideInfo left, struct sideInfo right ){
 	TFC_SetServo(0, steering_value);
 }
 
-double setTurn( struct sideInfo left, struct sideInfo right ){
+double calcTurn( struct sideInfo left, struct sideInfo right ){
 	double difference = (double)abs(left.Sum - right.Sum);
 	difference /= DIFFDIV;
 	            
@@ -120,11 +120,11 @@ void algo_one_debug(int mode){
 			
 			printf("%d %d\n", (int)left.Sum, (int)right.Sum);
 			
-			if(stop_algo == 0)
+			if(stop == 0)
 				stop = ( right.Changes >= 1 && left.Changes >= 1 );
 		}
 		
-		steer = findTurn(left, right);
+		steer = calcTurn(left, right);
 		
 		if(stop == 0) {
 		} else {
@@ -167,6 +167,10 @@ void algo_one_debug(int mode){
 			delay(1000);
 		}
 	}
+	
+	//Dump Data
+	
+	
 }
 
 
@@ -195,7 +199,7 @@ void algo_one() {
             
             printf("%d %d\n", (int)left.Sum, (int)right.Sum);
             
-            if(stop_algo == 0)
+            if(stop == 0)
             	stop = ( right.Changes >= 1 && left.Changes >= 1 );
         }
         
@@ -213,5 +217,7 @@ void algo_one() {
         
         if(stop > STOP_CYCLES) break;
     }
+    //Dump data
+    
 }
 

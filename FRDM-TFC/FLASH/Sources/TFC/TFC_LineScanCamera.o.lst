@@ -272,16 +272,16 @@ DEFINED SYMBOLS
                             *COM*:00000200 LineScanImage0Buffer
                             *COM*:00000200 LineScanImage1Buffer
                             *COM*:00000001 LineScanWorkingBuffer
-C:\Users\Jared\AppData\Local\Temp\ccTHnSAh.s:28     .bss.LineScanImageReady:00000000 LineScanImageReady
-C:\Users\Jared\AppData\Local\Temp\ccTHnSAh.s:29     .bss.LineScanImageReady:00000000 $d
-C:\Users\Jared\AppData\Local\Temp\ccTHnSAh.s:31     .text.TFC_InitLineScanCamera:00000000 $t
-C:\Users\Jared\AppData\Local\Temp\ccTHnSAh.s:36     .text.TFC_InitLineScanCamera:00000000 TFC_InitLineScanCamera
-C:\Users\Jared\AppData\Local\Temp\ccTHnSAh.s:126    .text.TFC_InitLineScanCamera:00000078 $d
-C:\Users\Jared\AppData\Local\Temp\ccTHnSAh.s:150    .text.TFC_SetLineScanExposureTime:00000000 $t
-C:\Users\Jared\AppData\Local\Temp\ccTHnSAh.s:155    .text.TFC_SetLineScanExposureTime:00000000 TFC_SetLineScanExposureTime
-C:\Users\Jared\AppData\Local\Temp\ccTHnSAh.s:212    .text.TFC_SetLineScanExposureTime:00000058 $d
+C:\Users\Jared\AppData\Local\Temp\ccc9y9EP.s:28     .bss.LineScanImageReady:00000000 LineScanImageReady
+C:\Users\Jared\AppData\Local\Temp\ccc9y9EP.s:29     .bss.LineScanImageReady:00000000 $d
+C:\Users\Jared\AppData\Local\Temp\ccc9y9EP.s:31     .text.TFC_InitLineScanCamera:00000000 $t
+C:\Users\Jared\AppData\Local\Temp\ccc9y9EP.s:36     .text.TFC_InitLineScanCamera:00000000 TFC_InitLineScanCamera
+C:\Users\Jared\AppData\Local\Temp\ccc9y9EP.s:126    .text.TFC_InitLineScanCamera:00000078 $d
+C:\Users\Jared\AppData\Local\Temp\ccc9y9EP.s:150    .text.TFC_SetLineScanExposureTime:00000000 $t
+C:\Users\Jared\AppData\Local\Temp\ccc9y9EP.s:155    .text.TFC_SetLineScanExposureTime:00000000 TFC_SetLineScanExposureTime
+C:\Users\Jared\AppData\Local\Temp\ccc9y9EP.s:212    .text.TFC_SetLineScanExposureTime:00000058 $d
                      .debug_frame:00000010 $d
-C:\Users\Jared\AppData\Local\Temp\ccTHnSAh.s:220    .text.TFC_SetLineScanExposureTime:0000006c $t
+C:\Users\Jared\AppData\Local\Temp\ccc9y9EP.s:220    .text.TFC_SetLineScanExposureTime:0000006c $t
 
 UNDEFINED SYMBOLS
 __aeabi_ui2d
