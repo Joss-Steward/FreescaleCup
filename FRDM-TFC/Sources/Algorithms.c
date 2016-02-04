@@ -21,6 +21,25 @@
 #define STOP_CYCLES 5000
 #define SPEED .50
 
+int getCommand( uint8_t* cameraData, struct Command* command ){
+	command = (struct Command*) malloc( sizeof(float) * 3);
+	// TODO implement command algorithm
+	return 1;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 struct sideInfo{
 	double Sum;

@@ -1,9 +1,8 @@
-Sources/main.o: ../Sources/main.c \
+Sources/InitCar.o: ../Sources/InitCar.c \
  C:/Freescale/CW\ MCU\ v10.6/MCU/ARM_GCC_Support/ewl/EWL_C/include/lib_ewl.prefix \
  C:/Freescale/CW\ MCU\ v10.6/MCU/ARM_GCC_Support/ewl/EWL_C/include/common.prefix \
  C:/Freescale/CW\ MCU\ v10.6/MCU/ARM_GCC_Support/ewl/EWL_C/include/ewl_c_version.h \
- C:/Users/Jared/Desktop/freescalecup/FRDM-TFC/Project_Headers/derivative.h \
- C:/Users/Jared/Desktop/freescalecup/FRDM-TFC/Project_Headers/MKL25Z4.h \
+ C:/Users/Jared/Desktop/freescalecup/FRDM-TFC/Project_Headers/TFC\TFC.h \
  C:/Freescale/CW\ MCU\ v10.6/MCU/ARM_GCC_Support/ewl/EWL_C/include/stdint.h \
  C:/Freescale/CW\ MCU\ v10.6/MCU/ARM_GCC_Support/ewl/EWL_C/include/ansi_parms.h \
  C:/Freescale/CW\ MCU\ v10.6/MCU/ARM_GCC_Support/ewl/EWL_C/include/ewlGlobals.h \
@@ -12,7 +11,6 @@ Sources/main.o: ../Sources/main.c \
  C:/Freescale/CW\ MCU\ v10.6/MCU/ARM_GCC_Support/ewl/EWL_C/include/cstdint \
  C:/Freescale/CW\ MCU\ v10.6/MCU/ARM_GCC_Support/ewl/EWL_C/include/limits_api.h \
  C:/Freescale/CW\ MCU\ v10.6/MCU/ARM_GCC_Support/ewl/EWL_C/include/ewl_lib_ext1.h \
- C:/Users/Jared/Desktop/freescalecup/FRDM-TFC/Project_Headers/TFC\TFC.h \
  C:/Freescale/CW\ MCU\ v10.6/MCU/ARM_GCC_Support/ewl/EWL_C/include/stdio.h \
  C:/Freescale/CW\ MCU\ v10.6/MCU/ARM_GCC_Support/ewl/EWL_C/include/cstdio \
  C:/Freescale/CW\ MCU\ v10.6/MCU/ARM_GCC_Support/ewl/EWL_C/include/cstddef \
@@ -31,6 +29,7 @@ Sources/main.o: ../Sources/main.c \
  C:/Freescale/CW\ MCU\ v10.6/MCU/ARM_GCC_Support/ewl/EWL_C/include/cstring \
  C:/Freescale/CW\ MCU\ v10.6/MCU/ARM_GCC_Support/ewl/EWL_C/include/string_api.h \
  C:/Users/Jared/Desktop/freescalecup/FRDM-TFC/Project_Headers/Derivative.h \
+ C:/Users/Jared/Desktop/freescalecup/FRDM-TFC/Project_Headers/MKL25Z4.h \
  C:/Users/Jared/Desktop/freescalecup/FRDM-TFC/Project_Headers/TFC\TFC_Config.h \
  C:/Users/Jared/Desktop/freescalecup/FRDM-TFC/Project_Headers/TFC\TFC_Types.h \
  C:/Users/Jared/Desktop/freescalecup/FRDM-TFC/Project_Headers/TFC\TFC_arm_cm0.h \
@@ -44,11 +43,7 @@ Sources/main.o: ../Sources/main.c \
  C:/Users/Jared/Desktop/freescalecup/FRDM-TFC/Project_Headers/TFC\TFC_Queue.h \
  C:/Users/Jared/Desktop/freescalecup/FRDM-TFC/Project_Headers/TFC\TFC_UART.h \
  C:/Users/Jared/Desktop/freescalecup/FRDM-TFC/Project_Headers/TFC\TFC_Terminal.h \
- ../Sources/Algorithms.h ../Sources/Common.h ../Sources/InitCar.h \
- ../Sources/Camera.h \
- C:/Freescale/CW\ MCU\ v10.6/MCU/ARM_GCC_Support/ewl/EWL_C/include/stdlib.h \
- C:/Freescale/CW\ MCU\ v10.6/MCU/ARM_GCC_Support/ewl/EWL_C/include/cstdlib \
- C:/Freescale/CW\ MCU\ v10.6/MCU/ARM_GCC_Support/ewl/EWL_C/include/div_t.h
+ ../Sources/Common.h
 
 C:/Freescale/CW\ MCU\ v10.6/MCU/ARM_GCC_Support/ewl/EWL_C/include/lib_ewl.prefix:
 
@@ -56,9 +51,7 @@ C:/Freescale/CW\ MCU\ v10.6/MCU/ARM_GCC_Support/ewl/EWL_C/include/common.prefix:
 
 C:/Freescale/CW\ MCU\ v10.6/MCU/ARM_GCC_Support/ewl/EWL_C/include/ewl_c_version.h:
 
-C:/Users/Jared/Desktop/freescalecup/FRDM-TFC/Project_Headers/derivative.h:
-
-C:/Users/Jared/Desktop/freescalecup/FRDM-TFC/Project_Headers/MKL25Z4.h:
+C:/Users/Jared/Desktop/freescalecup/FRDM-TFC/Project_Headers/TFC\TFC.h:
 
 C:/Freescale/CW\ MCU\ v10.6/MCU/ARM_GCC_Support/ewl/EWL_C/include/stdint.h:
 
@@ -75,8 +68,6 @@ C:/Freescale/CW\ MCU\ v10.6/MCU/ARM_GCC_Support/ewl/EWL_C/include/cstdint:
 C:/Freescale/CW\ MCU\ v10.6/MCU/ARM_GCC_Support/ewl/EWL_C/include/limits_api.h:
 
 C:/Freescale/CW\ MCU\ v10.6/MCU/ARM_GCC_Support/ewl/EWL_C/include/ewl_lib_ext1.h:
-
-C:/Users/Jared/Desktop/freescalecup/FRDM-TFC/Project_Headers/TFC\TFC.h:
 
 C:/Freescale/CW\ MCU\ v10.6/MCU/ARM_GCC_Support/ewl/EWL_C/include/stdio.h:
 
@@ -114,6 +105,8 @@ C:/Freescale/CW\ MCU\ v10.6/MCU/ARM_GCC_Support/ewl/EWL_C/include/string_api.h:
 
 C:/Users/Jared/Desktop/freescalecup/FRDM-TFC/Project_Headers/Derivative.h:
 
+C:/Users/Jared/Desktop/freescalecup/FRDM-TFC/Project_Headers/MKL25Z4.h:
+
 C:/Users/Jared/Desktop/freescalecup/FRDM-TFC/Project_Headers/TFC\TFC_Config.h:
 
 C:/Users/Jared/Desktop/freescalecup/FRDM-TFC/Project_Headers/TFC\TFC_Types.h:
@@ -140,16 +133,4 @@ C:/Users/Jared/Desktop/freescalecup/FRDM-TFC/Project_Headers/TFC\TFC_UART.h:
 
 C:/Users/Jared/Desktop/freescalecup/FRDM-TFC/Project_Headers/TFC\TFC_Terminal.h:
 
-../Sources/Algorithms.h:
-
 ../Sources/Common.h:
-
-../Sources/InitCar.h:
-
-../Sources/Camera.h:
-
-C:/Freescale/CW\ MCU\ v10.6/MCU/ARM_GCC_Support/ewl/EWL_C/include/stdlib.h:
-
-C:/Freescale/CW\ MCU\ v10.6/MCU/ARM_GCC_Support/ewl/EWL_C/include/cstdlib:
-
-C:/Freescale/CW\ MCU\ v10.6/MCU/ARM_GCC_Support/ewl/EWL_C/include/div_t.h:

@@ -1,0 +1,287 @@
+   1              		.cpu cortex-m0
+   2              		.fpu softvfp
+   3              		.eabi_attribute 20, 1
+   4              		.eabi_attribute 21, 1
+   5              		.eabi_attribute 23, 3
+   6              		.eabi_attribute 24, 1
+   7              		.eabi_attribute 25, 1
+   8              		.eabi_attribute 26, 1
+   9              		.eabi_attribute 30, 6
+  10              		.eabi_attribute 34, 0
+  11              		.eabi_attribute 18, 4
+  12              		.code	16
+  13              		.file	"InitCar.c"
+  14              		.text
+  15              	.Ltext0:
+  16              		.cfi_sections	.debug_frame
+  17              		.section	.text.lightInitSequence,"ax",%progbits
+  18              		.align	2
+  19              		.global	lightInitSequence
+  20              		.code	16
+  21              		.thumb_func
+  23              	lightInitSequence:
+  24              	.LFB0:
+  25              		.file 1 "../Sources/InitCar.c"
+   1:../Sources/InitCar.c **** /*
+   2:../Sources/InitCar.c ****  * InitCar.c
+   3:../Sources/InitCar.c ****  *
+   4:../Sources/InitCar.c ****  *  Created on: Feb 3, 2016
+   5:../Sources/InitCar.c ****  *      Author: Jared
+   6:../Sources/InitCar.c ****  */
+   7:../Sources/InitCar.c **** 
+   8:../Sources/InitCar.c **** #include "TFC\TFC.h"
+   9:../Sources/InitCar.c **** #include "Common.h"
+  10:../Sources/InitCar.c **** 
+  11:../Sources/InitCar.c **** void lightInitSequence(){
+  26              		.loc 1 11 0
+  27              		.cfi_startproc
+  28 0000 80B5     		push	{r7, lr}
+  29              	.LCFI0:
+  30              		.cfi_def_cfa_offset 8
+  31              		.cfi_offset 7, -8
+  32              		.cfi_offset 14, -4
+  33 0002 82B0     		sub	sp, sp, #8
+  34              	.LCFI1:
+  35              		.cfi_def_cfa_offset 16
+  36 0004 00AF     		add	r7, sp, #0
+  37              	.LCFI2:
+  38              		.cfi_def_cfa_register 7
+  12:../Sources/InitCar.c **** 	int delayT = 200;
+  39              		.loc 1 12 0
+  40 0006 C823     		mov	r3, #200
+  41 0008 7B60     		str	r3, [r7, #4]
+  13:../Sources/InitCar.c **** 	
+  14:../Sources/InitCar.c **** 	TFC_BAT_LED0_OFF;
+  42              		.loc 1 14 0
+  43 000a 3B4B     		ldr	r3, .L2
+  44 000c 8022     		mov	r2, #128
+  45 000e 5200     		lsl	r2, r2, #1
+  46 0010 9A60     		str	r2, [r3, #8]
+  15:../Sources/InitCar.c **** 	TFC_BAT_LED1_OFF;
+  47              		.loc 1 15 0
+  48 0012 394B     		ldr	r3, .L2
+  49 0014 8022     		mov	r2, #128
+  50 0016 9200     		lsl	r2, r2, #2
+  51 0018 9A60     		str	r2, [r3, #8]
+  16:../Sources/InitCar.c **** 	TFC_BAT_LED2_OFF;
+  52              		.loc 1 16 0
+  53 001a 374B     		ldr	r3, .L2
+  54 001c 8022     		mov	r2, #128
+  55 001e D200     		lsl	r2, r2, #3
+  56 0020 9A60     		str	r2, [r3, #8]
+  17:../Sources/InitCar.c **** 	TFC_BAT_LED3_OFF;
+  57              		.loc 1 17 0
+  58 0022 354B     		ldr	r3, .L2
+  59 0024 8022     		mov	r2, #128
+  60 0026 1201     		lsl	r2, r2, #4
+  61 0028 9A60     		str	r2, [r3, #8]
+  18:../Sources/InitCar.c **** 	delay(delayT);
+  62              		.loc 1 18 0
+  63 002a 7B68     		ldr	r3, [r7, #4]
+  64 002c 181C     		mov	r0, r3
+  65 002e FFF7FEFF 		bl	delay
+  19:../Sources/InitCar.c **** 	
+  20:../Sources/InitCar.c **** 	TFC_BAT_LED0_ON;
+  66              		.loc 1 20 0
+  67 0032 314B     		ldr	r3, .L2
+  68 0034 8022     		mov	r2, #128
+  69 0036 5200     		lsl	r2, r2, #1
+  70 0038 5A60     		str	r2, [r3, #4]
+  21:../Sources/InitCar.c **** 	TFC_BAT_LED1_OFF;
+  71              		.loc 1 21 0
+  72 003a 2F4B     		ldr	r3, .L2
+  73 003c 8022     		mov	r2, #128
+  74 003e 9200     		lsl	r2, r2, #2
+  75 0040 9A60     		str	r2, [r3, #8]
+  22:../Sources/InitCar.c **** 	TFC_BAT_LED2_OFF;
+  76              		.loc 1 22 0
+  77 0042 2D4B     		ldr	r3, .L2
+  78 0044 8022     		mov	r2, #128
+  79 0046 D200     		lsl	r2, r2, #3
+  80 0048 9A60     		str	r2, [r3, #8]
+  23:../Sources/InitCar.c **** 	TFC_BAT_LED3_OFF;
+  81              		.loc 1 23 0
+  82 004a 2B4B     		ldr	r3, .L2
+  83 004c 8022     		mov	r2, #128
+  84 004e 1201     		lsl	r2, r2, #4
+  85 0050 9A60     		str	r2, [r3, #8]
+  24:../Sources/InitCar.c **** 	delay(delayT);
+  86              		.loc 1 24 0
+  87 0052 7B68     		ldr	r3, [r7, #4]
+  88 0054 181C     		mov	r0, r3
+  89 0056 FFF7FEFF 		bl	delay
+  25:../Sources/InitCar.c **** 	
+  26:../Sources/InitCar.c **** 	TFC_BAT_LED0_OFF;
+  90              		.loc 1 26 0
+  91 005a 274B     		ldr	r3, .L2
+  92 005c 8022     		mov	r2, #128
+  93 005e 5200     		lsl	r2, r2, #1
+  94 0060 9A60     		str	r2, [r3, #8]
+  27:../Sources/InitCar.c **** 	TFC_BAT_LED1_ON;
+  95              		.loc 1 27 0
+  96 0062 254B     		ldr	r3, .L2
+  97 0064 8022     		mov	r2, #128
+  98 0066 9200     		lsl	r2, r2, #2
+  99 0068 5A60     		str	r2, [r3, #4]
+  28:../Sources/InitCar.c **** 	TFC_BAT_LED2_OFF;
+ 100              		.loc 1 28 0
+ 101 006a 234B     		ldr	r3, .L2
+ 102 006c 8022     		mov	r2, #128
+ 103 006e D200     		lsl	r2, r2, #3
+ 104 0070 9A60     		str	r2, [r3, #8]
+  29:../Sources/InitCar.c **** 	TFC_BAT_LED3_OFF;
+ 105              		.loc 1 29 0
+ 106 0072 214B     		ldr	r3, .L2
+ 107 0074 8022     		mov	r2, #128
+ 108 0076 1201     		lsl	r2, r2, #4
+ 109 0078 9A60     		str	r2, [r3, #8]
+  30:../Sources/InitCar.c **** 	delay(delayT);
+ 110              		.loc 1 30 0
+ 111 007a 7B68     		ldr	r3, [r7, #4]
+ 112 007c 181C     		mov	r0, r3
+ 113 007e FFF7FEFF 		bl	delay
+  31:../Sources/InitCar.c **** 	
+  32:../Sources/InitCar.c **** 	TFC_BAT_LED0_OFF;
+ 114              		.loc 1 32 0
+ 115 0082 1D4B     		ldr	r3, .L2
+ 116 0084 8022     		mov	r2, #128
+ 117 0086 5200     		lsl	r2, r2, #1
+ 118 0088 9A60     		str	r2, [r3, #8]
+  33:../Sources/InitCar.c **** 	TFC_BAT_LED1_OFF;
+ 119              		.loc 1 33 0
+ 120 008a 1B4B     		ldr	r3, .L2
+ 121 008c 8022     		mov	r2, #128
+ 122 008e 9200     		lsl	r2, r2, #2
+ 123 0090 9A60     		str	r2, [r3, #8]
+  34:../Sources/InitCar.c **** 	TFC_BAT_LED2_ON;
+ 124              		.loc 1 34 0
+ 125 0092 194B     		ldr	r3, .L2
+ 126 0094 8022     		mov	r2, #128
+ 127 0096 D200     		lsl	r2, r2, #3
+ 128 0098 5A60     		str	r2, [r3, #4]
+  35:../Sources/InitCar.c **** 	TFC_BAT_LED3_OFF;
+ 129              		.loc 1 35 0
+ 130 009a 174B     		ldr	r3, .L2
+ 131 009c 8022     		mov	r2, #128
+ 132 009e 1201     		lsl	r2, r2, #4
+ 133 00a0 9A60     		str	r2, [r3, #8]
+  36:../Sources/InitCar.c **** 	delay(delayT);
+ 134              		.loc 1 36 0
+ 135 00a2 7B68     		ldr	r3, [r7, #4]
+ 136 00a4 181C     		mov	r0, r3
+ 137 00a6 FFF7FEFF 		bl	delay
+  37:../Sources/InitCar.c **** 	
+  38:../Sources/InitCar.c **** 	TFC_BAT_LED0_OFF;
+ 138              		.loc 1 38 0
+ 139 00aa 134B     		ldr	r3, .L2
+ 140 00ac 8022     		mov	r2, #128
+ 141 00ae 5200     		lsl	r2, r2, #1
+ 142 00b0 9A60     		str	r2, [r3, #8]
+  39:../Sources/InitCar.c **** 	TFC_BAT_LED1_OFF;
+ 143              		.loc 1 39 0
+ 144 00b2 114B     		ldr	r3, .L2
+ 145 00b4 8022     		mov	r2, #128
+ 146 00b6 9200     		lsl	r2, r2, #2
+ 147 00b8 9A60     		str	r2, [r3, #8]
+  40:../Sources/InitCar.c **** 	TFC_BAT_LED2_OFF;
+ 148              		.loc 1 40 0
+ 149 00ba 0F4B     		ldr	r3, .L2
+ 150 00bc 8022     		mov	r2, #128
+ 151 00be D200     		lsl	r2, r2, #3
+ 152 00c0 9A60     		str	r2, [r3, #8]
+  41:../Sources/InitCar.c **** 	TFC_BAT_LED3_ON;
+ 153              		.loc 1 41 0
+ 154 00c2 0D4B     		ldr	r3, .L2
+ 155 00c4 8022     		mov	r2, #128
+ 156 00c6 1201     		lsl	r2, r2, #4
+ 157 00c8 5A60     		str	r2, [r3, #4]
+  42:../Sources/InitCar.c **** 	delay(delayT);
+ 158              		.loc 1 42 0
+ 159 00ca 7B68     		ldr	r3, [r7, #4]
+ 160 00cc 181C     		mov	r0, r3
+ 161 00ce FFF7FEFF 		bl	delay
+  43:../Sources/InitCar.c **** 	
+  44:../Sources/InitCar.c **** 	TFC_BAT_LED0_ON;
+ 162              		.loc 1 44 0
+ 163 00d2 094B     		ldr	r3, .L2
+ 164 00d4 8022     		mov	r2, #128
+ 165 00d6 5200     		lsl	r2, r2, #1
+ 166 00d8 5A60     		str	r2, [r3, #4]
+  45:../Sources/InitCar.c **** 	TFC_BAT_LED1_ON;
+ 167              		.loc 1 45 0
+ 168 00da 074B     		ldr	r3, .L2
+ 169 00dc 8022     		mov	r2, #128
+ 170 00de 9200     		lsl	r2, r2, #2
+ 171 00e0 5A60     		str	r2, [r3, #4]
+  46:../Sources/InitCar.c **** 	TFC_BAT_LED2_ON;
+ 172              		.loc 1 46 0
+ 173 00e2 054B     		ldr	r3, .L2
+ 174 00e4 8022     		mov	r2, #128
+ 175 00e6 D200     		lsl	r2, r2, #3
+ 176 00e8 5A60     		str	r2, [r3, #4]
+  47:../Sources/InitCar.c **** 	TFC_BAT_LED3_ON;
+ 177              		.loc 1 47 0
+ 178 00ea 034B     		ldr	r3, .L2
+ 179 00ec 8022     		mov	r2, #128
+ 180 00ee 1201     		lsl	r2, r2, #4
+ 181 00f0 5A60     		str	r2, [r3, #4]
+  48:../Sources/InitCar.c **** }
+ 182              		.loc 1 48 0
+ 183 00f2 BD46     		mov	sp, r7
+ 184 00f4 02B0     		add	sp, sp, #8
+ 185              		@ sp needed for prologue
+ 186 00f6 80BD     		pop	{r7, pc}
+ 187              	.L3:
+ 188              		.align	2
+ 189              	.L2:
+ 190 00f8 40F00F40 		.word	1074786368
+ 191              		.cfi_endproc
+ 192              	.LFE0:
+ 194              		.section	.text.init,"ax",%progbits
+ 195              		.align	2
+ 196              		.global	init
+ 197              		.code	16
+ 198              		.thumb_func
+ 200              	init:
+ 201              	.LFB1:
+  49:../Sources/InitCar.c **** 
+  50:../Sources/InitCar.c **** void init(){
+ 202              		.loc 1 50 0
+ 203              		.cfi_startproc
+ 204 0000 80B5     		push	{r7, lr}
+ 205              	.LCFI3:
+ 206              		.cfi_def_cfa_offset 8
+ 207              		.cfi_offset 7, -8
+ 208              		.cfi_offset 14, -4
+ 209 0002 00AF     		add	r7, sp, #0
+ 210              	.LCFI4:
+ 211              		.cfi_def_cfa_register 7
+  51:../Sources/InitCar.c **** 	TFC_Init();
+ 212              		.loc 1 51 0
+ 213 0004 FFF7FEFF 		bl	TFC_Init
+  52:../Sources/InitCar.c **** 	lightInitSequence();
+ 214              		.loc 1 52 0
+ 215 0008 FFF7FEFF 		bl	lightInitSequence
+  53:../Sources/InitCar.c **** }
+ 216              		.loc 1 53 0
+ 217 000c BD46     		mov	sp, r7
+ 218              		@ sp needed for prologue
+ 219 000e 80BD     		pop	{r7, pc}
+ 220              		.cfi_endproc
+ 221              	.LFE1:
+ 223              		.text
+ 224              	.Letext0:
+ 225              		.file 2 "C:/Users/Jared/Desktop/freescalecup/FRDM-TFC/Project_Headers/MKL25Z4.h"
+ 226              		.file 3 "C:/Freescale/CW MCU v10.6/MCU/ARM_GCC_Support/ewl/EWL_C/include/cstdint"
+DEFINED SYMBOLS
+                            *ABS*:00000000 InitCar.c
+C:\Users\Jared\AppData\Local\Temp\ccyHnLyM.s:18     .text.lightInitSequence:00000000 $t
+C:\Users\Jared\AppData\Local\Temp\ccyHnLyM.s:23     .text.lightInitSequence:00000000 lightInitSequence
+C:\Users\Jared\AppData\Local\Temp\ccyHnLyM.s:190    .text.lightInitSequence:000000f8 $d
+C:\Users\Jared\AppData\Local\Temp\ccyHnLyM.s:195    .text.init:00000000 $t
+C:\Users\Jared\AppData\Local\Temp\ccyHnLyM.s:200    .text.init:00000000 init
+                     .debug_frame:00000010 $d
+
+UNDEFINED SYMBOLS
+delay
+TFC_Init
