@@ -9,20 +9,21 @@
 // TODO Comment all the things
 int main(){
 	
-	init();
+	init();		// Initialise program
 	
+	// Declares variables
 	int run = 1;
-	
 	uint8_t* cameraData;
 	struct Command* command;
 	
+	
 	while(1){
 
-		while(!TFC_PUSH_BUTTON_0_PRESSED);
+		while(!TFC_PUSH_BUTTON_0_PRESSED);	// Waits till the start button is pressed
 		
 		while(run){
-			cameraData = getCamera();
-			run = getCommand( cameraData, command );
+			cameraData = getCamera();	// Reads the data from the camera
+			run = getCommand( cameraData, command );	// Sets the command based on the camera data and returns whether to stop or not
 			
 			if(TFC_GetDIP_Switch()){
 				

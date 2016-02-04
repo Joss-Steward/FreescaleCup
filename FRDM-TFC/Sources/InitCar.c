@@ -48,6 +48,11 @@ void lightInitSequence(){
 }
 
 void init(){
+	
 	TFC_Init();
-	lightInitSequence();
+	
+	TFC_SetMotorPWM(0, 0); 	// Sets the motors to off
+	TFC_SetServo(0, 0);		// Sets the servo to straight;
+	
+	lightInitSequence();	// Runs light initialisation sequence
 }
