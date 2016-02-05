@@ -11,7 +11,7 @@
 void lightInitSequence(){
 	
 	// Delay time between lights
-	int delayT = 200;
+	int delayT = 10;
 	
 	// All lights off
 	TFC_BAT_LED0_OFF;

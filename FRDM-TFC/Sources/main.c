@@ -37,6 +37,7 @@ int main(){
 		
 		sensitivity = getSensitivity();
 		speed = getSpeed();
+		TFC_HBRIDGE_ENABLE;
 		
 		printf("{\"version\":0,\"sensitivity\":%d,\"speed\":%f,\"data\":[", sensitivity, speed);
 		
@@ -77,6 +78,8 @@ int main(){
 			// Exits the loop if the stop button is pressed
 			if(STOP_BUTTON) break;
 		}
+		
+		TFC_HBRIDGE_DISABLE;
 		
 		printf("]}");
 		

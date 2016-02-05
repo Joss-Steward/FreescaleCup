@@ -15,51 +15,53 @@
   15              	.Ltext0:
   16              		.cfi_sections	.debug_frame
   17              		.global	__aeabi_f2d
-  18              		.section	.rodata
-  19              		.align	2
-  20              	.LC0:
-  21 0000 7B227269 		.ascii	"{\"rightMotor\":%f,\000"
-  21      6768744D 
-  21      6F746F72 
-  21      223A2566 
-  21      2C00
-  22 0012 0000     		.align	2
-  23              	.LC2:
-  24 0014 226C6566 		.ascii	"\"leftMotor\":%f,\000"
-  24      744D6F74 
-  24      6F72223A 
-  24      25662C00 
-  25              		.align	2
-  26              	.LC4:
-  27 0024 22737465 		.ascii	"\"steering\":%f,\000"
-  27      6572696E 
-  27      67223A25 
-  27      662C00
-  28 0033 00       		.align	2
-  29              	.LC6:
-  30 0034 2273746F 		.ascii	"\"stop\":%d,\000"
-  30      70223A25 
-  30      642C00
-  31 003f 00       		.align	2
-  32              	.LC8:
-  33 0040 2263616D 		.ascii	"\"camera\":[\000"
-  33      65726122 
-  33      3A5B00
-  34 004b 00       		.align	2
-  35              	.LC10:
-  36 004c 25642C00 		.ascii	"%d,\000"
-  37              		.align	2
-  38              	.LC12:
-  39 0050 25645D7D 		.ascii	"%d]}\000"
-  39      00
-  40 0055 000000   		.section	.text.print,"ax",%progbits
-  41              		.align	2
-  42              		.global	print
-  43              		.code	16
-  44              		.thumb_func
-  46              	print:
-  47              	.LFB0:
-  48              		.file 1 "../Sources/SerialComms.c"
+  18              		.global	__aeabi_dmul
+  19              		.global	__aeabi_d2iz
+  20              		.section	.rodata
+  21              		.align	2
+  22              	.LC0:
+  23 0000 7B227269 		.ascii	"{\"rightMotor\":%d,\000"
+  23      6768744D 
+  23      6F746F72 
+  23      223A2564 
+  23      2C00
+  24 0012 0000     		.align	2
+  25              	.LC2:
+  26 0014 226C6566 		.ascii	"\"leftMotor\":%d,\000"
+  26      744D6F74 
+  26      6F72223A 
+  26      25642C00 
+  27              		.align	2
+  28              	.LC4:
+  29 0024 22737465 		.ascii	"\"steering\":%d,\000"
+  29      6572696E 
+  29      67223A25 
+  29      642C00
+  30 0033 00       		.align	2
+  31              	.LC6:
+  32 0034 2273746F 		.ascii	"\"stop\":%d,\000"
+  32      70223A25 
+  32      642C00
+  33 003f 00       		.align	2
+  34              	.LC8:
+  35 0040 2263616D 		.ascii	"\"camera\":[\000"
+  35      65726122 
+  35      3A5B00
+  36 004b 00       		.align	2
+  37              	.LC10:
+  38 004c 25642C00 		.ascii	"%d,\000"
+  39              		.align	2
+  40              	.LC12:
+  41 0050 25645D7D 		.ascii	"%d]}\000"
+  41      00
+  42 0055 000000   		.section	.text.print,"ax",%progbits
+  43              		.align	2
+  44              		.global	print
+  45              		.code	16
+  46              		.thumb_func
+  48              	print:
+  49              	.LFB0:
+  50              		.file 1 "../Sources/SerialComms.c"
    1:../Sources/SerialComms.c **** /*
    2:../Sources/SerialComms.c ****  * SerialComms.c
    3:../Sources/SerialComms.c ****  *
@@ -73,151 +75,186 @@
   11:../Sources/SerialComms.c **** 
   12:../Sources/SerialComms.c **** 
   13:../Sources/SerialComms.c **** void print(struct Command command, uint8_t* cameraData){
-  49              		.loc 1 13 0
-  50              		.cfi_startproc
-  51 0000 90B5     		push	{r4, r7, lr}
-  52              	.LCFI0:
-  53              		.cfi_def_cfa_offset 12
-  54              		.cfi_offset 4, -12
-  55              		.cfi_offset 7, -8
-  56              		.cfi_offset 14, -4
-  57 0002 87B0     		sub	sp, sp, #28
-  58              	.LCFI1:
-  59              		.cfi_def_cfa_offset 40
-  60 0004 00AF     		add	r7, sp, #0
-  61              	.LCFI2:
-  62              		.cfi_def_cfa_register 7
-  63 0006 3C1C     		mov	r4, r7
-  64 0008 2060     		str	r0, [r4]
-  65 000a 6160     		str	r1, [r4, #4]
-  66 000c A260     		str	r2, [r4, #8]
-  67 000e E360     		str	r3, [r4, #12]
+  51              		.loc 1 13 0
+  52              		.cfi_startproc
+  53 0000 90B5     		push	{r4, r7, lr}
+  54              	.LCFI0:
+  55              		.cfi_def_cfa_offset 12
+  56              		.cfi_offset 4, -12
+  57              		.cfi_offset 7, -8
+  58              		.cfi_offset 14, -4
+  59 0002 87B0     		sub	sp, sp, #28
+  60              	.LCFI1:
+  61              		.cfi_def_cfa_offset 40
+  62 0004 00AF     		add	r7, sp, #0
+  63              	.LCFI2:
+  64              		.cfi_def_cfa_register 7
+  65 0006 3C1C     		mov	r4, r7
+  66 0008 2060     		str	r0, [r4]
+  67 000a 6160     		str	r1, [r4, #4]
+  68 000c A260     		str	r2, [r4, #8]
+  69 000e E360     		str	r3, [r4, #12]
   14:../Sources/SerialComms.c **** 	
-  15:../Sources/SerialComms.c **** 	printf("{\"rightMotor\":%f,", command.speedR );
-  68              		.loc 1 15 0
-  69 0010 3B1C     		mov	r3, r7
-  70 0012 9B68     		ldr	r3, [r3, #8]
-  71 0014 181C     		add	r0, r3, #0
-  72 0016 FFF7FEFF 		bl	__aeabi_f2d
-  73 001a 031C     		mov	r3, r0
-  74 001c 0C1C     		mov	r4, r1
-  75 001e 244A     		ldr	r2, .L4
-  76 0020 101C     		mov	r0, r2
-  77 0022 1A1C     		mov	r2, r3
-  78 0024 231C     		mov	r3, r4
-  79 0026 FFF7FEFF 		bl	printf
-  16:../Sources/SerialComms.c **** 	printf("\"leftMotor\":%f,", command.speedL );
-  80              		.loc 1 16 0
-  81 002a 3B1C     		mov	r3, r7
-  82 002c 5B68     		ldr	r3, [r3, #4]
-  83 002e 181C     		add	r0, r3, #0
-  84 0030 FFF7FEFF 		bl	__aeabi_f2d
-  85 0034 031C     		mov	r3, r0
-  86 0036 0C1C     		mov	r4, r1
-  87 0038 1E4A     		ldr	r2, .L4+4
-  88 003a 101C     		mov	r0, r2
-  89 003c 1A1C     		mov	r2, r3
-  90 003e 231C     		mov	r3, r4
-  91 0040 FFF7FEFF 		bl	printf
-  17:../Sources/SerialComms.c **** 	printf("\"steering\":%f,", command.steerValue );
-  92              		.loc 1 17 0
-  93 0044 3B1C     		mov	r3, r7
-  94 0046 1B68     		ldr	r3, [r3]
-  95 0048 181C     		add	r0, r3, #0
-  96 004a FFF7FEFF 		bl	__aeabi_f2d
-  97 004e 031C     		mov	r3, r0
-  98 0050 0C1C     		mov	r4, r1
-  99 0052 194A     		ldr	r2, .L4+8
- 100 0054 101C     		mov	r0, r2
- 101 0056 1A1C     		mov	r2, r3
- 102 0058 231C     		mov	r3, r4
- 103 005a FFF7FEFF 		bl	printf
+  15:../Sources/SerialComms.c **** 	printf("{\"rightMotor\":%d,", (int)( command.speedR * 100.0 ) );
+  70              		.loc 1 15 0
+  71 0010 3B1C     		mov	r3, r7
+  72 0012 9B68     		ldr	r3, [r3, #8]
+  73 0014 181C     		add	r0, r3, #0
+  74 0016 FFF7FEFF 		bl	__aeabi_f2d
+  75 001a 031C     		mov	r3, r0
+  76 001c 0C1C     		mov	r4, r1
+  77 001e 181C     		mov	r0, r3
+  78 0020 211C     		mov	r1, r4
+  79 0022 364B     		ldr	r3, .L4+4
+  80 0024 344A     		ldr	r2, .L4
+  81 0026 FFF7FEFF 		bl	__aeabi_dmul
+  82 002a 031C     		mov	r3, r0
+  83 002c 0C1C     		mov	r4, r1
+  84 002e 181C     		mov	r0, r3
+  85 0030 211C     		mov	r1, r4
+  86 0032 FFF7FEFF 		bl	__aeabi_d2iz
+  87 0036 031C     		mov	r3, r0
+  88 0038 314A     		ldr	r2, .L4+8
+  89 003a 101C     		mov	r0, r2
+  90 003c 191C     		mov	r1, r3
+  91 003e FFF7FEFF 		bl	printf
+  16:../Sources/SerialComms.c **** 	printf("\"leftMotor\":%d,", (int)( command.speedL * 100.0 ) );
+  92              		.loc 1 16 0
+  93 0042 3B1C     		mov	r3, r7
+  94 0044 5B68     		ldr	r3, [r3, #4]
+  95 0046 181C     		add	r0, r3, #0
+  96 0048 FFF7FEFF 		bl	__aeabi_f2d
+  97 004c 031C     		mov	r3, r0
+  98 004e 0C1C     		mov	r4, r1
+  99 0050 181C     		mov	r0, r3
+ 100 0052 211C     		mov	r1, r4
+ 101 0054 294B     		ldr	r3, .L4+4
+ 102 0056 284A     		ldr	r2, .L4
+ 103 0058 FFF7FEFF 		bl	__aeabi_dmul
+ 104 005c 031C     		mov	r3, r0
+ 105 005e 0C1C     		mov	r4, r1
+ 106 0060 181C     		mov	r0, r3
+ 107 0062 211C     		mov	r1, r4
+ 108 0064 FFF7FEFF 		bl	__aeabi_d2iz
+ 109 0068 031C     		mov	r3, r0
+ 110 006a 264A     		ldr	r2, .L4+12
+ 111 006c 101C     		mov	r0, r2
+ 112 006e 191C     		mov	r1, r3
+ 113 0070 FFF7FEFF 		bl	printf
+  17:../Sources/SerialComms.c **** 	printf("\"steering\":%d,", (int)( command.steerValue * 100.0 ) );
+ 114              		.loc 1 17 0
+ 115 0074 3B1C     		mov	r3, r7
+ 116 0076 1B68     		ldr	r3, [r3]
+ 117 0078 181C     		add	r0, r3, #0
+ 118 007a FFF7FEFF 		bl	__aeabi_f2d
+ 119 007e 031C     		mov	r3, r0
+ 120 0080 0C1C     		mov	r4, r1
+ 121 0082 181C     		mov	r0, r3
+ 122 0084 211C     		mov	r1, r4
+ 123 0086 1D4B     		ldr	r3, .L4+4
+ 124 0088 1B4A     		ldr	r2, .L4
+ 125 008a FFF7FEFF 		bl	__aeabi_dmul
+ 126 008e 031C     		mov	r3, r0
+ 127 0090 0C1C     		mov	r4, r1
+ 128 0092 181C     		mov	r0, r3
+ 129 0094 211C     		mov	r1, r4
+ 130 0096 FFF7FEFF 		bl	__aeabi_d2iz
+ 131 009a 031C     		mov	r3, r0
+ 132 009c 1A4A     		ldr	r2, .L4+16
+ 133 009e 101C     		mov	r0, r2
+ 134 00a0 191C     		mov	r1, r3
+ 135 00a2 FFF7FEFF 		bl	printf
   18:../Sources/SerialComms.c **** 	printf("\"stop\":%d,", command.stop );
- 104              		.loc 1 18 0
- 105 005e 3B1C     		mov	r3, r7
- 106 0060 DB68     		ldr	r3, [r3, #12]
- 107 0062 164A     		ldr	r2, .L4+12
- 108 0064 101C     		mov	r0, r2
- 109 0066 191C     		mov	r1, r3
- 110 0068 FFF7FEFF 		bl	printf
+ 136              		.loc 1 18 0
+ 137 00a6 3B1C     		mov	r3, r7
+ 138 00a8 DB68     		ldr	r3, [r3, #12]
+ 139 00aa 184A     		ldr	r2, .L4+20
+ 140 00ac 101C     		mov	r0, r2
+ 141 00ae 191C     		mov	r1, r3
+ 142 00b0 FFF7FEFF 		bl	printf
   19:../Sources/SerialComms.c **** 	printf("\"camera\":[");
- 111              		.loc 1 19 0
- 112 006c 144B     		ldr	r3, .L4+16
- 113 006e 181C     		mov	r0, r3
- 114 0070 FFF7FEFF 		bl	printf
+ 143              		.loc 1 19 0
+ 144 00b4 164B     		ldr	r3, .L4+24
+ 145 00b6 181C     		mov	r0, r3
+ 146 00b8 FFF7FEFF 		bl	printf
   20:../Sources/SerialComms.c **** 	
   21:../Sources/SerialComms.c **** 	int i;
   22:../Sources/SerialComms.c **** 	for( i = 0; i < USED_PIXELS - 1; i++){
- 115              		.loc 1 22 0
- 116 0074 0023     		mov	r3, #0
- 117 0076 7B61     		str	r3, [r7, #20]
- 118 0078 0BE0     		b	.L2
- 119              	.L3:
+ 147              		.loc 1 22 0
+ 148 00bc 0023     		mov	r3, #0
+ 149 00be 7B61     		str	r3, [r7, #20]
+ 150 00c0 0BE0     		b	.L2
+ 151              	.L3:
   23:../Sources/SerialComms.c **** 		printf("%d,", cameraData[i] );
- 120              		.loc 1 23 0
- 121 007a 7B69     		ldr	r3, [r7, #20]
- 122 007c BA6A     		ldr	r2, [r7, #40]
- 123 007e D318     		add	r3, r2, r3
- 124 0080 1B78     		ldrb	r3, [r3]
- 125 0082 104A     		ldr	r2, .L4+20
- 126 0084 101C     		mov	r0, r2
- 127 0086 191C     		mov	r1, r3
- 128 0088 FFF7FEFF 		bl	printf
+ 152              		.loc 1 23 0
+ 153 00c2 7B69     		ldr	r3, [r7, #20]
+ 154 00c4 BA6A     		ldr	r2, [r7, #40]
+ 155 00c6 D318     		add	r3, r2, r3
+ 156 00c8 1B78     		ldrb	r3, [r3]
+ 157 00ca 124A     		ldr	r2, .L4+28
+ 158 00cc 101C     		mov	r0, r2
+ 159 00ce 191C     		mov	r1, r3
+ 160 00d0 FFF7FEFF 		bl	printf
   22:../Sources/SerialComms.c **** 	for( i = 0; i < USED_PIXELS - 1; i++){
- 129              		.loc 1 22 0
- 130 008c 7B69     		ldr	r3, [r7, #20]
- 131 008e 0133     		add	r3, r3, #1
- 132 0090 7B61     		str	r3, [r7, #20]
- 133              	.L2:
+ 161              		.loc 1 22 0
+ 162 00d4 7B69     		ldr	r3, [r7, #20]
+ 163 00d6 0133     		add	r3, r3, #1
+ 164 00d8 7B61     		str	r3, [r7, #20]
+ 165              	.L2:
   22:../Sources/SerialComms.c **** 	for( i = 0; i < USED_PIXELS - 1; i++){
- 134              		.loc 1 22 0 is_stmt 0
- 135 0092 7B69     		ldr	r3, [r7, #20]
- 136 0094 6E2B     		cmp	r3, #110
- 137 0096 F0DD     		ble	.L3
+ 166              		.loc 1 22 0 is_stmt 0
+ 167 00da 7B69     		ldr	r3, [r7, #20]
+ 168 00dc 6E2B     		cmp	r3, #110
+ 169 00de F0DD     		ble	.L3
   24:../Sources/SerialComms.c **** 	}
   25:../Sources/SerialComms.c **** 	
   26:../Sources/SerialComms.c **** 	printf("%d]}", cameraData[USED_PIXELS]);
- 138              		.loc 1 26 0 is_stmt 1
- 139 0098 BB6A     		ldr	r3, [r7, #40]
- 140 009a 7033     		add	r3, r3, #112
- 141 009c 1B78     		ldrb	r3, [r3]
- 142 009e 0A4A     		ldr	r2, .L4+24
- 143 00a0 101C     		mov	r0, r2
- 144 00a2 191C     		mov	r1, r3
- 145 00a4 FFF7FEFF 		bl	printf
+ 170              		.loc 1 26 0 is_stmt 1
+ 171 00e0 BB6A     		ldr	r3, [r7, #40]
+ 172 00e2 7033     		add	r3, r3, #112
+ 173 00e4 1B78     		ldrb	r3, [r3]
+ 174 00e6 0C4A     		ldr	r2, .L4+32
+ 175 00e8 101C     		mov	r0, r2
+ 176 00ea 191C     		mov	r1, r3
+ 177 00ec FFF7FEFF 		bl	printf
   27:../Sources/SerialComms.c **** 	
   28:../Sources/SerialComms.c **** 	// TODO TFC_TASK() ?
   29:../Sources/SerialComms.c **** 		
   30:../Sources/SerialComms.c **** }
- 146              		.loc 1 30 0
- 147 00a8 BD46     		mov	sp, r7
- 148 00aa 07B0     		add	sp, sp, #28
- 149              		@ sp needed for prologue
- 150 00ac 90BD     		pop	{r4, r7, pc}
- 151              	.L5:
- 152 00ae C046     		.align	2
- 153              	.L4:
- 154 00b0 00000000 		.word	.LC0
- 155 00b4 14000000 		.word	.LC2
- 156 00b8 24000000 		.word	.LC4
- 157 00bc 34000000 		.word	.LC6
- 158 00c0 40000000 		.word	.LC8
- 159 00c4 4C000000 		.word	.LC10
- 160 00c8 50000000 		.word	.LC12
- 161              		.cfi_endproc
- 162              	.LFE0:
- 164              		.text
- 165              	.Letext0:
- 166              		.file 2 "../Sources/Common.h"
- 167              		.file 3 "C:/Freescale/CW MCU v10.6/MCU/ARM_GCC_Support/ewl/EWL_C/include/cstdint"
+ 178              		.loc 1 30 0
+ 179 00f0 BD46     		mov	sp, r7
+ 180 00f2 07B0     		add	sp, sp, #28
+ 181              		@ sp needed for prologue
+ 182 00f4 90BD     		pop	{r4, r7, pc}
+ 183              	.L5:
+ 184 00f6 C046     		.align	3
+ 185              	.L4:
+ 186 00f8 00000000 		.word	0
+ 187 00fc 00005940 		.word	1079574528
+ 188 0100 00000000 		.word	.LC0
+ 189 0104 14000000 		.word	.LC2
+ 190 0108 24000000 		.word	.LC4
+ 191 010c 34000000 		.word	.LC6
+ 192 0110 40000000 		.word	.LC8
+ 193 0114 4C000000 		.word	.LC10
+ 194 0118 50000000 		.word	.LC12
+ 195              		.cfi_endproc
+ 196              	.LFE0:
+ 198 011c C046C046 		.text
+ 199              	.Letext0:
+ 200              		.file 2 "../Sources/Common.h"
+ 201              		.file 3 "C:/Freescale/CW MCU v10.6/MCU/ARM_GCC_Support/ewl/EWL_C/include/cstdint"
 DEFINED SYMBOLS
                             *ABS*:00000000 SerialComms.c
-C:\Users\Jared\AppData\Local\Temp\cc8iWgzL.s:19     .rodata:00000000 $d
-C:\Users\Jared\AppData\Local\Temp\cc8iWgzL.s:41     .text.print:00000000 $t
-C:\Users\Jared\AppData\Local\Temp\cc8iWgzL.s:46     .text.print:00000000 print
-C:\Users\Jared\AppData\Local\Temp\cc8iWgzL.s:154    .text.print:000000b0 $d
+C:\Users\Jared\AppData\Local\Temp\ccZrr5xA.s:21     .rodata:00000000 $d
+C:\Users\Jared\AppData\Local\Temp\ccZrr5xA.s:43     .text.print:00000000 $t
+C:\Users\Jared\AppData\Local\Temp\ccZrr5xA.s:48     .text.print:00000000 print
+C:\Users\Jared\AppData\Local\Temp\ccZrr5xA.s:186    .text.print:000000f8 $d
                      .debug_frame:00000010 $d
+C:\Users\Jared\AppData\Local\Temp\ccZrr5xA.s:198    .text.print:0000011c $t
 
 UNDEFINED SYMBOLS
 __aeabi_f2d
+__aeabi_dmul
+__aeabi_d2iz
 printf

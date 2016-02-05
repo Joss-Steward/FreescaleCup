@@ -12,9 +12,9 @@
 
 void print(struct Command command, uint8_t* cameraData){
 	
-	printf("{\"rightMotor\":%f,", command.speedR );
-	printf("\"leftMotor\":%f,", command.speedL );
-	printf("\"steering\":%f,", command.steerValue );
+	printf("{\"rightMotor\":%d,", (int)( command.speedR * 100.0 ) );
+	printf("\"leftMotor\":%d,", (int)( command.speedL * 100.0 ) );
+	printf("\"steering\":%d,", (int)( command.steerValue * 100.0 ) );
 	printf("\"stop\":%d,", command.stop );
 	printf("\"camera\":[");
 	
