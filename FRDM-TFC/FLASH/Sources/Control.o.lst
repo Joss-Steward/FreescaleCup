@@ -1,0 +1,64 @@
+   1              		.cpu cortex-m0
+   2              		.fpu softvfp
+   3              		.eabi_attribute 20, 1
+   4              		.eabi_attribute 21, 1
+   5              		.eabi_attribute 23, 3
+   6              		.eabi_attribute 24, 1
+   7              		.eabi_attribute 25, 1
+   8              		.eabi_attribute 26, 1
+   9              		.eabi_attribute 30, 6
+  10              		.eabi_attribute 34, 0
+  11              		.eabi_attribute 18, 4
+  12              		.code	16
+  13              		.file	"Control.c"
+  14              		.text
+  15              	.Ltext0:
+  16              		.cfi_sections	.debug_frame
+  17              		.section	.text.apply,"ax",%progbits
+  18              		.align	2
+  19              		.global	apply
+  20              		.code	16
+  21              		.thumb_func
+  23              	apply:
+  24              	.LFB0:
+  25              		.file 1 "../Sources/Control.c"
+   1:../Sources/Control.c **** /*
+   2:../Sources/Control.c ****  * Control.c
+   3:../Sources/Control.c ****  *
+   4:../Sources/Control.c ****  *  Created on: Feb 4, 2016
+   5:../Sources/Control.c ****  *      Author: Jared
+   6:../Sources/Control.c ****  */
+   7:../Sources/Control.c **** 
+   8:../Sources/Control.c **** void apply(struct Command* command){
+  26              		.loc 1 8 0
+  27              		.cfi_startproc
+  28 0000 80B5     		push	{r7, lr}
+  29              	.LCFI0:
+  30              		.cfi_def_cfa_offset 8
+  31              		.cfi_offset 7, -8
+  32              		.cfi_offset 14, -4
+  33 0002 82B0     		sub	sp, sp, #8
+  34              	.LCFI1:
+  35              		.cfi_def_cfa_offset 16
+  36 0004 00AF     		add	r7, sp, #0
+  37              	.LCFI2:
+  38              		.cfi_def_cfa_register 7
+  39 0006 7860     		str	r0, [r7, #4]
+   9:../Sources/Control.c **** 	// TODO Implement control logic
+  10:../Sources/Control.c **** }
+  40              		.loc 1 10 0
+  41 0008 BD46     		mov	sp, r7
+  42 000a 02B0     		add	sp, sp, #8
+  43              		@ sp needed for prologue
+  44 000c 80BD     		pop	{r7, pc}
+  45              		.cfi_endproc
+  46              	.LFE0:
+  48 000e C046     		.text
+  49              	.Letext0:
+DEFINED SYMBOLS
+                            *ABS*:00000000 Control.c
+C:\Users\Jared\AppData\Local\Temp\cckTIWUf.s:18     .text.apply:00000000 $t
+C:\Users\Jared\AppData\Local\Temp\cckTIWUf.s:23     .text.apply:00000000 apply
+                     .debug_frame:00000010 $d
+
+NO UNDEFINED SYMBOLS

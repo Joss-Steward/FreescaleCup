@@ -6,38 +6,57 @@
 #include "Camera.h"
 #include "stdlib.h"
 
+#define START_BUTTON TFC_PUSH_BUTTON_0_PRESSED
+#define STOP_BUTTON TFC_PUSH_BUTTON_1_PRESSED
+
 // TODO Comment all the things
 int main(){
 	
 	init();		// Initialise program
 	
-	// Declares variables
-	int run = 1;
+	int run = 1;	// Used to indicate stopping
+	
+	// Pointers for referencing data
 	uint8_t* cameraData;
 	struct Command* command;
 	
 	
 	while(1){
 
-		while(!TFC_PUSH_BUTTON_0_PRESSED);	// Waits till the start button is pressed
+		// Waits till the start button is pressed
+		while(!START_BUTTON);	
 		
 		while(run){
-			cameraData = getCamera();	// Reads the data from the camera
-			run = getCommand( cameraData, command );	// Sets the command based on the camera data and returns whether to stop or not
 			
-			if(TFC_GetDIP_Switch()){
+			// Reads the data from the camera
+			cameraData = getCamera();	
+			
+			// Sets the command based on the camera data and returns whether to stop or not
+			run = getCommand( cameraData, command );	
+			
+			// Debug mode
+			if(TFC_GetDIP_Switch()){	
 				
+				// Sends the formated command and camera data over serial
 				print(command, cameraData);
 				
-			} else {
+				// Run mode	
+			} else {	
 				
-				store(command, cameraData);
+				// Sends the unformatted command and camera data over serial to be stored
+				save(command, cameraData);
+				
+				// Applies the command to the car
 				apply(command);
 				
 			}
 
+			// Frees the malloc'd memory for cameraData and command
 			free(cameraData);
 			free(command);
+			
+			// Exits the loop if the stop button is pressed
+			if(STOP_BUTTON) break;
 		}
 		
 	}

@@ -9,7 +9,7 @@
 #define COMMON_H_
 
 #define IGNORE_PIXELS 8
-#define USED_PIXELS 128 - ( IGNORE_PIXELS * 2 )
+#define USED_PIXELS (128 - ( IGNORE_PIXELS * 2 ))
 
 struct Command{
 	float steerValue;

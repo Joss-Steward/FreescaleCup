@@ -30,13 +30,12 @@
    6:../Sources/main.c **** #include "Camera.h"
    7:../Sources/main.c **** #include "stdlib.h"
    8:../Sources/main.c **** 
-   9:../Sources/main.c **** #define DEL 50
-  10:../Sources/main.c **** 
+   9:../Sources/main.c **** #define START_BUTTON TFC_PUSH_BUTTON_0_PRESSED
+  10:../Sources/main.c **** #define STOP_BUTTON TFC_PUSH_BUTTON_1_PRESSED
   11:../Sources/main.c **** 
-  12:../Sources/main.c **** 
-  13:../Sources/main.c **** 
-  14:../Sources/main.c **** int main(){
-  26              		.loc 1 14 0
+  12:../Sources/main.c **** // TODO Comment all the things
+  13:../Sources/main.c **** int main(){
+  26              		.loc 1 13 0
   27              		.cfi_startproc
   28 0000 80B5     		push	{r7, lr}
   29              	.LCFI0:
@@ -49,99 +48,170 @@
   36 0004 00AF     		add	r7, sp, #0
   37              	.LCFI2:
   38              		.cfi_def_cfa_register 7
-  15:../Sources/main.c **** 	
-  16:../Sources/main.c **** 	init();
-  39              		.loc 1 16 0
+  14:../Sources/main.c **** 	
+  15:../Sources/main.c **** 	init();		// Initialise program
+  39              		.loc 1 15 0
   40 0006 FFF7FEFF 		bl	init
-  17:../Sources/main.c **** 	
-  18:../Sources/main.c **** 	int run = 1;
-  41              		.loc 1 18 0
+  16:../Sources/main.c **** 	
+  17:../Sources/main.c **** 	int run = 1;	// Used to indicate stopping
+  41              		.loc 1 17 0
   42 000a 0123     		mov	r3, #1
   43 000c FB60     		str	r3, [r7, #12]
-  19:../Sources/main.c **** 	
+  18:../Sources/main.c **** 	
+  19:../Sources/main.c **** 	// Pointers for referencing data
   20:../Sources/main.c **** 	uint8_t* cameraData;
-  21:../Sources/main.c **** 	struct Command *command = (struct Command*) malloc( sizeof(float) * 3);
-  44              		.loc 1 21 0
-  45 000e 0C20     		mov	r0, #12
-  46 0010 FFF7FEFF 		bl	malloc
-  47 0014 031C     		mov	r3, r0
-  48 0016 BB60     		str	r3, [r7, #8]
+  21:../Sources/main.c **** 	struct Command* command;
   22:../Sources/main.c **** 	
-  23:../Sources/main.c **** 	while(!TFC_PUSH_BUTTON_0_PRESSED);
-  49              		.loc 1 23 0
-  50 0018 C046     		mov	r8, r8
-  51              	.L2:
-  52              		.loc 1 23 0 is_stmt 0
-  53 001a 0F4B     		ldr	r3, .L6
-  54 001c 1A69     		ldr	r2, [r3, #16]
-  55 001e 8023     		mov	r3, #128
-  56 0020 9B01     		lsl	r3, r3, #6
-  57 0022 1340     		and	r3, r2
-  58 0024 F9D0     		beq	.L2
-  24:../Sources/main.c **** 	while(run){
-  59              		.loc 1 24 0 is_stmt 1
-  60 0026 0FE0     		b	.L3
-  61              	.L4:
-  25:../Sources/main.c **** 		cameraData = getCamera();
-  62              		.loc 1 25 0
-  63 0028 FFF7FEFF 		bl	getCamera
-  64 002c 031C     		mov	r3, r0
-  65 002e 7B60     		str	r3, [r7, #4]
-  26:../Sources/main.c **** 		run = getCommand( cameraData, command );
-  66              		.loc 1 26 0
-  67 0030 7A68     		ldr	r2, [r7, #4]
-  68 0032 BB68     		ldr	r3, [r7, #8]
-  69 0034 101C     		mov	r0, r2
-  70 0036 191C     		mov	r1, r3
-  71 0038 FFF7FEFF 		bl	getCommand
-  72 003c 031C     		mov	r3, r0
-  73 003e FB60     		str	r3, [r7, #12]
-  27:../Sources/main.c **** 		
-  28:../Sources/main.c **** 		free(cameraData);
-  74              		.loc 1 28 0
-  75 0040 7B68     		ldr	r3, [r7, #4]
-  76 0042 181C     		mov	r0, r3
-  77 0044 FFF7FEFF 		bl	free
-  78              	.L3:
-  24:../Sources/main.c **** 	while(run){
-  79              		.loc 1 24 0
-  80 0048 FB68     		ldr	r3, [r7, #12]
-  81 004a 002B     		cmp	r3, #0
-  82 004c ECD1     		bne	.L4
-  29:../Sources/main.c **** 	}
-  30:../Sources/main.c **** 	
-  31:../Sources/main.c **** 	
-  32:../Sources/main.c **** 	return 0;
-  83              		.loc 1 32 0
-  84 004e 0023     		mov	r3, #0
-  33:../Sources/main.c **** }
-  85              		.loc 1 33 0
-  86 0050 181C     		mov	r0, r3
-  87 0052 BD46     		mov	sp, r7
-  88 0054 04B0     		add	sp, sp, #16
-  89              		@ sp needed for prologue
-  90 0056 80BD     		pop	{r7, pc}
-  91              	.L7:
-  92              		.align	2
-  93              	.L6:
-  94 0058 80F00F40 		.word	1074786432
-  95              		.cfi_endproc
-  96              	.LFE0:
-  98              		.text
-  99              	.Letext0:
- 100              		.file 2 "C:/Freescale/CW MCU v10.6/MCU/ARM_GCC_Support/ewl/EWL_C/include/cstdint"
- 101              		.file 3 "C:/Users/Jared/Desktop/freescalecup/FRDM-TFC/Project_Headers/MKL25Z4.h"
- 102              		.file 4 "../Sources/Common.h"
+  23:../Sources/main.c **** 	
+  24:../Sources/main.c **** 	while(1){
+  25:../Sources/main.c **** 
+  26:../Sources/main.c **** 		// Waits till the start button is pressed
+  27:../Sources/main.c **** 		while(!START_BUTTON);	
+  44              		.loc 1 27 0
+  45 000e FFE7     		b	.L10
+  46              	.L8:
+  47              	.L10:
+  48 0010 C046     		mov	r8, r8
+  49              	.L2:
+  50              		.loc 1 27 0 is_stmt 0
+  51 0012 1E4B     		ldr	r3, .L12
+  52 0014 1A69     		ldr	r2, [r3, #16]
+  53 0016 8023     		mov	r3, #128
+  54 0018 9B01     		lsl	r3, r3, #6
+  55 001a 1340     		and	r3, r2
+  56 001c F9D0     		beq	.L2
+  28:../Sources/main.c **** 		
+  29:../Sources/main.c **** 		while(run){
+  57              		.loc 1 29 0 is_stmt 1
+  58 001e 2FE0     		b	.L3
+  59              	.L7:
+  30:../Sources/main.c **** 			
+  31:../Sources/main.c **** 			// Reads the data from the camera
+  32:../Sources/main.c **** 			cameraData = getCamera();	
+  60              		.loc 1 32 0
+  61 0020 FFF7FEFF 		bl	getCamera
+  62 0024 031C     		mov	r3, r0
+  63 0026 BB60     		str	r3, [r7, #8]
+  33:../Sources/main.c **** 			
+  34:../Sources/main.c **** 			// Sets the command based on the camera data and returns whether to stop or not
+  35:../Sources/main.c **** 			run = getCommand( cameraData, command );	
+  64              		.loc 1 35 0
+  65 0028 BA68     		ldr	r2, [r7, #8]
+  66 002a 7B68     		ldr	r3, [r7, #4]
+  67 002c 101C     		mov	r0, r2
+  68 002e 191C     		mov	r1, r3
+  69 0030 FFF7FEFF 		bl	getCommand
+  70 0034 031C     		mov	r3, r0
+  71 0036 FB60     		str	r3, [r7, #12]
+  36:../Sources/main.c **** 			
+  37:../Sources/main.c **** 			// Debug mode
+  38:../Sources/main.c **** 			if(TFC_GetDIP_Switch()){	
+  72              		.loc 1 38 0
+  73 0038 FFF7FEFF 		bl	TFC_GetDIP_Switch
+  74 003c 031C     		mov	r3, r0
+  75 003e 002B     		cmp	r3, #0
+  76 0040 06D0     		beq	.L4
+  77              	.LBB2:
+  39:../Sources/main.c **** 				
+  40:../Sources/main.c **** 				// Sends the formated command and camera data over serial
+  41:../Sources/main.c **** 				print(command, cameraData);
+  78              		.loc 1 41 0
+  79 0042 7A68     		ldr	r2, [r7, #4]
+  80 0044 BB68     		ldr	r3, [r7, #8]
+  81 0046 101C     		mov	r0, r2
+  82 0048 191C     		mov	r1, r3
+  83 004a FFF7FEFF 		bl	print
+  84 004e 09E0     		b	.L5
+  85              	.L4:
+  86              	.LBE2:
+  87              	.LBB3:
+  42:../Sources/main.c **** 				
+  43:../Sources/main.c **** 				// Run mode	
+  44:../Sources/main.c **** 			} else {	
+  45:../Sources/main.c **** 				
+  46:../Sources/main.c **** 				// Sends the unformatted command and camera data over serial to be stored
+  47:../Sources/main.c **** 				save(command, cameraData);
+  88              		.loc 1 47 0
+  89 0050 7A68     		ldr	r2, [r7, #4]
+  90 0052 BB68     		ldr	r3, [r7, #8]
+  91 0054 101C     		mov	r0, r2
+  92 0056 191C     		mov	r1, r3
+  93 0058 FFF7FEFF 		bl	save
+  48:../Sources/main.c **** 				
+  49:../Sources/main.c **** 				// Applies the command to the car
+  50:../Sources/main.c **** 				apply(command);
+  94              		.loc 1 50 0
+  95 005c 7B68     		ldr	r3, [r7, #4]
+  96 005e 181C     		mov	r0, r3
+  97 0060 FFF7FEFF 		bl	apply
+  98              	.L5:
+  99              	.LBE3:
+  51:../Sources/main.c **** 				
+  52:../Sources/main.c **** 			}
+  53:../Sources/main.c **** 
+  54:../Sources/main.c **** 			// Frees the malloc'd memory for cameraData and command
+  55:../Sources/main.c **** 			free(cameraData);
+ 100              		.loc 1 55 0
+ 101 0064 BB68     		ldr	r3, [r7, #8]
+ 102 0066 181C     		mov	r0, r3
+ 103 0068 FFF7FEFF 		bl	free
+  56:../Sources/main.c **** 			free(command);
+ 104              		.loc 1 56 0
+ 105 006c 7B68     		ldr	r3, [r7, #4]
+ 106 006e 181C     		mov	r0, r3
+ 107 0070 FFF7FEFF 		bl	free
+  57:../Sources/main.c **** 			
+  58:../Sources/main.c **** 			// Exits the loop if the stop button is pressed
+  59:../Sources/main.c **** 			if(STOP_BUTTON) break;
+ 108              		.loc 1 59 0
+ 109 0074 054B     		ldr	r3, .L12
+ 110 0076 1A69     		ldr	r2, [r3, #16]
+ 111 0078 8023     		mov	r3, #128
+ 112 007a 9B02     		lsl	r3, r3, #10
+ 113 007c 1340     		and	r3, r2
+ 114 007e 03D1     		bne	.L11
+ 115              	.L3:
+  29:../Sources/main.c **** 		while(run){
+ 116              		.loc 1 29 0
+ 117 0080 FB68     		ldr	r3, [r7, #12]
+ 118 0082 002B     		cmp	r3, #0
+ 119 0084 CCD1     		bne	.L7
+  60:../Sources/main.c **** 		}
+  61:../Sources/main.c **** 		
+  62:../Sources/main.c **** 	}
+ 120              		.loc 1 62 0
+ 121 0086 C3E7     		b	.L8
+ 122              	.L11:
+  59:../Sources/main.c **** 			if(STOP_BUTTON) break;
+ 123              		.loc 1 59 0
+ 124 0088 C046     		mov	r8, r8
+ 125              	.L9:
+ 126              		.loc 1 62 0
+ 127 008a C1E7     		b	.L8
+ 128              	.L13:
+ 129              		.align	2
+ 130              	.L12:
+ 131 008c 80F00F40 		.word	1074786432
+ 132              		.cfi_endproc
+ 133              	.LFE0:
+ 135              		.text
+ 136              	.Letext0:
+ 137              		.file 2 "C:/Freescale/CW MCU v10.6/MCU/ARM_GCC_Support/ewl/EWL_C/include/cstdint"
+ 138              		.file 3 "C:/Users/Jared/Desktop/freescalecup/FRDM-TFC/Project_Headers/MKL25Z4.h"
+ 139              		.file 4 "../Sources/Common.h"
 DEFINED SYMBOLS
                             *ABS*:00000000 main.c
-C:\Users\Jared\AppData\Local\Temp\ccYx2saD.s:18     .text.main:00000000 $t
-C:\Users\Jared\AppData\Local\Temp\ccYx2saD.s:23     .text.main:00000000 main
-C:\Users\Jared\AppData\Local\Temp\ccYx2saD.s:94     .text.main:00000058 $d
+C:\Users\Jared\AppData\Local\Temp\ccKWARDc.s:18     .text.main:00000000 $t
+C:\Users\Jared\AppData\Local\Temp\ccKWARDc.s:23     .text.main:00000000 main
+C:\Users\Jared\AppData\Local\Temp\ccKWARDc.s:131    .text.main:0000008c $d
                      .debug_frame:00000010 $d
 
 UNDEFINED SYMBOLS
 init
-malloc
 getCamera
 getCommand
+TFC_GetDIP_Switch
+print
+save
+apply
 free

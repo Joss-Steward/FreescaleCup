@@ -10,7 +10,9 @@ C_SRCS_QUOTED += \
 "../Sources/Camera.c" \
 "../Sources/Common.c" \
 "../Sources/ConsoleIO.c" \
+"../Sources/Control.c" \
 "../Sources/InitCar.c" \
+"../Sources/SerialComms.c" \
 "../Sources/main.c" \
 "../Sources/sa_mtb.c" \
 
@@ -19,7 +21,9 @@ C_SRCS += \
 ../Sources/Camera.c \
 ../Sources/Common.c \
 ../Sources/ConsoleIO.c \
+../Sources/Control.c \
 ../Sources/InitCar.c \
+../Sources/SerialComms.c \
 ../Sources/main.c \
 ../Sources/sa_mtb.c \
 
@@ -28,7 +32,9 @@ OBJS += \
 ./Sources/Camera.o \
 ./Sources/Common.o \
 ./Sources/ConsoleIO.o \
+./Sources/Control.o \
 ./Sources/InitCar.o \
+./Sources/SerialComms.o \
 ./Sources/main.o \
 ./Sources/sa_mtb.o \
 
@@ -37,7 +43,9 @@ C_DEPS += \
 ./Sources/Camera.d \
 ./Sources/Common.d \
 ./Sources/ConsoleIO.d \
+./Sources/Control.d \
 ./Sources/InitCar.d \
+./Sources/SerialComms.d \
 ./Sources/main.d \
 ./Sources/sa_mtb.d \
 
@@ -46,7 +54,9 @@ OBJS_QUOTED += \
 "./Sources/Camera.o" \
 "./Sources/Common.o" \
 "./Sources/ConsoleIO.o" \
+"./Sources/Control.o" \
 "./Sources/InitCar.o" \
+"./Sources/SerialComms.o" \
 "./Sources/main.o" \
 "./Sources/sa_mtb.o" \
 
@@ -55,7 +65,9 @@ C_DEPS_QUOTED += \
 "./Sources/Camera.d" \
 "./Sources/Common.d" \
 "./Sources/ConsoleIO.d" \
+"./Sources/Control.d" \
 "./Sources/InitCar.d" \
+"./Sources/SerialComms.d" \
 "./Sources/main.d" \
 "./Sources/sa_mtb.d" \
 
@@ -64,7 +76,9 @@ OBJS_OS_FORMAT += \
 ./Sources/Camera.o \
 ./Sources/Common.o \
 ./Sources/ConsoleIO.o \
+./Sources/Control.o \
 ./Sources/InitCar.o \
+./Sources/SerialComms.o \
 ./Sources/main.o \
 ./Sources/sa_mtb.o \
 
@@ -102,17 +116,33 @@ Sources/ConsoleIO.o: ../Sources/ConsoleIO.c
 	@echo 'Finished building: $<'
 	@echo ' '
 
-Sources/InitCar.o: ../Sources/InitCar.c
+Sources/Control.o: ../Sources/Control.c
 	@echo 'Building file: $<'
 	@echo 'Executing target #5 $<'
+	@echo 'Invoking: ARM Ltd Windows GCC C Compiler'
+	"$(ARMSourceryDirEnv)/arm-none-eabi-gcc" "$<" @"Sources/Control.args" -Wa,-adhlns="$@.lst" -MMD -MP -MF"$(@:%.o=%.d)" -o"Sources/Control.o"
+	@echo 'Finished building: $<'
+	@echo ' '
+
+Sources/InitCar.o: ../Sources/InitCar.c
+	@echo 'Building file: $<'
+	@echo 'Executing target #6 $<'
 	@echo 'Invoking: ARM Ltd Windows GCC C Compiler'
 	"$(ARMSourceryDirEnv)/arm-none-eabi-gcc" "$<" @"Sources/InitCar.args" -Wa,-adhlns="$@.lst" -MMD -MP -MF"$(@:%.o=%.d)" -o"Sources/InitCar.o"
 	@echo 'Finished building: $<'
 	@echo ' '
 
+Sources/SerialComms.o: ../Sources/SerialComms.c
+	@echo 'Building file: $<'
+	@echo 'Executing target #7 $<'
+	@echo 'Invoking: ARM Ltd Windows GCC C Compiler'
+	"$(ARMSourceryDirEnv)/arm-none-eabi-gcc" "$<" @"Sources/SerialComms.args" -Wa,-adhlns="$@.lst" -MMD -MP -MF"$(@:%.o=%.d)" -o"Sources/SerialComms.o"
+	@echo 'Finished building: $<'
+	@echo ' '
+
 Sources/main.o: ../Sources/main.c
 	@echo 'Building file: $<'
-	@echo 'Executing target #6 $<'
+	@echo 'Executing target #8 $<'
 	@echo 'Invoking: ARM Ltd Windows GCC C Compiler'
 	"$(ARMSourceryDirEnv)/arm-none-eabi-gcc" "$<" @"Sources/main.args" -Wa,-adhlns="$@.lst" -MMD -MP -MF"$(@:%.o=%.d)" -o"Sources/main.o"
 	@echo 'Finished building: $<'
@@ -120,7 +150,7 @@ Sources/main.o: ../Sources/main.c
 
 Sources/sa_mtb.o: ../Sources/sa_mtb.c
 	@echo 'Building file: $<'
-	@echo 'Executing target #7 $<'
+	@echo 'Executing target #9 $<'
 	@echo 'Invoking: ARM Ltd Windows GCC C Compiler'
 	"$(ARMSourceryDirEnv)/arm-none-eabi-gcc" "$<" @"Sources/sa_mtb.args" -Wa,-adhlns="$@.lst" -MMD -MP -MF"$(@:%.o=%.d)" -o"Sources/sa_mtb.o"
 	@echo 'Finished building: $<'
