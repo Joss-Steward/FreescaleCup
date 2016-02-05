@@ -12,9 +12,11 @@
 // TODO Comment all the things
 int main(){
 	
-	init();		// Initialise program
+	// Initialise program
+	init();		
 	
-	int run = 1;	// Used to indicate stopping
+	// Used to indicate stopping
+	int run = 1;	
 	
 	// Pointers for referencing data
 	uint8_t* cameraData;
@@ -63,36 +65,3 @@ int main(){
 	
 	return 0;
 }
-
-
-
-
-
-//
-//
-//
-//void printCamera() {
-//    int t = 0;
-//
-//    while(1){
-//        TFC_Task();
-//        if(LineScanImageReady == 1) {
-//            LineScanImageReady = 0;
-//            printf("\r\n");
-//            printf("L:");
-//
-//            int i;
-//            for(i = 0; i < 128; i++)
-//            {
-//                printf("%X", LineScanImage0[i]);
-//                if(i == 127)
-//                    printf("\r\n");
-//                else
-//                    printf(",");
-//            }
-//        }
-//        if(TFC_PUSH_BUTTON_1_PRESSED)break;
-//    }
-//}
-//
-

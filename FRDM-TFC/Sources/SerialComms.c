@@ -83,6 +83,8 @@ char* format( struct Command* command, uint8_t* cameraData ){
 
 void print( struct Command* command, uint8_t* cameraData){
 	
+	// TODO TFC_TASK() ?
+	
 	// Gets the formatted string of data
 	char* string = format( command, cameraData );
 	
