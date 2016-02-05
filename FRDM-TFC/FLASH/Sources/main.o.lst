@@ -14,14 +14,28 @@
   14              		.text
   15              	.Ltext0:
   16              		.cfi_sections	.debug_frame
-  17              		.section	.text.main,"ax",%progbits
-  18              		.align	2
-  19              		.global	main
-  20              		.code	16
-  21              		.thumb_func
-  23              	main:
-  24              	.LFB0:
-  25              		.file 1 "../Sources/main.c"
+  17              		.global	__aeabi_f2d
+  18              		.section	.rodata
+  19              		.align	2
+  20              	.LC0:
+  21 0000 7B227665 		.ascii	"{\"version\":0,\"sensitivity\":%d,\"speed\":%f,\"da"
+  21      7273696F 
+  21      6E223A30 
+  21      2C227365 
+  21      6E736974 
+  22 002c 7461223A 		.ascii	"ta\":[\000"
+  22      5B00
+  23 0032 0000     		.align	2
+  24              	.LC2:
+  25 0034 5D7D00   		.ascii	"]}\000"
+  26 0037 00       		.section	.text.main,"ax",%progbits
+  27              		.align	2
+  28              		.global	main
+  29              		.code	16
+  30              		.thumb_func
+  32              	main:
+  33              	.LFB0:
+  34              		.file 1 "../Sources/main.c"
    1:../Sources/main.c **** #include "derivative.h" /* include peripheral declarations */
    2:../Sources/main.c **** #include "TFC\TFC.h"
    3:../Sources/main.c **** #include "Algorithms.h"
@@ -29,189 +43,274 @@
    5:../Sources/main.c **** #include "InitCar.h"
    6:../Sources/main.c **** #include "Camera.h"
    7:../Sources/main.c **** #include "stdlib.h"
-   8:../Sources/main.c **** 
-   9:../Sources/main.c **** #define START_BUTTON TFC_PUSH_BUTTON_0_PRESSED
-  10:../Sources/main.c **** #define STOP_BUTTON TFC_PUSH_BUTTON_1_PRESSED
+   8:../Sources/main.c **** #include "Control.h"
+   9:../Sources/main.c **** #include "SerialComms.h"
+  10:../Sources/main.c **** 
   11:../Sources/main.c **** 
   12:../Sources/main.c **** // TODO Comment all the things
   13:../Sources/main.c **** int main(){
-  26              		.loc 1 13 0
-  27              		.cfi_startproc
-  28 0000 80B5     		push	{r7, lr}
-  29              	.LCFI0:
-  30              		.cfi_def_cfa_offset 8
-  31              		.cfi_offset 7, -8
-  32              		.cfi_offset 14, -4
-  33 0002 84B0     		sub	sp, sp, #16
-  34              	.LCFI1:
-  35              		.cfi_def_cfa_offset 24
-  36 0004 00AF     		add	r7, sp, #0
-  37              	.LCFI2:
-  38              		.cfi_def_cfa_register 7
+  35              		.loc 1 13 0
+  36              		.cfi_startproc
+  37 0000 90B5     		push	{r4, r7, lr}
+  38              	.LCFI0:
+  39              		.cfi_def_cfa_offset 12
+  40              		.cfi_offset 4, -12
+  41              		.cfi_offset 7, -8
+  42              		.cfi_offset 14, -4
+  43 0002 8DB0     		sub	sp, sp, #52
+  44              	.LCFI1:
+  45              		.cfi_def_cfa_offset 64
+  46 0004 02AF     		add	r7, sp, #8
+  47              	.LCFI2:
+  48              		.cfi_def_cfa 7, 56
   14:../Sources/main.c **** 	
-  15:../Sources/main.c **** 	init();		// Initialise program
-  39              		.loc 1 15 0
-  40 0006 FFF7FEFF 		bl	init
-  16:../Sources/main.c **** 	
-  17:../Sources/main.c **** 	int run = 1;	// Used to indicate stopping
-  41              		.loc 1 17 0
-  42 000a 0123     		mov	r3, #1
-  43 000c FB60     		str	r3, [r7, #12]
-  18:../Sources/main.c **** 	
-  19:../Sources/main.c **** 	// Pointers for referencing data
-  20:../Sources/main.c **** 	uint8_t* cameraData;
-  21:../Sources/main.c **** 	struct Command* command;
-  22:../Sources/main.c **** 	
-  23:../Sources/main.c **** 	
-  24:../Sources/main.c **** 	while(1){
-  25:../Sources/main.c **** 
-  26:../Sources/main.c **** 		// Waits till the start button is pressed
-  27:../Sources/main.c **** 		while(!START_BUTTON);	
-  44              		.loc 1 27 0
-  45 000e FFE7     		b	.L10
-  46              	.L8:
-  47              	.L10:
-  48 0010 C046     		mov	r8, r8
-  49              	.L2:
-  50              		.loc 1 27 0 is_stmt 0
-  51 0012 1E4B     		ldr	r3, .L12
-  52 0014 1A69     		ldr	r2, [r3, #16]
-  53 0016 8023     		mov	r3, #128
-  54 0018 9B01     		lsl	r3, r3, #6
-  55 001a 1340     		and	r3, r2
-  56 001c F9D0     		beq	.L2
-  28:../Sources/main.c **** 		
-  29:../Sources/main.c **** 		while(run){
-  57              		.loc 1 29 0 is_stmt 1
-  58 001e 2FE0     		b	.L3
-  59              	.L7:
-  30:../Sources/main.c **** 			
-  31:../Sources/main.c **** 			// Reads the data from the camera
-  32:../Sources/main.c **** 			cameraData = getCamera();	
-  60              		.loc 1 32 0
-  61 0020 FFF7FEFF 		bl	getCamera
-  62 0024 031C     		mov	r3, r0
-  63 0026 BB60     		str	r3, [r7, #8]
-  33:../Sources/main.c **** 			
-  34:../Sources/main.c **** 			// Sets the command based on the camera data and returns whether to stop or not
-  35:../Sources/main.c **** 			run = getCommand( cameraData, command );	
-  64              		.loc 1 35 0
-  65 0028 BA68     		ldr	r2, [r7, #8]
-  66 002a 7B68     		ldr	r3, [r7, #4]
-  67 002c 101C     		mov	r0, r2
-  68 002e 191C     		mov	r1, r3
-  69 0030 FFF7FEFF 		bl	getCommand
-  70 0034 031C     		mov	r3, r0
-  71 0036 FB60     		str	r3, [r7, #12]
-  36:../Sources/main.c **** 			
-  37:../Sources/main.c **** 			// Debug mode
-  38:../Sources/main.c **** 			if(TFC_GetDIP_Switch()){	
-  72              		.loc 1 38 0
-  73 0038 FFF7FEFF 		bl	TFC_GetDIP_Switch
-  74 003c 031C     		mov	r3, r0
-  75 003e 002B     		cmp	r3, #0
-  76 0040 06D0     		beq	.L4
-  77              	.LBB2:
-  39:../Sources/main.c **** 				
-  40:../Sources/main.c **** 				// Sends the formated command and camera data over serial
-  41:../Sources/main.c **** 				print(command, cameraData);
-  78              		.loc 1 41 0
-  79 0042 7A68     		ldr	r2, [r7, #4]
-  80 0044 BB68     		ldr	r3, [r7, #8]
-  81 0046 101C     		mov	r0, r2
-  82 0048 191C     		mov	r1, r3
-  83 004a FFF7FEFF 		bl	print
-  84 004e 09E0     		b	.L5
-  85              	.L4:
-  86              	.LBE2:
-  87              	.LBB3:
-  42:../Sources/main.c **** 				
-  43:../Sources/main.c **** 				// Run mode	
-  44:../Sources/main.c **** 			} else {	
-  45:../Sources/main.c **** 				
-  46:../Sources/main.c **** 				// Sends the unformatted command and camera data over serial to be stored
-  47:../Sources/main.c **** 				save(command, cameraData);
-  88              		.loc 1 47 0
-  89 0050 7A68     		ldr	r2, [r7, #4]
-  90 0052 BB68     		ldr	r3, [r7, #8]
-  91 0054 101C     		mov	r0, r2
-  92 0056 191C     		mov	r1, r3
-  93 0058 FFF7FEFF 		bl	save
-  48:../Sources/main.c **** 				
-  49:../Sources/main.c **** 				// Applies the command to the car
-  50:../Sources/main.c **** 				apply(command);
-  94              		.loc 1 50 0
-  95 005c 7B68     		ldr	r3, [r7, #4]
-  96 005e 181C     		mov	r0, r3
-  97 0060 FFF7FEFF 		bl	apply
-  98              	.L5:
-  99              	.LBE3:
-  51:../Sources/main.c **** 				
-  52:../Sources/main.c **** 			}
-  53:../Sources/main.c **** 
-  54:../Sources/main.c **** 			// Frees the malloc'd memory for cameraData and command
-  55:../Sources/main.c **** 			free(cameraData);
- 100              		.loc 1 55 0
- 101 0064 BB68     		ldr	r3, [r7, #8]
- 102 0066 181C     		mov	r0, r3
- 103 0068 FFF7FEFF 		bl	free
-  56:../Sources/main.c **** 			free(command);
- 104              		.loc 1 56 0
- 105 006c 7B68     		ldr	r3, [r7, #4]
- 106 006e 181C     		mov	r0, r3
- 107 0070 FFF7FEFF 		bl	free
-  57:../Sources/main.c **** 			
-  58:../Sources/main.c **** 			// Exits the loop if the stop button is pressed
-  59:../Sources/main.c **** 			if(STOP_BUTTON) break;
- 108              		.loc 1 59 0
- 109 0074 054B     		ldr	r3, .L12
- 110 0076 1A69     		ldr	r2, [r3, #16]
- 111 0078 8023     		mov	r3, #128
- 112 007a 9B02     		lsl	r3, r3, #10
- 113 007c 1340     		and	r3, r2
- 114 007e 03D1     		bne	.L11
- 115              	.L3:
-  29:../Sources/main.c **** 		while(run){
- 116              		.loc 1 29 0
- 117 0080 FB68     		ldr	r3, [r7, #12]
- 118 0082 002B     		cmp	r3, #0
- 119 0084 CCD1     		bne	.L7
-  60:../Sources/main.c **** 		}
-  61:../Sources/main.c **** 		
-  62:../Sources/main.c **** 	}
- 120              		.loc 1 62 0
- 121 0086 C3E7     		b	.L8
- 122              	.L11:
-  59:../Sources/main.c **** 			if(STOP_BUTTON) break;
- 123              		.loc 1 59 0
- 124 0088 C046     		mov	r8, r8
- 125              	.L9:
- 126              		.loc 1 62 0
- 127 008a C1E7     		b	.L8
- 128              	.L13:
- 129              		.align	2
- 130              	.L12:
- 131 008c 80F00F40 		.word	1074786432
- 132              		.cfi_endproc
- 133              	.LFE0:
- 135              		.text
- 136              	.Letext0:
- 137              		.file 2 "C:/Freescale/CW MCU v10.6/MCU/ARM_GCC_Support/ewl/EWL_C/include/cstdint"
- 138              		.file 3 "C:/Users/Jared/Desktop/freescalecup/FRDM-TFC/Project_Headers/MKL25Z4.h"
- 139              		.file 4 "../Sources/Common.h"
+  15:../Sources/main.c **** 	// Initialise program
+  16:../Sources/main.c **** 	init();		
+  49              		.loc 1 16 0
+  50 0006 FFF7FEFF 		bl	init
+  17:../Sources/main.c **** 	
+  18:../Sources/main.c **** 	// Used to indicate stopping
+  19:../Sources/main.c **** 	int run = 1;
+  51              		.loc 1 19 0
+  52 000a 0123     		mov	r3, #1
+  53 000c 7B62     		str	r3, [r7, #36]
+  20:../Sources/main.c **** 	
+  21:../Sources/main.c **** 	int first = 1;
+  54              		.loc 1 21 0
+  55 000e 0123     		mov	r3, #1
+  56 0010 3B62     		str	r3, [r7, #32]
+  22:../Sources/main.c **** 	int sensitivity;
+  23:../Sources/main.c **** 	float speed;
+  24:../Sources/main.c **** 	
+  25:../Sources/main.c **** 	// Pointers for referencing data
+  26:../Sources/main.c **** 	uint8_t* cameraData;
+  27:../Sources/main.c **** 	struct Command command;
+  28:../Sources/main.c **** 	command.speedL = 0.0;
+  57              		.loc 1 28 0
+  58 0012 3B1D     		add	r3, r7, #4
+  59 0014 0022     		mov	r2, #0
+  60 0016 5A60     		str	r2, [r3, #4]
+  29:../Sources/main.c **** 	command.speedR = 0.0;
+  61              		.loc 1 29 0
+  62 0018 3B1D     		add	r3, r7, #4
+  63 001a 0022     		mov	r2, #0
+  64 001c 9A60     		str	r2, [r3, #8]
+  30:../Sources/main.c **** 	command.steerValue = 0.0;
+  65              		.loc 1 30 0
+  66 001e 3B1D     		add	r3, r7, #4
+  67 0020 0022     		mov	r2, #0
+  68 0022 1A60     		str	r2, [r3]
+  31:../Sources/main.c **** 	command.stop = 0;
+  69              		.loc 1 31 0
+  70 0024 3B1D     		add	r3, r7, #4
+  71 0026 0022     		mov	r2, #0
+  72 0028 DA60     		str	r2, [r3, #12]
+  73              	.L11:
+  32:../Sources/main.c **** 	
+  33:../Sources/main.c **** 	while(1){
+  34:../Sources/main.c **** 
+  35:../Sources/main.c **** 		// Waits till the start button is pressed
+  36:../Sources/main.c **** 		while(!START_BUTTON);	
+  74              		.loc 1 36 0
+  75 002a C046     		mov	r8, r8
+  76              	.L2:
+  77              		.loc 1 36 0 is_stmt 0
+  78 002c 324B     		ldr	r3, .L13
+  79 002e 1A69     		ldr	r2, [r3, #16]
+  80 0030 8023     		mov	r3, #128
+  81 0032 9B01     		lsl	r3, r3, #6
+  82 0034 1340     		and	r3, r2
+  83 0036 F9D0     		beq	.L2
+  37:../Sources/main.c **** 		
+  38:../Sources/main.c **** 		sensitivity = getSensitivity();
+  84              		.loc 1 38 0 is_stmt 1
+  85 0038 FFF7FEFF 		bl	getSensitivity
+  86 003c 031C     		mov	r3, r0
+  87 003e FB61     		str	r3, [r7, #28]
+  39:../Sources/main.c **** 		speed = getSpeed();
+  88              		.loc 1 39 0
+  89 0040 FFF7FEFF 		bl	getSpeed
+  90 0044 031C     		add	r3, r0, #0
+  91 0046 BB61     		str	r3, [r7, #24]
+  40:../Sources/main.c **** 		
+  41:../Sources/main.c **** 		printf("{\"version\":0,\"sensitivity\":%d,\"speed\":%f,\"data\":[", sensitivity, speed);
+  92              		.loc 1 41 0
+  93 0048 B869     		ldr	r0, [r7, #24]
+  94 004a FFF7FEFF 		bl	__aeabi_f2d
+  95 004e 031C     		mov	r3, r0
+  96 0050 0C1C     		mov	r4, r1
+  97 0052 2A49     		ldr	r1, .L13+4
+  98 0054 FA69     		ldr	r2, [r7, #28]
+  99 0056 081C     		mov	r0, r1
+ 100 0058 111C     		mov	r1, r2
+ 101 005a 1A1C     		mov	r2, r3
+ 102 005c 231C     		mov	r3, r4
+ 103 005e FFF7FEFF 		bl	printf
+  42:../Sources/main.c **** 		
+  43:../Sources/main.c **** 		while(run){
+ 104              		.loc 1 43 0
+ 105 0062 3DE0     		b	.L3
+ 106              	.L9:
+  44:../Sources/main.c **** 			
+  45:../Sources/main.c **** 			if(first){	
+ 107              		.loc 1 45 0
+ 108 0064 3B6A     		ldr	r3, [r7, #32]
+ 109 0066 002B     		cmp	r3, #0
+ 110 0068 02D0     		beq	.L4
+  46:../Sources/main.c **** 				first = 0;
+ 111              		.loc 1 46 0
+ 112 006a 0023     		mov	r3, #0
+ 113 006c 3B62     		str	r3, [r7, #32]
+ 114 006e 02E0     		b	.L5
+ 115              	.L4:
+  47:../Sources/main.c **** 			} else {
+  48:../Sources/main.c **** 				printf(",");
+ 116              		.loc 1 48 0
+ 117 0070 2C20     		mov	r0, #44
+ 118 0072 FFF7FEFF 		bl	putchar
+ 119              	.L5:
+  49:../Sources/main.c **** 			}
+  50:../Sources/main.c **** 			
+  51:../Sources/main.c **** 			// Reads the data from the camera
+  52:../Sources/main.c **** 			cameraData = getCamera();	
+ 120              		.loc 1 52 0
+ 121 0076 FFF7FEFF 		bl	getCamera
+ 122 007a 031C     		mov	r3, r0
+ 123 007c 7B61     		str	r3, [r7, #20]
+  53:../Sources/main.c **** 			
+  54:../Sources/main.c **** 			// Sets the command based on the camera data and returns whether to stop or not
+  55:../Sources/main.c **** 			run = getCommand( cameraData, &command, sensitivity, speed );	
+ 124              		.loc 1 55 0
+ 125 007e 7869     		ldr	r0, [r7, #20]
+ 126 0080 391D     		add	r1, r7, #4
+ 127 0082 FA69     		ldr	r2, [r7, #28]
+ 128 0084 BB69     		ldr	r3, [r7, #24]
+ 129 0086 FFF7FEFF 		bl	getCommand
+ 130 008a 031C     		mov	r3, r0
+ 131 008c 7B62     		str	r3, [r7, #36]
+  56:../Sources/main.c **** 			
+  57:../Sources/main.c **** 			// Debug mode
+  58:../Sources/main.c **** 			if(TFC_GetDIP_Switch()){	
+ 132              		.loc 1 58 0
+ 133 008e FFF7FEFF 		bl	TFC_GetDIP_Switch
+ 134 0092 031C     		mov	r3, r0
+ 135 0094 002B     		cmp	r3, #0
+ 136 0096 09D0     		beq	.L6
+  59:../Sources/main.c **** 				
+  60:../Sources/main.c **** 				// Sends the command and camera data over serial
+  61:../Sources/main.c **** 				print(command, cameraData);
+ 137              		.loc 1 61 0
+ 138 0098 3B1D     		add	r3, r7, #4
+ 139 009a 7A69     		ldr	r2, [r7, #20]
+ 140 009c 0092     		str	r2, [sp]
+ 141 009e 1868     		ldr	r0, [r3]
+ 142 00a0 5968     		ldr	r1, [r3, #4]
+ 143 00a2 9A68     		ldr	r2, [r3, #8]
+ 144 00a4 DB68     		ldr	r3, [r3, #12]
+ 145 00a6 FFF7FEFF 		bl	print
+ 146 00aa 0FE0     		b	.L7
+ 147              	.L6:
+  62:../Sources/main.c **** 				
+  63:../Sources/main.c **** 				// Run mode	
+  64:../Sources/main.c **** 			} else {	
+  65:../Sources/main.c **** 				
+  66:../Sources/main.c **** 				// Sends the command and camera data over serial to be stored
+  67:../Sources/main.c **** 				print(command, cameraData);
+ 148              		.loc 1 67 0
+ 149 00ac 3B1D     		add	r3, r7, #4
+ 150 00ae 7A69     		ldr	r2, [r7, #20]
+ 151 00b0 0092     		str	r2, [sp]
+ 152 00b2 1868     		ldr	r0, [r3]
+ 153 00b4 5968     		ldr	r1, [r3, #4]
+ 154 00b6 9A68     		ldr	r2, [r3, #8]
+ 155 00b8 DB68     		ldr	r3, [r3, #12]
+ 156 00ba FFF7FEFF 		bl	print
+  68:../Sources/main.c **** 				
+  69:../Sources/main.c **** 				// Applies the command to the car
+  70:../Sources/main.c **** 				apply(command);
+ 157              		.loc 1 70 0
+ 158 00be 3B1D     		add	r3, r7, #4
+ 159 00c0 1868     		ldr	r0, [r3]
+ 160 00c2 5968     		ldr	r1, [r3, #4]
+ 161 00c4 9A68     		ldr	r2, [r3, #8]
+ 162 00c6 DB68     		ldr	r3, [r3, #12]
+ 163 00c8 FFF7FEFF 		bl	apply
+ 164              	.L7:
+  71:../Sources/main.c **** 				
+  72:../Sources/main.c **** 			}
+  73:../Sources/main.c **** 
+  74:../Sources/main.c **** 			// Frees the malloc'd memory for cameraData and command
+  75:../Sources/main.c **** 			free(cameraData);
+ 165              		.loc 1 75 0
+ 166 00cc 7B69     		ldr	r3, [r7, #20]
+ 167 00ce 181C     		mov	r0, r3
+ 168 00d0 FFF7FEFF 		bl	free
+  76:../Sources/main.c **** 			
+  77:../Sources/main.c **** 			// Exits the loop if the stop button is pressed
+  78:../Sources/main.c **** 			if(STOP_BUTTON) break;
+ 169              		.loc 1 78 0
+ 170 00d4 084B     		ldr	r3, .L13
+ 171 00d6 1A69     		ldr	r2, [r3, #16]
+ 172 00d8 8023     		mov	r3, #128
+ 173 00da 9B02     		lsl	r3, r3, #10
+ 174 00dc 1340     		and	r3, r2
+ 175 00de 03D1     		bne	.L12
+ 176              	.L3:
+  43:../Sources/main.c **** 		while(run){
+ 177              		.loc 1 43 0
+ 178 00e0 7B6A     		ldr	r3, [r7, #36]
+ 179 00e2 002B     		cmp	r3, #0
+ 180 00e4 BED1     		bne	.L9
+ 181 00e6 00E0     		b	.L8
+ 182              	.L12:
+ 183              		.loc 1 78 0
+ 184 00e8 C046     		mov	r8, r8
+ 185              	.L8:
+  79:../Sources/main.c **** 		}
+  80:../Sources/main.c **** 		
+  81:../Sources/main.c **** 		printf("]}");
+ 186              		.loc 1 81 0
+ 187 00ea 054B     		ldr	r3, .L13+8
+ 188 00ec 181C     		mov	r0, r3
+ 189 00ee FFF7FEFF 		bl	printf
+  82:../Sources/main.c **** 		
+  83:../Sources/main.c **** 	}
+ 190              		.loc 1 83 0
+ 191 00f2 C046     		mov	r8, r8
+  36:../Sources/main.c **** 		while(!START_BUTTON);	
+ 192              		.loc 1 36 0
+ 193 00f4 99E7     		b	.L11
+ 194              	.L14:
+ 195 00f6 C046     		.align	2
+ 196              	.L13:
+ 197 00f8 80F00F40 		.word	1074786432
+ 198 00fc 00000000 		.word	.LC0
+ 199 0100 34000000 		.word	.LC2
+ 200              		.cfi_endproc
+ 201              	.LFE0:
+ 203              		.text
+ 204              	.Letext0:
+ 205              		.file 2 "C:/Freescale/CW MCU v10.6/MCU/ARM_GCC_Support/ewl/EWL_C/include/cstdint"
+ 206              		.file 3 "C:/Users/Jared/Desktop/freescalecup/FRDM-TFC/Project_Headers/MKL25Z4.h"
+ 207              		.file 4 "../Sources/Common.h"
 DEFINED SYMBOLS
                             *ABS*:00000000 main.c
-C:\Users\Jared\AppData\Local\Temp\ccKWARDc.s:18     .text.main:00000000 $t
-C:\Users\Jared\AppData\Local\Temp\ccKWARDc.s:23     .text.main:00000000 main
-C:\Users\Jared\AppData\Local\Temp\ccKWARDc.s:131    .text.main:0000008c $d
+C:\Users\Jared\AppData\Local\Temp\ccylJws8.s:19     .rodata:00000000 $d
+C:\Users\Jared\AppData\Local\Temp\ccylJws8.s:27     .text.main:00000000 $t
+C:\Users\Jared\AppData\Local\Temp\ccylJws8.s:32     .text.main:00000000 main
+C:\Users\Jared\AppData\Local\Temp\ccylJws8.s:197    .text.main:000000f8 $d
                      .debug_frame:00000010 $d
 
 UNDEFINED SYMBOLS
+__aeabi_f2d
 init
+getSensitivity
+getSpeed
+printf
+putchar
 getCamera
 getCommand
 TFC_GetDIP_Switch
 print
-save
 apply
 free

@@ -5,9 +5,9 @@
 #include "InitCar.h"
 #include "Camera.h"
 #include "stdlib.h"
+#include "Control.h"
+#include "SerialComms.h"
 
-#define START_BUTTON TFC_PUSH_BUTTON_0_PRESSED
-#define STOP_BUTTON TFC_PUSH_BUTTON_1_PRESSED
 
 // TODO Comment all the things
 int main(){
@@ -16,37 +16,55 @@ int main(){
 	init();		
 	
 	// Used to indicate stopping
-	int run = 1;	
+	int run = 1;
+	
+	int first = 1;
+	int sensitivity;
+	float speed;
 	
 	// Pointers for referencing data
 	uint8_t* cameraData;
-	struct Command* command;
-	
+	struct Command command;
+	command.speedL = 0.0;
+	command.speedR = 0.0;
+	command.steerValue = 0.0;
+	command.stop = 0;
 	
 	while(1){
 
 		// Waits till the start button is pressed
 		while(!START_BUTTON);	
 		
+		sensitivity = getSensitivity();
+		speed = getSpeed();
+		
+		printf("{\"version\":0,\"sensitivity\":%d,\"speed\":%f,\"data\":[", sensitivity, speed);
+		
 		while(run){
+			
+			if(first){	
+				first = 0;
+			} else {
+				printf(",");
+			}
 			
 			// Reads the data from the camera
 			cameraData = getCamera();	
 			
 			// Sets the command based on the camera data and returns whether to stop or not
-			run = getCommand( cameraData, command );	
+			run = getCommand( cameraData, &command, sensitivity, speed );	
 			
 			// Debug mode
 			if(TFC_GetDIP_Switch()){	
 				
-				// Sends the formated command and camera data over serial
+				// Sends the command and camera data over serial
 				print(command, cameraData);
 				
 				// Run mode	
 			} else {	
 				
-				// Sends the unformatted command and camera data over serial to be stored
-				save(command, cameraData);
+				// Sends the command and camera data over serial to be stored
+				print(command, cameraData);
 				
 				// Applies the command to the car
 				apply(command);
@@ -55,11 +73,12 @@ int main(){
 
 			// Frees the malloc'd memory for cameraData and command
 			free(cameraData);
-			free(command);
 			
 			// Exits the loop if the stop button is pressed
 			if(STOP_BUTTON) break;
 		}
+		
+		printf("]}");
 		
 	}
 	

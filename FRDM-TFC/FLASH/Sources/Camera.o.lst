@@ -51,7 +51,7 @@
   38              		.cfi_def_cfa_register 7
   15:../Sources/Camera.c **** 	uint8_t* cameraData = (uint8_t*) malloc( 8 * USED_PIXELS );
   39              		.loc 1 15 0
-  40 0006 FC23     		mov	r3, #252
+  40 0006 E023     		mov	r3, #224
   41 0008 9B00     		lsl	r3, r3, #2
   42 000a 181C     		mov	r0, r3
   43 000c FFF7FEFF 		bl	malloc
@@ -124,9 +124,9 @@
  102              		.file 3 "C:/Users/Jared/Desktop/freescalecup/FRDM-TFC/Project_Headers/TFC\\TFC_LineScanCamera.h"
 DEFINED SYMBOLS
                             *ABS*:00000000 Camera.c
-C:\Users\Jared\AppData\Local\Temp\ccU3KFic.s:18     .text.getCamera:00000000 $t
-C:\Users\Jared\AppData\Local\Temp\ccU3KFic.s:23     .text.getCamera:00000000 getCamera
-C:\Users\Jared\AppData\Local\Temp\ccU3KFic.s:94     .text.getCamera:00000058 $d
+C:\Users\Jared\AppData\Local\Temp\cchZBFFY.s:18     .text.getCamera:00000000 $t
+C:\Users\Jared\AppData\Local\Temp\cchZBFFY.s:23     .text.getCamera:00000000 getCamera
+C:\Users\Jared\AppData\Local\Temp\cchZBFFY.s:94     .text.getCamera:00000058 $d
                      .debug_frame:00000010 $d
 
 UNDEFINED SYMBOLS

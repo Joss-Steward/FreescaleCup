@@ -10,6 +10,6 @@
 
 #include "Common.h"
 
-void apply(struct Command*);
+void apply(struct Command);
 
 #endif /* CONTROL_H_ */
