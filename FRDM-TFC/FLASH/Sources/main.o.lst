@@ -105,7 +105,7 @@
   70 0024 3B1D     		add	r3, r7, #4
   71 0026 0022     		mov	r2, #0
   72 0028 DA60     		str	r2, [r3, #12]
-  73              	.L11:
+  73              	.L9:
   32:../Sources/main.c **** 	
   33:../Sources/main.c **** 	while(1){
   34:../Sources/main.c **** 
@@ -115,7 +115,7 @@
   75 002a C046     		mov	r8, r8
   76              	.L2:
   77              		.loc 1 36 0 is_stmt 0
-  78 002c 364B     		ldr	r3, .L13
+  78 002c 2E4B     		ldr	r3, .L11
   79 002e 1A69     		ldr	r2, [r3, #16]
   80 0030 8023     		mov	r3, #128
   81 0032 9B01     		lsl	r3, r3, #6
@@ -134,7 +134,7 @@
   91 0046 BB61     		str	r3, [r7, #24]
   40:../Sources/main.c **** 		TFC_HBRIDGE_ENABLE;
   92              		.loc 1 40 0
-  93 0048 304B     		ldr	r3, .L13+4
+  93 0048 284B     		ldr	r3, .L11+4
   94 004a 8022     		mov	r2, #128
   95 004c 9203     		lsl	r2, r2, #14
   96 004e 5A60     		str	r2, [r3, #4]
@@ -145,7 +145,7 @@
   99 0052 FFF7FEFF 		bl	__aeabi_f2d
  100 0056 031C     		mov	r3, r0
  101 0058 0C1C     		mov	r4, r1
- 102 005a 2D49     		ldr	r1, .L13+8
+ 102 005a 2549     		ldr	r1, .L11+8
  103 005c FA69     		ldr	r2, [r7, #28]
  104 005e 081C     		mov	r0, r1
  105 0060 111C     		mov	r1, r2
@@ -155,8 +155,8 @@
   43:../Sources/main.c **** 		
   44:../Sources/main.c **** 		while(run){
  109              		.loc 1 44 0
- 110 006a 3DE0     		b	.L3
- 111              	.L9:
+ 110 006a 2EE0     		b	.L3
+ 111              	.L7:
   45:../Sources/main.c **** 			
   46:../Sources/main.c **** 			if(first){	
  112              		.loc 1 46 0
@@ -196,123 +196,106 @@
  136 0094 7B62     		str	r3, [r7, #36]
   57:../Sources/main.c **** 			
   58:../Sources/main.c **** 			// Debug mode
-  59:../Sources/main.c **** 			if(TFC_GetDIP_Switch()){	
- 137              		.loc 1 59 0
- 138 0096 FFF7FEFF 		bl	TFC_GetDIP_Switch
- 139 009a 031C     		mov	r3, r0
- 140 009c 002B     		cmp	r3, #0
- 141 009e 09D0     		beq	.L6
+  59:../Sources/main.c **** 			if(0){	
   60:../Sources/main.c **** 				
   61:../Sources/main.c **** 				// Sends the command and camera data over serial
   62:../Sources/main.c **** 				print(command, cameraData);
- 142              		.loc 1 62 0
- 143 00a0 3B1D     		add	r3, r7, #4
- 144 00a2 7A69     		ldr	r2, [r7, #20]
- 145 00a4 0092     		str	r2, [sp]
- 146 00a6 1868     		ldr	r0, [r3]
- 147 00a8 5968     		ldr	r1, [r3, #4]
- 148 00aa 9A68     		ldr	r2, [r3, #8]
- 149 00ac DB68     		ldr	r3, [r3, #12]
- 150 00ae FFF7FEFF 		bl	print
- 151 00b2 0FE0     		b	.L7
- 152              	.L6:
   63:../Sources/main.c **** 				
   64:../Sources/main.c **** 				// Run mode	
   65:../Sources/main.c **** 			} else {	
   66:../Sources/main.c **** 				
   67:../Sources/main.c **** 				// Sends the command and camera data over serial to be stored
   68:../Sources/main.c **** 				print(command, cameraData);
- 153              		.loc 1 68 0
- 154 00b4 3B1D     		add	r3, r7, #4
- 155 00b6 7A69     		ldr	r2, [r7, #20]
- 156 00b8 0092     		str	r2, [sp]
- 157 00ba 1868     		ldr	r0, [r3]
- 158 00bc 5968     		ldr	r1, [r3, #4]
- 159 00be 9A68     		ldr	r2, [r3, #8]
- 160 00c0 DB68     		ldr	r3, [r3, #12]
- 161 00c2 FFF7FEFF 		bl	print
+ 137              		.loc 1 68 0
+ 138 0096 3B1D     		add	r3, r7, #4
+ 139 0098 7A69     		ldr	r2, [r7, #20]
+ 140 009a 0092     		str	r2, [sp]
+ 141 009c 1868     		ldr	r0, [r3]
+ 142 009e 5968     		ldr	r1, [r3, #4]
+ 143 00a0 9A68     		ldr	r2, [r3, #8]
+ 144 00a2 DB68     		ldr	r3, [r3, #12]
+ 145 00a4 FFF7FEFF 		bl	print
   69:../Sources/main.c **** 				
   70:../Sources/main.c **** 				// Applies the command to the car
   71:../Sources/main.c **** 				apply(command);
- 162              		.loc 1 71 0
- 163 00c6 3B1D     		add	r3, r7, #4
- 164 00c8 1868     		ldr	r0, [r3]
- 165 00ca 5968     		ldr	r1, [r3, #4]
- 166 00cc 9A68     		ldr	r2, [r3, #8]
- 167 00ce DB68     		ldr	r3, [r3, #12]
- 168 00d0 FFF7FEFF 		bl	apply
- 169              	.L7:
+ 146              		.loc 1 71 0
+ 147 00a8 3B1D     		add	r3, r7, #4
+ 148 00aa 1868     		ldr	r0, [r3]
+ 149 00ac 5968     		ldr	r1, [r3, #4]
+ 150 00ae 9A68     		ldr	r2, [r3, #8]
+ 151 00b0 DB68     		ldr	r3, [r3, #12]
+ 152 00b2 FFF7FEFF 		bl	apply
   72:../Sources/main.c **** 				
   73:../Sources/main.c **** 			}
   74:../Sources/main.c **** 
   75:../Sources/main.c **** 			// Frees the malloc'd memory for cameraData and command
   76:../Sources/main.c **** 			free(cameraData);
- 170              		.loc 1 76 0
- 171 00d4 7B69     		ldr	r3, [r7, #20]
- 172 00d6 181C     		mov	r0, r3
- 173 00d8 FFF7FEFF 		bl	free
+ 153              		.loc 1 76 0
+ 154 00b6 7B69     		ldr	r3, [r7, #20]
+ 155 00b8 181C     		mov	r0, r3
+ 156 00ba FFF7FEFF 		bl	free
   77:../Sources/main.c **** 			
   78:../Sources/main.c **** 			// Exits the loop if the stop button is pressed
   79:../Sources/main.c **** 			if(STOP_BUTTON) break;
- 174              		.loc 1 79 0
- 175 00dc 0A4B     		ldr	r3, .L13
- 176 00de 1A69     		ldr	r2, [r3, #16]
- 177 00e0 8023     		mov	r3, #128
- 178 00e2 9B02     		lsl	r3, r3, #10
- 179 00e4 1340     		and	r3, r2
- 180 00e6 03D1     		bne	.L12
- 181              	.L3:
+ 157              		.loc 1 79 0
+ 158 00be 0A4B     		ldr	r3, .L11
+ 159 00c0 1A69     		ldr	r2, [r3, #16]
+ 160 00c2 8023     		mov	r3, #128
+ 161 00c4 9B02     		lsl	r3, r3, #10
+ 162 00c6 1340     		and	r3, r2
+ 163 00c8 03D1     		bne	.L10
+ 164              	.L3:
   44:../Sources/main.c **** 		while(run){
- 182              		.loc 1 44 0
- 183 00e8 7B6A     		ldr	r3, [r7, #36]
- 184 00ea 002B     		cmp	r3, #0
- 185 00ec BED1     		bne	.L9
- 186 00ee 00E0     		b	.L8
- 187              	.L12:
- 188              		.loc 1 79 0
- 189 00f0 C046     		mov	r8, r8
- 190              	.L8:
+ 165              		.loc 1 44 0
+ 166 00ca 7B6A     		ldr	r3, [r7, #36]
+ 167 00cc 002B     		cmp	r3, #0
+ 168 00ce CDD1     		bne	.L7
+ 169 00d0 00E0     		b	.L6
+ 170              	.L10:
+ 171              		.loc 1 79 0
+ 172 00d2 C046     		mov	r8, r8
+ 173              	.L6:
   80:../Sources/main.c **** 		}
   81:../Sources/main.c **** 		
   82:../Sources/main.c **** 		TFC_HBRIDGE_DISABLE;
- 191              		.loc 1 82 0
- 192 00f2 064B     		ldr	r3, .L13+4
- 193 00f4 8022     		mov	r2, #128
- 194 00f6 9203     		lsl	r2, r2, #14
- 195 00f8 9A60     		str	r2, [r3, #8]
+ 174              		.loc 1 82 0
+ 175 00d4 054B     		ldr	r3, .L11+4
+ 176 00d6 8022     		mov	r2, #128
+ 177 00d8 9203     		lsl	r2, r2, #14
+ 178 00da 9A60     		str	r2, [r3, #8]
   83:../Sources/main.c **** 		
   84:../Sources/main.c **** 		printf("]}");
- 196              		.loc 1 84 0
- 197 00fa 064B     		ldr	r3, .L13+12
- 198 00fc 181C     		mov	r0, r3
- 199 00fe FFF7FEFF 		bl	printf
+ 179              		.loc 1 84 0
+ 180 00dc 054B     		ldr	r3, .L11+12
+ 181 00de 181C     		mov	r0, r3
+ 182 00e0 FFF7FEFF 		bl	printf
   85:../Sources/main.c **** 		
   86:../Sources/main.c **** 	}
- 200              		.loc 1 86 0
- 201 0102 C046     		mov	r8, r8
+ 183              		.loc 1 86 0
+ 184 00e4 C046     		mov	r8, r8
   36:../Sources/main.c **** 		while(!START_BUTTON);	
- 202              		.loc 1 36 0
- 203 0104 91E7     		b	.L11
- 204              	.L14:
- 205 0106 C046     		.align	2
- 206              	.L13:
- 207 0108 80F00F40 		.word	1074786432
- 208 010c 00F10F40 		.word	1074786560
- 209 0110 00000000 		.word	.LC0
- 210 0114 34000000 		.word	.LC2
- 211              		.cfi_endproc
- 212              	.LFE0:
- 214              		.text
- 215              	.Letext0:
- 216              		.file 2 "C:/Freescale/CW MCU v10.6/MCU/ARM_GCC_Support/ewl/EWL_C/include/cstdint"
- 217              		.file 3 "C:/Users/Jared/Desktop/freescalecup/FRDM-TFC/Project_Headers/MKL25Z4.h"
- 218              		.file 4 "../Sources/Common.h"
+ 185              		.loc 1 36 0
+ 186 00e6 A0E7     		b	.L9
+ 187              	.L12:
+ 188              		.align	2
+ 189              	.L11:
+ 190 00e8 80F00F40 		.word	1074786432
+ 191 00ec 00F10F40 		.word	1074786560
+ 192 00f0 00000000 		.word	.LC0
+ 193 00f4 34000000 		.word	.LC2
+ 194              		.cfi_endproc
+ 195              	.LFE0:
+ 197              		.text
+ 198              	.Letext0:
+ 199              		.file 2 "C:/Freescale/CW MCU v10.6/MCU/ARM_GCC_Support/ewl/EWL_C/include/cstdint"
+ 200              		.file 3 "C:/Users/Jared/Desktop/freescalecup/FRDM-TFC/Project_Headers/MKL25Z4.h"
+ 201              		.file 4 "../Sources/Common.h"
 DEFINED SYMBOLS
                             *ABS*:00000000 main.c
-C:\Users\Jared\AppData\Local\Temp\ccrYSyZG.s:19     .rodata:00000000 $d
-C:\Users\Jared\AppData\Local\Temp\ccrYSyZG.s:27     .text.main:00000000 $t
-C:\Users\Jared\AppData\Local\Temp\ccrYSyZG.s:32     .text.main:00000000 main
-C:\Users\Jared\AppData\Local\Temp\ccrYSyZG.s:207    .text.main:00000108 $d
+C:\Users\Jared\AppData\Local\Temp\ccUilwbL.s:19     .rodata:00000000 $d
+C:\Users\Jared\AppData\Local\Temp\ccUilwbL.s:27     .text.main:00000000 $t
+C:\Users\Jared\AppData\Local\Temp\ccUilwbL.s:32     .text.main:00000000 main
+C:\Users\Jared\AppData\Local\Temp\ccUilwbL.s:190    .text.main:000000e8 $d
                      .debug_frame:00000010 $d
 
 UNDEFINED SYMBOLS
@@ -324,7 +307,6 @@ printf
 putchar
 getCamera
 getCommand
-TFC_GetDIP_Switch
 print
 apply
 free

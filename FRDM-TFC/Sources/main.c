@@ -56,7 +56,7 @@ int main(){
 			run = getCommand( cameraData, &command, sensitivity, speed );	
 			
 			// Debug mode
-			if(TFC_GetDIP_Switch()){	
+			if(0){	
 				
 				// Sends the command and camera data over serial
 				print(command, cameraData);
