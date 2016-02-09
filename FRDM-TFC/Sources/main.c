@@ -39,7 +39,7 @@ int main(){
 		speed = getSpeed();
 		TFC_HBRIDGE_ENABLE;
 		
-		printf("{\"version\":0,\"sensitivity\":%d,\"speed\":%f,\"data\":[", sensitivity, speed);
+		printf("{\"version\":0,\"sensitivity\":%d,\"speed\":%d,\"data\":[", sensitivity, (int)(speed*100));
 		
 		while(run){
 			
