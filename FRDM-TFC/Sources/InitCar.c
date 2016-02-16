@@ -22,28 +22,19 @@ void lightInitSequence(){
 	
 	// Turns light 1 on
 	TFC_BAT_LED0_ON;
-	TFC_BAT_LED1_OFF;
-	TFC_BAT_LED2_OFF;
-	TFC_BAT_LED3_OFF;
 	delay(delayT);
 	
 	// Turns light 2 on and 1 off
 	TFC_BAT_LED0_OFF;
 	TFC_BAT_LED1_ON;
-	TFC_BAT_LED2_OFF;
-	TFC_BAT_LED3_OFF;
 	delay(delayT);
 	
 	// Turns light 3 on and 2 off
-	TFC_BAT_LED0_OFF;
 	TFC_BAT_LED1_OFF;
 	TFC_BAT_LED2_ON;
-	TFC_BAT_LED3_OFF;
 	delay(delayT);
 	
 	// Turns light 4 on and 3 off
-	TFC_BAT_LED0_OFF;
-	TFC_BAT_LED1_OFF;
 	TFC_BAT_LED2_OFF;
 	TFC_BAT_LED3_ON;
 	delay(delayT);
@@ -52,7 +43,6 @@ void lightInitSequence(){
 	TFC_BAT_LED0_ON;
 	TFC_BAT_LED1_ON;
 	TFC_BAT_LED2_ON;
-	TFC_BAT_LED3_ON;
 	
 }
 
