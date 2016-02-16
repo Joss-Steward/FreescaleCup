@@ -76,8 +76,6 @@ int getCommand( uint8_t* cameraData, struct Command* command, int sensitivity, f
 	left.Sum = 0.0;
 	left.Changes = 0;
 	
-	TFC_Task();
-	
 	left = findSideInfo( START_PIXEL, (int)MID_POINT, sensitivity, cameraData );
 	right = findSideInfo( (int)MID_POINT, STOP_PIXEL, sensitivity, cameraData ); 
 	
