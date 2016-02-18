@@ -10,6 +10,6 @@
 
 #include "Common.h"
 
-void print( struct Command, uint8_t* );
+void print( struct Command, uint16_t* );
 
 #endif /* SERIALCOMMS_H_ */

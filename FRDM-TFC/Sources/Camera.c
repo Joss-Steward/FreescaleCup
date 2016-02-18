@@ -11,13 +11,14 @@
 
 
 
-uint8_t* getCamera(){
-	uint8_t* cameraData = (uint8_t*) malloc( 8 * USED_PIXELS );
+uint16_t* getCamera(){
+	uint16_t* cameraData = (uint16_t*) malloc( sizeof(uint16_t) * 128 );
 	while(!LineScanImageReady);
 	int i;
-	for( i = 0; i < USED_PIXELS; i++){
-		cameraData[i] = LineScanImage0[ i + IGNORE_PIXELS ];
+	for( i = 0; i < 128; i++){
+		cameraData[i] = (uint16_t)LineScanImage0[ i ];
 	}
+	LineScanImageReady = 0;
 	return cameraData;
 }
 

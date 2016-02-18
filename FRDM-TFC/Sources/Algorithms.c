@@ -11,22 +11,12 @@
 #include "Math.h"
 #include "stdlib.h"
 
-#define START_PIXEL IGNORE_PIXELS
-#define STOP_PIXEL 128 - IGNORE_PIXELS
-#define MID_POINT (((STOP_PIXEL-START_PIXEL)/2)+START_PIXEL)
-#define LEFT_PIXELS MID_POINT-START_PIXEL
-#define RIGHT_PIXELS STOP_PIXEL-MID_POINT 
-#define DIFFDIV 1000
-#define SENSITIVITY 1000
-#define SPEED .50
-#define SLOW_AMOUNT .002
-
 struct sideInfo{
 	float Sum;
 	int Changes;
 };
 
-struct sideInfo findSideInfo( int start, int stop, int sensitivity, uint8_t* pixels ){
+struct sideInfo findSideInfo( int start, int stop, int sensitivity, uint16_t* pixels ){
 	struct sideInfo sideInfo;
 	sideInfo.Sum = 0.0;
 	sideInfo.Changes = 0;
@@ -67,7 +57,7 @@ float calcTurn( struct sideInfo left, struct sideInfo right ){
 	return steering_value;
 }
 
-int getCommand( uint8_t* cameraData, struct Command* command, int sensitivity, float speed ){
+int getCommand( uint16_t* cameraData, struct Command* command, int sensitivity, float speed ){
 	
 	struct sideInfo right;
 	right.Sum = 0.0;
@@ -76,8 +66,8 @@ int getCommand( uint8_t* cameraData, struct Command* command, int sensitivity, f
 	left.Sum = 0.0;
 	left.Changes = 0;
 	
-	left = findSideInfo( START_PIXEL, (int)MID_POINT, sensitivity, cameraData );
-	right = findSideInfo( (int)MID_POINT, STOP_PIXEL, sensitivity, cameraData ); 
+	left = findSideInfo( START_PIXEL, (int)64, sensitivity, cameraData );
+	right = findSideInfo( (int)64, STOP_PIXEL, sensitivity, cameraData ); 
 	
 	command->steerValue = calcTurn(left, right);
 	

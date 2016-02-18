@@ -74,7 +74,7 @@
   10:../Sources/SerialComms.c **** #include "string.h"
   11:../Sources/SerialComms.c **** 
   12:../Sources/SerialComms.c **** 
-  13:../Sources/SerialComms.c **** void print(struct Command command, uint8_t* cameraData){
+  13:../Sources/SerialComms.c **** void print(struct Command command, uint16_t* cameraData){
   51              		.loc 1 13 0
   52              		.cfi_startproc
   53 0000 90B5     		push	{r4, r7, lr}
@@ -95,8 +95,9 @@
   68 000c A260     		str	r2, [r4, #8]
   69 000e E360     		str	r3, [r4, #12]
   14:../Sources/SerialComms.c **** 	
-  15:../Sources/SerialComms.c **** 	printf("{\"rightMotor\":%d,", (int)( command.speedR * 100.0 ) );
-  70              		.loc 1 15 0
+  15:../Sources/SerialComms.c **** 	// Prints the command data for json and starts the camera data json
+  16:../Sources/SerialComms.c **** 	printf("{\"rightMotor\":%d,", (int)( command.speedR * 100.0 ) );
+  70              		.loc 1 16 0
   71 0010 3B1C     		mov	r3, r7
   72 0012 9B68     		ldr	r3, [r3, #8]
   73 0014 181C     		add	r0, r3, #0
@@ -118,8 +119,8 @@
   89 003a 101C     		mov	r0, r2
   90 003c 191C     		mov	r1, r3
   91 003e FFF7FEFF 		bl	printf
-  16:../Sources/SerialComms.c **** 	printf("\"leftMotor\":%d,", (int)( command.speedL * 100.0 ) );
-  92              		.loc 1 16 0
+  17:../Sources/SerialComms.c **** 	printf("\"leftMotor\":%d,", (int)( command.speedL * 100.0 ) );
+  92              		.loc 1 17 0
   93 0042 3B1C     		mov	r3, r7
   94 0044 5B68     		ldr	r3, [r3, #4]
   95 0046 181C     		add	r0, r3, #0
@@ -141,8 +142,8 @@
  111 006c 101C     		mov	r0, r2
  112 006e 191C     		mov	r1, r3
  113 0070 FFF7FEFF 		bl	printf
-  17:../Sources/SerialComms.c **** 	printf("\"steering\":%d,", (int)( command.steerValue * 100.0 ) );
- 114              		.loc 1 17 0
+  18:../Sources/SerialComms.c **** 	printf("\"steering\":%d,", (int)( command.steerValue * 100.0 ) );
+ 114              		.loc 1 18 0
  115 0074 3B1C     		mov	r3, r7
  116 0076 1B68     		ldr	r3, [r3]
  117 0078 181C     		add	r0, r3, #0
@@ -164,94 +165,95 @@
  133 009e 101C     		mov	r0, r2
  134 00a0 191C     		mov	r1, r3
  135 00a2 FFF7FEFF 		bl	printf
-  18:../Sources/SerialComms.c **** 	printf("\"stop\":%d,", command.stop );
- 136              		.loc 1 18 0
+  19:../Sources/SerialComms.c **** 	printf("\"stop\":%d,", command.stop );
+ 136              		.loc 1 19 0
  137 00a6 3B1C     		mov	r3, r7
  138 00a8 DB68     		ldr	r3, [r3, #12]
  139 00aa 184A     		ldr	r2, .L4+20
  140 00ac 101C     		mov	r0, r2
  141 00ae 191C     		mov	r1, r3
  142 00b0 FFF7FEFF 		bl	printf
-  19:../Sources/SerialComms.c **** 	printf("\"camera\":[");
- 143              		.loc 1 19 0
+  20:../Sources/SerialComms.c **** 	printf("\"camera\":[");
+ 143              		.loc 1 20 0
  144 00b4 164B     		ldr	r3, .L4+24
  145 00b6 181C     		mov	r0, r3
  146 00b8 FFF7FEFF 		bl	printf
-  20:../Sources/SerialComms.c **** 	
-  21:../Sources/SerialComms.c **** 	int i;
-  22:../Sources/SerialComms.c **** 	for( i = 0; i < USED_PIXELS - 1; i++){
- 147              		.loc 1 22 0
+  21:../Sources/SerialComms.c **** 	
+  22:../Sources/SerialComms.c **** 	// Prints the camera data
+  23:../Sources/SerialComms.c **** 	int i;
+  24:../Sources/SerialComms.c **** 	for( i = 0; i < USED_PIXELS - 1; i++){
+ 147              		.loc 1 24 0
  148 00bc 0023     		mov	r3, #0
  149 00be 7B61     		str	r3, [r7, #20]
- 150 00c0 0BE0     		b	.L2
+ 150 00c0 0CE0     		b	.L2
  151              	.L3:
-  23:../Sources/SerialComms.c **** 		printf("%d,", cameraData[i] );
- 152              		.loc 1 23 0
+  25:../Sources/SerialComms.c **** 		printf("%d,", cameraData[i] );
+ 152              		.loc 1 25 0
  153 00c2 7B69     		ldr	r3, [r7, #20]
- 154 00c4 BA6A     		ldr	r2, [r7, #40]
- 155 00c6 D318     		add	r3, r2, r3
- 156 00c8 1B78     		ldrb	r3, [r3]
- 157 00ca 124A     		ldr	r2, .L4+28
- 158 00cc 101C     		mov	r0, r2
- 159 00ce 191C     		mov	r1, r3
- 160 00d0 FFF7FEFF 		bl	printf
-  22:../Sources/SerialComms.c **** 	for( i = 0; i < USED_PIXELS - 1; i++){
- 161              		.loc 1 22 0
- 162 00d4 7B69     		ldr	r3, [r7, #20]
- 163 00d6 0133     		add	r3, r3, #1
- 164 00d8 7B61     		str	r3, [r7, #20]
- 165              	.L2:
-  22:../Sources/SerialComms.c **** 	for( i = 0; i < USED_PIXELS - 1; i++){
- 166              		.loc 1 22 0 is_stmt 0
- 167 00da 7B69     		ldr	r3, [r7, #20]
- 168 00dc 6E2B     		cmp	r3, #110
- 169 00de F0DD     		ble	.L3
-  24:../Sources/SerialComms.c **** 	}
-  25:../Sources/SerialComms.c **** 	
-  26:../Sources/SerialComms.c **** 	printf("%d]}", cameraData[USED_PIXELS]);
- 170              		.loc 1 26 0 is_stmt 1
- 171 00e0 BB6A     		ldr	r3, [r7, #40]
- 172 00e2 7033     		add	r3, r3, #112
- 173 00e4 1B78     		ldrb	r3, [r3]
- 174 00e6 0C4A     		ldr	r2, .L4+32
- 175 00e8 101C     		mov	r0, r2
- 176 00ea 191C     		mov	r1, r3
- 177 00ec FFF7FEFF 		bl	printf
+ 154 00c4 5B00     		lsl	r3, r3, #1
+ 155 00c6 BA6A     		ldr	r2, [r7, #40]
+ 156 00c8 D318     		add	r3, r2, r3
+ 157 00ca 1B88     		ldrh	r3, [r3]
+ 158 00cc 114A     		ldr	r2, .L4+28
+ 159 00ce 101C     		mov	r0, r2
+ 160 00d0 191C     		mov	r1, r3
+ 161 00d2 FFF7FEFF 		bl	printf
+  24:../Sources/SerialComms.c **** 	for( i = 0; i < USED_PIXELS - 1; i++){
+ 162              		.loc 1 24 0
+ 163 00d6 7B69     		ldr	r3, [r7, #20]
+ 164 00d8 0133     		add	r3, r3, #1
+ 165 00da 7B61     		str	r3, [r7, #20]
+ 166              	.L2:
+  24:../Sources/SerialComms.c **** 	for( i = 0; i < USED_PIXELS - 1; i++){
+ 167              		.loc 1 24 0 is_stmt 0
+ 168 00dc 7B69     		ldr	r3, [r7, #20]
+ 169 00de 5E2B     		cmp	r3, #94
+ 170 00e0 EFDD     		ble	.L3
+  26:../Sources/SerialComms.c **** 	}
   27:../Sources/SerialComms.c **** 	
-  28:../Sources/SerialComms.c **** 	// TODO TFC_TASK() ?
-  29:../Sources/SerialComms.c **** 		
-  30:../Sources/SerialComms.c **** }
- 178              		.loc 1 30 0
- 179 00f0 BD46     		mov	sp, r7
- 180 00f2 07B0     		add	sp, sp, #28
- 181              		@ sp needed for prologue
- 182 00f4 90BD     		pop	{r4, r7, pc}
- 183              	.L5:
- 184 00f6 C046     		.align	3
- 185              	.L4:
- 186 00f8 00000000 		.word	0
- 187 00fc 00005940 		.word	1079574528
- 188 0100 00000000 		.word	.LC0
- 189 0104 14000000 		.word	.LC2
- 190 0108 24000000 		.word	.LC4
- 191 010c 34000000 		.word	.LC6
- 192 0110 40000000 		.word	.LC8
- 193 0114 4C000000 		.word	.LC10
- 194 0118 50000000 		.word	.LC12
- 195              		.cfi_endproc
- 196              	.LFE0:
- 198 011c C046C046 		.text
- 199              	.Letext0:
- 200              		.file 2 "../Sources/Common.h"
- 201              		.file 3 "C:/Freescale/CW MCU v10.6/MCU/ARM_GCC_Support/ewl/EWL_C/include/cstdint"
+  28:../Sources/SerialComms.c **** 	// Adds the last camera pixel we are looking at with the closing square bracket
+  29:../Sources/SerialComms.c **** 	printf("%d]}", cameraData[USED_PIXELS]);
+ 171              		.loc 1 29 0 is_stmt 1
+ 172 00e2 BB6A     		ldr	r3, [r7, #40]
+ 173 00e4 C033     		add	r3, r3, #192
+ 174 00e6 1B88     		ldrh	r3, [r3]
+ 175 00e8 0B4A     		ldr	r2, .L4+32
+ 176 00ea 101C     		mov	r0, r2
+ 177 00ec 191C     		mov	r1, r3
+ 178 00ee FFF7FEFF 		bl	printf
+  30:../Sources/SerialComms.c **** 	
+  31:../Sources/SerialComms.c **** }
+ 179              		.loc 1 31 0
+ 180 00f2 BD46     		mov	sp, r7
+ 181 00f4 07B0     		add	sp, sp, #28
+ 182              		@ sp needed for prologue
+ 183 00f6 90BD     		pop	{r4, r7, pc}
+ 184              	.L5:
+ 185              		.align	3
+ 186              	.L4:
+ 187 00f8 00000000 		.word	0
+ 188 00fc 00005940 		.word	1079574528
+ 189 0100 00000000 		.word	.LC0
+ 190 0104 14000000 		.word	.LC2
+ 191 0108 24000000 		.word	.LC4
+ 192 010c 34000000 		.word	.LC6
+ 193 0110 40000000 		.word	.LC8
+ 194 0114 4C000000 		.word	.LC10
+ 195 0118 50000000 		.word	.LC12
+ 196              		.cfi_endproc
+ 197              	.LFE0:
+ 199 011c C046C046 		.text
+ 200              	.Letext0:
+ 201              		.file 2 "../Sources/Common.h"
+ 202              		.file 3 "C:/Freescale/CW MCU v10.6/MCU/ARM_GCC_Support/ewl/EWL_C/include/cstdint"
 DEFINED SYMBOLS
                             *ABS*:00000000 SerialComms.c
-C:\Users\Jared\AppData\Local\Temp\ccZrr5xA.s:21     .rodata:00000000 $d
-C:\Users\Jared\AppData\Local\Temp\ccZrr5xA.s:43     .text.print:00000000 $t
-C:\Users\Jared\AppData\Local\Temp\ccZrr5xA.s:48     .text.print:00000000 print
-C:\Users\Jared\AppData\Local\Temp\ccZrr5xA.s:186    .text.print:000000f8 $d
+C:\Users\Jared\AppData\Local\Temp\ccUovVgo.s:21     .rodata:00000000 $d
+C:\Users\Jared\AppData\Local\Temp\ccUovVgo.s:43     .text.print:00000000 $t
+C:\Users\Jared\AppData\Local\Temp\ccUovVgo.s:48     .text.print:00000000 print
+C:\Users\Jared\AppData\Local\Temp\ccUovVgo.s:187    .text.print:000000f8 $d
                      .debug_frame:00000010 $d
-C:\Users\Jared\AppData\Local\Temp\ccZrr5xA.s:198    .text.print:0000011c $t
+C:\Users\Jared\AppData\Local\Temp\ccUovVgo.s:199    .text.print:0000011c $t
 
 UNDEFINED SYMBOLS
 __aeabi_f2d

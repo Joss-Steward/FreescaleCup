@@ -23,15 +23,42 @@ int main(){
 	float speed;
 	
 	// Pointers for referencing data
-	uint8_t* cameraData;
+	uint16_t* cameraData;
 	struct Command command;
 	command.speedL = 0.0;
 	command.speedR = 0.0;
 	command.steerValue = 0.0;
 	command.stop = 0;
 	
+	int i;
+	TFC_SetLineScanExposureTime(25000);
+	
+	
 	while(1){
-
+		while(1){
+			while(!LineScanImageReady);
+			LineScanImageReady = 0;
+			printf("|");
+			for( i = 16; i < 112; i++){
+				char out = LineScanImage0[i] >> 10;
+				
+				if(out == 0) {
+					printf(" ");								
+				} else if(out == 1) {
+					printf("%c", 176);								
+				} else if(out == 2) {
+					printf("%c", 177);
+				} else {
+					printf("%c", 178);
+				}
+			}
+			printf("|\r\n");
+			//delay(50);
+			
+			// Waits till the start button is pressed
+			if(START_BUTTON) break;		
+		}
+	
 		// Waits till the start button is pressed
 		while(!START_BUTTON);	
 		

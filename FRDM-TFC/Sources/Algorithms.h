@@ -10,7 +10,7 @@
 
 #include "Common.h"
 
-int getCommand(uint8_t*, struct Command*, int, float);
+int getCommand(uint16_t*, struct Command*, int, float);
 int getSensitivity();
 float getSpeed();
 

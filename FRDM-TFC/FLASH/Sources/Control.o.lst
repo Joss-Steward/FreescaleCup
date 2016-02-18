@@ -51,8 +51,10 @@
   42 000a 6160     		str	r1, [r4, #4]
   43 000c A260     		str	r2, [r4, #8]
   44 000e E360     		str	r3, [r4, #12]
-  11:../Sources/Control.c **** 	TFC_SetMotorPWM(command.speedL, command.speedR);
-  45              		.loc 1 11 0
+  11:../Sources/Control.c **** 	
+  12:../Sources/Control.c **** 	// Sets the motors to the calculated values
+  13:../Sources/Control.c **** 	TFC_SetMotorPWM(command.speedL, command.speedR);
+  45              		.loc 1 13 0
   46 0010 3B1C     		mov	r3, r7
   47 0012 5A68     		ldr	r2, [r3, #4]
   48 0014 3B1C     		mov	r3, r7
@@ -60,15 +62,17 @@
   50 0018 101C     		add	r0, r2, #0
   51 001a 191C     		add	r1, r3, #0
   52 001c FFF7FEFF 		bl	TFC_SetMotorPWM
-  12:../Sources/Control.c **** 	TFC_SetServo(0, command.steerValue);
-  53              		.loc 1 12 0
+  14:../Sources/Control.c **** 	
+  15:../Sources/Control.c **** 	// Sets the steering to the calculated value
+  16:../Sources/Control.c **** 	TFC_SetServo(0, command.steerValue);
+  53              		.loc 1 16 0
   54 0020 3B1C     		mov	r3, r7
   55 0022 1B68     		ldr	r3, [r3]
   56 0024 0020     		mov	r0, #0
   57 0026 191C     		add	r1, r3, #0
   58 0028 FFF7FEFF 		bl	TFC_SetServo
-  13:../Sources/Control.c **** }
-  59              		.loc 1 13 0
+  17:../Sources/Control.c **** }
+  59              		.loc 1 17 0
   60 002c BD46     		mov	sp, r7
   61 002e 05B0     		add	sp, sp, #20
   62              		@ sp needed for prologue
@@ -80,8 +84,8 @@
   69              		.file 2 "../Sources/Common.h"
 DEFINED SYMBOLS
                             *ABS*:00000000 Control.c
-C:\Users\Jared\AppData\Local\Temp\cctniA4Z.s:18     .text.apply:00000000 $t
-C:\Users\Jared\AppData\Local\Temp\cctniA4Z.s:23     .text.apply:00000000 apply
+C:\Users\Jared\AppData\Local\Temp\ccEIw5G5.s:18     .text.apply:00000000 $t
+C:\Users\Jared\AppData\Local\Temp\ccEIw5G5.s:23     .text.apply:00000000 apply
                      .debug_frame:00000010 $d
 
 UNDEFINED SYMBOLS
