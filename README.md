@@ -1,7 +1,8 @@
 # Freescale Cup (_Null Pointer_)
-- - -
+
 ![Our awesome car](http://i.imgur.com/6HUl4Tf.jpg)
 
+- - -
 ## About
 
 This repository holds the code for Null Pointer's entry into the [Freescale Cup](https://community.freescale.com/docs/DOC-1284).
