@@ -28,4 +28,5 @@ Help adding comments and cleaning up the code base will _always_ be appreciated.
 * [Motor control board](http://edge.rit.edu/edge/P14226/public/Project%20Deliverables%20Summary%20Subdirectory/P14226_Electrical_Plans.pdf)
 
 ## Authors
-Most of the contributions to this code base have been by [Jared Good](https://github.com/redja150) and [Joss Steward](https://github.com/Joss-Steward).
+[Jared Good](https://github.com/redja150)
+[Joss Steward](https://github.com/Joss-Steward).
