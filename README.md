@@ -6,6 +6,7 @@
 ## About
 
 This repository holds the code for Null Pointer's entry into the [Freescale Cup](https://community.freescale.com/docs/DOC-1284).
+
 Null Pointer is one of the student groups at [Shippensburg University](https://www.ship.edu) in Shippensburg, PA.
 
 This project is intended to run on the [TFC-Kit](http://www.nxp.com/products/microcontrollers-and-processors/power-architecture-processors/mpc5xxx-5xxx-32-bit-mcus/mpc56xx-mcus/the-freescale-cup-intelligent-car-development-system:TFC-KIT) from Freescale.
@@ -28,5 +29,5 @@ Help adding comments and cleaning up the code base will _always_ be appreciated.
 * [Motor control board](http://edge.rit.edu/edge/P14226/public/Project%20Deliverables%20Summary%20Subdirectory/P14226_Electrical_Plans.pdf)
 
 ## Authors
-[Jared Good](https://github.com/redja150)
-[Joss Steward](https://github.com/Joss-Steward).
+* [Jared Good](https://github.com/redja150)
+* [Joss Steward](https://github.com/Joss-Steward).
