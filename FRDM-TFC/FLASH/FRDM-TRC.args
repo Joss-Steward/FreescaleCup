@@ -15,8 +15,12 @@
 "./Sources/TFC/TFC.o"
 "./Sources/sa_mtb.o"
 "./Sources/main.o"
+"./Sources/SerialComms.o"
+"./Sources/InitCar.o"
+"./Sources/Control.o"
 "./Sources/ConsoleIO.o"
 "./Sources/Common.o"
+"./Sources/Camera.o"
 "./Sources/Algorithms.o"
 -mcpu=cortex-m0
 -mthumb

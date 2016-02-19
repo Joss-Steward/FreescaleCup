@@ -2,88 +2,115 @@
 #include "TFC\TFC.h"
 #include "Algorithms.h"
 #include "Common.h"
-
-#define DEL 50
-#define START_PIXEL 10
-#define STOP_PIXEL 118
-
-
-void printCamera() {
-    int t = 0;
-
-    while(1){
-        TFC_Task();
-        if(LineScanImageReady == 1) {
-            LineScanImageReady = 0;
-            printf("\r\n");
-            printf("L:");
-
-            int i;
-            for(i = 0; i < 128; i++)
-            {
-                printf("%X", LineScanImage0[i]);
-                if(i == 127)
-                    printf("\r\n");
-                else
-                    printf(",");
-            }
-        }
-        if(TFC_PUSH_BUTTON_1_PRESSED)break;
-    }
-}
+#include "InitCar.h"
+#include "Camera.h"
+#include "stdlib.h"
+#include "Control.h"
+#include "SerialComms.h"
 
 
-int main(void){
-    TFC_Init();
-    
-    while(1){
-		TFC_SetMotorPWM(0, 0);
+// TODO Comment all the things
+int main(){
+	
+	// Initialise program
+	init();		
+	
+	// Used to indicate stopping
+	int run = 1;
+	
+	int first = 1;
+	int sensitivity;
+	float speed;
+	
+	// Pointers for referencing data
+	uint16_t* cameraData;
+	struct Command command;
+	command.speedL = 0.0;
+	command.speedR = 0.0;
+	command.steerValue = 0.0;
+	command.stop = 0;
+	
+	int i;
+	TFC_SetLineScanExposureTime(25000);
+	
+	
+	while(1){
+		while(1){
+			while(!LineScanImageReady);
+			LineScanImageReady = 0;
+			printf("|");
+			for( i = 16; i < 112; i++){
+				char out = LineScanImage0[i] >> 10;
+				
+				if(out == 0) {
+					printf(" ");								
+				} else if(out == 1) {
+					printf("%c", 176);								
+				} else if(out == 2) {
+					printf("%c", 177);
+				} else {
+					printf("%c", 178);
+				}
+			}
+			printf("|\r\n");
+			//delay(50);
+			
+			// Waits till the start button is pressed
+			if(START_BUTTON) break;		
+		}
+	
+		// Waits till the start button is pressed
+		while(!START_BUTTON);	
+		
+		sensitivity = getSensitivity();
+		speed = getSpeed();
+		TFC_HBRIDGE_ENABLE;
+		
+		printf("{\"version\":0,\"sensitivity\":%d,\"speed\":%d,\"data\":[", sensitivity, (int)(speed*100));
+		
+		while(run){
+			
+			if(first){	
+				first = 0;
+			} else {
+				printf(",");
+			}
+			
+			// Reads the data from the camera
+			cameraData = getCamera();	
+			
+			// Sets the command based on the camera data and returns whether to stop or not
+			run = getCommand( cameraData, &command, sensitivity, speed );	
+			
+			// Debug mode
+			if(0){	
+				
+				// Sends the command and camera data over serial
+				print(command, cameraData);
+				
+				// Run mode	
+			} else {	
+				
+				// Sends the command and camera data over serial to be stored
+				print(command, cameraData);
+				
+				// Applies the command to the car
+				apply(command);
+				
+			}
+
+			// Frees the malloc'd memory for cameraData and command
+			free(cameraData);
+			
+			// Exits the loop if the stop button is pressed
+			if(STOP_BUTTON) break;
+		}
+		
 		TFC_HBRIDGE_DISABLE;
-	
-		/* After power on, Wait for a button press before doing anything.
-		 * This gives us time to set the DIP switches and etc 
-		 */
-		TFC_BAT_LED0_ON; // These lights will indicate that we're waiting
-		TFC_BAT_LED1_ON;
-		TFC_BAT_LED2_ON;
-		TFC_BAT_LED3_ON;
-		while(!TFC_PUSH_BUTTON_0_PRESSED);
-	
-		// Set the operating mode based on the DIP switch 
-		setMode( TFC_GetDIP_Switch() );
-	
-		TFC_SetServo(0,0);
-		TFC_SetMotorPWM(0, 0);
-		TFC_BAT_LED0_OFF;
-		TFC_BAT_LED1_OFF;
-		TFC_BAT_LED2_OFF;
-		TFC_BAT_LED3_OFF;
-    }
-    return 0;
-}
-
-void setMode(int mode){
-	switch(mode) {
-		default:
-			
-		case 0:
-			TFC_BAT_LED0_OFF;
-			TFC_BAT_LED1_OFF;
-			TFC_BAT_LED2_OFF;
-			TFC_BAT_LED3_OFF;
-			TFC_HBRIDGE_ENABLE;
-			// In this mode, we run the algorithm
-			algo_one();
-			TFC_HBRIDGE_DISABLE;
-			break;
-		case 1:
-			TFC_BAT_LED0_ON;
-			TFC_BAT_LED1_OFF;
-			TFC_BAT_LED2_OFF;
-			TFC_BAT_LED3_OFF;
-			// In this mode, we run live debug
-			liveDebug();
-			break;
-			
+		
+		printf("]}");
+		
 	}
+	
+	return 0;
 }

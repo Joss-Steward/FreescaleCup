@@ -1,0 +1,93 @@
+   1              		.cpu cortex-m0
+   2              		.fpu softvfp
+   3              		.eabi_attribute 20, 1
+   4              		.eabi_attribute 21, 1
+   5              		.eabi_attribute 23, 3
+   6              		.eabi_attribute 24, 1
+   7              		.eabi_attribute 25, 1
+   8              		.eabi_attribute 26, 1
+   9              		.eabi_attribute 30, 6
+  10              		.eabi_attribute 34, 0
+  11              		.eabi_attribute 18, 4
+  12              		.code	16
+  13              		.file	"Control.c"
+  14              		.text
+  15              	.Ltext0:
+  16              		.cfi_sections	.debug_frame
+  17              		.section	.text.apply,"ax",%progbits
+  18              		.align	2
+  19              		.global	apply
+  20              		.code	16
+  21              		.thumb_func
+  23              	apply:
+  24              	.LFB0:
+  25              		.file 1 "../Sources/Control.c"
+   1:../Sources/Control.c **** /*
+   2:../Sources/Control.c ****  * Control.c
+   3:../Sources/Control.c ****  *
+   4:../Sources/Control.c ****  *  Created on: Feb 4, 2016
+   5:../Sources/Control.c ****  *      Author: Jared
+   6:../Sources/Control.c ****  */
+   7:../Sources/Control.c **** #include "Common.h"
+   8:../Sources/Control.c **** #include "TFC\TFC.h"
+   9:../Sources/Control.c **** 
+  10:../Sources/Control.c **** void apply(struct Command command){
+  26              		.loc 1 10 0
+  27              		.cfi_startproc
+  28 0000 90B5     		push	{r4, r7, lr}
+  29              	.LCFI0:
+  30              		.cfi_def_cfa_offset 12
+  31              		.cfi_offset 4, -12
+  32              		.cfi_offset 7, -8
+  33              		.cfi_offset 14, -4
+  34 0002 85B0     		sub	sp, sp, #20
+  35              	.LCFI1:
+  36              		.cfi_def_cfa_offset 32
+  37 0004 00AF     		add	r7, sp, #0
+  38              	.LCFI2:
+  39              		.cfi_def_cfa_register 7
+  40 0006 3C1C     		mov	r4, r7
+  41 0008 2060     		str	r0, [r4]
+  42 000a 6160     		str	r1, [r4, #4]
+  43 000c A260     		str	r2, [r4, #8]
+  44 000e E360     		str	r3, [r4, #12]
+  11:../Sources/Control.c **** 	
+  12:../Sources/Control.c **** 	// Sets the motors to the calculated values
+  13:../Sources/Control.c **** 	TFC_SetMotorPWM(command.speedL, command.speedR);
+  45              		.loc 1 13 0
+  46 0010 3B1C     		mov	r3, r7
+  47 0012 5A68     		ldr	r2, [r3, #4]
+  48 0014 3B1C     		mov	r3, r7
+  49 0016 9B68     		ldr	r3, [r3, #8]
+  50 0018 101C     		add	r0, r2, #0
+  51 001a 191C     		add	r1, r3, #0
+  52 001c FFF7FEFF 		bl	TFC_SetMotorPWM
+  14:../Sources/Control.c **** 	
+  15:../Sources/Control.c **** 	// Sets the steering to the calculated value
+  16:../Sources/Control.c **** 	TFC_SetServo(0, command.steerValue);
+  53              		.loc 1 16 0
+  54 0020 3B1C     		mov	r3, r7
+  55 0022 1B68     		ldr	r3, [r3]
+  56 0024 0020     		mov	r0, #0
+  57 0026 191C     		add	r1, r3, #0
+  58 0028 FFF7FEFF 		bl	TFC_SetServo
+  17:../Sources/Control.c **** }
+  59              		.loc 1 17 0
+  60 002c BD46     		mov	sp, r7
+  61 002e 05B0     		add	sp, sp, #20
+  62              		@ sp needed for prologue
+  63 0030 90BD     		pop	{r4, r7, pc}
+  64              		.cfi_endproc
+  65              	.LFE0:
+  67 0032 C046     		.text
+  68              	.Letext0:
+  69              		.file 2 "../Sources/Common.h"
+DEFINED SYMBOLS
+                            *ABS*:00000000 Control.c
+C:\Users\Jared\AppData\Local\Temp\ccEIw5G5.s:18     .text.apply:00000000 $t
+C:\Users\Jared\AppData\Local\Temp\ccEIw5G5.s:23     .text.apply:00000000 apply
+                     .debug_frame:00000010 $d
+
+UNDEFINED SYMBOLS
+TFC_SetMotorPWM
+TFC_SetServo
