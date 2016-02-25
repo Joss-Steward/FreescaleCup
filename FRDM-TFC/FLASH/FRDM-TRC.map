@@ -316,6 +316,20 @@ Discarded input sections
  .text          0x00000000        0x0 ./Sources/main.o
  .data          0x00000000        0x0 ./Sources/main.o
  .bss           0x00000000        0x0 ./Sources/main.o
+ .text          0x00000000        0x0 ./Sources/UnitTests.o
+ .data          0x00000000        0x0 ./Sources/UnitTests.o
+ .bss           0x00000000        0x0 ./Sources/UnitTests.o
+ .debug_info    0x00000000       0x7d ./Sources/UnitTests.o
+ .debug_abbrev  0x00000000       0x28 ./Sources/UnitTests.o
+ .debug_aranges
+                0x00000000       0x18 ./Sources/UnitTests.o
+ .debug_macinfo
+                0x00000000    0x2793f ./Sources/UnitTests.o
+ .debug_line    0x00000000      0x476 ./Sources/UnitTests.o
+ .debug_str     0x00000000      0x134 ./Sources/UnitTests.o
+ .comment       0x00000000       0x7a ./Sources/UnitTests.o
+ .ARM.attributes
+                0x00000000       0x31 ./Sources/UnitTests.o
  .text          0x00000000        0x0 ./Sources/SerialComms.o
  .data          0x00000000        0x0 ./Sources/SerialComms.o
  .bss           0x00000000        0x0 ./Sources/SerialComms.o
@@ -695,6 +709,7 @@ LOAD ./Sources/TFC/TFC_ADC.o
 LOAD ./Sources/TFC/TFC.o
 LOAD ./Sources/sa_mtb.o
 LOAD ./Sources/main.o
+LOAD ./Sources/UnitTests.o
 LOAD ./Sources/SerialComms.o
 LOAD ./Sources/InitCar.o
 LOAD ./Sources/Control.o

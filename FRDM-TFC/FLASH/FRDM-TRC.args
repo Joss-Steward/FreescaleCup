@@ -15,6 +15,7 @@
 "./Sources/TFC/TFC.o"
 "./Sources/sa_mtb.o"
 "./Sources/main.o"
+"./Sources/UnitTests.o"
 "./Sources/SerialComms.o"
 "./Sources/InitCar.o"
 "./Sources/Control.o"
