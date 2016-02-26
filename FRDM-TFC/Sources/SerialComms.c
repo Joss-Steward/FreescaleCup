@@ -10,7 +10,7 @@
 #include "string.h"
 
 
-void print(struct Command command, uint16_t* cameraData){
+void print(struct Command command, uint8_t* cameraData){
 	
 	// Prints the command data for json and starts the camera data json
 	printf("{\"rightMotor\":%d,", (int)( command.speedR * 100.0 ) );

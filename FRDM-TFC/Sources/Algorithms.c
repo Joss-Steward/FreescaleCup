@@ -16,7 +16,7 @@ struct sideInfo{
 	int Changes;
 };
 
-struct sideInfo findSideInfo( int start, int stop, int sensitivity, uint16_t* pixels ){
+struct sideInfo findSideInfo( int start, int stop, int sensitivity, uint8_t* pixels ){
 	struct sideInfo sideInfo;
 	sideInfo.Sum = 0.0;
 	sideInfo.Changes = 0;
@@ -57,7 +57,7 @@ float calcTurn( struct sideInfo left, struct sideInfo right ){
 	return steering_value;
 }
 
-int getCommand( uint16_t* cameraData, struct Command* command, int sensitivity, float speed ){
+int getCommand( uint8_t* cameraData, struct Command* command, int sensitivity, float speed ){
 	
 	struct sideInfo right;
 	right.Sum = 0.0;
@@ -93,168 +93,27 @@ float getSpeed(){
 	return( ( SPEED * ( TFC_ReadPot(1) + 1 ) ) );
 }
 
+void refineData( uint8_t* cameraData, uint8_t* avgCamera, uint8_t* runningAvg, int period){
+	int i;
+	
+	// If it is the end of a servo update period, calculate the average for the period and the running average 
+	if(period == 0){
+		for( i = 0; i < USED_PIXELS; i++){
+			avgCamera[i] += cameraData[i];
+			avgCamera[i] /= CAMERA_CYCLES_PER_UPDATE;
+			runningAvg[i] = (runningAvg[i] + avgCamera[i])/2;
+		}
+	} else {
+		// Adds the camera
+		for( i = 0; i < USED_PIXELS; i++){
+			avgCamera[i] += cameraData[i];
+		}
+	}
+}
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-//
-//
-//
-//void setTurn( struct sideInfo left, struct sideInfo right ){
-//	double difference = (double)abs(left.Sum - right.Sum);
-//	difference /= DIFFDIV;
-//	            
-//	// Default to straight ahead
-//	double steering_value = 0.0;
-//
-//	if(left.Sum < right.Sum){
-//		steering_value = 0.5 * difference;
-//	    if(steering_value > .7)steering_value = .7;
-//	} else {
-//	    steering_value = -0.5 * difference;
-//	    if(steering_value < -.7)steering_value = -.7;
-//	}
-//
-//	TFC_SetServo(0, steering_value);
-//}
-//
-//
-//
-//void algo_one_debug(int mode){
-//	int stop = 0;
-//	int threshold = 0;
-//	float speed = 0;
-//	double steer = 0;
-//	double motor = 0;
-//	
-//	while(1) {
-//		struct sideInfo right;
-//		right.Sum = 0.0;
-//		right.Changes = 0;
-//		struct sideInfo left;
-//		left.Sum = 0.0;
-//		left.Changes = 0;
-//		
-//		TFC_Task();
-//
-//		threshold = determineSensitivity();
-//		speed = determineSpeed();
-//		
-//		if(LineScanImageReady){
-//			LineScanImageReady = 0;
-//			left = findSideInfo( START_PIXEL, MID_POINT, threshold );
-//			right = findSideInfo( (int)MID_POINT, STOP_PIXEL, threshold ); 
-//			
-//			printf("%d %d\n", (int)left.Sum, (int)right.Sum);
-//			
-//			if(stop == 0)
-//				stop = ( right.Changes >= 1 && left.Changes >= 1 );
-//		}
-//		
-//		steer = calcTurn(left, right);
-//		
-//		if(stop == 0) {
-//		} else {
-//			motor = speed * ((STOP_CYCLES - stop) / STOP_CYCLES);
-//			stop++;
-//		}     
-//		
-//		if(TFC_PUSH_BUTTON_1_PRESSED) break;
-//		
-//		if(stop > STOP_CYCLES) break;
-//		
-//		if(mode == 1){
-//			printf("%d %d\n", left.Changes, right.Changes);
-//		}
-//		if(mode == 2){
-//			printf("%d %d\n", (int)left.Sum, (int)right.Sum);		
-//		}
-//		if(mode == 3){
-//			printf("%d %d\n", threshold, (int)(speed*1000000) );
-//		}
-//		if(mode == 4){
-//			printf("%d\n", (int)(motor*1000000) );
-//		}
-//		if(mode == 5){
-//			printf("%d\n", (int)(steer*1000000.0) );		
-//		}
-//		if(mode == 6){
-//			printf("%d\n", stop);
-//		}
-//		if(mode == 7){
-//			printf("Left Average = %d\n", (int)left.Sum);
-//			printf("Left Changes = %d\n", left.Changes);
-//			printf("Right Average = %d\n", (int)right.Sum);
-//			printf("Right Changes = %d\n", right.Changes);
-//			printf("Threshold = %d\n", threshold);
-//			printf("Speed * 10^6 = %d\n", (int)(speed*1000000) );
-//			printf("Modified Speed * 10^6 = %d\n", (int)(motor*1000000) );
-//			printf("Turn * 10^6 = %d\n", (int)(steer*1000000.0) );
-//			printf("Stop = %d\n", stop);
-//			delay(1000);
-//		}
-//	}
-//	
-//	//Dump Data
-//	
-//	
-//}
-//
-//
-//void algo_one() {
-//	int stop = 0;
-//	int threshold = 0;
-//	float speed = 0;
-//	
-//    while(1) {
-//    	struct sideInfo right;
-//    	right.Sum = 0.0;
-//    	right.Changes = 0;
-//    	struct sideInfo left;
-//    	left.Sum = 0.0;
-//    	left.Changes = 0;
-//    	
-//        TFC_Task();
-//
-//        threshold = determineSensitivity();
-//        speed = determineSpeed();
-//        
-//        if(LineScanImageReady){
-//            LineScanImageReady = 0;
-//            left = findSideInfo( START_PIXEL, MID_POINT, threshold );
-//            right = findSideInfo( (int)MID_POINT, STOP_PIXEL, threshold ); 
-//            
-//            printf("%d %d\n", (int)left.Sum, (int)right.Sum);
-//            
-//            if(stop == 0)
-//            	stop = ( right.Changes >= 1 && left.Changes >= 1 );
-//        }
-//        
-//        setTurn(left, right);
-//        
-//        if(stop == 0) {
-//        	TFC_SetMotorPWM(speed, speed);
-//        } else {
-//        	double motor = speed * ((STOP_CYCLES - stop) / STOP_CYCLES);
-//        	TFC_SetMotorPWM(motor, motor);
-//        	stop++;
-//        }     
-//        
-//        if(TFC_PUSH_BUTTON_1_PRESSED) break;
-//        
-//        if(stop > STOP_CYCLES) break;
-//    }
-//    //Dump data
-//    
-//}
-//
+void clear( uint8_t* arr, int size ){
+	int i;
+	for( i = 0; i < size; i++){
+		arr[i] = 0;
+	}
+}

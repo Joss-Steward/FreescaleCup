@@ -17,13 +17,16 @@ int main(){
 	
 	// Used to indicate stopping
 	int run = 1;
+	int count = 0;
 	
 	int first = 1;
 	int sensitivity;
 	float speed;
 	
 	// Pointers for referencing data
-	uint16_t* cameraData;
+	uint8_t cameraData[USED_PIXELS];
+	uint8_t avgCamera[USED_PIXELS];
+	uint8_t runningAvg[USED_PIXELS];
 	struct Command command;
 	command.speedL = 0.0;
 	command.speedR = 0.0;
@@ -31,7 +34,7 @@ int main(){
 	command.stop = 0;
 	
 	int i;
-	TFC_SetLineScanExposureTime(25000);
+	TFC_SetLineScanExposureTime(CAMERA_PERIOD);
 	
 	
 	while(1){
@@ -70,6 +73,9 @@ int main(){
 		
 		while(run){
 			
+			count++;
+			count %= 4;
+			
 			if(first){	
 				first = 0;
 			} else {
@@ -77,30 +83,28 @@ int main(){
 			}
 			
 			// Reads the data from the camera
-			cameraData = getCamera();	
+			getCamera( cameraData );	
 			
-			// Sets the command based on the camera data and returns whether to stop or not
-			run = getCommand( cameraData, &command, sensitivity, speed );	
+			// Computes the averages
+			refineData( cameraData, avgCamera, runningAvg, count);
 			
-			// Debug mode
-			if(0){	
-				
-				// Sends the command and camera data over serial
-				print(command, cameraData);
-				
-				// Run mode	
-			} else {	
+			if(count == 0){
+				// Sets the command based on the camera data and returns whether to stop or not
+				run = getCommand( avgCamera, &command, sensitivity, speed );	
 				
 				// Sends the command and camera data over serial to be stored
-				print(command, cameraData);
+				if(0)
+					print(command, cameraData);
 				
 				// Applies the command to the car
 				apply(command);
 				
-			}
+				clear(avgCamera, USED_PIXELS);
 
-			// Frees the malloc'd memory for cameraData and command
-			free(cameraData);
+			}
+			
+			count++;
+			count %= 4;
 			
 			// Exits the loop if the stop button is pressed
 			if(STOP_BUTTON) break;

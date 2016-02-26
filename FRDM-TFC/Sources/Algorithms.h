@@ -10,12 +10,11 @@
 
 #include "Common.h"
 
-int getCommand(uint16_t*, struct Command*, int, float);
+int getCommand(uint8_t*, struct Command*, int, float);
 int getSensitivity();
 float getSpeed();
 
-
-void algo_one();
-void algo_one_debug(int);
+void refineData( uint8_t*, uint8_t*, uint8_t*, int);
+void clear( uint8_t*, int);
 
 #endif /* ALGOONE_H_ */

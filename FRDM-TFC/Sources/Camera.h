@@ -8,6 +8,6 @@
 #ifndef CAMERA_H_
 #define CAMERA_H_
 
-uint16_t* getCamera();
+void getCamera(uint8_t*);
 
 #endif /* CAMERA_H_ */

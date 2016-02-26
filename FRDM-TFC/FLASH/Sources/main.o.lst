@@ -55,403 +55,561 @@
   13:../Sources/main.c **** int main(){
   39              		.loc 1 13 0
   40              		.cfi_startproc
-  41 0000 80B5     		push	{r7, lr}
+  41 0000 90B5     		push	{r4, r7, lr}
   42              	.LCFI0:
-  43              		.cfi_def_cfa_offset 8
-  44              		.cfi_offset 7, -8
-  45              		.cfi_offset 14, -4
-  46 0002 8EB0     		sub	sp, sp, #56
-  47              	.LCFI1:
-  48              		.cfi_def_cfa_offset 64
-  49 0004 02AF     		add	r7, sp, #8
-  50              	.LCFI2:
-  51              		.cfi_def_cfa 7, 56
+  43              		.cfi_def_cfa_offset 12
+  44              		.cfi_offset 4, -12
+  45              		.cfi_offset 7, -8
+  46              		.cfi_offset 14, -4
+  47 0002 D5B0     		sub	sp, sp, #340
+  48              	.LCFI1:
+  49              		.cfi_def_cfa_offset 352
+  50 0004 00AF     		add	r7, sp, #0
+  51              	.LCFI2:
+  52              		.cfi_def_cfa_register 7
   14:../Sources/main.c **** 	
   15:../Sources/main.c **** 	// Initialise program
   16:../Sources/main.c **** 	init();		
-  52              		.loc 1 16 0
-  53 0006 FFF7FEFF 		bl	init
+  53              		.loc 1 16 0
+  54 0006 FFF7FEFF 		bl	init
   17:../Sources/main.c **** 	
   18:../Sources/main.c **** 	// Used to indicate stopping
   19:../Sources/main.c **** 	int run = 1;
-  54              		.loc 1 19 0
-  55 000a 0123     		mov	r3, #1
-  56 000c FB62     		str	r3, [r7, #44]
-  20:../Sources/main.c **** 	
-  21:../Sources/main.c **** 	int first = 1;
-  57              		.loc 1 21 0
-  58 000e 0123     		mov	r3, #1
-  59 0010 BB62     		str	r3, [r7, #40]
-  22:../Sources/main.c **** 	int sensitivity;
-  23:../Sources/main.c **** 	float speed;
-  24:../Sources/main.c **** 	
-  25:../Sources/main.c **** 	// Pointers for referencing data
-  26:../Sources/main.c **** 	uint16_t* cameraData;
-  27:../Sources/main.c **** 	struct Command command;
-  28:../Sources/main.c **** 	command.speedL = 0.0;
-  60              		.loc 1 28 0
-  61 0012 3B1D     		add	r3, r7, #4
-  62 0014 0022     		mov	r2, #0
-  63 0016 5A60     		str	r2, [r3, #4]
-  29:../Sources/main.c **** 	command.speedR = 0.0;
-  64              		.loc 1 29 0
-  65 0018 3B1D     		add	r3, r7, #4
-  66 001a 0022     		mov	r2, #0
-  67 001c 9A60     		str	r2, [r3, #8]
-  30:../Sources/main.c **** 	command.steerValue = 0.0;
-  68              		.loc 1 30 0
-  69 001e 3B1D     		add	r3, r7, #4
-  70 0020 0022     		mov	r2, #0
-  71 0022 1A60     		str	r2, [r3]
-  31:../Sources/main.c **** 	command.stop = 0;
-  72              		.loc 1 31 0
-  73 0024 3B1D     		add	r3, r7, #4
-  74 0026 0022     		mov	r2, #0
-  75 0028 DA60     		str	r2, [r3, #12]
-  32:../Sources/main.c **** 	
-  33:../Sources/main.c **** 	int i;
-  34:../Sources/main.c **** 	TFC_SetLineScanExposureTime(25000);
-  76              		.loc 1 34 0
-  77 002a 584B     		ldr	r3, .L21
-  78 002c 181C     		mov	r0, r3
-  79 002e FFF7FEFF 		bl	TFC_SetLineScanExposureTime
+  55              		.loc 1 19 0
+  56 000a 0123     		mov	r3, #1
+  57 000c A620     		mov	r0, #166
+  58 000e 4000     		lsl	r0, r0, #1
+  59 0010 C019     		add	r0, r0, r7
+  60 0012 0360     		str	r3, [r0]
+  20:../Sources/main.c **** 	int count = 0;
+  61              		.loc 1 20 0
+  62 0014 0023     		mov	r3, #0
+  63 0016 A421     		mov	r1, #164
+  64 0018 4900     		lsl	r1, r1, #1
+  65 001a C919     		add	r1, r1, r7
+  66 001c 0B60     		str	r3, [r1]
+  21:../Sources/main.c **** 	
+  22:../Sources/main.c **** 	int first = 1;
+  67              		.loc 1 22 0
+  68 001e 0123     		mov	r3, #1
+  69 0020 A222     		mov	r2, #162
+  70 0022 5200     		lsl	r2, r2, #1
+  71 0024 D219     		add	r2, r2, r7
+  72 0026 1360     		str	r3, [r2]
+  23:../Sources/main.c **** 	int sensitivity;
+  24:../Sources/main.c **** 	float speed;
+  25:../Sources/main.c **** 	
+  26:../Sources/main.c **** 	// Pointers for referencing data
+  27:../Sources/main.c **** 	uint8_t cameraData[USED_PIXELS];
+  28:../Sources/main.c **** 	uint8_t avgCamera[USED_PIXELS];
+  29:../Sources/main.c **** 	uint8_t runningAvg[USED_PIXELS];
+  30:../Sources/main.c **** 	struct Command command;
+  31:../Sources/main.c **** 	command.speedL = 0.0;
+  73              		.loc 1 31 0
+  74 0028 9E4B     		ldr	r3, .L24
+  75 002a A824     		mov	r4, #168
+  76 002c 6400     		lsl	r4, r4, #1
+  77 002e E419     		add	r4, r4, r7
+  78 0030 E318     		add	r3, r4, r3
+  79 0032 0022     		mov	r2, #0
+  80 0034 5A60     		str	r2, [r3, #4]
+  32:../Sources/main.c **** 	command.speedR = 0.0;
+  81              		.loc 1 32 0
+  82 0036 9B4B     		ldr	r3, .L24
+  83 0038 A820     		mov	r0, #168
+  84 003a 4000     		lsl	r0, r0, #1
+  85 003c C019     		add	r0, r0, r7
+  86 003e C318     		add	r3, r0, r3
+  87 0040 0022     		mov	r2, #0
+  88 0042 9A60     		str	r2, [r3, #8]
+  33:../Sources/main.c **** 	command.steerValue = 0.0;
+  89              		.loc 1 33 0
+  90 0044 974B     		ldr	r3, .L24
+  91 0046 A821     		mov	r1, #168
+  92 0048 4900     		lsl	r1, r1, #1
+  93 004a C919     		add	r1, r1, r7
+  94 004c CB18     		add	r3, r1, r3
+  95 004e 0022     		mov	r2, #0
+  96 0050 1A60     		str	r2, [r3]
+  34:../Sources/main.c **** 	command.stop = 0;
+  97              		.loc 1 34 0
+  98 0052 944B     		ldr	r3, .L24
+  99 0054 A822     		mov	r2, #168
+ 100 0056 5200     		lsl	r2, r2, #1
+ 101 0058 D219     		add	r2, r2, r7
+ 102 005a D318     		add	r3, r2, r3
+ 103 005c 0022     		mov	r2, #0
+ 104 005e DA60     		str	r2, [r3, #12]
   35:../Sources/main.c **** 	
-  36:../Sources/main.c **** 	
-  37:../Sources/main.c **** 	while(1){
-  38:../Sources/main.c **** 		while(1){
-  39:../Sources/main.c **** 			while(!LineScanImageReady);
-  80              		.loc 1 39 0
-  81 0032 00E0     		b	.L18
-  82              	.L19:
-  40:../Sources/main.c **** 			LineScanImageReady = 0;
-  41:../Sources/main.c **** 			printf("|");
-  42:../Sources/main.c **** 			for( i = 16; i < 112; i++){
-  43:../Sources/main.c **** 				char out = LineScanImage0[i] >> 10;
-  44:../Sources/main.c **** 				
-  45:../Sources/main.c **** 				if(out == 0) {
-  46:../Sources/main.c **** 					printf(" ");								
-  47:../Sources/main.c **** 				} else if(out == 1) {
-  48:../Sources/main.c **** 					printf("%c", 176);								
-  49:../Sources/main.c **** 				} else if(out == 2) {
-  50:../Sources/main.c **** 					printf("%c", 177);
-  51:../Sources/main.c **** 				} else {
-  52:../Sources/main.c **** 					printf("%c", 178);
-  53:../Sources/main.c **** 				}
-  54:../Sources/main.c **** 			}
-  55:../Sources/main.c **** 			printf("|\r\n");
-  56:../Sources/main.c **** 			//delay(50);
-  57:../Sources/main.c **** 			
-  58:../Sources/main.c **** 			// Waits till the start button is pressed
-  59:../Sources/main.c **** 			if(START_BUTTON) break;		
-  60:../Sources/main.c **** 		}
-  83              		.loc 1 60 0
-  84 0034 C046     		mov	r8, r8
-  85              	.L11:
-  86              	.L18:
-  39:../Sources/main.c **** 			while(!LineScanImageReady);
-  87              		.loc 1 39 0
-  88 0036 C046     		mov	r8, r8
-  89              	.L2:
-  39:../Sources/main.c **** 			while(!LineScanImageReady);
-  90              		.loc 1 39 0 is_stmt 0
-  91 0038 554B     		ldr	r3, .L21+4
-  92 003a 1B78     		ldrb	r3, [r3]
-  93 003c DBB2     		uxtb	r3, r3
-  94 003e 002B     		cmp	r3, #0
-  95 0040 FAD0     		beq	.L2
-  40:../Sources/main.c **** 			LineScanImageReady = 0;
-  96              		.loc 1 40 0 is_stmt 1
-  97 0042 534B     		ldr	r3, .L21+4
-  98 0044 0022     		mov	r2, #0
-  99 0046 1A70     		strb	r2, [r3]
-  41:../Sources/main.c **** 			printf("|");
- 100              		.loc 1 41 0
- 101 0048 7C20     		mov	r0, #124
- 102 004a FFF7FEFF 		bl	putchar
-  42:../Sources/main.c **** 			for( i = 16; i < 112; i++){
- 103              		.loc 1 42 0
- 104 004e 1023     		mov	r3, #16
- 105 0050 7B62     		str	r3, [r7, #36]
- 106 0052 2CE0     		b	.L3
- 107              	.L8:
- 108              	.LBB2:
-  43:../Sources/main.c **** 				char out = LineScanImage0[i] >> 10;
- 109              		.loc 1 43 0
- 110 0054 4F4B     		ldr	r3, .L21+8
- 111 0056 1A68     		ldr	r2, [r3]
- 112 0058 7B6A     		ldr	r3, [r7, #36]
- 113 005a 5B00     		lsl	r3, r3, #1
- 114 005c D318     		add	r3, r2, r3
- 115 005e 1B88     		ldrh	r3, [r3]
- 116 0060 9BB2     		uxth	r3, r3
- 117 0062 9B0A     		lsr	r3, r3, #10
- 118 0064 9AB2     		uxth	r2, r3
- 119 0066 3B1C     		mov	r3, r7
- 120 0068 2333     		add	r3, r3, #35
- 121 006a 1A70     		strb	r2, [r3]
-  45:../Sources/main.c **** 				if(out == 0) {
- 122              		.loc 1 45 0
- 123 006c 3B1C     		mov	r3, r7
- 124 006e 2333     		add	r3, r3, #35
- 125 0070 1B78     		ldrb	r3, [r3]
- 126 0072 002B     		cmp	r3, #0
- 127 0074 03D1     		bne	.L4
-  46:../Sources/main.c **** 					printf(" ");								
- 128              		.loc 1 46 0
- 129 0076 2020     		mov	r0, #32
- 130 0078 FFF7FEFF 		bl	putchar
- 131 007c 14E0     		b	.L5
- 132              	.L4:
-  47:../Sources/main.c **** 				} else if(out == 1) {
- 133              		.loc 1 47 0
- 134 007e 3B1C     		mov	r3, r7
- 135 0080 2333     		add	r3, r3, #35
- 136 0082 1B78     		ldrb	r3, [r3]
- 137 0084 012B     		cmp	r3, #1
- 138 0086 03D1     		bne	.L6
-  48:../Sources/main.c **** 					printf("%c", 176);								
- 139              		.loc 1 48 0
- 140 0088 B020     		mov	r0, #176
- 141 008a FFF7FEFF 		bl	putchar
- 142 008e 0BE0     		b	.L5
- 143              	.L6:
-  49:../Sources/main.c **** 				} else if(out == 2) {
- 144              		.loc 1 49 0
- 145 0090 3B1C     		mov	r3, r7
- 146 0092 2333     		add	r3, r3, #35
- 147 0094 1B78     		ldrb	r3, [r3]
- 148 0096 022B     		cmp	r3, #2
- 149 0098 03D1     		bne	.L7
-  50:../Sources/main.c **** 					printf("%c", 177);
- 150              		.loc 1 50 0
- 151 009a B120     		mov	r0, #177
- 152 009c FFF7FEFF 		bl	putchar
- 153 00a0 02E0     		b	.L5
- 154              	.L7:
-  52:../Sources/main.c **** 					printf("%c", 178);
- 155              		.loc 1 52 0
- 156 00a2 B220     		mov	r0, #178
- 157 00a4 FFF7FEFF 		bl	putchar
- 158              	.L5:
- 159              	.LBE2:
-  42:../Sources/main.c **** 			for( i = 16; i < 112; i++){
- 160              		.loc 1 42 0
- 161 00a8 7B6A     		ldr	r3, [r7, #36]
- 162 00aa 0133     		add	r3, r3, #1
- 163 00ac 7B62     		str	r3, [r7, #36]
- 164              	.L3:
-  42:../Sources/main.c **** 			for( i = 16; i < 112; i++){
- 165              		.loc 1 42 0 is_stmt 0
- 166 00ae 7B6A     		ldr	r3, [r7, #36]
- 167 00b0 6F2B     		cmp	r3, #111
- 168 00b2 CFDD     		ble	.L8
-  55:../Sources/main.c **** 			printf("|\r\n");
- 169              		.loc 1 55 0 is_stmt 1
- 170 00b4 384B     		ldr	r3, .L21+12
- 171 00b6 181C     		mov	r0, r3
- 172 00b8 FFF7FEFF 		bl	puts
-  59:../Sources/main.c **** 			if(START_BUTTON) break;		
- 173              		.loc 1 59 0
- 174 00bc 374B     		ldr	r3, .L21+16
- 175 00be 1A69     		ldr	r2, [r3, #16]
- 176 00c0 8023     		mov	r3, #128
- 177 00c2 9B01     		lsl	r3, r3, #6
- 178 00c4 1340     		and	r3, r2
- 179 00c6 B5D0     		beq	.L19
- 180 00c8 C046     		mov	r8, r8
-  61:../Sources/main.c **** 	
-  62:../Sources/main.c **** 		// Waits till the start button is pressed
-  63:../Sources/main.c **** 		while(!START_BUTTON);	
- 181              		.loc 1 63 0
- 182 00ca C046     		mov	r8, r8
- 183              	.L12:
- 184              		.loc 1 63 0 is_stmt 0
- 185 00cc 334B     		ldr	r3, .L21+16
- 186 00ce 1A69     		ldr	r2, [r3, #16]
- 187 00d0 8023     		mov	r3, #128
- 188 00d2 9B01     		lsl	r3, r3, #6
- 189 00d4 1340     		and	r3, r2
- 190 00d6 F9D0     		beq	.L12
-  64:../Sources/main.c **** 		
-  65:../Sources/main.c **** 		sensitivity = getSensitivity();
- 191              		.loc 1 65 0 is_stmt 1
- 192 00d8 FFF7FEFF 		bl	getSensitivity
- 193 00dc 031C     		mov	r3, r0
- 194 00de FB61     		str	r3, [r7, #28]
-  66:../Sources/main.c **** 		speed = getSpeed();
- 195              		.loc 1 66 0
- 196 00e0 FFF7FEFF 		bl	getSpeed
- 197 00e4 031C     		add	r3, r0, #0
- 198 00e6 BB61     		str	r3, [r7, #24]
-  67:../Sources/main.c **** 		TFC_HBRIDGE_ENABLE;
- 199              		.loc 1 67 0
- 200 00e8 2D4B     		ldr	r3, .L21+20
- 201 00ea 8022     		mov	r2, #128
- 202 00ec 9203     		lsl	r2, r2, #14
- 203 00ee 5A60     		str	r2, [r3, #4]
-  68:../Sources/main.c **** 		
-  69:../Sources/main.c **** 		printf("{\"version\":0,\"sensitivity\":%d,\"speed\":%d,\"data\":[", sensitivity, (int)(speed*100)
- 204              		.loc 1 69 0
- 205 00f0 B869     		ldr	r0, [r7, #24]
- 206 00f2 2C49     		ldr	r1, .L21+24
- 207 00f4 FFF7FEFF 		bl	__aeabi_fmul
- 208 00f8 031C     		add	r3, r0, #0
- 209 00fa 181C     		add	r0, r3, #0
- 210 00fc FFF7FEFF 		bl	__aeabi_f2iz
- 211 0100 031C     		mov	r3, r0
- 212 0102 2949     		ldr	r1, .L21+28
- 213 0104 FA69     		ldr	r2, [r7, #28]
- 214 0106 081C     		mov	r0, r1
- 215 0108 111C     		mov	r1, r2
- 216 010a 1A1C     		mov	r2, r3
- 217 010c FFF7FEFF 		bl	printf
-  70:../Sources/main.c **** 		
-  71:../Sources/main.c **** 		while(run){
- 218              		.loc 1 71 0
- 219 0110 2EE0     		b	.L13
- 220              	.L17:
-  72:../Sources/main.c **** 			
-  73:../Sources/main.c **** 			if(first){	
- 221              		.loc 1 73 0
- 222 0112 BB6A     		ldr	r3, [r7, #40]
- 223 0114 002B     		cmp	r3, #0
- 224 0116 02D0     		beq	.L14
-  74:../Sources/main.c **** 				first = 0;
- 225              		.loc 1 74 0
- 226 0118 0023     		mov	r3, #0
- 227 011a BB62     		str	r3, [r7, #40]
- 228 011c 02E0     		b	.L15
- 229              	.L14:
-  75:../Sources/main.c **** 			} else {
-  76:../Sources/main.c **** 				printf(",");
- 230              		.loc 1 76 0
- 231 011e 2C20     		mov	r0, #44
- 232 0120 FFF7FEFF 		bl	putchar
- 233              	.L15:
-  77:../Sources/main.c **** 			}
+  36:../Sources/main.c **** 	int i;
+  37:../Sources/main.c **** 	TFC_SetLineScanExposureTime(CAMERA_PERIOD);
+ 105              		.loc 1 37 0
+ 106 0060 914B     		ldr	r3, .L24+4
+ 107 0062 181C     		mov	r0, r3
+ 108 0064 FFF7FEFF 		bl	TFC_SetLineScanExposureTime
+  38:../Sources/main.c **** 	
+  39:../Sources/main.c **** 	
+  40:../Sources/main.c **** 	while(1){
+  41:../Sources/main.c **** 		while(1){
+  42:../Sources/main.c **** 			while(!LineScanImageReady);
+ 109              		.loc 1 42 0
+ 110 0068 00E0     		b	.L21
+ 111              	.L22:
+  43:../Sources/main.c **** 			LineScanImageReady = 0;
+  44:../Sources/main.c **** 			printf("|");
+  45:../Sources/main.c **** 			for( i = 16; i < 112; i++){
+  46:../Sources/main.c **** 				char out = LineScanImage0[i] >> 10;
+  47:../Sources/main.c **** 				
+  48:../Sources/main.c **** 				if(out == 0) {
+  49:../Sources/main.c **** 					printf(" ");								
+  50:../Sources/main.c **** 				} else if(out == 1) {
+  51:../Sources/main.c **** 					printf("%c", 176);								
+  52:../Sources/main.c **** 				} else if(out == 2) {
+  53:../Sources/main.c **** 					printf("%c", 177);
+  54:../Sources/main.c **** 				} else {
+  55:../Sources/main.c **** 					printf("%c", 178);
+  56:../Sources/main.c **** 				}
+  57:../Sources/main.c **** 			}
+  58:../Sources/main.c **** 			printf("|\r\n");
+  59:../Sources/main.c **** 			//delay(50);
+  60:../Sources/main.c **** 			
+  61:../Sources/main.c **** 			// Waits till the start button is pressed
+  62:../Sources/main.c **** 			if(START_BUTTON) break;		
+  63:../Sources/main.c **** 		}
+ 112              		.loc 1 63 0
+ 113 006a C046     		mov	r8, r8
+ 114              	.L11:
+ 115              	.L21:
+  42:../Sources/main.c **** 			while(!LineScanImageReady);
+ 116              		.loc 1 42 0
+ 117 006c C046     		mov	r8, r8
+ 118              	.L2:
+  42:../Sources/main.c **** 			while(!LineScanImageReady);
+ 119              		.loc 1 42 0 is_stmt 0
+ 120 006e 8F4B     		ldr	r3, .L24+8
+ 121 0070 1B78     		ldrb	r3, [r3]
+ 122 0072 DBB2     		uxtb	r3, r3
+ 123 0074 002B     		cmp	r3, #0
+ 124 0076 FAD0     		beq	.L2
+  43:../Sources/main.c **** 			LineScanImageReady = 0;
+ 125              		.loc 1 43 0 is_stmt 1
+ 126 0078 8C4B     		ldr	r3, .L24+8
+ 127 007a 0022     		mov	r2, #0
+ 128 007c 1A70     		strb	r2, [r3]
+  44:../Sources/main.c **** 			printf("|");
+ 129              		.loc 1 44 0
+ 130 007e 7C20     		mov	r0, #124
+ 131 0080 FFF7FEFF 		bl	putchar
+  45:../Sources/main.c **** 			for( i = 16; i < 112; i++){
+ 132              		.loc 1 45 0
+ 133 0084 1023     		mov	r3, #16
+ 134 0086 A024     		mov	r4, #160
+ 135 0088 6400     		lsl	r4, r4, #1
+ 136 008a E419     		add	r4, r4, r7
+ 137 008c 2360     		str	r3, [r4]
+ 138 008e 35E0     		b	.L3
+ 139              	.L8:
+ 140              	.LBB2:
+  46:../Sources/main.c **** 				char out = LineScanImage0[i] >> 10;
+ 141              		.loc 1 46 0
+ 142 0090 874B     		ldr	r3, .L24+12
+ 143 0092 1A68     		ldr	r2, [r3]
+ 144 0094 A020     		mov	r0, #160
+ 145 0096 4000     		lsl	r0, r0, #1
+ 146 0098 C019     		add	r0, r0, r7
+ 147 009a 0368     		ldr	r3, [r0]
+ 148 009c 5B00     		lsl	r3, r3, #1
+ 149 009e D318     		add	r3, r2, r3
+ 150 00a0 1B88     		ldrh	r3, [r3]
+ 151 00a2 9BB2     		uxth	r3, r3
+ 152 00a4 9B0A     		lsr	r3, r3, #10
+ 153 00a6 9AB2     		uxth	r2, r3
+ 154 00a8 8249     		ldr	r1, .L24+16
+ 155 00aa 7B18     		add	r3, r7, r1
+ 156 00ac 1A70     		strb	r2, [r3]
+  48:../Sources/main.c **** 				if(out == 0) {
+ 157              		.loc 1 48 0
+ 158 00ae 814A     		ldr	r2, .L24+16
+ 159 00b0 BB18     		add	r3, r7, r2
+ 160 00b2 1B78     		ldrb	r3, [r3]
+ 161 00b4 002B     		cmp	r3, #0
+ 162 00b6 03D1     		bne	.L4
+  49:../Sources/main.c **** 					printf(" ");								
+ 163              		.loc 1 49 0
+ 164 00b8 2020     		mov	r0, #32
+ 165 00ba FFF7FEFF 		bl	putchar
+ 166 00be 14E0     		b	.L5
+ 167              	.L4:
+  50:../Sources/main.c **** 				} else if(out == 1) {
+ 168              		.loc 1 50 0
+ 169 00c0 7C4C     		ldr	r4, .L24+16
+ 170 00c2 3B19     		add	r3, r7, r4
+ 171 00c4 1B78     		ldrb	r3, [r3]
+ 172 00c6 012B     		cmp	r3, #1
+ 173 00c8 03D1     		bne	.L6
+  51:../Sources/main.c **** 					printf("%c", 176);								
+ 174              		.loc 1 51 0
+ 175 00ca B020     		mov	r0, #176
+ 176 00cc FFF7FEFF 		bl	putchar
+ 177 00d0 0BE0     		b	.L5
+ 178              	.L6:
+  52:../Sources/main.c **** 				} else if(out == 2) {
+ 179              		.loc 1 52 0
+ 180 00d2 7848     		ldr	r0, .L24+16
+ 181 00d4 3B18     		add	r3, r7, r0
+ 182 00d6 1B78     		ldrb	r3, [r3]
+ 183 00d8 022B     		cmp	r3, #2
+ 184 00da 03D1     		bne	.L7
+  53:../Sources/main.c **** 					printf("%c", 177);
+ 185              		.loc 1 53 0
+ 186 00dc B120     		mov	r0, #177
+ 187 00de FFF7FEFF 		bl	putchar
+ 188 00e2 02E0     		b	.L5
+ 189              	.L7:
+  55:../Sources/main.c **** 					printf("%c", 178);
+ 190              		.loc 1 55 0
+ 191 00e4 B220     		mov	r0, #178
+ 192 00e6 FFF7FEFF 		bl	putchar
+ 193              	.L5:
+ 194              	.LBE2:
+  45:../Sources/main.c **** 			for( i = 16; i < 112; i++){
+ 195              		.loc 1 45 0
+ 196 00ea A021     		mov	r1, #160
+ 197 00ec 4900     		lsl	r1, r1, #1
+ 198 00ee C919     		add	r1, r1, r7
+ 199 00f0 0B68     		ldr	r3, [r1]
+ 200 00f2 0133     		add	r3, r3, #1
+ 201 00f4 A022     		mov	r2, #160
+ 202 00f6 5200     		lsl	r2, r2, #1
+ 203 00f8 D219     		add	r2, r2, r7
+ 204 00fa 1360     		str	r3, [r2]
+ 205              	.L3:
+  45:../Sources/main.c **** 			for( i = 16; i < 112; i++){
+ 206              		.loc 1 45 0 is_stmt 0
+ 207 00fc A024     		mov	r4, #160
+ 208 00fe 6400     		lsl	r4, r4, #1
+ 209 0100 E419     		add	r4, r4, r7
+ 210 0102 2368     		ldr	r3, [r4]
+ 211 0104 6F2B     		cmp	r3, #111
+ 212 0106 C3DD     		ble	.L8
+  58:../Sources/main.c **** 			printf("|\r\n");
+ 213              		.loc 1 58 0 is_stmt 1
+ 214 0108 6B4B     		ldr	r3, .L24+20
+ 215 010a 181C     		mov	r0, r3
+ 216 010c FFF7FEFF 		bl	puts
+  62:../Sources/main.c **** 			if(START_BUTTON) break;		
+ 217              		.loc 1 62 0
+ 218 0110 6A4B     		ldr	r3, .L24+24
+ 219 0112 1A69     		ldr	r2, [r3, #16]
+ 220 0114 8023     		mov	r3, #128
+ 221 0116 9B01     		lsl	r3, r3, #6
+ 222 0118 1340     		and	r3, r2
+ 223 011a A6D0     		beq	.L22
+ 224 011c C046     		mov	r8, r8
+  64:../Sources/main.c **** 	
+  65:../Sources/main.c **** 		// Waits till the start button is pressed
+  66:../Sources/main.c **** 		while(!START_BUTTON);	
+ 225              		.loc 1 66 0
+ 226 011e C046     		mov	r8, r8
+ 227              	.L12:
+ 228              		.loc 1 66 0 is_stmt 0
+ 229 0120 664B     		ldr	r3, .L24+24
+ 230 0122 1A69     		ldr	r2, [r3, #16]
+ 231 0124 8023     		mov	r3, #128
+ 232 0126 9B01     		lsl	r3, r3, #6
+ 233 0128 1340     		and	r3, r2
+ 234 012a F9D0     		beq	.L12
+  67:../Sources/main.c **** 		
+  68:../Sources/main.c **** 		sensitivity = getSensitivity();
+ 235              		.loc 1 68 0 is_stmt 1
+ 236 012c FFF7FEFF 		bl	getSensitivity
+ 237 0130 031C     		mov	r3, r0
+ 238 0132 9C20     		mov	r0, #156
+ 239 0134 4000     		lsl	r0, r0, #1
+ 240 0136 C019     		add	r0, r0, r7
+ 241 0138 0360     		str	r3, [r0]
+  69:../Sources/main.c **** 		speed = getSpeed();
+ 242              		.loc 1 69 0
+ 243 013a FFF7FEFF 		bl	getSpeed
+ 244 013e 031C     		add	r3, r0, #0
+ 245 0140 9A21     		mov	r1, #154
+ 246 0142 4900     		lsl	r1, r1, #1
+ 247 0144 C919     		add	r1, r1, r7
+ 248 0146 0B60     		str	r3, [r1]
+  70:../Sources/main.c **** 		TFC_HBRIDGE_ENABLE;
+ 249              		.loc 1 70 0
+ 250 0148 5D4B     		ldr	r3, .L24+28
+ 251 014a 8022     		mov	r2, #128
+ 252 014c 9203     		lsl	r2, r2, #14
+ 253 014e 5A60     		str	r2, [r3, #4]
+  71:../Sources/main.c **** 		
+  72:../Sources/main.c **** 		printf("{\"version\":0,\"sensitivity\":%d,\"speed\":%d,\"data\":[", sensitivity, (int)(speed*100)
+ 254              		.loc 1 72 0
+ 255 0150 9A22     		mov	r2, #154
+ 256 0152 5200     		lsl	r2, r2, #1
+ 257 0154 D219     		add	r2, r2, r7
+ 258 0156 1068     		ldr	r0, [r2]
+ 259 0158 5A49     		ldr	r1, .L24+32
+ 260 015a FFF7FEFF 		bl	__aeabi_fmul
+ 261 015e 031C     		add	r3, r0, #0
+ 262 0160 181C     		add	r0, r3, #0
+ 263 0162 FFF7FEFF 		bl	__aeabi_f2iz
+ 264 0166 031C     		mov	r3, r0
+ 265 0168 5749     		ldr	r1, .L24+36
+ 266 016a 9C24     		mov	r4, #156
+ 267 016c 6400     		lsl	r4, r4, #1
+ 268 016e E419     		add	r4, r4, r7
+ 269 0170 2268     		ldr	r2, [r4]
+ 270 0172 081C     		mov	r0, r1
+ 271 0174 111C     		mov	r1, r2
+ 272 0176 1A1C     		mov	r2, r3
+ 273 0178 FFF7FEFF 		bl	printf
+  73:../Sources/main.c **** 		
+  74:../Sources/main.c **** 		while(run){
+ 274              		.loc 1 74 0
+ 275 017c 80E0     		b	.L13
+ 276              	.L20:
+  75:../Sources/main.c **** 			
+  76:../Sources/main.c **** 			count++;
+ 277              		.loc 1 76 0
+ 278 017e A420     		mov	r0, #164
+ 279 0180 4000     		lsl	r0, r0, #1
+ 280 0182 C019     		add	r0, r0, r7
+ 281 0184 0368     		ldr	r3, [r0]
+ 282 0186 0133     		add	r3, r3, #1
+ 283 0188 A421     		mov	r1, #164
+ 284 018a 4900     		lsl	r1, r1, #1
+ 285 018c C919     		add	r1, r1, r7
+ 286 018e 0B60     		str	r3, [r1]
+  77:../Sources/main.c **** 			count %= 4;
+ 287              		.loc 1 77 0
+ 288 0190 A423     		mov	r3, #164
+ 289 0192 5B00     		lsl	r3, r3, #1
+ 290 0194 DB19     		add	r3, r3, r7
+ 291 0196 1A68     		ldr	r2, [r3]
+ 292 0198 4C4B     		ldr	r3, .L24+40
+ 293 019a 1340     		and	r3, r2
+ 294 019c 04D5     		bpl	.L14
+ 295 019e 013B     		sub	r3, r3, #1
+ 296 01a0 0422     		mov	r2, #4
+ 297 01a2 5242     		neg	r2, r2
+ 298 01a4 1343     		orr	r3, r2
+ 299 01a6 0133     		add	r3, r3, #1
+ 300              	.L14:
+ 301 01a8 A424     		mov	r4, #164
+ 302 01aa 6400     		lsl	r4, r4, #1
+ 303 01ac E419     		add	r4, r4, r7
+ 304 01ae 2360     		str	r3, [r4]
   78:../Sources/main.c **** 			
-  79:../Sources/main.c **** 			// Reads the data from the camera
-  80:../Sources/main.c **** 			cameraData = getCamera();	
- 234              		.loc 1 80 0
- 235 0124 FFF7FEFF 		bl	getCamera
- 236 0128 031C     		mov	r3, r0
- 237 012a 7B61     		str	r3, [r7, #20]
-  81:../Sources/main.c **** 			
-  82:../Sources/main.c **** 			// Sets the command based on the camera data and returns whether to stop or not
-  83:../Sources/main.c **** 			run = getCommand( cameraData, &command, sensitivity, speed );	
- 238              		.loc 1 83 0
- 239 012c 7869     		ldr	r0, [r7, #20]
- 240 012e 391D     		add	r1, r7, #4
- 241 0130 FA69     		ldr	r2, [r7, #28]
- 242 0132 BB69     		ldr	r3, [r7, #24]
- 243 0134 FFF7FEFF 		bl	getCommand
- 244 0138 031C     		mov	r3, r0
- 245 013a FB62     		str	r3, [r7, #44]
+  79:../Sources/main.c **** 			if(first){	
+ 305              		.loc 1 79 0
+ 306 01b0 A220     		mov	r0, #162
+ 307 01b2 4000     		lsl	r0, r0, #1
+ 308 01b4 C019     		add	r0, r0, r7
+ 309 01b6 0368     		ldr	r3, [r0]
+ 310 01b8 002B     		cmp	r3, #0
+ 311 01ba 05D0     		beq	.L15
+  80:../Sources/main.c **** 				first = 0;
+ 312              		.loc 1 80 0
+ 313 01bc 0023     		mov	r3, #0
+ 314 01be A221     		mov	r1, #162
+ 315 01c0 4900     		lsl	r1, r1, #1
+ 316 01c2 C919     		add	r1, r1, r7
+ 317 01c4 0B60     		str	r3, [r1]
+ 318 01c6 02E0     		b	.L16
+ 319              	.L15:
+  81:../Sources/main.c **** 			} else {
+  82:../Sources/main.c **** 				printf(",");
+ 320              		.loc 1 82 0
+ 321 01c8 2C20     		mov	r0, #44
+ 322 01ca FFF7FEFF 		bl	putchar
+ 323              	.L16:
+  83:../Sources/main.c **** 			}
   84:../Sources/main.c **** 			
-  85:../Sources/main.c **** 			// Debug mode
-  86:../Sources/main.c **** 			if(0){	
-  87:../Sources/main.c **** 				
-  88:../Sources/main.c **** 				// Sends the command and camera data over serial
-  89:../Sources/main.c **** 				print(command, cameraData);
-  90:../Sources/main.c **** 				
-  91:../Sources/main.c **** 				// Run mode	
-  92:../Sources/main.c **** 			} else {	
-  93:../Sources/main.c **** 				
-  94:../Sources/main.c **** 				// Sends the command and camera data over serial to be stored
-  95:../Sources/main.c **** 				print(command, cameraData);
- 246              		.loc 1 95 0
- 247 013c 3B1D     		add	r3, r7, #4
- 248 013e 7A69     		ldr	r2, [r7, #20]
- 249 0140 0092     		str	r2, [sp]
- 250 0142 1868     		ldr	r0, [r3]
- 251 0144 5968     		ldr	r1, [r3, #4]
- 252 0146 9A68     		ldr	r2, [r3, #8]
- 253 0148 DB68     		ldr	r3, [r3, #12]
- 254 014a FFF7FEFF 		bl	print
-  96:../Sources/main.c **** 				
-  97:../Sources/main.c **** 				// Applies the command to the car
-  98:../Sources/main.c **** 				apply(command);
- 255              		.loc 1 98 0
- 256 014e 3B1D     		add	r3, r7, #4
- 257 0150 1868     		ldr	r0, [r3]
- 258 0152 5968     		ldr	r1, [r3, #4]
- 259 0154 9A68     		ldr	r2, [r3, #8]
- 260 0156 DB68     		ldr	r3, [r3, #12]
- 261 0158 FFF7FEFF 		bl	apply
-  99:../Sources/main.c **** 				
- 100:../Sources/main.c **** 			}
- 101:../Sources/main.c **** 
- 102:../Sources/main.c **** 			// Frees the malloc'd memory for cameraData and command
- 103:../Sources/main.c **** 			free(cameraData);
- 262              		.loc 1 103 0
- 263 015c 7B69     		ldr	r3, [r7, #20]
- 264 015e 181C     		mov	r0, r3
- 265 0160 FFF7FEFF 		bl	free
- 104:../Sources/main.c **** 			
- 105:../Sources/main.c **** 			// Exits the loop if the stop button is pressed
- 106:../Sources/main.c **** 			if(STOP_BUTTON) break;
- 266              		.loc 1 106 0
- 267 0164 0D4B     		ldr	r3, .L21+16
- 268 0166 1A69     		ldr	r2, [r3, #16]
- 269 0168 8023     		mov	r3, #128
- 270 016a 9B02     		lsl	r3, r3, #10
- 271 016c 1340     		and	r3, r2
- 272 016e 03D1     		bne	.L20
- 273              	.L13:
-  71:../Sources/main.c **** 		while(run){
- 274              		.loc 1 71 0
- 275 0170 FB6A     		ldr	r3, [r7, #44]
- 276 0172 002B     		cmp	r3, #0
- 277 0174 CDD1     		bne	.L17
- 278 0176 00E0     		b	.L16
- 279              	.L20:
- 280              		.loc 1 106 0
- 281 0178 C046     		mov	r8, r8
- 282              	.L16:
- 107:../Sources/main.c **** 		}
- 108:../Sources/main.c **** 		
- 109:../Sources/main.c **** 		TFC_HBRIDGE_DISABLE;
- 283              		.loc 1 109 0
- 284 017a 094B     		ldr	r3, .L21+20
- 285 017c 8022     		mov	r2, #128
- 286 017e 9203     		lsl	r2, r2, #14
- 287 0180 9A60     		str	r2, [r3, #8]
- 110:../Sources/main.c **** 		
- 111:../Sources/main.c **** 		printf("]}");
- 288              		.loc 1 111 0
- 289 0182 0A4B     		ldr	r3, .L21+32
- 290 0184 181C     		mov	r0, r3
- 291 0186 FFF7FEFF 		bl	printf
+  85:../Sources/main.c **** 			// Reads the data from the camera
+  86:../Sources/main.c **** 			getCamera( cameraData );	
+ 324              		.loc 1 86 0
+ 325 01ce 3B1C     		mov	r3, r7
+ 326 01d0 D433     		add	r3, r3, #212
+ 327 01d2 181C     		mov	r0, r3
+ 328 01d4 FFF7FEFF 		bl	getCamera
+  87:../Sources/main.c **** 			
+  88:../Sources/main.c **** 			// Computes the averages
+  89:../Sources/main.c **** 			refineData( cameraData, avgCamera, runningAvg, count);
+ 329              		.loc 1 89 0
+ 330 01d8 381C     		mov	r0, r7
+ 331 01da D430     		add	r0, r0, #212
+ 332 01dc 391C     		mov	r1, r7
+ 333 01de 7431     		add	r1, r1, #116
+ 334 01e0 3A1C     		mov	r2, r7
+ 335 01e2 1432     		add	r2, r2, #20
+ 336 01e4 A424     		mov	r4, #164
+ 337 01e6 6400     		lsl	r4, r4, #1
+ 338 01e8 E419     		add	r4, r4, r7
+ 339 01ea 2368     		ldr	r3, [r4]
+ 340 01ec FFF7FEFF 		bl	refineData
+  90:../Sources/main.c **** 			
+  91:../Sources/main.c **** 			if(count == 0){
+ 341              		.loc 1 91 0
+ 342 01f0 A420     		mov	r0, #164
+ 343 01f2 4000     		lsl	r0, r0, #1
+ 344 01f4 C019     		add	r0, r0, r7
+ 345 01f6 0368     		ldr	r3, [r0]
+ 346 01f8 002B     		cmp	r3, #0
+ 347 01fa 22D1     		bne	.L17
+  92:../Sources/main.c **** 				// Sets the command based on the camera data and returns whether to stop or not
+  93:../Sources/main.c **** 				run = getCommand( avgCamera, &command, sensitivity, speed );	
+ 348              		.loc 1 93 0
+ 349 01fc 381C     		mov	r0, r7
+ 350 01fe 7430     		add	r0, r0, #116
+ 351 0200 391D     		add	r1, r7, #4
+ 352 0202 9C23     		mov	r3, #156
+ 353 0204 5B00     		lsl	r3, r3, #1
+ 354 0206 DB19     		add	r3, r3, r7
+ 355 0208 1A68     		ldr	r2, [r3]
+ 356 020a 9A24     		mov	r4, #154
+ 357 020c 6400     		lsl	r4, r4, #1
+ 358 020e E419     		add	r4, r4, r7
+ 359 0210 2368     		ldr	r3, [r4]
+ 360 0212 FFF7FEFF 		bl	getCommand
+ 361 0216 031C     		mov	r3, r0
+ 362 0218 A620     		mov	r0, #166
+ 363 021a 4000     		lsl	r0, r0, #1
+ 364 021c C019     		add	r0, r0, r7
+ 365 021e 0360     		str	r3, [r0]
+  94:../Sources/main.c **** 				
+  95:../Sources/main.c **** 				// Sends the command and camera data over serial to be stored
+  96:../Sources/main.c **** 				if(0)
+  97:../Sources/main.c **** 					print(command, cameraData);
+  98:../Sources/main.c **** 				
+  99:../Sources/main.c **** 				// Applies the command to the car
+ 100:../Sources/main.c **** 				apply(command);
+ 366              		.loc 1 100 0
+ 367 0220 204B     		ldr	r3, .L24
+ 368 0222 A821     		mov	r1, #168
+ 369 0224 4900     		lsl	r1, r1, #1
+ 370 0226 C919     		add	r1, r1, r7
+ 371 0228 CB18     		add	r3, r1, r3
+ 372 022a 1868     		ldr	r0, [r3]
+ 373 022c 5968     		ldr	r1, [r3, #4]
+ 374 022e 9A68     		ldr	r2, [r3, #8]
+ 375 0230 DB68     		ldr	r3, [r3, #12]
+ 376 0232 FFF7FEFF 		bl	apply
+ 101:../Sources/main.c **** 				
+ 102:../Sources/main.c **** 				clear(avgCamera, USED_PIXELS);
+ 377              		.loc 1 102 0
+ 378 0236 3B1C     		mov	r3, r7
+ 379 0238 7433     		add	r3, r3, #116
+ 380 023a 181C     		mov	r0, r3
+ 381 023c 6021     		mov	r1, #96
+ 382 023e FFF7FEFF 		bl	clear
+ 383              	.L17:
+ 103:../Sources/main.c **** 
+ 104:../Sources/main.c **** 			}
+ 105:../Sources/main.c **** 			
+ 106:../Sources/main.c **** 			count++;
+ 384              		.loc 1 106 0
+ 385 0242 A422     		mov	r2, #164
+ 386 0244 5200     		lsl	r2, r2, #1
+ 387 0246 D219     		add	r2, r2, r7
+ 388 0248 1368     		ldr	r3, [r2]
+ 389 024a 0133     		add	r3, r3, #1
+ 390 024c A424     		mov	r4, #164
+ 391 024e 6400     		lsl	r4, r4, #1
+ 392 0250 E419     		add	r4, r4, r7
+ 393 0252 2360     		str	r3, [r4]
+ 107:../Sources/main.c **** 			count %= 4;
+ 394              		.loc 1 107 0
+ 395 0254 A420     		mov	r0, #164
+ 396 0256 4000     		lsl	r0, r0, #1
+ 397 0258 C019     		add	r0, r0, r7
+ 398 025a 0268     		ldr	r2, [r0]
+ 399 025c 1B4B     		ldr	r3, .L24+40
+ 400 025e 1340     		and	r3, r2
+ 401 0260 04D5     		bpl	.L18
+ 402 0262 013B     		sub	r3, r3, #1
+ 403 0264 0422     		mov	r2, #4
+ 404 0266 5242     		neg	r2, r2
+ 405 0268 1343     		orr	r3, r2
+ 406 026a 0133     		add	r3, r3, #1
+ 407              	.L18:
+ 408 026c A421     		mov	r1, #164
+ 409 026e 4900     		lsl	r1, r1, #1
+ 410 0270 C919     		add	r1, r1, r7
+ 411 0272 0B60     		str	r3, [r1]
+ 108:../Sources/main.c **** 			
+ 109:../Sources/main.c **** 			// Exits the loop if the stop button is pressed
+ 110:../Sources/main.c **** 			if(STOP_BUTTON) break;
+ 412              		.loc 1 110 0
+ 413 0274 114B     		ldr	r3, .L24+24
+ 414 0276 1A69     		ldr	r2, [r3, #16]
+ 415 0278 8023     		mov	r3, #128
+ 416 027a 9B02     		lsl	r3, r3, #10
+ 417 027c 1340     		and	r3, r2
+ 418 027e 07D1     		bne	.L23
+ 419              	.L13:
+  74:../Sources/main.c **** 		while(run){
+ 420              		.loc 1 74 0
+ 421 0280 A622     		mov	r2, #166
+ 422 0282 5200     		lsl	r2, r2, #1
+ 423 0284 D219     		add	r2, r2, r7
+ 424 0286 1368     		ldr	r3, [r2]
+ 425 0288 002B     		cmp	r3, #0
+ 426 028a 00D0     		beq	.LCB370
+ 427 028c 77E7     		b	.L20	@long jump
+ 428              	.LCB370:
+ 429 028e 00E0     		b	.L19
+ 430              	.L23:
+ 431              		.loc 1 110 0
+ 432 0290 C046     		mov	r8, r8
+ 433              	.L19:
+ 111:../Sources/main.c **** 		}
  112:../Sources/main.c **** 		
- 113:../Sources/main.c **** 	}
- 292              		.loc 1 113 0
- 293 018a 54E7     		b	.L11
- 294              	.L22:
- 295              		.align	2
- 296              	.L21:
- 297 018c A8610000 		.word	25000
- 298 0190 00000000 		.word	LineScanImageReady
- 299 0194 00000000 		.word	LineScanImage0
- 300 0198 00000000 		.word	.LC2
- 301 019c 80F00F40 		.word	1074786432
- 302 01a0 00F10F40 		.word	1074786560
- 303 01a4 0000C842 		.word	1120403456
- 304 01a8 04000000 		.word	.LC4
- 305 01ac 38000000 		.word	.LC6
- 306              		.cfi_endproc
- 307              	.LFE0:
- 309              		.text
- 310              	.Letext0:
- 311              		.file 2 "C:/Freescale/CW MCU v10.6/MCU/ARM_GCC_Support/ewl/EWL_C/include/cstdint"
- 312              		.file 3 "C:/Users/Jared/Desktop/freescalecup/FRDM-TFC/Project_Headers/MKL25Z4.h"
- 313              		.file 4 "../Sources/Common.h"
- 314              		.file 5 "C:/Users/Jared/Desktop/freescalecup/FRDM-TFC/Project_Headers/TFC\\TFC_LineScanCamera.h"
+ 113:../Sources/main.c **** 		TFC_HBRIDGE_DISABLE;
+ 434              		.loc 1 113 0
+ 435 0292 0B4B     		ldr	r3, .L24+28
+ 436 0294 8022     		mov	r2, #128
+ 437 0296 9203     		lsl	r2, r2, #14
+ 438 0298 9A60     		str	r2, [r3, #8]
+ 114:../Sources/main.c **** 		
+ 115:../Sources/main.c **** 		printf("]}");
+ 439              		.loc 1 115 0
+ 440 029a 0D4B     		ldr	r3, .L24+44
+ 441 029c 181C     		mov	r0, r3
+ 442 029e FFF7FEFF 		bl	printf
+ 116:../Sources/main.c **** 		
+ 117:../Sources/main.c **** 	}
+ 443              		.loc 1 117 0
+ 444 02a2 E3E6     		b	.L11
+ 445              	.L25:
+ 446              		.align	2
+ 447              	.L24:
+ 448 02a4 B4FEFFFF 		.word	-332
+ 449 02a8 88130000 		.word	5000
+ 450 02ac 00000000 		.word	LineScanImageReady
+ 451 02b0 00000000 		.word	LineScanImage0
+ 452 02b4 3F010000 		.word	319
+ 453 02b8 00000000 		.word	.LC2
+ 454 02bc 80F00F40 		.word	1074786432
+ 455 02c0 00F10F40 		.word	1074786560
+ 456 02c4 0000C842 		.word	1120403456
+ 457 02c8 04000000 		.word	.LC4
+ 458 02cc 03000080 		.word	-2147483645
+ 459 02d0 38000000 		.word	.LC6
+ 460              		.cfi_endproc
+ 461              	.LFE0:
+ 463              		.text
+ 464              	.Letext0:
+ 465              		.file 2 "C:/Freescale/CW MCU v10.6/MCU/ARM_GCC_Support/ewl/EWL_C/include/cstdint"
+ 466              		.file 3 "C:/Users/Jared/Desktop/freescalecup/FRDM-TFC/Project_Headers/MKL25Z4.h"
+ 467              		.file 4 "../Sources/Common.h"
+ 468              		.file 5 "C:/Users/Jared/Desktop/freescalecup/FRDM-TFC/Project_Headers/TFC\\TFC_LineScanCamera.h"
 DEFINED SYMBOLS
                             *ABS*:00000000 main.c
-C:\Users\Jared\AppData\Local\Temp\ccZwaXC8.s:18     .rodata:00000000 $d
-C:\Users\Jared\AppData\Local\Temp\ccZwaXC8.s:31     .text.main:00000000 $t
-C:\Users\Jared\AppData\Local\Temp\ccZwaXC8.s:36     .text.main:00000000 main
-C:\Users\Jared\AppData\Local\Temp\ccZwaXC8.s:297    .text.main:0000018c $d
+C:\Users\Jared\AppData\Local\Temp\ccsHM6Xg.s:18     .rodata:00000000 $d
+C:\Users\Jared\AppData\Local\Temp\ccsHM6Xg.s:31     .text.main:00000000 $t
+C:\Users\Jared\AppData\Local\Temp\ccsHM6Xg.s:36     .text.main:00000000 main
+C:\Users\Jared\AppData\Local\Temp\ccsHM6Xg.s:448    .text.main:000002a4 $d
                      .debug_frame:00000010 $d
 
 UNDEFINED SYMBOLS
@@ -465,9 +623,9 @@ getSensitivity
 getSpeed
 printf
 getCamera
+refineData
 getCommand
-print
 apply
-free
+clear
 LineScanImageReady
 LineScanImage0

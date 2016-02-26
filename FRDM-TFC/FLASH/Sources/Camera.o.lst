@@ -35,7 +35,7 @@
   11:../Sources/Camera.c **** 
   12:../Sources/Camera.c **** 
   13:../Sources/Camera.c **** 
-  14:../Sources/Camera.c **** uint16_t* getCamera(){
+  14:../Sources/Camera.c **** void getCamera(uint8_t* cameraData){
   26              		.loc 1 14 0
   27              		.cfi_startproc
   28 0000 80B5     		push	{r7, lr}
@@ -43,97 +43,87 @@
   30              		.cfi_def_cfa_offset 8
   31              		.cfi_offset 7, -8
   32              		.cfi_offset 14, -4
-  33 0002 82B0     		sub	sp, sp, #8
+  33 0002 84B0     		sub	sp, sp, #16
   34              	.LCFI1:
-  35              		.cfi_def_cfa_offset 16
+  35              		.cfi_def_cfa_offset 24
   36 0004 00AF     		add	r7, sp, #0
   37              	.LCFI2:
   38              		.cfi_def_cfa_register 7
-  15:../Sources/Camera.c **** 	uint16_t* cameraData = (uint16_t*) malloc( sizeof(uint16_t) * 128 );
-  39              		.loc 1 15 0
-  40 0006 8023     		mov	r3, #128
-  41 0008 5B00     		lsl	r3, r3, #1
-  42 000a 181C     		mov	r0, r3
-  43 000c FFF7FEFF 		bl	malloc
-  44 0010 031C     		mov	r3, r0
-  45 0012 3B60     		str	r3, [r7]
-  16:../Sources/Camera.c **** 	while(!LineScanImageReady);
-  46              		.loc 1 16 0
-  47 0014 C046     		mov	r8, r8
-  48              	.L2:
-  49              		.loc 1 16 0 is_stmt 0
-  50 0016 114B     		ldr	r3, .L6
-  51 0018 1B78     		ldrb	r3, [r3]
-  52 001a DBB2     		uxtb	r3, r3
-  53 001c 002B     		cmp	r3, #0
-  54 001e FAD0     		beq	.L2
-  17:../Sources/Camera.c **** 	int i;
-  18:../Sources/Camera.c **** 	for( i = 0; i < 128; i++){
-  55              		.loc 1 18 0 is_stmt 1
-  56 0020 0023     		mov	r3, #0
-  57 0022 7B60     		str	r3, [r7, #4]
-  58 0024 0EE0     		b	.L3
-  59              	.L4:
-  19:../Sources/Camera.c **** 		cameraData[i] = (uint16_t)LineScanImage0[ i ];
-  60              		.loc 1 19 0
-  61 0026 7B68     		ldr	r3, [r7, #4]
-  62 0028 5B00     		lsl	r3, r3, #1
-  63 002a 3A68     		ldr	r2, [r7]
-  64 002c D218     		add	r2, r2, r3
-  65 002e 0C4B     		ldr	r3, .L6+4
-  66 0030 1968     		ldr	r1, [r3]
-  67 0032 7B68     		ldr	r3, [r7, #4]
-  68 0034 5B00     		lsl	r3, r3, #1
-  69 0036 CB18     		add	r3, r1, r3
-  70 0038 1B88     		ldrh	r3, [r3]
-  71 003a 9BB2     		uxth	r3, r3
-  72 003c 1380     		strh	r3, [r2]
-  18:../Sources/Camera.c **** 	for( i = 0; i < 128; i++){
-  73              		.loc 1 18 0
-  74 003e 7B68     		ldr	r3, [r7, #4]
-  75 0040 0133     		add	r3, r3, #1
-  76 0042 7B60     		str	r3, [r7, #4]
-  77              	.L3:
-  18:../Sources/Camera.c **** 	for( i = 0; i < 128; i++){
-  78              		.loc 1 18 0 is_stmt 0
-  79 0044 7B68     		ldr	r3, [r7, #4]
-  80 0046 7F2B     		cmp	r3, #127
-  81 0048 EDDD     		ble	.L4
-  20:../Sources/Camera.c **** 	}
-  21:../Sources/Camera.c **** 	LineScanImageReady = 0;
-  82              		.loc 1 21 0 is_stmt 1
-  83 004a 044B     		ldr	r3, .L6
-  84 004c 0022     		mov	r2, #0
-  85 004e 1A70     		strb	r2, [r3]
-  22:../Sources/Camera.c **** 	return cameraData;
-  86              		.loc 1 22 0
-  87 0050 3B68     		ldr	r3, [r7]
-  23:../Sources/Camera.c **** }
-  88              		.loc 1 23 0
-  89 0052 181C     		mov	r0, r3
-  90 0054 BD46     		mov	sp, r7
-  91 0056 02B0     		add	sp, sp, #8
-  92              		@ sp needed for prologue
-  93 0058 80BD     		pop	{r7, pc}
-  94              	.L7:
-  95 005a C046     		.align	2
-  96              	.L6:
-  97 005c 00000000 		.word	LineScanImageReady
-  98 0060 00000000 		.word	LineScanImage0
-  99              		.cfi_endproc
- 100              	.LFE0:
- 102              		.text
- 103              	.Letext0:
- 104              		.file 2 "C:/Freescale/CW MCU v10.6/MCU/ARM_GCC_Support/ewl/EWL_C/include/cstdint"
- 105              		.file 3 "C:/Users/Jared/Desktop/freescalecup/FRDM-TFC/Project_Headers/TFC\\TFC_LineScanCamera.h"
+  39 0006 7860     		str	r0, [r7, #4]
+  15:../Sources/Camera.c **** 	while(!LineScanImageReady);
+  40              		.loc 1 15 0
+  41 0008 C046     		mov	r8, r8
+  42              	.L2:
+  43              		.loc 1 15 0 is_stmt 0
+  44 000a 114B     		ldr	r3, .L5
+  45 000c 1B78     		ldrb	r3, [r3]
+  46 000e DBB2     		uxtb	r3, r3
+  47 0010 002B     		cmp	r3, #0
+  48 0012 FAD0     		beq	.L2
+  16:../Sources/Camera.c **** 	int i;
+  17:../Sources/Camera.c **** 	for( i = 0; i < 128; i++){
+  49              		.loc 1 17 0 is_stmt 1
+  50 0014 0023     		mov	r3, #0
+  51 0016 FB60     		str	r3, [r7, #12]
+  52 0018 10E0     		b	.L3
+  53              	.L4:
+  18:../Sources/Camera.c **** 		cameraData[i] = (uint8_t)(LineScanImage0[ i ]>>4);
+  54              		.loc 1 18 0
+  55 001a FB68     		ldr	r3, [r7, #12]
+  56 001c 7A68     		ldr	r2, [r7, #4]
+  57 001e D218     		add	r2, r2, r3
+  58 0020 0C4B     		ldr	r3, .L5+4
+  59 0022 1968     		ldr	r1, [r3]
+  60 0024 FB68     		ldr	r3, [r7, #12]
+  61 0026 5B00     		lsl	r3, r3, #1
+  62 0028 CB18     		add	r3, r1, r3
+  63 002a 1B88     		ldrh	r3, [r3]
+  64 002c 9BB2     		uxth	r3, r3
+  65 002e 1B09     		lsr	r3, r3, #4
+  66 0030 9BB2     		uxth	r3, r3
+  67 0032 DBB2     		uxtb	r3, r3
+  68 0034 1370     		strb	r3, [r2]
+  17:../Sources/Camera.c **** 	for( i = 0; i < 128; i++){
+  69              		.loc 1 17 0
+  70 0036 FB68     		ldr	r3, [r7, #12]
+  71 0038 0133     		add	r3, r3, #1
+  72 003a FB60     		str	r3, [r7, #12]
+  73              	.L3:
+  17:../Sources/Camera.c **** 	for( i = 0; i < 128; i++){
+  74              		.loc 1 17 0 is_stmt 0
+  75 003c FB68     		ldr	r3, [r7, #12]
+  76 003e 7F2B     		cmp	r3, #127
+  77 0040 EBDD     		ble	.L4
+  19:../Sources/Camera.c **** 	}
+  20:../Sources/Camera.c **** 	LineScanImageReady = 0;
+  78              		.loc 1 20 0 is_stmt 1
+  79 0042 034B     		ldr	r3, .L5
+  80 0044 0022     		mov	r2, #0
+  81 0046 1A70     		strb	r2, [r3]
+  21:../Sources/Camera.c **** }
+  82              		.loc 1 21 0
+  83 0048 BD46     		mov	sp, r7
+  84 004a 04B0     		add	sp, sp, #16
+  85              		@ sp needed for prologue
+  86 004c 80BD     		pop	{r7, pc}
+  87              	.L6:
+  88 004e C046     		.align	2
+  89              	.L5:
+  90 0050 00000000 		.word	LineScanImageReady
+  91 0054 00000000 		.word	LineScanImage0
+  92              		.cfi_endproc
+  93              	.LFE0:
+  95              		.text
+  96              	.Letext0:
+  97              		.file 2 "C:/Freescale/CW MCU v10.6/MCU/ARM_GCC_Support/ewl/EWL_C/include/cstdint"
+  98              		.file 3 "C:/Users/Jared/Desktop/freescalecup/FRDM-TFC/Project_Headers/TFC\\TFC_LineScanCamera.h"
 DEFINED SYMBOLS
                             *ABS*:00000000 Camera.c
-C:\Users\Jared\AppData\Local\Temp\ccN5m07j.s:18     .text.getCamera:00000000 $t
-C:\Users\Jared\AppData\Local\Temp\ccN5m07j.s:23     .text.getCamera:00000000 getCamera
-C:\Users\Jared\AppData\Local\Temp\ccN5m07j.s:97     .text.getCamera:0000005c $d
+C:\Users\Jared\AppData\Local\Temp\ccR9kpS6.s:18     .text.getCamera:00000000 $t
+C:\Users\Jared\AppData\Local\Temp\ccR9kpS6.s:23     .text.getCamera:00000000 getCamera
+C:\Users\Jared\AppData\Local\Temp\ccR9kpS6.s:90     .text.getCamera:00000050 $d
                      .debug_frame:00000010 $d
 
 UNDEFINED SYMBOLS
-malloc
 LineScanImageReady
 LineScanImage0
