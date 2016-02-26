@@ -799,12 +799,12 @@
  707              		.loc 1 100 0
  708 000e 3B68     		ldr	r3, [r7]
  709 0010 002B     		cmp	r3, #0
- 710 0012 34D1     		bne	.L41
+ 710 0012 32D1     		bne	.L41
  101:../Sources/Algorithms.c **** 		for( i = 0; i < USED_PIXELS; i++){
  711              		.loc 1 101 0
  712 0014 0023     		mov	r3, #0
  713 0016 7B61     		str	r3, [r7, #20]
- 714 0018 2DE0     		b	.L42
+ 714 0018 2BE0     		b	.L42
  715              	.L44:
  102:../Sources/Algorithms.c **** 			avgCamera[i] += cameraData[i];
  716              		.loc 1 102 0
@@ -831,177 +831,175 @@
  736 003e B968     		ldr	r1, [r7, #8]
  737 0040 8A18     		add	r2, r1, r2
  738 0042 1278     		ldrb	r2, [r2]
- 739 0044 9208     		lsr	r2, r2, #2
- 740 0046 D2B2     		uxtb	r2, r2
- 741 0048 1A70     		strb	r2, [r3]
+ 739 0044 1A70     		strb	r2, [r3]
  104:../Sources/Algorithms.c **** 			runningAvg[i] = (runningAvg[i] + avgCamera[i])/2;
- 742              		.loc 1 104 0
- 743 004a 7B69     		ldr	r3, [r7, #20]
- 744 004c 7A68     		ldr	r2, [r7, #4]
- 745 004e D218     		add	r2, r2, r3
- 746 0050 7B69     		ldr	r3, [r7, #20]
- 747 0052 7968     		ldr	r1, [r7, #4]
- 748 0054 CB18     		add	r3, r1, r3
- 749 0056 1B78     		ldrb	r3, [r3]
- 750 0058 191C     		mov	r1, r3
- 751 005a 7B69     		ldr	r3, [r7, #20]
- 752 005c B868     		ldr	r0, [r7, #8]
- 753 005e C318     		add	r3, r0, r3
- 754 0060 1B78     		ldrb	r3, [r3]
- 755 0062 CB18     		add	r3, r1, r3
- 756 0064 002B     		cmp	r3, #0
- 757 0066 00DA     		bge	.L43
- 758 0068 0133     		add	r3, r3, #1
- 759              	.L43:
- 760 006a 5B10     		asr	r3, r3, #1
- 761 006c DBB2     		uxtb	r3, r3
- 762 006e 1370     		strb	r3, [r2]
+ 740              		.loc 1 104 0
+ 741 0046 7B69     		ldr	r3, [r7, #20]
+ 742 0048 7A68     		ldr	r2, [r7, #4]
+ 743 004a D218     		add	r2, r2, r3
+ 744 004c 7B69     		ldr	r3, [r7, #20]
+ 745 004e 7968     		ldr	r1, [r7, #4]
+ 746 0050 CB18     		add	r3, r1, r3
+ 747 0052 1B78     		ldrb	r3, [r3]
+ 748 0054 191C     		mov	r1, r3
+ 749 0056 7B69     		ldr	r3, [r7, #20]
+ 750 0058 B868     		ldr	r0, [r7, #8]
+ 751 005a C318     		add	r3, r0, r3
+ 752 005c 1B78     		ldrb	r3, [r3]
+ 753 005e CB18     		add	r3, r1, r3
+ 754 0060 002B     		cmp	r3, #0
+ 755 0062 00DA     		bge	.L43
+ 756 0064 0133     		add	r3, r3, #1
+ 757              	.L43:
+ 758 0066 5B10     		asr	r3, r3, #1
+ 759 0068 DBB2     		uxtb	r3, r3
+ 760 006a 1370     		strb	r3, [r2]
  101:../Sources/Algorithms.c **** 		for( i = 0; i < USED_PIXELS; i++){
- 763              		.loc 1 101 0
- 764 0070 7B69     		ldr	r3, [r7, #20]
- 765 0072 0133     		add	r3, r3, #1
- 766 0074 7B61     		str	r3, [r7, #20]
- 767              	.L42:
+ 761              		.loc 1 101 0
+ 762 006c 7B69     		ldr	r3, [r7, #20]
+ 763 006e 0133     		add	r3, r3, #1
+ 764 0070 7B61     		str	r3, [r7, #20]
+ 765              	.L42:
  101:../Sources/Algorithms.c **** 		for( i = 0; i < USED_PIXELS; i++){
- 768              		.loc 1 101 0 is_stmt 0
- 769 0076 7B69     		ldr	r3, [r7, #20]
- 770 0078 5F2B     		cmp	r3, #95
- 771 007a CEDD     		ble	.L44
+ 766              		.loc 1 101 0 is_stmt 0
+ 767 0072 7B69     		ldr	r3, [r7, #20]
+ 768 0074 5F2B     		cmp	r3, #95
+ 769 0076 D0DD     		ble	.L44
  101:../Sources/Algorithms.c **** 		for( i = 0; i < USED_PIXELS; i++){
- 772              		.loc 1 101 0
- 773 007c 16E0     		b	.L40
- 774              	.L41:
+ 770              		.loc 1 101 0
+ 771 0078 16E0     		b	.L40
+ 772              	.L41:
  105:../Sources/Algorithms.c **** 		}
  106:../Sources/Algorithms.c **** 	} else {
  107:../Sources/Algorithms.c **** 		// Adds the camera
  108:../Sources/Algorithms.c **** 		for( i = 0; i < USED_PIXELS; i++){
- 775              		.loc 1 108 0 is_stmt 1
- 776 007e 0023     		mov	r3, #0
- 777 0080 7B61     		str	r3, [r7, #20]
- 778 0082 10E0     		b	.L46
- 779              	.L47:
+ 773              		.loc 1 108 0 is_stmt 1
+ 774 007a 0023     		mov	r3, #0
+ 775 007c 7B61     		str	r3, [r7, #20]
+ 776 007e 10E0     		b	.L46
+ 777              	.L47:
  109:../Sources/Algorithms.c **** 			avgCamera[i] += cameraData[i];
- 780              		.loc 1 109 0
- 781 0084 7B69     		ldr	r3, [r7, #20]
- 782 0086 BA68     		ldr	r2, [r7, #8]
- 783 0088 D318     		add	r3, r2, r3
- 784 008a 7A69     		ldr	r2, [r7, #20]
- 785 008c B968     		ldr	r1, [r7, #8]
- 786 008e 8A18     		add	r2, r1, r2
- 787 0090 1178     		ldrb	r1, [r2]
- 788 0092 7A69     		ldr	r2, [r7, #20]
- 789 0094 F868     		ldr	r0, [r7, #12]
- 790 0096 8218     		add	r2, r0, r2
- 791 0098 1278     		ldrb	r2, [r2]
- 792 009a 8A18     		add	r2, r1, r2
- 793 009c D2B2     		uxtb	r2, r2
- 794 009e 1A70     		strb	r2, [r3]
+ 778              		.loc 1 109 0
+ 779 0080 7B69     		ldr	r3, [r7, #20]
+ 780 0082 BA68     		ldr	r2, [r7, #8]
+ 781 0084 D318     		add	r3, r2, r3
+ 782 0086 7A69     		ldr	r2, [r7, #20]
+ 783 0088 B968     		ldr	r1, [r7, #8]
+ 784 008a 8A18     		add	r2, r1, r2
+ 785 008c 1178     		ldrb	r1, [r2]
+ 786 008e 7A69     		ldr	r2, [r7, #20]
+ 787 0090 F868     		ldr	r0, [r7, #12]
+ 788 0092 8218     		add	r2, r0, r2
+ 789 0094 1278     		ldrb	r2, [r2]
+ 790 0096 8A18     		add	r2, r1, r2
+ 791 0098 D2B2     		uxtb	r2, r2
+ 792 009a 1A70     		strb	r2, [r3]
  108:../Sources/Algorithms.c **** 		for( i = 0; i < USED_PIXELS; i++){
- 795              		.loc 1 108 0
- 796 00a0 7B69     		ldr	r3, [r7, #20]
- 797 00a2 0133     		add	r3, r3, #1
- 798 00a4 7B61     		str	r3, [r7, #20]
- 799              	.L46:
+ 793              		.loc 1 108 0
+ 794 009c 7B69     		ldr	r3, [r7, #20]
+ 795 009e 0133     		add	r3, r3, #1
+ 796 00a0 7B61     		str	r3, [r7, #20]
+ 797              	.L46:
  108:../Sources/Algorithms.c **** 		for( i = 0; i < USED_PIXELS; i++){
- 800              		.loc 1 108 0 is_stmt 0
- 801 00a6 7B69     		ldr	r3, [r7, #20]
- 802 00a8 5F2B     		cmp	r3, #95
- 803 00aa EBDD     		ble	.L47
- 804              	.L40:
+ 798              		.loc 1 108 0 is_stmt 0
+ 799 00a2 7B69     		ldr	r3, [r7, #20]
+ 800 00a4 5F2B     		cmp	r3, #95
+ 801 00a6 EBDD     		ble	.L47
+ 802              	.L40:
  110:../Sources/Algorithms.c **** 		}
  111:../Sources/Algorithms.c **** 	}
  112:../Sources/Algorithms.c **** }
- 805              		.loc 1 112 0 is_stmt 1
- 806 00ac BD46     		mov	sp, r7
- 807 00ae 06B0     		add	sp, sp, #24
- 808              		@ sp needed for prologue
- 809 00b0 80BD     		pop	{r7, pc}
- 810              		.cfi_endproc
- 811              	.LFE5:
- 813 00b2 C046     		.section	.text.clear,"ax",%progbits
- 814              		.align	2
- 815              		.global	clear
- 816              		.code	16
- 817              		.thumb_func
- 819              	clear:
- 820              	.LFB6:
+ 803              		.loc 1 112 0 is_stmt 1
+ 804 00a8 BD46     		mov	sp, r7
+ 805 00aa 06B0     		add	sp, sp, #24
+ 806              		@ sp needed for prologue
+ 807 00ac 80BD     		pop	{r7, pc}
+ 808              		.cfi_endproc
+ 809              	.LFE5:
+ 811 00ae C046     		.section	.text.clear,"ax",%progbits
+ 812              		.align	2
+ 813              		.global	clear
+ 814              		.code	16
+ 815              		.thumb_func
+ 817              	clear:
+ 818              	.LFB6:
  113:../Sources/Algorithms.c **** 
  114:../Sources/Algorithms.c **** void clear( uint8_t* arr, int size ){
- 821              		.loc 1 114 0
- 822              		.cfi_startproc
- 823 0000 80B5     		push	{r7, lr}
- 824              	.LCFI16:
- 825              		.cfi_def_cfa_offset 8
- 826              		.cfi_offset 7, -8
- 827              		.cfi_offset 14, -4
- 828 0002 84B0     		sub	sp, sp, #16
- 829              	.LCFI17:
- 830              		.cfi_def_cfa_offset 24
- 831 0004 00AF     		add	r7, sp, #0
- 832              	.LCFI18:
- 833              		.cfi_def_cfa_register 7
- 834 0006 7860     		str	r0, [r7, #4]
- 835 0008 3960     		str	r1, [r7]
+ 819              		.loc 1 114 0
+ 820              		.cfi_startproc
+ 821 0000 80B5     		push	{r7, lr}
+ 822              	.LCFI16:
+ 823              		.cfi_def_cfa_offset 8
+ 824              		.cfi_offset 7, -8
+ 825              		.cfi_offset 14, -4
+ 826 0002 84B0     		sub	sp, sp, #16
+ 827              	.LCFI17:
+ 828              		.cfi_def_cfa_offset 24
+ 829 0004 00AF     		add	r7, sp, #0
+ 830              	.LCFI18:
+ 831              		.cfi_def_cfa_register 7
+ 832 0006 7860     		str	r0, [r7, #4]
+ 833 0008 3960     		str	r1, [r7]
  115:../Sources/Algorithms.c **** 	int i;
  116:../Sources/Algorithms.c **** 	for( i = 0; i < size; i++){
- 836              		.loc 1 116 0
- 837 000a 0023     		mov	r3, #0
- 838 000c FB60     		str	r3, [r7, #12]
- 839 000e 07E0     		b	.L49
- 840              	.L50:
+ 834              		.loc 1 116 0
+ 835 000a 0023     		mov	r3, #0
+ 836 000c FB60     		str	r3, [r7, #12]
+ 837 000e 07E0     		b	.L49
+ 838              	.L50:
  117:../Sources/Algorithms.c **** 		arr[i] = 0;
- 841              		.loc 1 117 0
- 842 0010 FB68     		ldr	r3, [r7, #12]
- 843 0012 7A68     		ldr	r2, [r7, #4]
- 844 0014 D318     		add	r3, r2, r3
- 845 0016 0022     		mov	r2, #0
- 846 0018 1A70     		strb	r2, [r3]
+ 839              		.loc 1 117 0
+ 840 0010 FB68     		ldr	r3, [r7, #12]
+ 841 0012 7A68     		ldr	r2, [r7, #4]
+ 842 0014 D318     		add	r3, r2, r3
+ 843 0016 0022     		mov	r2, #0
+ 844 0018 1A70     		strb	r2, [r3]
  116:../Sources/Algorithms.c **** 	for( i = 0; i < size; i++){
- 847              		.loc 1 116 0
- 848 001a FB68     		ldr	r3, [r7, #12]
- 849 001c 0133     		add	r3, r3, #1
- 850 001e FB60     		str	r3, [r7, #12]
- 851              	.L49:
+ 845              		.loc 1 116 0
+ 846 001a FB68     		ldr	r3, [r7, #12]
+ 847 001c 0133     		add	r3, r3, #1
+ 848 001e FB60     		str	r3, [r7, #12]
+ 849              	.L49:
  116:../Sources/Algorithms.c **** 	for( i = 0; i < size; i++){
- 852              		.loc 1 116 0 is_stmt 0
- 853 0020 FA68     		ldr	r2, [r7, #12]
- 854 0022 3B68     		ldr	r3, [r7]
- 855 0024 9A42     		cmp	r2, r3
- 856 0026 F3DB     		blt	.L50
+ 850              		.loc 1 116 0 is_stmt 0
+ 851 0020 FA68     		ldr	r2, [r7, #12]
+ 852 0022 3B68     		ldr	r3, [r7]
+ 853 0024 9A42     		cmp	r2, r3
+ 854 0026 F3DB     		blt	.L50
  118:../Sources/Algorithms.c **** 	}
  119:../Sources/Algorithms.c **** }
- 857              		.loc 1 119 0 is_stmt 1
- 858 0028 BD46     		mov	sp, r7
- 859 002a 04B0     		add	sp, sp, #16
- 860              		@ sp needed for prologue
- 861 002c 80BD     		pop	{r7, pc}
- 862              		.cfi_endproc
- 863              	.LFE6:
- 865 002e C046     		.text
- 866              	.Letext0:
- 867              		.file 2 "../Sources/Common.h"
- 868              		.file 3 "C:/Freescale/CW MCU v10.6/MCU/ARM_GCC_Support/ewl/EWL_C/include/cstdint"
+ 855              		.loc 1 119 0 is_stmt 1
+ 856 0028 BD46     		mov	sp, r7
+ 857 002a 04B0     		add	sp, sp, #16
+ 858              		@ sp needed for prologue
+ 859 002c 80BD     		pop	{r7, pc}
+ 860              		.cfi_endproc
+ 861              	.LFE6:
+ 863 002e C046     		.text
+ 864              	.Letext0:
+ 865              		.file 2 "../Sources/Common.h"
+ 866              		.file 3 "C:/Freescale/CW MCU v10.6/MCU/ARM_GCC_Support/ewl/EWL_C/include/cstdint"
 DEFINED SYMBOLS
                             *ABS*:00000000 Algorithms.c
-C:\Users\Jared\AppData\Local\Temp\ccyaSGwd.s:22     .text.findSideInfo:00000000 $t
-C:\Users\Jared\AppData\Local\Temp\ccyaSGwd.s:27     .text.findSideInfo:00000000 findSideInfo
-C:\Users\Jared\AppData\Local\Temp\ccyaSGwd.s:209    .text.calcTurn:00000000 $t
-C:\Users\Jared\AppData\Local\Temp\ccyaSGwd.s:214    .text.calcTurn:00000000 calcTurn
-C:\Users\Jared\AppData\Local\Temp\ccyaSGwd.s:341    .text.calcTurn:000000d0 $d
-C:\Users\Jared\AppData\Local\Temp\ccyaSGwd.s:356    .text.getCommand:00000000 $t
-C:\Users\Jared\AppData\Local\Temp\ccyaSGwd.s:361    .text.getCommand:00000000 getCommand
-C:\Users\Jared\AppData\Local\Temp\ccyaSGwd.s:589    .text.getCommand:00000190 $d
-C:\Users\Jared\AppData\Local\Temp\ccyaSGwd.s:597    .text.getSensitivity:00000000 $t
-C:\Users\Jared\AppData\Local\Temp\ccyaSGwd.s:602    .text.getSensitivity:00000000 getSensitivity
-C:\Users\Jared\AppData\Local\Temp\ccyaSGwd.s:638    .text.getSensitivity:00000030 $d
-C:\Users\Jared\AppData\Local\Temp\ccyaSGwd.s:643    .text.getSpeed:00000000 $t
-C:\Users\Jared\AppData\Local\Temp\ccyaSGwd.s:648    .text.getSpeed:00000000 getSpeed
-C:\Users\Jared\AppData\Local\Temp\ccyaSGwd.s:683    .text.refineData:00000000 $t
-C:\Users\Jared\AppData\Local\Temp\ccyaSGwd.s:688    .text.refineData:00000000 refineData
-C:\Users\Jared\AppData\Local\Temp\ccyaSGwd.s:814    .text.clear:00000000 $t
-C:\Users\Jared\AppData\Local\Temp\ccyaSGwd.s:819    .text.clear:00000000 clear
+C:\Users\Jared\AppData\Local\Temp\cc0ReDb6.s:22     .text.findSideInfo:00000000 $t
+C:\Users\Jared\AppData\Local\Temp\cc0ReDb6.s:27     .text.findSideInfo:00000000 findSideInfo
+C:\Users\Jared\AppData\Local\Temp\cc0ReDb6.s:209    .text.calcTurn:00000000 $t
+C:\Users\Jared\AppData\Local\Temp\cc0ReDb6.s:214    .text.calcTurn:00000000 calcTurn
+C:\Users\Jared\AppData\Local\Temp\cc0ReDb6.s:341    .text.calcTurn:000000d0 $d
+C:\Users\Jared\AppData\Local\Temp\cc0ReDb6.s:356    .text.getCommand:00000000 $t
+C:\Users\Jared\AppData\Local\Temp\cc0ReDb6.s:361    .text.getCommand:00000000 getCommand
+C:\Users\Jared\AppData\Local\Temp\cc0ReDb6.s:589    .text.getCommand:00000190 $d
+C:\Users\Jared\AppData\Local\Temp\cc0ReDb6.s:597    .text.getSensitivity:00000000 $t
+C:\Users\Jared\AppData\Local\Temp\cc0ReDb6.s:602    .text.getSensitivity:00000000 getSensitivity
+C:\Users\Jared\AppData\Local\Temp\cc0ReDb6.s:638    .text.getSensitivity:00000030 $d
+C:\Users\Jared\AppData\Local\Temp\cc0ReDb6.s:643    .text.getSpeed:00000000 $t
+C:\Users\Jared\AppData\Local\Temp\cc0ReDb6.s:648    .text.getSpeed:00000000 getSpeed
+C:\Users\Jared\AppData\Local\Temp\cc0ReDb6.s:683    .text.refineData:00000000 $t
+C:\Users\Jared\AppData\Local\Temp\cc0ReDb6.s:688    .text.refineData:00000000 refineData
+C:\Users\Jared\AppData\Local\Temp\cc0ReDb6.s:812    .text.clear:00000000 $t
+C:\Users\Jared\AppData\Local\Temp\cc0ReDb6.s:817    .text.clear:00000000 clear
                      .debug_frame:00000010 $d
-C:\Users\Jared\AppData\Local\Temp\ccyaSGwd.s:355    .text.calcTurn:000000ec $t
+C:\Users\Jared\AppData\Local\Temp\cc0ReDb6.s:355    .text.calcTurn:000000ec $t
 
 UNDEFINED SYMBOLS
 __aeabi_i2f

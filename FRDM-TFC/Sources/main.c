@@ -88,9 +88,12 @@ int main(){
 			// Computes the averages
 			refineData( cameraData, avgCamera, runningAvg, count);
 			
+			run = getCommand( cameraData, &command, sensitivity, speed );	
+			apply(command);
+			
 			if(count == 0){
 				// Sets the command based on the camera data and returns whether to stop or not
-				run = getCommand( avgCamera, &command, sensitivity, speed );	
+				run = getCommand( cameraData, &command, sensitivity, speed );	
 				
 				// Sends the command and camera data over serial to be stored
 				if(0)
