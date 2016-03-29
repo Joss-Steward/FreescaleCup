@@ -30,4 +30,4 @@ Help adding comments and cleaning up the code base will _always_ be appreciated.
 
 ## Authors
 * [Jared Good](https://github.com/redja150)
-* [Joss Steward](https://github.com/Joss-Steward).
+* [Joss Steward](https://github.com/Joss-Steward)
